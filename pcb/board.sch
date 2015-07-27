@@ -11597,6 +11597,7 @@ Source: www.kingbright.com</description>
 <part name="LED_RX" library="led" deviceset="LED" device="LD260"/>
 <part name="BTN_IN" library="con-lstb" deviceset="MA03-1" device=""/>
 <part name="GND4" library="supply1" deviceset="GND" device=""/>
+<part name="C9" library="resistor" deviceset="C-EU" device="C1206" value="10n"/>
 </parts>
 <sheets>
 <sheet>
@@ -11681,6 +11682,7 @@ Source: www.kingbright.com</description>
 <instance part="LED_RX" gate="G$1" x="309.88" y="-60.96" rot="R90"/>
 <instance part="BTN_IN" gate="G$1" x="30.48" y="-157.48" rot="R180"/>
 <instance part="GND4" gate="1" x="7.62" y="-165.1"/>
+<instance part="C9" gate="G$1" x="73.66" y="-22.86" rot="R270"/>
 </instances>
 <busses>
 </busses>
@@ -11778,12 +11780,9 @@ Source: www.kingbright.com</description>
 <wire x1="63.5" y1="-63.5" x2="63.5" y2="-66.04" width="0.1524" layer="91"/>
 <wire x1="78.74" y1="-63.5" x2="63.5" y2="-63.5" width="0.1524" layer="91"/>
 <junction x="63.5" y="-63.5"/>
-<pinref part="MAIN_UC" gate="G$1" pin="AREF"/>
-<wire x1="78.74" y1="-22.86" x2="63.5" y2="-22.86" width="0.1524" layer="91"/>
 <wire x1="63.5" y1="-22.86" x2="63.5" y2="-45.72" width="0.1524" layer="91"/>
 <junction x="63.5" y="-60.96"/>
 <pinref part="C10" gate="G$1" pin="2"/>
-<junction x="63.5" y="-22.86"/>
 <pinref part="C17" gate="G$1" pin="2"/>
 <wire x1="63.5" y1="-45.72" x2="63.5" y2="-60.96" width="0.1524" layer="91"/>
 <wire x1="12.7" y1="-45.72" x2="22.86" y2="-45.72" width="0.1524" layer="91"/>
@@ -11793,6 +11792,9 @@ Source: www.kingbright.com</description>
 <wire x1="22.86" y1="-45.72" x2="63.5" y2="-45.72" width="0.1524" layer="91"/>
 <junction x="22.86" y="-45.72"/>
 <junction x="63.5" y="-45.72"/>
+<pinref part="C9" gate="G$1" pin="2"/>
+<wire x1="68.58" y1="-22.86" x2="63.5" y2="-22.86" width="0.1524" layer="91"/>
+<junction x="63.5" y="-22.86"/>
 </segment>
 <segment>
 <pinref part="DOUT" gate="G$1" pin="15"/>
@@ -12699,6 +12701,13 @@ Source: www.kingbright.com</description>
 <pinref part="LED_RX" gate="G$1" pin="C"/>
 <pinref part="R3" gate="G$1" pin="1"/>
 <wire x1="314.96" y1="-60.96" x2="317.5" y2="-60.96" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$14" class="0">
+<segment>
+<pinref part="MAIN_UC" gate="G$1" pin="AREF"/>
+<pinref part="C9" gate="G$1" pin="1"/>
+<wire x1="78.74" y1="-22.86" x2="76.2" y2="-22.86" width="0.1524" layer="91"/>
 </segment>
 </net>
 </nets>

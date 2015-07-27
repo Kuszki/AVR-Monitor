@@ -3463,6 +3463,7 @@ design rules under a new name.</description>
 <attribute name="MF" value="" x="6.6675" y="8.255" size="1.778" layer="27" rot="R270" display="off"/>
 <attribute name="OC_FARNELL" value="unknown" x="6.6675" y="8.255" size="1.778" layer="27" rot="R270" display="off"/>
 </element>
+<element name="C9" library="resistor" package="C1206" value="10n" x="35.56" y="59.69" rot="MR90"/>
 </elements>
 <signals>
 <signal name="GND">
@@ -3485,7 +3486,6 @@ design rules under a new name.</description>
 <contactref element="C8" pad="2"/>
 <contactref element="MAIN_UC" pad="8"/>
 <contactref element="MAIN_UC" pad="22"/>
-<contactref element="MAIN_UC" pad="21"/>
 <contactref element="C10" pad="2"/>
 <contactref element="C17" pad="2"/>
 <contactref element="C16" pad="2"/>
@@ -3552,7 +3552,7 @@ design rules under a new name.</description>
 <wire x1="14.605" y1="16.8275" x2="10.5156" y2="16.8275" width="1.4224" layer="16"/>
 <wire x1="35.69" y1="38.1" x2="35.56" y2="38.1" width="1.016" layer="16"/>
 <wire x1="35.56" y1="38.1" x2="35.56" y2="45.72" width="1.016" layer="16"/>
-<wire x1="35.56" y1="45.72" x2="35.56" y2="49.53" width="1.4224" layer="16"/>
+<wire x1="35.56" y1="45.72" x2="35.56" y2="49.53" width="1.016" layer="16"/>
 <wire x1="7.62" y1="90.17" x2="10.16" y2="90.17" width="1.016" layer="16"/>
 <wire x1="10.16" y1="90.17" x2="12.7" y2="90.17" width="1.016" layer="16"/>
 <wire x1="12.7" y1="90.17" x2="15.24" y2="90.17" width="1.016" layer="16"/>
@@ -3603,10 +3603,7 @@ design rules under a new name.</description>
 <wire x1="37.465" y1="94.9325" x2="38.1" y2="94.9325" width="1.016" layer="16"/>
 <wire x1="38.1" y1="94.9325" x2="38.1" y2="95.25" width="1.016" layer="16"/>
 <wire x1="38.1" y1="95.25" x2="46.355" y2="95.25" width="1.016" layer="16"/>
-<wire x1="34.29" y1="68.58" x2="34.29" y2="58.42" width="1.016" layer="16"/>
-<wire x1="34.29" y1="58.42" x2="35.56" y2="56.515" width="1.016" layer="16"/>
-<wire x1="35.56" y1="56.515" x2="35.56" y2="53.34" width="1.016" layer="16"/>
-<wire x1="34.29" y1="68.58" x2="31.75" y2="68.58" width="1.4224" layer="16"/>
+<wire x1="35.56" y1="63.5" x2="31.75" y2="68.58" width="1.4224" layer="16"/>
 <via x="31.75" y="68.58" extent="1-16" drill="0.9" diameter="1.016"/>
 <wire x1="31.75" y1="68.58" x2="31.75" y2="77.47" width="1.016" layer="1"/>
 <via x="31.75" y="77.47" extent="1-16" drill="0.9" diameter="1.016"/>
@@ -3679,9 +3676,8 @@ design rules under a new name.</description>
 <wire x1="33.02" y1="49.53" x2="15.24" y2="49.53" width="1.4224" layer="16"/>
 <via x="15.24" y="49.53" extent="1-16" drill="0.9" diameter="1.016"/>
 <wire x1="15.24" y1="49.53" x2="5.08" y2="49.53" width="1.016" layer="1"/>
-<wire x1="35.56" y1="53.34" x2="35.56" y2="49.53" width="1.4224" layer="16"/>
 <wire x1="35.56" y1="49.53" x2="33.02" y2="49.53" width="1.4224" layer="16"/>
-<wire x1="33.02" y1="49.53" x2="33.02" y2="53.34" width="1.4224" layer="16"/>
+<wire x1="33.02" y1="49.53" x2="33.02" y2="53.34" width="1.016" layer="16"/>
 <via x="5.08" y="49.53" extent="1-16" drill="0.9" diameter="1.016"/>
 <wire x1="96.52" y1="35.8775" x2="96.8375" y2="35.8775" width="1.016" layer="16"/>
 <wire x1="96.8375" y1="35.8775" x2="97.79" y2="36.83" width="1.016" layer="16"/>
@@ -3717,6 +3713,10 @@ design rules under a new name.</description>
 <wire x1="8.5725" y1="14.9225" x2="2.8575" y2="14.9225" width="1.016" layer="1"/>
 <via x="2.8575" y="14.9225" extent="1-16" drill="0.9"/>
 <wire x1="2.8575" y1="14.9225" x2="-1.27" y2="14.9225" width="1.4224" layer="16"/>
+<contactref element="C9" pad="2"/>
+<wire x1="35.56" y1="63.5" x2="35.56" y2="61.09" width="1.4224" layer="16"/>
+<wire x1="33.02" y1="53.34" x2="33.02" y2="62.23" width="1.016" layer="16"/>
+<wire x1="33.02" y1="62.23" x2="34.925" y2="64.135" width="1.016" layer="16"/>
 </signal>
 <signal name="N$2">
 <contactref element="USB_TO_UART" pad="9"/>
@@ -4495,6 +4495,11 @@ design rules under a new name.</description>
 <wire x1="60.325" y1="12.065" x2="60.325" y2="9.525" width="1.016" layer="16"/>
 <wire x1="60.325" y1="9.525" x2="60.808" y2="9.525" width="1.016" layer="16"/>
 <wire x1="60.808" y1="9.525" x2="60.808" y2="9.8425" width="1.016" layer="16"/>
+</signal>
+<signal name="N$14">
+<contactref element="MAIN_UC" pad="21"/>
+<contactref element="C9" pad="1"/>
+<wire x1="35.56" y1="58.29" x2="35.56" y2="53.34" width="1.016" layer="16"/>
 </signal>
 </signals>
 </board>
