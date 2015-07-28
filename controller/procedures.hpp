@@ -1,6 +1,6 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *                                                                         *
- *  Bindable functions for AVR-Monitor UC program                          *
+ *  Control functions for AVR-Monitor UC program                           *
  *  Copyright (C) 2015  Łukasz "Kuszki" Dróżdż            l.drozdz@o2.pl   *
  *                                                                         *
  *  This program is free software: you can redistribute it and/or modify   *
@@ -18,23 +18,26 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef _AVR_MONITOR_UC_BINDINGS
-#define _AVR_MONITOR_UC_BINDINGS
+#ifndef _AVR_MONITOR_UC_PROCEDURES
+#define _AVR_MONITOR_UC_PROCEDURES
 
 #include "KLLibs/KLLibs.hpp"
 #include "KALibs/KALibs.hpp"
 
 #include "defines.hpp"
-#include "procedures.hpp"
 
-double get(KLVariables& Vars);
+void SHR_SetOutputs(char Mask);
 
-double put(KLVariables& Vars);
+void SHR_SetState(bool Enable);
 
-double pga(KLVariables& Vars);
+int SHR_SetPin(char Pin, bool Enable);
 
-double out(KLVariables& Vars);
+int PGA_SetGain(char ID, char Gain);
 
-double dev(KLVariables& Vars);
+bool ADC_SendFeedback(char ID);
+
+void SYS_SendFeedback(char Mask);
+
+int SYS_SetStatus(char Mask);
 
 #endif

@@ -20,41 +20,71 @@
 
 #include "bindings.hpp"
 
-extern KAUart	UART;
-extern KASpi	SPI;
+extern DEVICE	Monitor;
 
-double shift(KLVariables& Vars)
+double get(KLVariables& Vars)
 {
-	if (Vars.Size() != 1) return -1;
+	if (Vars.Size() == 0) return WRONG_PARAMS;
 
-	SPI.Send(Vars["0"].ToInt());
-
-	KAOutput::SetState(SHR_CS, true);
-	_delay_ms(5);
-	KAOutput::SetState(SHR_CS, false);
-
-	return 0;
-}
-
-double pull(KLVariables& Vars)
-{
-	if (!Vars.Size()) return -1;
-
-	for (const auto& Var: Vars)
+	if (Monitor.Online) for (const auto& Var: Vars)
 	{
-		const int ID = Var.Value.ToInt();
-
-		UART << "set ADC" << ID << " "
-			<< KAConverter::GetVoltage(KAConverter::PORT(ID))
-			<< ";\n";
+		if (!ADC_SendFeedback(Var.Value.ToInt())) return WRONG_ADC_ID;
 	}
 
 	return 0;
 }
 
-double get(KLVariables& Vars)
+double put(KLVariables& Vars)
 {
-	if (Vars.Size() != 1) return -1;
+	if (Vars.Size() == 1)
+	{
+		SHR_SetOutputs(Vars["0"].ToInt());
+	}
+	else if (Vars.Size() == 2)
+	{
+		return SHR_SetPin(Vars["0"].ToInt(), Vars["1"].ToBool());
+	}
+	else if (Vars.Size() == 8)
+	{
+		char Mask = 0;
 
-	return KAConverter::GetVoltage(KAConverter::PORT(Vars["0"].ToInt()));
+		for (char i = 0; i < 8; i++) Mask |= (Vars[KLString(int(i))].ToBool() << i);
+
+		SHR_SetOutputs(Mask);
+	}
+	else return WRONG_PARAMS;
+
+	return 0;
+}
+
+double pga(KLVariables& Vars)
+{
+	if (Vars.Size() != 2) return WRONG_PARAMS;
+
+	return PGA_SetGain(Vars["0"].ToInt(), Vars["1"].ToInt());
+}
+
+double out(KLVariables& Vars)
+{
+	if (Vars.Size() != 1) return WRONG_PARAMS;
+
+	SHR_SetState(Vars["0"].ToBool());
+
+	return 0;
+}
+
+double sys(KLVariables& Vars)
+{
+	if (Vars.Size() != 0) return WRONG_PARAMS;
+
+	if (Monitor.Online) SYS_SendFeedback(GET_ALL);
+
+	return 0;
+}
+
+double dev(KLVariables& Vars)
+{
+	if (Vars.Size() != 1) return WRONG_PARAMS;
+
+	return SYS_SetStatus(Vars["0"].ToInt());
 }
