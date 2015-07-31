@@ -24,7 +24,9 @@
 #include "KLLibs/KLLibs.hpp"
 #include "KALibs/KALibs.hpp"
 
+#include "codes.hpp"
 #include "defines.hpp"
+#include "bindings.hpp"
 
 void SHR_SetOutputs(char Mask);
 
@@ -34,10 +36,16 @@ int SHR_SetPin(char Pin, bool Enable);
 
 int PGA_SetGain(char ID, char Gain);
 
-bool ADC_SendFeedback(char ID);
+char PGA_GetMask(char Gain);
+
+bool ADC_SendFeedback(const KLString& ID);
 
 void SYS_SendFeedback(char Mask);
 
 int SYS_SetStatus(char Mask);
+
+void SYS_Evaluate(KLString& Buffer);
+
+void SYS_InitDevice(void);
 
 #endif

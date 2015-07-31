@@ -1,6 +1,6 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *                                                                         *
- *  Main.cpp file from AVR-Monitor UC program                              *
+ *  {description}                                                          *
  *  Copyright (C) 2015  Łukasz "Kuszki" Dróżdż            l.drozdz@o2.pl   *
  *                                                                         *
  *  This program is free software: you can redistribute it and/or modify   *
@@ -18,78 +18,61 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include "KLLibs/KLLibs.hpp"
-#include "KALibs/KALibs.hpp"
+#ifndef AVRTERMINAL_HPP
+#define AVRTERMINAL_HPP
 
-#include "codes.hpp"
-#include "defines.hpp"
-#include "bindings.hpp"
-#include "procedures.hpp"
+#include <QCoreApplication>
+#include <QTextStream>
+#include <QObject>
+#include <QTimer>
+#include <QFile>
 
-// main control objects
-KAUart		UART(57600);
-KASpi		SPI(KASpi::MASTER);
-KAFlash		Flash;
+#include <avrbridge.hpp>
 
-// main script interpreter
-KLVariables	Inputs;
-KLScript		Script(&Inputs);
+#include "terminalreader.hpp"
 
-// global program structs
-DEVICE		Monitor	= {false, false};
-SHIFT		Shift	= {false, 0b00000000};
-PGA			Gains	= {1, 1};
+class AVRTerminal : public QObject
 
-double		Analog[]	= {0, 0, 0, 0, 0, 0};
-
-int main(void)
 {
+		Q_OBJECT
 
-	// global system init
-	SYS_InitDevice();
+	protected:
 
-	// setup input buffers
-	KLString Serial;
-	KLString Master;
+		AVRBridge* Device;
 
-	// a main loop
-	while (true)
-	{
+		Terminalreader* Worker;
 
-		// handle serial event
-		while (UART.Ready())
-		{
-			Serial << UART.Recv();
+		QTimer* Timeout;
 
-			if (Serial.Last() == RUN)
-			{
-				SYS_Evaluate(Serial);
-			}
-		}
+		QTextStream Cin;
+		QTextStream Cout;
 
-		// enter master device loop
-		if (Monitor.Master)
-		{
-			Flash.SetAdress(0);
+		QString Input;
 
-			while (Master.Insert(Flash.Read()) != -1)
-			if (Master.Last() == RUN)
-			{
-				SYS_Evaluate(Master);
-			}
+		bool Uploading;
 
-			if (Flash.GetAdress() == 1)
-			{
-				SYS_SetStatus(WORK_SLAVE);
-			}
-			else if (Monitor.Online)
-			{
-				for (const auto& Var: Script.Variables) UART << "set " << Var.ID << ' ' << Var.Value.ToString() << EOC;
-			}
+	public:
 
-			Script.Variables.Clean();
-		}
+		explicit AVRTerminal(const QString Port,
+						 const QString Script = QString(),
+						 bool Upload = false);
 
-	}
+		virtual ~AVRTerminal(void) override;
 
-}
+	public slots:
+
+		void HandleError(const QString& Error);
+
+		void HandleMessage(const QString& Message);
+
+		void HandleCommand(const QString& Message);
+
+		void HandleConnect(void);
+
+		void HandleDisconnect(void);
+
+		void HandleTimeout(void);
+
+};
+
+#endif // AVRTERMINAL_HPP

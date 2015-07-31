@@ -20,15 +20,19 @@
 
 #include "bindings.hpp"
 
+extern KASpi	SPI;
+
 extern DEVICE	Monitor;
 
 double get(KLVariables& Vars)
 {
+	if (!Monitor.Online) return WRONG_SYS_STATE;
+
 	if (Vars.Size() == 0) return WRONG_PARAMS;
 
-	if (Monitor.Online) for (const auto& Var: Vars)
+	for (const auto& Var: Vars)
 	{
-		if (!ADC_SendFeedback(Var.Value.ToInt())) return WRONG_ADC_ID;
+		if (!ADC_SendFeedback(KLString('V') + KLString(Var.Value.ToInt()))) return WRONG_ADC_ID;
 	}
 
 	return 0;
@@ -75,9 +79,17 @@ double out(KLVariables& Vars)
 
 double sys(KLVariables& Vars)
 {
-	if (Vars.Size() != 0) return WRONG_PARAMS;
+	if (!Monitor.Online) return WRONG_SYS_STATE;
 
-	if (Monitor.Online) SYS_SendFeedback(GET_ALL);
+	if (Vars.Size() == 0)
+	{
+		SYS_SendFeedback(GET_ALL);
+	}
+	else if (Vars.Size() == 1)
+	{
+		SYS_SendFeedback(Vars["0"].ToInt());
+	}
+	else return WRONG_PARAMS;
 
 	return 0;
 }
@@ -87,4 +99,26 @@ double dev(KLVariables& Vars)
 	if (Vars.Size() != 1) return WRONG_PARAMS;
 
 	return SYS_SetStatus(Vars["0"].ToInt());
+}
+
+double spi(KLVariables& Vars)
+{
+	if (Vars.Size() == 0) return WRONG_PARAMS;
+
+	SPI.Select(SPI_CS);
+
+	for (const auto& Var: Vars) SPI << Var.Value.ToInt();
+
+	SPI.Unselect(SPI_CS);
+
+	return 0;
+}
+
+double slp(KLVariables& Vars)
+{
+	if (Vars.Size() != 1) return WRONG_PARAMS;
+
+	unsigned i = Vars["0"].ToInt(); DELAY(i);
+
+	return 0;
 }

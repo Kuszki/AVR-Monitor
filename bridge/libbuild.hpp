@@ -1,6 +1,6 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *                                                                         *
- *  Main.cpp file from AVR-Monitor UC program                              *
+ *  {description}                                                          *
  *  Copyright (C) 2015  Łukasz "Kuszki" Dróżdż            l.drozdz@o2.pl   *
  *                                                                         *
  *  This program is free software: you can redistribute it and/or modify   *
@@ -18,78 +18,15 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include "KLLibs/KLLibs.hpp"
-#include "KALibs/KALibs.hpp"
+#ifndef AVRBRIDGE_GLOBAL_HPP
+#define AVRBRIDGE_GLOBAL_HPP
 
-#include "codes.hpp"
-#include "defines.hpp"
-#include "bindings.hpp"
-#include "procedures.hpp"
+#include <QtCore/qglobal.h>
 
-// main control objects
-KAUart		UART(57600);
-KASpi		SPI(KASpi::MASTER);
-KAFlash		Flash;
+#if defined(AVRBRIDGE_LIBRARY)
+#  define AVRBRIDGE_EXPORT Q_DECL_EXPORT
+#else
+#  define AVRBRIDGE_EXPORT Q_DECL_IMPORT
+#endif
 
-// main script interpreter
-KLVariables	Inputs;
-KLScript		Script(&Inputs);
-
-// global program structs
-DEVICE		Monitor	= {false, false};
-SHIFT		Shift	= {false, 0b00000000};
-PGA			Gains	= {1, 1};
-
-double		Analog[]	= {0, 0, 0, 0, 0, 0};
-
-int main(void)
-{
-
-	// global system init
-	SYS_InitDevice();
-
-	// setup input buffers
-	KLString Serial;
-	KLString Master;
-
-	// a main loop
-	while (true)
-	{
-
-		// handle serial event
-		while (UART.Ready())
-		{
-			Serial << UART.Recv();
-
-			if (Serial.Last() == RUN)
-			{
-				SYS_Evaluate(Serial);
-			}
-		}
-
-		// enter master device loop
-		if (Monitor.Master)
-		{
-			Flash.SetAdress(0);
-
-			while (Master.Insert(Flash.Read()) != -1)
-			if (Master.Last() == RUN)
-			{
-				SYS_Evaluate(Master);
-			}
-
-			if (Flash.GetAdress() == 1)
-			{
-				SYS_SetStatus(WORK_SLAVE);
-			}
-			else if (Monitor.Online)
-			{
-				for (const auto& Var: Script.Variables) UART << "set " << Var.ID << ' ' << Var.Value.ToString() << EOC;
-			}
-
-			Script.Variables.Clean();
-		}
-
-	}
-
-}
+#endif // AVRBRIDGE_GLOBAL_HPP

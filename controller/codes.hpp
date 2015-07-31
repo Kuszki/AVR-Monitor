@@ -1,6 +1,6 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *                                                                         *
- *  Main.cpp file from AVR-Monitor UC program                              *
+ *  Codes definitions for AVR-Monitor UC program                           *
  *  Copyright (C) 2015  Łukasz "Kuszki" Dróżdż            l.drozdz@o2.pl   *
  *                                                                         *
  *  This program is free software: you can redistribute it and/or modify   *
@@ -18,78 +18,60 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include "KLLibs/KLLibs.hpp"
-#include "KALibs/KALibs.hpp"
+#ifndef _AVR_MONITOR_UC_CODES
+#define _AVR_MONITOR_UC_CODES
 
-#include "codes.hpp"
-#include "defines.hpp"
-#include "bindings.hpp"
-#include "procedures.hpp"
+#define BUF_LEN		48
 
-// main control objects
-KAUart		UART(57600);
-KASpi		SPI(KASpi::MASTER);
-KAFlash		Flash;
+// special control codes
+#define SOH			1
+#define STX			2
+#define ETX			3
+#define EOT			4
 
-// main script interpreter
-KLVariables	Inputs;
-KLScript		Script(&Inputs);
+// dev work status
+#define WORK_OFFLINE 	0
+#define WORK_ONLINE		1
+#define WORK_SLAVE		2
+#define WORK_MASTER		3
 
-// global program structs
-DEVICE		Monitor	= {false, false};
-SHIFT		Shift	= {false, 0b00000000};
-PGA			Gains	= {1, 1};
+// dev flash tasks
+#define UPLOAD_CODE		4
+#define DOWNLOAD_CODE	5
 
-double		Analog[]	= {0, 0, 0, 0, 0, 0};
+// dev memory
+#define CLEAN_RAM		6
 
-int main(void)
-{
+// script error code macro
+#define WRONG_SCRIPT	-255
 
-	// global system init
-	SYS_InitDevice();
+// common error codes macros
+#define WRONG_PARAMS	-1
 
-	// setup input buffers
-	KLString Serial;
-	KLString Master;
+// shr error codes macros
+#define WRONG_SHR_PIN	-2
 
-	// a main loop
-	while (true)
-	{
+// pga error codes macros
+#define WRONG_PGA_ID	-3
+#define WRONG_PGA_GAIN	-4
 
-		// handle serial event
-		while (UART.Ready())
-		{
-			Serial << UART.Recv();
+// adc error codes macros
+#define WRONG_ADC_ID	-5
 
-			if (Serial.Last() == RUN)
-			{
-				SYS_Evaluate(Serial);
-			}
-		}
+// system error codes
+#define WRONG_SYS_CODE	-6
+#define WRONG_SYS_STATE	-7
+#define WRONG_SYS_UPLOAD	-8
 
-		// enter master device loop
-		if (Monitor.Master)
-		{
-			Flash.SetAdress(0);
+// sys var pulling codes
+#define GET_SHRD		1
+#define GET_SHRE		2
+#define GET_PGA0		4
+#define GET_PGA1		8
+#define GET_WORK		16
+#define GET_LINE		32
+#define GET_FRAM		64
+//#define GET_CLRV		128
+#define GET_ALL		255
 
-			while (Master.Insert(Flash.Read()) != -1)
-			if (Master.Last() == RUN)
-			{
-				SYS_Evaluate(Master);
-			}
-
-			if (Flash.GetAdress() == 1)
-			{
-				SYS_SetStatus(WORK_SLAVE);
-			}
-			else if (Monitor.Online)
-			{
-				for (const auto& Var: Script.Variables) UART << "set " << Var.ID << ' ' << Var.Value.ToString() << EOC;
-			}
-
-			Script.Variables.Clean();
-		}
-
-	}
-
-}
+#endif

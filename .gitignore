@@ -1,5 +1,9 @@
 /interface/AVR-Monitor.pro.user
 
+/terminal/AVR-Terminal.pro.user
+
+/bridge/AVR-Bridge.pro.user
+
 /controller/Release
 /controller/.settings
 

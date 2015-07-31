@@ -4,16 +4,16 @@
 #
 #-------------------------------------------------
 
-TARGET	= AVR-Monitor
-TEMPLATE	= app
+TARGET	=	AVR-Interface
+TEMPLATE	=	app
 
-QT		+= core gui widgets
+QT		+=	core gui widgets
 
 CONFIG	+=	c++11
 
-SOURCES	+= 	src/main.cpp \
-			src/mainwindow.cpp
+SOURCES	+= 	main.cpp \
+			mainwindow.cpp
 
-HEADERS	+=	src/mainwindow.hpp
+HEADERS	+=	mainwindow.hpp
 
-FORMS	+=	gui/mainwindow.ui
+FORMS	+=	mainwindow.ui

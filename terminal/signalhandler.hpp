@@ -1,6 +1,6 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *                                                                         *
- *  Main.cpp file from AVR-Monitor UC program                              *
+ *  {description}                                                          *
  *  Copyright (C) 2015  Łukasz "Kuszki" Dróżdż            l.drozdz@o2.pl   *
  *                                                                         *
  *  This program is free software: you can redistribute it and/or modify   *
@@ -18,78 +18,35 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include "KLLibs/KLLibs.hpp"
-#include "KALibs/KALibs.hpp"
+#ifndef SIGNALHANDLER_HPP
+#define SIGNALHANDLER_HPP
 
-#include "codes.hpp"
-#include "defines.hpp"
-#include "bindings.hpp"
-#include "procedures.hpp"
+#include <QSocketNotifier>
+#include <QObject>
 
-// main control objects
-KAUart		UART(57600);
-KASpi		SPI(KASpi::MASTER);
-KAFlash		Flash;
-
-// main script interpreter
-KLVariables	Inputs;
-KLScript		Script(&Inputs);
-
-// global program structs
-DEVICE		Monitor	= {false, false};
-SHIFT		Shift	= {false, 0b00000000};
-PGA			Gains	= {1, 1};
-
-double		Analog[]	= {0, 0, 0, 0, 0, 0};
-
-int main(void)
+class Signalhandler : public QObject
 {
+		Q_OBJECT
 
-	// global system init
-	SYS_InitDevice();
+	public:
+		Signalhandler(QObject *parent = 0);
+		~Signalhandler();
 
-	// setup input buffers
-	KLString Serial;
-	KLString Master;
+		// Unix signal handlers.
+		static void hupSignalHandler(int unused);
+		static void termSignalHandler(int unused);
 
-	// a main loop
-	while (true)
-	{
+	public slots:
+		// Qt signal handlers.
+		void handleSigHup();
+		void handleSigTerm();
 
-		// handle serial event
-		while (UART.Ready())
-		{
-			Serial << UART.Recv();
+	private:
+		static int sighupFd[2];
+		static int sigtermFd[2];
 
-			if (Serial.Last() == RUN)
-			{
-				SYS_Evaluate(Serial);
-			}
-		}
+		QSocketNotifier *snHup;
+		QSocketNotifier *snTerm;
+};
 
-		// enter master device loop
-		if (Monitor.Master)
-		{
-			Flash.SetAdress(0);
-
-			while (Master.Insert(Flash.Read()) != -1)
-			if (Master.Last() == RUN)
-			{
-				SYS_Evaluate(Master);
-			}
-
-			if (Flash.GetAdress() == 1)
-			{
-				SYS_SetStatus(WORK_SLAVE);
-			}
-			else if (Monitor.Online)
-			{
-				for (const auto& Var: Script.Variables) UART << "set " << Var.ID << ' ' << Var.Value.ToString() << EOC;
-			}
-
-			Script.Variables.Clean();
-		}
-
-	}
-
-}
+#endif // SIGNALHANDLER_HPP

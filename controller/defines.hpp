@@ -23,57 +23,15 @@
 
 #include "KALibs/KALibs.hpp"
 
-// common string converter
-#define STR(x)			#x
-
 // end of command
 #define EOC			";\n"
-#define EOM			";\n\a"
-
-// special control codes
-#define SOH			1
-#define STX			2
-#define ETX			3
-#define EOT			4
-#define EXE			10
-
-// dev work status
-#define WORK_OFFLINE 	1
-#define WORK_ONLINE		2
-#define WORK_SLAVE		4
-#define WORK_MASTER		8
-
-// script error code macro
-#define WRONG_SCRIPT	-255
-
-// common error codes macros
-#define WRONG_PARAMS	-1
-
-// shr error codes macros
-#define WRONG_SHR_PIN	-2
-
-// pga error codes macros
-#define WRONG_PGA_ID	-3
-#define WRONG_PGA_GAIN	-4
-
-// adc error codes macros
-#define WRONG_ADC_ID	-5
-
-// system error codes
-#define WRONG_SYS_CODE	-6
-
-// sys var pulling codes
-#define GET_SHRD		1
-#define GET_SHRE		2
-#define GET_PGA0		4
-#define GET_PGA1		8
-#define GET_WORK		16
-#define GET_ALL		255
+#define RUN			'\n'
 
 // cs pins macros
 #define SHR_CS			PD_5
 #define PGA0_CS		PB_1
 #define PGA1_CS		PB_0
+#define SPI_CS			PD_4
 
 // led pins macros
 #define ACT_LED		PD_7
@@ -82,9 +40,8 @@
 // struct declarations
 struct DEVICE
 {
-	bool Master;
 	bool Online;
-	bool Upload;
+	bool Master;
 };
 
 struct SHIFT

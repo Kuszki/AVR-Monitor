@@ -24,6 +24,7 @@
 #include "KLLibs/KLLibs.hpp"
 #include "KALibs/KALibs.hpp"
 
+#include "codes.hpp"
 #include "defines.hpp"
 #include "procedures.hpp"
 
@@ -35,6 +36,12 @@ double pga(KLVariables& Vars);
 
 double out(KLVariables& Vars);
 
+double sys(KLVariables& Vars);
+
 double dev(KLVariables& Vars);
+
+double spi(KLVariables& Vars);
+
+double slp(KLVariables& Vars);
 
 #endif

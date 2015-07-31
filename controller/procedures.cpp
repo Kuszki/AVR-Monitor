@@ -20,12 +20,32 @@
 
 #include "procedures.hpp"
 
-extern KAUart	UART;
-extern KASpi	SPI;
+const char get_RETURN[] PROGMEM	= "return ";
 
-extern DEVICE	Monitor;
-extern SHIFT	Shift;
-extern PGA	Gains;
+const char get_SHRD[] PROGMEM		= "set SHRD ";
+const char get_SHRE[] PROGMEM		= "set SHRE ";
+const char get_PGA0[] PROGMEM		= "set PGA0 ";
+const char get_PGA1[] PROGMEM		= "set PGA1 ";
+const char get_WORK[] PROGMEM		= "set WORK ";
+const char get_LINE[] PROGMEM		= "set LINE ";
+const char get_FRAM[] PROGMEM		= "set FRAM ";
+
+const char get_SET[] PROGMEM		= "set ";
+
+const char get_EOC[] PROGMEM		= EOC;
+
+extern KAUart		UART;
+extern KASpi		SPI;
+extern KAFlash		Flash;
+
+extern KLVariables	Inputs;
+extern KLScript	Script;
+
+extern DEVICE		Monitor;
+extern SHIFT		Shift;
+extern PGA		Gains;
+
+extern double		Analog[];
 
 void SHR_SetOutputs(char Mask)
 {
@@ -72,43 +92,33 @@ int SHR_SetPin(char Pin, bool Enable)
 	return 0;
 }
 
+char PGA_GetMask(char Gain)
+{
+	switch (Gain)
+	{
+		case 1:	return 0b000;
+		case 2:	return 0b001;
+		case 4:	return 0b010;
+		case 5:	return 0b011;
+		case 8:	return 0b100;
+		case 10:	return 0b101;
+		case 16:	return 0b110;
+		case 32:	return 0b111;
+
+		default: return 0b11110000;
+	}
+}
+
 int PGA_SetGain(char ID, char Gain)
 {
 	if (ID != 0 && ID != 1) return WRONG_PGA_ID;
 
-	char Mask = 0b11111111;
+	char Mask = PGA_GetMask(Gain);
 
-	switch (Gain)
-	{
-			case 1:
-				Mask = 0b000;
-			break;
-			case 2:
-				Mask = 0b001;
-			break;
-			case 4:
-				Mask = 0b010;
-			break;
-			case 5:
-				Mask = 0b011;
-			break;
-			case 8:
-				Mask = 0b100;
-			break;
-			case 10:
-				Mask = 0b101;
-			break;
-			case 16:
-				Mask = 0b110;
-			break;
-			case 32:
-				Mask = 0b111;
-			break;
-			default: return WRONG_PGA_GAIN;
-	}
+	if (Mask & 0b11110000) return WRONG_PGA_GAIN;
 
 	SPI.Select(KAPin::PORT_B, ID == 0 ? PORT_1 : PORT_0);
-	SPI << 0b01000000 << Gain;
+	SPI << 0b01000000 << Mask;
 	SPI.Unselect(KAPin::PORT_B, ID == 0 ? PORT_1 : PORT_0);
 
 	(ID == 0 ? Gains.Gain_0 : Gains.Gain_1) = Gain;
@@ -118,24 +128,24 @@ int PGA_SetGain(char ID, char Gain)
 	return 0;
 }
 
-bool ADC_SendFeedback(char ID)
+bool ADC_SendFeedback(const KLString& ID)
 {
-	if (ID > 5 || ID < 0) return false;
+	if (!Script.Variables.Exists(ID)) return false;
 
-	UART << "set ADC" << char(ID + 48) << " "
-		<< KAConverter::GetVoltage(KAConverter::PORT(ID))
-		<< EOC;
+	UART << PGM_V get_SET << ID << ' ' << Script.Variables[ID].ToString() << EOC;
 
 	return true;
 }
 
 void SYS_SendFeedback(char Mask)
 {
-	if (Mask & GET_SHRD) UART << "set SHRD " << int(Shift.Values) << EOC;
-	if (Mask & GET_SHRE) UART << "set SHRE " << int(Shift.Enable) << EOC;
-	if (Mask & GET_PGA0) UART << "set PGA0 " << int(Gains.Gain_0) << EOC;
-	if (Mask & GET_PGA1) UART << "set PGA0 " << int(Gains.Gain_1) << EOC;
-	if (Mask & GET_WORK) UART << "set WORK " << int(Monitor.Master) << EOC;
+	if (Mask & GET_SHRD) UART << PGM_V get_SHRD << int(Shift.Values)		<< PGM_V get_EOC;
+	if (Mask & GET_SHRE) UART << PGM_V get_SHRE << int(Shift.Enable)		<< PGM_V get_EOC;
+	if (Mask & GET_PGA0) UART << PGM_V get_PGA0 << int(Gains.Gain_0)		<< PGM_V get_EOC;
+	if (Mask & GET_PGA1) UART << PGM_V get_PGA1 << int(Gains.Gain_1)		<< PGM_V get_EOC;
+	if (Mask & GET_WORK) UART << PGM_V get_WORK << int(Monitor.Master)	<< PGM_V get_EOC;
+	if (Mask & GET_LINE) UART << PGM_V get_LINE << int(Monitor.Online)	<< PGM_V get_EOC;
+	if (Mask & GET_FRAM) UART << PGM_V get_FRAM << FREE_RAM 			<< PGM_V get_EOC;
 }
 
 int SYS_SetStatus(char Mask)
@@ -157,14 +167,29 @@ int SYS_SetStatus(char Mask)
 		break;
 
 		case WORK_SLAVE:
+		case WORK_MASTER:
 
-			Monitor.Master = false;
+			Monitor.Master = (Mask == WORK_MASTER);
+
+			if (Monitor.Online) SYS_SendFeedback(GET_WORK);
+
+			KAOutput::SetState(ACT_LED, Monitor.Master);
+
+		break;
+		case UPLOAD_CODE:
+
+			Flash.SetAdress(0); do  UART << (Mask = Flash.Read()); while (Mask);
+
+		break;
+		case DOWNLOAD_CODE:
+
+			Flash.SetAdress(0); do Flash.Write(Mask = UART.Recv()); while (Mask);
 
 		break;
 
-		case WORK_MASTER:
+		case CLEAN_RAM:
 
-			Monitor.Master = true;
+			Script.Variables.Clean();
 
 		break;
 
@@ -172,4 +197,57 @@ int SYS_SetStatus(char Mask)
 	}
 
 	return 0;
+}
+
+void SYS_Evaluate(KLString& Buffer)
+{
+	KAOutput::SetState(ACT_LED, !Monitor.Master);
+
+	for (int i = 0; i < 6; ++i) Analog[i] = KAConverter::GetVoltage(KAConverter::PORT(i));
+
+	const bool OK = Script.Evaluate(Buffer);
+
+	if (Monitor.Online && !Monitor.Master) UART << PGM_V get_RETURN << (OK ? Script.GetReturn() : WRONG_SCRIPT) << PGM_V get_EOC;
+
+	KAOutput::SetState(ACT_LED, Monitor.Master);
+
+	Buffer.Clean();
+}
+
+void SYS_InitDevice(void)
+{
+	char Buff[] = "Vx";
+
+	// setup interrupts
+	KAInt::SetMode(KAInt::INT_0, KAInt::ON_RISING);
+	KAInt::SetMode(KAInt::INT_1, KAInt::ON_RISING);
+
+	// enable interrupts
+	KAInt::Enable(KAInt::INT_0);
+	KAInt::Enable(KAInt::INT_1);
+
+	// setup outputs
+	KAOutput::SetState(KAPin::PORT_D, 0b00110000, true);
+	KAOutput::SetState(KAPin::PORT_D, 0b11000000, false);
+	KAOutput::SetState(KAPin::PORT_B, 0b00000011, true);
+
+	// setup bindings
+
+	Script.Bindings.Add(BIND(get));
+	Script.Bindings.Add(BIND(put));
+	Script.Bindings.Add(BIND(pga));
+	Script.Bindings.Add(BIND(out));
+	Script.Bindings.Add(BIND(sys));
+	Script.Bindings.Add(BIND(dev));
+	Script.Bindings.Add(BIND(spi));
+	Script.Bindings.Add(BIND(slp));
+
+	// setup adc variables
+	for (char i = 0; i < 6; i++)
+	{
+		Buff[1] = '0' + i; Inputs.Add(Buff, Analog[i]);
+	}
+
+	// enable uart
+	UART.Start();
 }

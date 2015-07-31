@@ -1,6 +1,6 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *                                                                         *
- *  Main.cpp file from AVR-Monitor UC program                              *
+ *  {description}                                                          *
  *  Copyright (C) 2015  Łukasz "Kuszki" Dróżdż            l.drozdz@o2.pl   *
  *                                                                         *
  *  This program is free software: you can redistribute it and/or modify   *
@@ -18,78 +18,84 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include "KLLibs/KLLibs.hpp"
-#include "KALibs/KALibs.hpp"
+#ifndef AVRBRIDGE_HPP
+#define AVRBRIDGE_HPP
 
-#include "codes.hpp"
-#include "defines.hpp"
-#include "bindings.hpp"
-#include "procedures.hpp"
+#include "libbuild.hpp"
 
-// main control objects
-KAUart		UART(57600);
-KASpi		SPI(KASpi::MASTER);
-KAFlash		Flash;
+#include <KLLibs.hpp>
 
-// main script interpreter
-KLVariables	Inputs;
-KLScript		Script(&Inputs);
+#include <QObject>
+#include <QThread>
+#include <QSerialPort>
+#include <QSerialPortInfo>
 
-// global program structs
-DEVICE		Monitor	= {false, false};
-SHIFT		Shift	= {false, 0b00000000};
-PGA			Gains	= {1, 1};
+#include "../controller/codes.hpp"
 
-double		Analog[]	= {0, 0, 0, 0, 0, 0};
-
-int main(void)
+class AVRBRIDGE_EXPORT AVRBridge : public QObject
 {
 
-	// global system init
-	SYS_InitDevice();
+		Q_OBJECT
 
-	// setup input buffers
-	KLString Serial;
-	KLString Master;
+	private:
 
-	// a main loop
-	while (true)
-	{
+		KLScriptbinding* Script;
 
-		// handle serial event
-		while (UART.Ready())
-		{
-			Serial << UART.Recv();
+		QSerialPort* Serial;
 
-			if (Serial.Last() == RUN)
-			{
-				SYS_Evaluate(Serial);
-			}
-		}
+		QString Buffer;
 
-		// enter master device loop
-		if (Monitor.Master)
-		{
-			Flash.SetAdress(0);
+	private slots:
 
-			while (Master.Insert(Flash.Read()) != -1)
-			if (Master.Last() == RUN)
-			{
-				SYS_Evaluate(Master);
-			}
+		void ReadData(void);
 
-			if (Flash.GetAdress() == 1)
-			{
-				SYS_SetStatus(WORK_SLAVE);
-			}
-			else if (Monitor.Online)
-			{
-				for (const auto& Var: Script.Variables) UART << "set " << Var.ID << ' ' << Var.Value.ToString() << EOC;
-			}
+		void GetResoult(double Value);
 
-			Script.Variables.Clean();
-		}
+	public:
 
-	}
+		explicit AVRBridge(QObject* Parent = nullptr);
 
-}
+		virtual ~AVRBridge(void) override;
+
+		const KLVariables& Variables(void) const;
+
+		bool Connected(void);
+
+		void Command(const QString& Message);
+
+		void Connect(const QString& Port);
+
+		void Disconnect(void);
+
+		void UpdateSensorVariables(void);
+
+		void UpdateSystemVariables(void);
+
+		void WriteGainSettings(unsigned char ID,
+						   unsigned char Gain);
+
+		void WriteShiftValues(unsigned char Values);
+
+		void WriteShiftStatus(bool Enabled);
+
+		void WriteMasterStatus(bool Master);
+
+		void WriteMasterScript(const QString& Code);
+
+	signals:
+
+		void onVariablesUpdate(const KLVariables*);
+
+		void onMessageReceive(const QString&);
+
+		void onMessageSend(const QString&);
+
+		void onConnected(void);
+
+		void onDisconnected(void);
+
+		void onError(const QString&);
+
+};
+
+#endif // AVRBRIDGE_HPP
