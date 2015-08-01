@@ -23,6 +23,8 @@
 
 #include "KALibs/KALibs.hpp"
 
+#define STR_M(x)		#x
+
 // end of command
 #define EOC			";\n"
 #define RUN			'\n'
@@ -42,6 +44,7 @@ struct DEVICE
 {
 	bool Online;
 	bool Master;
+	bool Worker;
 };
 
 struct SHIFT

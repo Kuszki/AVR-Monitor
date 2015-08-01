@@ -28,6 +28,8 @@
 #include "defines.hpp"
 #include "bindings.hpp"
 
+#include <avr/wdt.h>
+
 void SHR_SetOutputs(char Mask);
 
 void SHR_SetState(bool Enable);
@@ -46,6 +48,6 @@ int SYS_SetStatus(char Mask);
 
 void SYS_Evaluate(KLString& Buffer);
 
-void SYS_InitDevice(void);
+void SYS_InitDevice(char Boot);
 
 #endif

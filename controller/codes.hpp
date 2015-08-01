@@ -42,8 +42,19 @@
 // dev memory
 #define CLEAN_RAM		6
 
+// dev infostring
+#define INFO_STR		10
+
 // script error code macro
 #define WRONG_SCRIPT	-255
+
+// script timeout watchdog
+#define MASTER_TIMEOUT	-254
+#define REMOTE_TIMEOUT	-253
+
+// frozen conditions
+#define MASTER_FROZEN	0b10000000
+#define REMOTE_FROZEN	0b10001000
 
 // common error codes macros
 #define WRONG_PARAMS	-1
@@ -71,7 +82,7 @@
 #define GET_WORK		16
 #define GET_LINE		32
 #define GET_FRAM		64
-//#define GET_CLRV		128
+#define GET_VARS		128
 #define GET_ALL		255
 
 #endif

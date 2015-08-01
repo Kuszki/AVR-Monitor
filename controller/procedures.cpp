@@ -20,6 +20,21 @@
 
 #include "procedures.hpp"
 
+const char get_INFOSTR[] PROGMEM =
+"# AVR-Monitor device;   Controller program v1.0\n"
+"# Copyright (C) 2015     Łukasz \"Kuszki\" Dróżdż\n"
+"#\n"
+"# Web:    https://github.com/Kuszki/AVR-Monitor\n"
+"# Built:                   " __DATE__ " " __TIME__ "\n"
+"# Tools:                  GNU GCC version " __VERSION__ "\n"
+"# System:     Debian 8 GNU/Linux 3.16.0-4-amd64\n"
+"# Params:        -O3 -std=c++11 -fno-rtti -Wall\n"
+"# Watchdog:       on every evaluation for 4 sec\n"
+"# Program size:        29278 bytes (89.3% Full)\n"
+"# Data size:             539 bytes (26.3% Full)\n";
+
+const char get_FREEZED[] PROGMEM	= "# !!! THIS DEVICE HAS BEEN FREEZED DURING LAST SCRIPT EVALUATION !!!\n";
+
 const char get_RETURN[] PROGMEM	= "return ";
 
 const char get_SHRD[] PROGMEM		= "set SHRD ";
@@ -29,6 +44,7 @@ const char get_PGA1[] PROGMEM		= "set PGA1 ";
 const char get_WORK[] PROGMEM		= "set WORK ";
 const char get_LINE[] PROGMEM		= "set LINE ";
 const char get_FRAM[] PROGMEM		= "set FRAM ";
+const char get_VARS[] PROGMEM		= "set VARS ";
 
 const char get_SET[] PROGMEM		= "set ";
 
@@ -139,13 +155,13 @@ bool ADC_SendFeedback(const KLString& ID)
 
 void SYS_SendFeedback(char Mask)
 {
-	if (Mask & GET_SHRD) UART << PGM_V get_SHRD << int(Shift.Values)		<< PGM_V get_EOC;
-	if (Mask & GET_SHRE) UART << PGM_V get_SHRE << int(Shift.Enable)		<< PGM_V get_EOC;
-	if (Mask & GET_PGA0) UART << PGM_V get_PGA0 << int(Gains.Gain_0)		<< PGM_V get_EOC;
-	if (Mask & GET_PGA1) UART << PGM_V get_PGA1 << int(Gains.Gain_1)		<< PGM_V get_EOC;
-	if (Mask & GET_WORK) UART << PGM_V get_WORK << int(Monitor.Master)	<< PGM_V get_EOC;
-	if (Mask & GET_LINE) UART << PGM_V get_LINE << int(Monitor.Online)	<< PGM_V get_EOC;
-	if (Mask & GET_FRAM) UART << PGM_V get_FRAM << FREE_RAM 			<< PGM_V get_EOC;
+	if (Mask & GET_SHRD) UART << PGM_V get_SHRD << int(Shift.Values)			<< PGM_V get_EOC;
+	if (Mask & GET_SHRE) UART << PGM_V get_SHRE << int(Shift.Enable)			<< PGM_V get_EOC;
+	if (Mask & GET_PGA0) UART << PGM_V get_PGA0 << int(Gains.Gain_0)			<< PGM_V get_EOC;
+	if (Mask & GET_PGA1) UART << PGM_V get_PGA1 << int(Gains.Gain_1)			<< PGM_V get_EOC;
+	if (Mask & GET_WORK) UART << PGM_V get_WORK << int(Monitor.Master)		<< PGM_V get_EOC;
+	if (Mask & GET_LINE) UART << PGM_V get_LINE << int(Monitor.Online)		<< PGM_V get_EOC;
+	if (Mask & GET_FRAM) UART << PGM_V get_FRAM << FREE_RAM 				<< PGM_V get_EOC;
 }
 
 int SYS_SetStatus(char Mask)
@@ -193,6 +209,12 @@ int SYS_SetStatus(char Mask)
 
 		break;
 
+		case INFO_STR:
+
+			UART << PGM_V get_INFOSTR;
+
+		break;
+
 		default: return WRONG_SYS_CODE;
 	}
 
@@ -205,7 +227,11 @@ void SYS_Evaluate(KLString& Buffer)
 
 	for (int i = 0; i < 6; ++i) Analog[i] = KAConverter::GetVoltage(KAConverter::PORT(i));
 
+	wdt_intenable(WDTO_4S);
+
 	const bool OK = Script.Evaluate(Buffer);
+
+	wdt_disable();
 
 	if (Monitor.Online && !Monitor.Master) UART << PGM_V get_RETURN << (OK ? Script.GetReturn() : WRONG_SCRIPT) << PGM_V get_EOC;
 
@@ -214,7 +240,7 @@ void SYS_Evaluate(KLString& Buffer)
 	Buffer.Clean();
 }
 
-void SYS_InitDevice(void)
+void SYS_InitDevice(char Boot)
 {
 	char Buff[] = "Vx";
 
@@ -243,11 +269,18 @@ void SYS_InitDevice(void)
 	Script.Bindings.Add(BIND(slp));
 
 	// setup adc variables
-	for (char i = 0; i < 6; i++)
-	{
-		Buff[1] = '0' + i; Inputs.Add(Buff, Analog[i]);
-	}
+	for (char i = 0; i < 6; i++) { Buff[1] = '0' + i; Inputs.Add(Buff, Analog[i]); }
 
 	// enable uart
 	UART.Start();
+
+	if (Boot & 0b00001000) switch (KAFlash::Read(1023))
+	{
+		case MASTER_FROZEN:
+			UART << PGM_V get_FREEZED << PGM_V get_RETURN << MASTER_TIMEOUT << PGM_V EOC; Monitor.Online = true;
+		break;
+		case REMOTE_FROZEN:
+			UART << PGM_V get_FREEZED << PGM_V get_RETURN << REMOTE_TIMEOUT << PGM_V EOC; Monitor.Online = true;
+		break;
+	}
 }

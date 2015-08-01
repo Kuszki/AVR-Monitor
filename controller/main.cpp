@@ -26,6 +26,8 @@
 #include "bindings.hpp"
 #include "procedures.hpp"
 
+char Reboot_Code REBOOT_CODE;
+
 // main control objects
 KAUart		UART(57600);
 KASpi		SPI(KASpi::MASTER);
@@ -36,7 +38,7 @@ KLVariables	Inputs;
 KLScript		Script(&Inputs);
 
 // global program structs
-DEVICE		Monitor	= {false, false};
+DEVICE		Monitor	= {false, false, false};
 SHIFT		Shift	= {false, 0b00000000};
 PGA			Gains	= {1, 1};
 
@@ -46,13 +48,13 @@ int main(void)
 {
 
 	// global system init
-	SYS_InitDevice();
+	SYS_InitDevice(Reboot_Code);
 
 	// setup input buffers
 	KLString Serial;
 	KLString Master;
 
-	// a main loop
+	// enter main loop
 	while (true)
 	{
 
@@ -63,7 +65,7 @@ int main(void)
 
 			if (Serial.Last() == RUN)
 			{
-				SYS_Evaluate(Serial);
+				if (Serial.Size()) SYS_Evaluate(Serial);
 			}
 		}
 
@@ -73,9 +75,13 @@ int main(void)
 			Flash.SetAdress(0);
 
 			while (Master.Insert(Flash.Read()) != -1)
-			if (Master.Last() == RUN)
+			if (Master.Last() == RUN && Master.Size())
 			{
+				Monitor.Worker = true;
+
 				SYS_Evaluate(Master);
+
+				Monitor.Worker = false;
 			}
 
 			if (Flash.GetAdress() == 1)

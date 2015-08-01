@@ -18,6 +18,9 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+#include "KLLibs/KLLibs.hpp"
+#include "KALibs/KALibs.hpp"
+
 #include "codes.hpp"
 #include "defines.hpp"
 #include "procedures.hpp"
@@ -25,12 +28,28 @@
 extern DEVICE	Monitor;
 extern SHIFT	Shift;
 
-ISR (INT0_vect)
+extern char	Reboot_Code;
+
+void REBOOT_PROC wdt_reboot(void)
+{
+	Reboot_Code = MCUSR; MCUSR = 0;
+
+	wdt_disable();
+}
+
+ISR(INT0_vect)
 {
 	if (!Monitor.Online) SYS_SetStatus(Monitor.Master ? WORK_SLAVE : WORK_MASTER);
 }
 
-ISR (INT1_vect)
+ISR(INT1_vect)
 {
 	SHR_SetState(!Shift.Enable);
+}
+
+ISR(WDT_vect)
+{
+	const char Status = (Monitor.Online << 7) | (Monitor.Master << 3) | (Monitor.Worker);
+
+	KAFlash::Write(1023, Status);
 }
