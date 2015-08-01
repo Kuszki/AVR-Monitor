@@ -26,8 +26,6 @@ extern DEVICE	Monitor;
 
 double get(KLVariables& Vars)
 {
-	if (!Monitor.Online) return WRONG_SYS_STATE;
-
 	if (Vars.Size() == 0) return WRONG_PARAMS;
 
 	for (const auto& Var: Vars)

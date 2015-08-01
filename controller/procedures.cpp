@@ -21,19 +21,21 @@
 #include "procedures.hpp"
 
 const char get_INFOSTR[] PROGMEM =
-"# AVR-Monitor device;   Controller program v1.0\n"
-"# Copyright (C) 2015     Łukasz \"Kuszki\" Dróżdż\n"
-"#\n"
-"# Web:    https://github.com/Kuszki/AVR-Monitor\n"
-"# Built:                   " __DATE__ " " __TIME__ "\n"
-"# Tools:                  GNU GCC version " __VERSION__ "\n"
-"# System:     Debian 8 GNU/Linux 3.16.0-4-amd64\n"
-"# Params:        -O3 -std=c++11 -fno-rtti -Wall\n"
-"# Watchdog:       on every evaluation for 4 sec\n"
-"# Program size:        29278 bytes (89.3% Full)\n"
-"# Data size:             539 bytes (26.3% Full)\n";
+"\n\
+# AVR-Monitor device;   Controller program v1.0\n\
+# Copyright (C) 2015     Łukasz \"Kuszki\" Dróżdż\n\
+#\n\
+# Web:    https://github.com/Kuszki/AVR-Monitor\n\
+# Built:                   " __DATE__ " " __TIME__ "\n\
+# Tools:                  GNU GCC version " __VERSION__ "\n\
+# System:     Debian 8 GNU/Linux 3.16.0-4-amd64\n\
+# Params:        -O3 -std=c++11 -fno-rtti -Wall\n\
+# Watchdog:       on every evaluation for 8 sec\n\
+# Program size:        29344 bytes (89.6% Full)\n\
+# Data size:             507 bytes (24.8% Full)\n\
+\n";
 
-const char get_FREEZED[] PROGMEM	= "# !!! THIS DEVICE HAS BEEN FREEZED DURING LAST SCRIPT EVALUATION !!!\n";
+const char get_GAINS[] PROGMEM 	= { 0b000, 0b001, 0b010, 0b011, 0b100, 0b101, 0b110, 0b111, 0b11110000 };
 
 const char get_RETURN[] PROGMEM	= "return ";
 
@@ -44,7 +46,6 @@ const char get_PGA1[] PROGMEM		= "set PGA1 ";
 const char get_WORK[] PROGMEM		= "set WORK ";
 const char get_LINE[] PROGMEM		= "set LINE ";
 const char get_FRAM[] PROGMEM		= "set FRAM ";
-const char get_VARS[] PROGMEM		= "set VARS ";
 
 const char get_SET[] PROGMEM		= "set ";
 
@@ -94,16 +95,18 @@ void SHR_SetState(bool Enable)
 
 int SHR_SetPin(char Pin, bool Enable)
 {
-	if (Pin > 7 || Pin < 0) return WRONG_SHR_PIN;
+	if (Pin > 7) return WRONG_SHR_PIN;
+	else
+	{
+		if (Enable) Shift.Values |= (1 << Pin);
+		else Shift.Values &= ~(1 << Pin);
 
-	if (Enable) Shift.Values |= (1 << Pin);
-	else Shift.Values &= ~(1 << Pin);
+		SPI.Send(Shift.Values);
 
-	SPI.Send(Shift.Values);
+		KAOutput::SwitchState(SHR_CS, 2, 0);
 
-	KAOutput::SwitchState(SHR_CS, 2, 0);
-
-	if (Monitor.Online) SYS_SendFeedback(GET_SHRD);
+		if (Monitor.Online) SYS_SendFeedback(GET_SHRD);
+	}
 
 	return 0;
 }
@@ -112,34 +115,36 @@ char PGA_GetMask(char Gain)
 {
 	switch (Gain)
 	{
-		case 1:	return 0b000;
-		case 2:	return 0b001;
-		case 4:	return 0b010;
-		case 5:	return 0b011;
-		case 8:	return 0b100;
-		case 10:	return 0b101;
-		case 16:	return 0b110;
-		case 32:	return 0b111;
+		case 1:	return __LPM(&get_GAINS[0]);
+		case 2:	return __LPM(&get_GAINS[1]);
+		case 4:	return __LPM(&get_GAINS[2]);
+		case 5:	return __LPM(&get_GAINS[3]);
+		case 8:	return __LPM(&get_GAINS[4]);
+		case 10:	return __LPM(&get_GAINS[5]);
+		case 16:	return __LPM(&get_GAINS[6]);
+		case 32:	return __LPM(&get_GAINS[7]);
 
-		default: return 0b11110000;
+		default: return __LPM(&get_GAINS[8]);
 	}
 }
 
 int PGA_SetGain(char ID, char Gain)
 {
-	if (ID != 0 && ID != 1) return WRONG_PGA_ID;
+	if (ID > 1) return WRONG_PGA_ID;
+	else
+	{
+		char Mask = PGA_GetMask(Gain);
 
-	char Mask = PGA_GetMask(Gain);
+		if (Mask & 0b11110000) return WRONG_PGA_GAIN;
 
-	if (Mask & 0b11110000) return WRONG_PGA_GAIN;
+		SPI.Select(KAPin::PORT_B, ID == 0 ? PORT_1 : PORT_0);
+		SPI << 0b01000000 << Mask;
+		SPI.Unselect(KAPin::PORT_B, ID == 0 ? PORT_1 : PORT_0);
 
-	SPI.Select(KAPin::PORT_B, ID == 0 ? PORT_1 : PORT_0);
-	SPI << 0b01000000 << Mask;
-	SPI.Unselect(KAPin::PORT_B, ID == 0 ? PORT_1 : PORT_0);
+		(ID == 0 ? Gains.Gain_0 : Gains.Gain_1) = Gain;
 
-	(ID == 0 ? Gains.Gain_0 : Gains.Gain_1) = Gain;
-
-	if (Monitor.Online) SYS_SendFeedback(ID == 0 ? GET_PGA0 : GET_PGA1);
+		if (Monitor.Online) SYS_SendFeedback(ID == 0 ? GET_PGA0 : GET_PGA1);
+	}
 
 	return 0;
 }
@@ -147,8 +152,12 @@ int PGA_SetGain(char ID, char Gain)
 bool ADC_SendFeedback(const KLString& ID)
 {
 	if (!Script.Variables.Exists(ID)) return false;
+	else
+	{
+		const char ADC_ID = ID[1] - '0'; Analog[ADC_ID] = KAConverter::GetVoltage(KAConverter::PORT(ADC_ID));
 
-	UART << PGM_V get_SET << ID << ' ' << Script.Variables[ID].ToString() << EOC;
+		if (Monitor.Online) UART << PGM_V get_SET << ID << ' ' << Script.Variables[ID].ToString() << EOC;
+	}
 
 	return true;
 }
@@ -252,6 +261,10 @@ void SYS_InitDevice(char Boot)
 	KAInt::Enable(KAInt::INT_0);
 	KAInt::Enable(KAInt::INT_1);
 
+	// det pin mode
+	KAOutput::SetOutputMode(KAPin::PORT_D, 0b11110000);
+	KAOutput::SetOutputMode(KAPin::PORT_B, 0b00000011);
+
 	// setup outputs
 	KAOutput::SetState(KAPin::PORT_D, 0b00110000, true);
 	KAOutput::SetState(KAPin::PORT_D, 0b11000000, false);
@@ -277,10 +290,10 @@ void SYS_InitDevice(char Boot)
 	if (Boot & 0b00001000) switch (KAFlash::Read(1023))
 	{
 		case MASTER_FROZEN:
-			UART << PGM_V get_FREEZED << PGM_V get_RETURN << MASTER_TIMEOUT << PGM_V EOC; Monitor.Online = true;
+			UART << PGM_V get_RETURN << MASTER_TIMEOUT << PGM_V get_EOC; Monitor.Online = true;
 		break;
 		case REMOTE_FROZEN:
-			UART << PGM_V get_FREEZED << PGM_V get_RETURN << REMOTE_TIMEOUT << PGM_V EOC; Monitor.Online = true;
+			UART << PGM_V get_RETURN << REMOTE_TIMEOUT << PGM_V get_EOC; Monitor.Online = true;
 		break;
 	}
 }

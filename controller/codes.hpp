@@ -21,68 +21,55 @@
 #ifndef _AVR_MONITOR_UC_CODES
 #define _AVR_MONITOR_UC_CODES
 
-#define BUF_LEN		48
-
-// special control codes
-#define SOH			1
-#define STX			2
-#define ETX			3
-#define EOT			4
-
 // dev work status
-#define WORK_OFFLINE 	0
-#define WORK_ONLINE		1
-#define WORK_SLAVE		2
-#define WORK_MASTER		3
-
-// dev flash tasks
-#define UPLOAD_CODE		4
-#define DOWNLOAD_CODE	5
+#define WORK_OFFLINE 	0			//!< Pozostań offline.
+#define WORK_ONLINE		1			//!< Przejdź online.
+#define WORK_SLAVE		2			//!< Pracuj jako slave.
+#define WORK_MASTER		3			//!< Pracuj jako master.
 
 // dev memory
-#define CLEAN_RAM		6
+#define CLEAN_RAM		10			//!< Wyczyść dodatkowe zmienne.
 
-// dev infostring
-#define INFO_STR		10
+// dev special tasks
+#define INFO_STR		253			//!< Wyślij informacje.
+#define UPLOAD_CODE		254			//!< Wyślij kod skryptu.
+#define DOWNLOAD_CODE	255			//!< Pobierz skrypt.
 
 // script error code macro
-#define WRONG_SCRIPT	-255
-
-// script timeout watchdog
-#define MASTER_TIMEOUT	-254
-#define REMOTE_TIMEOUT	-253
+#define WRONG_SCRIPT	-255			//!< Skrypt nieprawidłowy.
+#define MASTER_TIMEOUT	-254			//!< Przekroczono limit czasu przez użytkownika.
+#define REMOTE_TIMEOUT	-253			//!< Przekroczono limit czasu przez użądzenie.
 
 // frozen conditions
-#define MASTER_FROZEN	0b10000000
-#define REMOTE_FROZEN	0b10001000
+#define MASTER_FROZEN	0b10000000	//!< Użytkownik dokonał zamrożenia kodu.
+#define REMOTE_FROZEN	0b10001000	//!< Użądzenie dokonało zamrożenia kodu.
 
 // common error codes macros
-#define WRONG_PARAMS	-1
+#define WRONG_PARAMS	-1			//!< Błędnie parametry funkcji.
 
 // shr error codes macros
-#define WRONG_SHR_PIN	-2
+#define WRONG_SHR_PIN	-2			//!< Błędne wyprowadzenie rejestru.
 
 // pga error codes macros
-#define WRONG_PGA_ID	-3
-#define WRONG_PGA_GAIN	-4
+#define WRONG_PGA_ID	-3			//!< Błędne ID wzmacniacza.
+#define WRONG_PGA_GAIN	-4			//!< Błędnie wzmocnienie PGA.
 
 // adc error codes macros
-#define WRONG_ADC_ID	-5
+#define WRONG_ADC_ID	-5			//!< Błędne ID przetwornika ADC.
 
 // system error codes
-#define WRONG_SYS_CODE	-6
-#define WRONG_SYS_STATE	-7
-#define WRONG_SYS_UPLOAD	-8
+#define WRONG_SYS_CODE	-6			//!< Błędny kod systemowy.
+#define WRONG_SYS_STATE	-7			//!< Błędny kod stanu.
+#define WRONG_SYS_UPLOAD	-8			//!< Załadowano błędny skrypt.
 
 // sys var pulling codes
-#define GET_SHRD		1
-#define GET_SHRE		2
-#define GET_PGA0		4
-#define GET_PGA1		8
-#define GET_WORK		16
-#define GET_LINE		32
-#define GET_FRAM		64
-#define GET_VARS		128
-#define GET_ALL		255
+#define GET_SHRD		1			//!< Pobierz stan danych rejestru.
+#define GET_SHRE		2			//!< Pobierz stan wyprowadzeń rejesru.
+#define GET_PGA0		4			//!< Pobierz wzmocnienie wzmacniacza 0.
+#define GET_PGA1		8			//!< Pobierz wzmocnienie wzmacniacza 1.
+#define GET_WORK		16			//!< Pobierz tryb pracy.
+#define GET_LINE		32			//!< Pobierz stan połączenia.
+#define GET_FRAM		64			//!< Pobierz ilość owlnej pamięci RAM.
+#define GET_ALL		255			//!< Pobierz wszystkie dane użądzenia.
 
 #endif

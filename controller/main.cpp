@@ -26,33 +26,32 @@
 #include "bindings.hpp"
 #include "procedures.hpp"
 
-char Reboot_Code REBOOT_CODE;
+char Reboot_Code REBOOT_CODE;						//!< Informacja o źródle sygnału RESET.
 
 // main control objects
-KAUart		UART(57600);
-KASpi		SPI(KASpi::MASTER);
-KAFlash		Flash;
+KAUart		UART(57600);						//!< Odbiornik i nadajnik szeregowy. Praca z prędkością 57600 bps.
+KASpi		SPI(KASpi::MASTER);					//!< Nadajnik SPI w trybie `MASTER`. Prescaler F_CPU/2.
+KAFlash		Flash;							//!< Mechanizm nadorujący pamięć EEPROM.
 
 // main script interpreter
-KLVariables	Inputs;
-KLScript		Script(&Inputs);
+KLVariables	Inputs;							//!< Kontener przechowujący globalne zmienne.
+KLScript		Script(&Inputs);					//!< Interpreter języka skryptowego.
 
 // global program structs
-DEVICE		Monitor	= {false, false, false};
-SHIFT		Shift	= {false, 0b00000000};
-PGA			Gains	= {1, 1};
+DEVICE		Monitor	= {false, false, false};		//!< Stan użądzenia.
+SHIFT		Shift	= {false, 0b00000000};		//!< Stan rejestru szeregowego.
+PGA			Gains	= {1, 1};					//!< Stan wzmacniaczy operacyjnych.
 
-double		Analog[]	= {0, 0, 0, 0, 0, 0};
+double		Analog[]	= {0, 0, 0, 0, 0, 0};		//!< Zmienna przechowująca wyniki operacji konwersji ADC.
 
 int main(void)
 {
 
+	// setup input buffers
+	KLString Serial, Master;
+
 	// global system init
 	SYS_InitDevice(Reboot_Code);
-
-	// setup input buffers
-	KLString Serial;
-	KLString Master;
 
 	// enter main loop
 	while (true)
@@ -63,10 +62,7 @@ int main(void)
 		{
 			Serial << UART.Recv();
 
-			if (Serial.Last() == RUN)
-			{
-				if (Serial.Size()) SYS_Evaluate(Serial);
-			}
+			if (Serial.Last() == RUN && Serial.Size()) SYS_Evaluate(Serial);
 		}
 
 		// enter master device loop

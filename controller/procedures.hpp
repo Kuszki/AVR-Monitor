@@ -28,26 +28,93 @@
 #include "defines.hpp"
 #include "bindings.hpp"
 
-#include <avr/wdt.h>
-
+/*! \brief		Ustala wyjścia na podstawie maski.
+ *  \param [in]	Mask Maska bitowa wyprowadzeń.
+ *
+ * Wyprowadza na wyjście rejestru wybrane stany logiczne. Nie zmienia jednak stanu na wyjściach gdy rejestr był w stanie wysokiej impedancji.
+ *
+ */
 void SHR_SetOutputs(char Mask);
 
+
+/*! \brief		Ustala stan wyjścia na podstawie parametry.
+ *  \param [in]	Enable Aktywność wyjść.
+ *
+ * Gdy wybrano aktywacje wejść na pinach pojawią sie wpisane wsześniej stany logiczne.
+ *
+ */
 void SHR_SetState(bool Enable);
 
+/*! \brief		Ustala wyjście pojedynczego pinu na zadaną wartość.
+ *  \param [in]	Pin	ID pinu.
+ *  \param [in]	Enable;
+ *  \return		Powodzenie operacji.
+ *
+ * Wyprowadza na wyjście rejestru zadany stan logiczny zmieniając tylko wybraną wartość. Nie zmienia stanu na wyjściach gdy rejestr był w stanie wysokiej impedancji.
+ *
+ */
 int SHR_SetPin(char Pin, bool Enable);
 
+
+/*! \brief		Ustala wzmocnienie wybranego układu.
+ *  \param [in]	Pin	ID wzmacniacza.
+ *  \param [in]	Gain	Wzmocnienie.
+ *  \return		Powodzenie operacji.
+ *
+ * Wprowadza do wybranego wzmacniacza podane wzmocnienie.
+ *
+ */
 int PGA_SetGain(char ID, char Gain);
 
+/*! \brief		Wyznacza maskę bitową na podstawie wzmocnienia.
+ *  \param [in]	Gain	Wzmocnienie.
+ *  \return		Maska bitowa .
+ *
+ * Oblicza maskę potrzebną do osiągnięcia wybranego wzmocnienia.
+ *
+ */
 char PGA_GetMask(char Gain);
 
+/*! \brief		Wysyła do użytkownika stan wybranego przetwornika.
+ *  \param [in]	ID	ID przetwornika.
+ *  \return		Powodzenie operacji.
+ *
+ * Wysyła do użytkownika informację o napięciu na wybranym czujniku.
+ *
+ */
 bool ADC_SendFeedback(const KLString& ID);
 
+/*! \brief		Wysyła do użytkownika stan wybranych zmiennych systemowych.
+ *  \param [in]	Maks	Maska wyprowadzeń.
+ *
+ * Wysyła do użytkownika informację o stanach wybranych zmiennych.
+ *
+ */
 void SYS_SendFeedback(char Mask);
 
+/*! \brief		Ustala stan pracy przekazany przez użytkowika.
+ *  \param [in]	Maks	Maska dla wyptowadzeń.
+ *  \return		Powodzenie operacji.
+ *
+ * Wysyła do użytkownika informację o napięciu na wybranym czujniku.
+ *
+ */
 int SYS_SetStatus(char Mask);
 
+/*! \brief		Wykonuje skrypt.
+ *  \param [in]	Buffer	Skrypt do wykonania.
+ *
+ * Wykonuje zadany skrypt.
+ *
+ */
 void SYS_Evaluate(KLString& Buffer);
 
+/*! \brief		Inicjacja uużądzeń.
+ *  \param [in]	Boot Sygnał resetu..
+ *
+ * Inicjuje użądzenie biorąc pod uwagę przyczynę resetu.
+ *
+ */
 void SYS_InitDevice(char Boot);
 
 #endif

@@ -23,40 +23,38 @@
 
 #include "KALibs/KALibs.hpp"
 
-#define STR_M(x)		#x
-
 // end of command
-#define EOC			";\n"
-#define RUN			'\n'
+#define EOC			";\n"	//!< Terminator polecenia.
+#define RUN			'\n'		//!< Znak "wykonaj".
 
 // cs pins macros
-#define SHR_CS			PD_5
-#define PGA0_CS		PB_1
-#define PGA1_CS		PB_0
-#define SPI_CS			PD_4
+#define SHR_CS			PD_5		//!< Pin wyprowadzenia CS dla rejestru szeregowego.
+#define PGA0_CS		PB_1		//!< Pin wyprowadzenia CS dla pierwszego wzmacniacza.
+#define PGA1_CS		PB_0		//!< Pin wyprowadzenia CS dla drugiego wzmacniacza.
+#define SPI_CS			PD_4		//!< Pin wyprowadzenia CS dla wyprowadzenia SPI.
 
 // led pins macros
-#define ACT_LED		PD_7
-#define SHR_LED		PD_6
+#define ACT_LED		PD_7		//!< Pin wyprowadzenia diody aktywności programu.
+#define SHR_LED		PD_6		//!< Pin wyprowadzenia diody aktywności wyprowadzeń rejestru szeregowego.
 
 // struct declarations
 struct DEVICE
 {
-	bool Online;
-	bool Master;
-	bool Worker;
-};
+	bool Online;	//!< Użądzenie online.
+	bool Master;	//!< Praca w trybie `master`.
+	bool Worker;	//!< Użądzenie wykonujące skrypt (true - użądzenie, false - użytkownik).
+};				//!< Struktura opisująca stan użądzenia.
 
 struct SHIFT
 {
-	bool Enable;
-	char Values;
-};
+	bool Enable;	//!< Wyprowadzenia aktywne.
+	char Values;	//!< Wyprowadzone dane.
+};				//!< Struktura opisująca stan rejestru szeregowego.
 
 struct PGA
 {
-	char Gain_0;
-	char Gain_1;
-};
+	char Gain_0;	//!< Wzmocnienie pierwszego wzmacniacza.
+	char Gain_1;	//!< Wzmocnienie drugiego wzmacniacza.
+};				//!< Struktura opisująca stan wzmacniaczy operacyjnych.
 
 #endif

@@ -36,7 +36,7 @@
  *
  * Umożliwia wysłanie zapytania o aktualny stan napięć wejściowych przetworników ADC.
  *
- * `call get ID_1 [,ID_1[, ...]]; # pobiera dane z wymienionych czujników.
+ * `call get ID_1 [, ID_1[, ...]]; # pobiera dane z wymienionych czujników.
  *
  */
 double get(KLVariables& Vars);
@@ -95,10 +95,42 @@ double out(KLVariables& Vars);
  */
 double sys(KLVariables& Vars);
 
+/*! \brief		Bind funkcji `dev`.
+ *  \param [in]	Vars Przestrzeń zmiennych.
+ *  \return		WRONG_PARAMS w przypadku nieprawidłowej ilości parametrów.
+ *  				WRONG_SYS_CODE w przypadku podania błędnego parametru.
+ *  				0 w przypadku powodzenia operacji.
+ *
+ * Umożliwia modyfikacje stanu połączenia i pracy użądzenia.
+ *
+ * `call dev Polecenie; # wysyła do użądzenia specjalne polecenie mogące zmienić jego stan pracy`
+ *
+ */
 double dev(KLVariables& Vars);
 
+/*! \brief		Bind funkcji `spi`.
+ *  \param [in]	Vars Przestrzeń zmiennych.
+ *  \return		WRONG_PARAMS w przypadku nieprawidłowej ilości parametrów.
+ *  				0 w przypadku powodzenia operacji.
+ *
+ * Umożliwia wysłanie do innego użądzenia danych za pomocą portu SPI. Na wyprowadzeniu SPI dostępntm na obudowie uaktywniony zostanie sygnał CS i wysłane zostaną kolejne bajty danych.
+ *
+ * `call spi Bajt [, Bajt_1[, Bajt 2[, ...]]] ; # wysyła kolejne bajty na wyjście SPI`
+ *
+ */
 double spi(KLVariables& Vars);
 
+/*! \brief		Bind funkcji `slp`.
+ *  \param [in]	Vars Przestrzeń zmiennych.
+ *  \return		WRONG_PARAMS w przypadku nieprawidłowej ilości parametrów.
+ *  				0 w przypadku powodzenia operacji.
+ *  \warning		Zbyt duży czas oczekiwania może spowodować aktywacje mechanizmu `watchdog` i reset mikrokontrolera.
+ *
+ * Umożliwia wstrzymanie pracy na n milisekund.
+ *
+ * `call slp Milisekundy; # wstrzymuje pracę na n milisekund`
+ *
+ */
 double slp(KLVariables& Vars);
 
 #endif
