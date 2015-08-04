@@ -18,51 +18,45 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef AVRTERMINAL_HPP
-#define AVRTERMINAL_HPP
+#ifndef GAINWIDGET_HPP
+#define GAINWIDGET_HPP
 
-#include <QCoreApplication>
-#include <QTextStream>
-#include <QObject>
-#include <QTimer>
+#include <QWidget>
+#include <QMap>
 
-#include <avrbridge.hpp>
+namespace Ui
+{
+	class GainWidget;
+}
 
-#include "terminalreader.hpp"
-
-class AVRTerminal : public QObject
-
+class GainWidget : public QWidget
 {
 
 		Q_OBJECT
 
-	protected:
+	private:
 
-		Terminalreader* Worker;
-		AVRBridge* Device;
-		QTimer* Timeout;
+		static const QMap<unsigned char, unsigned char> GainValues;
 
-		QTextStream Cin;
-		QTextStream Cout;
+		Ui::GainWidget *ui;
 
 	public:
 
-		explicit AVRTerminal(const QString Port);
+		explicit GainWidget(QWidget *Parent = nullptr);
+		virtual ~GainWidget(void) override;
 
-		virtual ~AVRTerminal(void) override;
+	private slots:
+
+		void GainValueChanged(int Index);
 
 	public slots:
 
-		void HandleError(const QString& Error);
+		void GainChanged(unsigned char ID, unsigned char Gain);
 
-		void HandleMessage(const QString& Message);
+	signals:
 
-		void HandleCommand(const QString& Message);
-
-		void HandleConnect(bool Connected);
-
-		void HandleTimeout(void);
+		void onGainChange(unsigned char, unsigned char);
 
 };
 
-#endif // AVRTERMINAL_HPP
+#endif // GAINWIDGET_HPP

@@ -18,51 +18,55 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef AVRTERMINAL_HPP
-#define AVRTERMINAL_HPP
+#ifndef SHIFTWIDGET_HPP
+#define SHIFTWIDGET_HPP
 
-#include <QCoreApplication>
-#include <QTextStream>
-#include <QObject>
-#include <QTimer>
+#include <QDockWidget>
+#include <QCheckBox>
+#include <QWidget>
 
-#include <avrbridge.hpp>
+namespace Ui
+{
+	class ShiftWidget;
+}
 
-#include "terminalreader.hpp"
-
-class AVRTerminal : public QObject
-
+class ShiftWidget : public QWidget
 {
 
 		Q_OBJECT
 
-	protected:
+	private:
 
-		Terminalreader* Worker;
-		AVRBridge* Device;
-		QTimer* Timeout;
+		Ui::ShiftWidget *ui;
 
-		QTextStream Cin;
-		QTextStream Cout;
+		QCheckBox* Pins[8];
 
 	public:
 
-		explicit AVRTerminal(const QString Port);
+		explicit ShiftWidget(QWidget* Parent = nullptr);
+		virtual ~ShiftWidget(void) override;
 
-		virtual ~AVRTerminal(void) override;
+	private slots:
+
+		void EnableAllClicked(void);
+		void DisableAllClicked(void);
+
+		void OutputChanged(bool Enabled);
+		void EnabledChanged(bool Enabled);
 
 	public slots:
 
-		void HandleError(const QString& Error);
+		void ShiftChanged(unsigned char Values);
+		void StatusChanged(bool Enabled);
 
-		void HandleMessage(const QString& Message);
+		void LayoutChanged(Qt::DockWidgetArea Area);
 
-		void HandleCommand(const QString& Message);
+	signals:
 
-		void HandleConnect(bool Connected);
+		void onShiftChanged(unsigned char);
 
-		void HandleTimeout(void);
+		void onEnabledChanged(bool);
 
 };
 
-#endif // AVRTERMINAL_HPP
+#endif // SHIFTWIDGET_HPP

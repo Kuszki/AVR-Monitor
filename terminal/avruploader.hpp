@@ -18,51 +18,46 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef AVRTERMINAL_HPP
-#define AVRTERMINAL_HPP
+#ifndef AVRUPLOADER_HPP
+#define AVRUPLOADER_HPP
 
 #include <QCoreApplication>
 #include <QTextStream>
 #include <QObject>
 #include <QTimer>
+#include <QFile>
 
 #include <avrbridge.hpp>
 
-#include "terminalreader.hpp"
-
-class AVRTerminal : public QObject
-
+class AVRUploader : public QObject
 {
 
 		Q_OBJECT
 
 	protected:
 
-		Terminalreader* Worker;
+		const QString Script;
+
 		AVRBridge* Device;
 		QTimer* Timeout;
 
-		QTextStream Cin;
 		QTextStream Cout;
 
 	public:
 
-		explicit AVRTerminal(const QString Port);
+		explicit AVRUploader(const QString& Port,
+						 const QString& Code);
 
-		virtual ~AVRTerminal(void) override;
+		virtual ~AVRUploader(void) override;
 
 	public slots:
 
-		void HandleError(const QString& Error);
-
-		void HandleMessage(const QString& Message);
-
-		void HandleCommand(const QString& Message);
-
 		void HandleConnect(bool Connected);
+
+		void HandleError(const QString& Error);
 
 		void HandleTimeout(void);
 
 };
 
-#endif // AVRTERMINAL_HPP
+#endif // AVRUPLOADER_HPP

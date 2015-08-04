@@ -27,5 +27,10 @@ Terminalreader::~Terminalreader(void) {}
 
 void Terminalreader::run(void)
 {
-	forever emit onRead(Cin.readLine());
+	forever
+	{
+		msleep(100); Cout << "$ " << flush;
+
+		emit onRead(Cin.readLine());
+	}
 }

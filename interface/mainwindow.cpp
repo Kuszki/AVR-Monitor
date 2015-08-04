@@ -21,13 +21,24 @@
 #include "mainwindow.hpp"
 #include "ui_mainwindow.h"
 
-MainWindow::MainWindow(QWidget *parent)
-: QMainWindow(parent), ui(new Ui::MainWindow)
+MainWindow::MainWindow(QWidget* Parent)
+: QMainWindow(Parent), ui(new Ui::MainWindow)
 {
 	ui->setupUi(this);
+
+	QSettings INI("layout.ini", QSettings::IniFormat);
+
+	restoreState(INI.value("layout").toByteArray(), 1);
+
+	connect(ui->shiftDock, SIGNAL(dockLocationChanged(Qt::DockWidgetArea)),
+		   ui->shiftWidget, SLOT(LayoutChanged(Qt::DockWidgetArea)));
 }
 
-MainWindow::~MainWindow()
+MainWindow::~MainWindow(void)
 {
+	QSettings INI("layout.ini", QSettings::IniFormat);
+
+	INI.setValue("layout", saveState(1));
+
 	delete ui;
 }

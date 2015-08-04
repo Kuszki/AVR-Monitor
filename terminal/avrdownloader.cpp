@@ -18,24 +18,19 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include "avrterminal.hpp"
+#include "avrdownloader.hpp"
 
-#include <QDebug>
-
-AVRTerminal::AVRTerminal(const QString Port)
-: QObject(QCoreApplication::instance()), Cin(stdin), Cout(stdout)
+AVRDownloader::AVRDownloader(const QString& Port, const QString& Out)
+: QObject(QCoreApplication::instance()), Script(Out), Cout(stdout)
 {
 	Device = new AVRBridge(this);
-	Worker = new Terminalreader(this);
 	Timeout = new QTimer(this);
 
 	connect(Device, SIGNAL(onError(const QString&)), SLOT(HandleError(const QString&)));
 	connect(Device, SIGNAL(onConnectionUpdate(bool)), SLOT(HandleConnect(bool)));
+	connect(Device, SIGNAL(onMasterScriptReceive(const QString&)), SLOT(HandleMessage(const QString&)));
 
 	connect(Timeout, SIGNAL(timeout()), SLOT(HandleTimeout()));
-
-	connect(Device, SIGNAL(onMessageReceive(const QString&)), SLOT(HandleMessage(const QString&)));
-	connect(Worker, SIGNAL(onRead(const QString&)), SLOT(HandleCommand(const QString&)));
 
 	Timeout->setSingleShot(true);
 	Timeout->setInterval(3000);
@@ -46,36 +41,24 @@ AVRTerminal::AVRTerminal(const QString Port)
 	Cout << tr("Waiting 3 seconds for connection...\n") << flush;
 }
 
-AVRTerminal::~AVRTerminal(void)
-{
-	Worker->terminate();
-}
+AVRDownloader::~AVRDownloader(void) {}
 
-void AVRTerminal::HandleError(const QString& Error)
+void AVRDownloader::HandleError(const QString& Error)
 {
 	Cout << Error << "\n" << flush;
 }
 
-void AVRTerminal::HandleMessage(const QString& Message)
-{
-	Cout << Message << "\n" << flush;
-}
-
-void AVRTerminal::HandleCommand(const QString& Message)
-{
-	if (!Message.isEmpty()) Device->Command(Message);
-}
-
-void AVRTerminal::HandleConnect(bool Connected)
+void AVRDownloader::HandleConnect(bool Connected)
 {
 	if (Connected)
 	{
 		Cout << tr("Connected after %n milisecond(s).\n", 0,
-				 Timeout->interval() - Timeout->remainingTime() + 100)
+				 (Timeout->interval() - Timeout->remainingTime()))
 			<< flush;
 
 		Timeout->stop();
-		Worker->start();
+
+		Device->ReadMasterScript();
 	}
 	else
 	{
@@ -85,9 +68,22 @@ void AVRTerminal::HandleConnect(bool Connected)
 	}
 }
 
-void AVRTerminal::HandleTimeout(void)
+void AVRDownloader::HandleMessage(const QString& Message)
+{
+	Cout << Message << flush;
+
+	QFile File(Script);
+
+	File.open(QFile::WriteOnly);
+	File.write(Message.toUtf8());
+
+	QCoreApplication::quit();
+}
+
+void AVRDownloader::HandleTimeout(void)
 {
 	HandleError(tr("Cannot connect to device - connection timeout."));
 
 	QCoreApplication::exit(-1);
 }
+

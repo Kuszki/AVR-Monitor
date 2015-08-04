@@ -18,51 +18,47 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef AVRTERMINAL_HPP
-#define AVRTERMINAL_HPP
+#include "gainwidget.hpp"
+#include "ui_gainwidget.h"
 
-#include <QCoreApplication>
-#include <QTextStream>
-#include <QObject>
-#include <QTimer>
-
-#include <avrbridge.hpp>
-
-#include "terminalreader.hpp"
-
-class AVRTerminal : public QObject
-
+const QMap<unsigned char, unsigned char> GainWidget::GainValues =
 {
-
-		Q_OBJECT
-
-	protected:
-
-		Terminalreader* Worker;
-		AVRBridge* Device;
-		QTimer* Timeout;
-
-		QTextStream Cin;
-		QTextStream Cout;
-
-	public:
-
-		explicit AVRTerminal(const QString Port);
-
-		virtual ~AVRTerminal(void) override;
-
-	public slots:
-
-		void HandleError(const QString& Error);
-
-		void HandleMessage(const QString& Message);
-
-		void HandleCommand(const QString& Message);
-
-		void HandleConnect(bool Connected);
-
-		void HandleTimeout(void);
-
+	{0, 1},
+	{1, 2},
+	{2, 4},
+	{3, 5},
+	{4, 8},
+	{5, 10},
+	{6, 16},
+	{7, 32}
 };
 
-#endif // AVRTERMINAL_HPP
+GainWidget::GainWidget(QWidget* Parent)
+: QWidget(Parent), ui(new Ui::GainWidget)
+{
+	ui->setupUi(this);
+}
+
+GainWidget::~GainWidget(void)
+{
+	delete ui;
+}
+
+void GainWidget::GainValueChanged(int Index)
+{
+	if (sender() == ui->gainValue_0) emit onGainChange(0, GainValues.value(Index, 1));
+	else if (sender() == ui->gainValue_1) emit onGainChange(1, GainValues.value(Index, 1));
+}
+
+void GainWidget::GainChanged(unsigned char ID, unsigned char Gain)
+{
+	switch (ID)
+	{
+		case 0:
+			ui->gainValue_0->setCurrentIndex(GainValues.key(Gain, 0));
+		break;
+		case 1:
+			ui->gainValue_1->setCurrentIndex(GainValues.key(Gain, 0));
+		break;
+	}
+}

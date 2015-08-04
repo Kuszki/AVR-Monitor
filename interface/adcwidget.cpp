@@ -18,51 +18,44 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef AVRTERMINAL_HPP
-#define AVRTERMINAL_HPP
+#include "adcwidget.hpp"
+#include "ui_adcwidget.h"
 
-#include <QCoreApplication>
-#include <QTextStream>
-#include <QObject>
-#include <QTimer>
-
-#include <avrbridge.hpp>
-
-#include "terminalreader.hpp"
-
-class AVRTerminal : public QObject
-
+AdcWidget::AdcWidget(QWidget* Parent)
+: QWidget(Parent), ui(new Ui::AdcWidget)
 {
+	ui->setupUi(this);
 
-		Q_OBJECT
+	for (int i = 0; i < 6; i++)
+	{
+		QHBoxLayout* layout = new QHBoxLayout();
 
-	protected:
+		QLabel* name = new QLabel(tr("ADC %1").arg(i), this);
+		QLabel* value = new QLabel("0", this);
+		QLabel* unit = new QLabel("V", this);
 
-		Terminalreader* Worker;
-		AVRBridge* Device;
-		QTimer* Timeout;
+		value->setAlignment(Qt::AlignRight);
+		unit->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Preferred);
 
-		QTextStream Cin;
-		QTextStream Cout;
+		layout->addWidget(name);
+		layout->addWidget(value);
+		layout->addWidget(unit);
 
-	public:
+		ui->layoutConverters->addLayout(layout);
 
-		explicit AVRTerminal(const QString Port);
+		Values[i] = value;
 
-		virtual ~AVRTerminal(void) override;
+		connect(this, SIGNAL(destroyed()),
+			   layout, SLOT(deleteLater()));
+	}
+}
 
-	public slots:
+void AdcWidget::ValuesUpdated(const KLVariables& Vars)
+{
+	if (Vars.Size() == 6) for (const auto& Var: Vars) Values[Var.ID[1]]->setText(QString::number(Var.Value.ToNumber()));
+}
 
-		void HandleError(const QString& Error);
-
-		void HandleMessage(const QString& Message);
-
-		void HandleCommand(const QString& Message);
-
-		void HandleConnect(bool Connected);
-
-		void HandleTimeout(void);
-
-};
-
-#endif // AVRTERMINAL_HPP
+AdcWidget::~AdcWidget(void)
+{
+	delete ui;
+}

@@ -18,51 +18,46 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef AVRTERMINAL_HPP
-#define AVRTERMINAL_HPP
+#ifndef SYSTEMWIDGET_HPP
+#define SYSTEMWIDGET_HPP
 
-#include <QCoreApplication>
-#include <QTextStream>
-#include <QObject>
-#include <QTimer>
+#include <QWidget>
 
-#include <avrbridge.hpp>
+namespace Ui
+{
+	class SystemWidget;
+}
 
-#include "terminalreader.hpp"
-
-class AVRTerminal : public QObject
-
+class SystemWidget : public QWidget
 {
 
 		Q_OBJECT
 
-	protected:
+	private:
 
-		Terminalreader* Worker;
-		AVRBridge* Device;
-		QTimer* Timeout;
-
-		QTextStream Cin;
-		QTextStream Cout;
+		Ui::SystemWidget *ui;
 
 	public:
 
-		explicit AVRTerminal(const QString Port);
-
-		virtual ~AVRTerminal(void) override;
+		explicit SystemWidget(QWidget* Parent = nullptr);
+		virtual ~SystemWidget(void) override;
 
 	public slots:
 
-		void HandleError(const QString& Error);
+		void UpdateLink(bool Online);
 
-		void HandleMessage(const QString& Message);
+		void UpdateStatus(bool Master);
 
-		void HandleCommand(const QString& Message);
+		void UpdateShiftValues(unsigned char Values);
 
-		void HandleConnect(bool Connected);
+		void UpdateShiftStatus(bool Active);
 
-		void HandleTimeout(void);
+		void UpdateGainValue(unsigned char ID, unsigned char Gain);
+
+		void UpdateFreeRam(unsigned Value);
+
+		void UpdateInterval(double Value);
 
 };
 
-#endif // AVRTERMINAL_HPP
+#endif // SYSTEMWIDGET_HPP

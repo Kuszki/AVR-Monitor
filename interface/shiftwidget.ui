@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ShiftWidget</class>
+ <widget class="QWidget" name="ShiftWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>197</width>
+    <height>95</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Shift register</string>
+  </property>
+  <layout class="QVBoxLayout" name="layoutWidget">
+   <item>
+    <layout class="QVBoxLayout" name="layoutPins"/>
+   </item>
+   <item>
+    <layout class="QGridLayout" name="gridLayout">
+     <item row="1" column="0">
+      <widget class="QPushButton" name="shiftEnable">
+       <property name="text">
+        <string>Enable all</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QPushButton" name="shiftDisable">
+       <property name="text">
+        <string>Disable all</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0" colspan="2">
+      <widget class="QCheckBox" name="shiftActive">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>Output enabled</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>shiftEnable</sender>
+   <signal>clicked()</signal>
+   <receiver>ShiftWidget</receiver>
+   <slot>EnableAllClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>205</x>
+     <y>301</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>455</x>
+     <y>298</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>shiftDisable</sender>
+   <signal>clicked()</signal>
+   <receiver>ShiftWidget</receiver>
+   <slot>DisableAllClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>258</x>
+     <y>336</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>363</x>
+     <y>338</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>shiftActive</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>ShiftWidget</receiver>
+   <slot>EnabledChanged(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>90</x>
+     <y>305</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>88</x>
+     <y>482</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>EnableAllClicked()</slot>
+  <slot>DisableAllClicked()</slot>
+  <slot>EnabledChanged(bool)</slot>
+ </slots>
+</ui>

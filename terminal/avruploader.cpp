@@ -18,24 +18,18 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include "avrterminal.hpp"
+#include "avruploader.hpp"
 
-#include <QDebug>
-
-AVRTerminal::AVRTerminal(const QString Port)
-: QObject(QCoreApplication::instance()), Cin(stdin), Cout(stdout)
+AVRUploader::AVRUploader(const QString& Port, const QString& Code)
+: QObject(QCoreApplication::instance()), Script(Code), Cout(stdout)
 {
 	Device = new AVRBridge(this);
-	Worker = new Terminalreader(this);
 	Timeout = new QTimer(this);
 
 	connect(Device, SIGNAL(onError(const QString&)), SLOT(HandleError(const QString&)));
 	connect(Device, SIGNAL(onConnectionUpdate(bool)), SLOT(HandleConnect(bool)));
 
 	connect(Timeout, SIGNAL(timeout()), SLOT(HandleTimeout()));
-
-	connect(Device, SIGNAL(onMessageReceive(const QString&)), SLOT(HandleMessage(const QString&)));
-	connect(Worker, SIGNAL(onRead(const QString&)), SLOT(HandleCommand(const QString&)));
 
 	Timeout->setSingleShot(true);
 	Timeout->setInterval(3000);
@@ -46,36 +40,37 @@ AVRTerminal::AVRTerminal(const QString Port)
 	Cout << tr("Waiting 3 seconds for connection...\n") << flush;
 }
 
-AVRTerminal::~AVRTerminal(void)
-{
-	Worker->terminate();
-}
+AVRUploader::~AVRUploader(void) {}
 
-void AVRTerminal::HandleError(const QString& Error)
+void AVRUploader::HandleError(const QString& Error)
 {
 	Cout << Error << "\n" << flush;
 }
 
-void AVRTerminal::HandleMessage(const QString& Message)
-{
-	Cout << Message << "\n" << flush;
-}
-
-void AVRTerminal::HandleCommand(const QString& Message)
-{
-	if (!Message.isEmpty()) Device->Command(Message);
-}
-
-void AVRTerminal::HandleConnect(bool Connected)
+void AVRUploader::HandleConnect(bool Connected)
 {
 	if (Connected)
 	{
 		Cout << tr("Connected after %n milisecond(s).\n", 0,
-				 Timeout->interval() - Timeout->remainingTime() + 100)
+				 (Timeout->interval() - Timeout->remainingTime()))
 			<< flush;
 
 		Timeout->stop();
-		Worker->start();
+
+		QFile Inputfile(Script);
+		Inputfile.open(QFile::ReadOnly);
+
+		if (Inputfile.isOpen())
+		{
+			Cout << tr("Uploading script from file...\n") << flush;
+
+			Device->WriteMasterScript(Inputfile.readAll());
+
+			Cout << tr("Upload complete\n") << flush;
+		}
+		else emit HandleError(tr("Can't open provided file"));
+
+		QCoreApplication::exit(0);
 	}
 	else
 	{
@@ -85,7 +80,7 @@ void AVRTerminal::HandleConnect(bool Connected)
 	}
 }
 
-void AVRTerminal::HandleTimeout(void)
+void AVRUploader::HandleTimeout(void)
 {
 	HandleError(tr("Cannot connect to device - connection timeout."));
 

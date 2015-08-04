@@ -50,6 +50,9 @@ int main(void)
 	// setup input buffers
 	KLString Serial, Master;
 
+	// setup sleep timer
+	char Sleep = 0;
+
 	// global system init
 	SYS_InitDevice(Reboot_Code);
 
@@ -67,6 +70,7 @@ int main(void)
 
 		// enter master device loop
 		if (Monitor.Master)
+		if (!Sleep)
 		{
 			Flash.SetAdress(0);
 
@@ -82,7 +86,7 @@ int main(void)
 
 			if (Flash.GetAdress() == 1)
 			{
-				SYS_SetStatus(WORK_SLAVE);
+				SYS_SetStatus(DEV_MASTER, false);
 			}
 			else if (Monitor.Online)
 			{
@@ -90,6 +94,12 @@ int main(void)
 			}
 
 			Script.Variables.Clean();
+
+			Sleep = Monitor.Sleep;
+		}
+		else
+		{
+			_delay_ms(100); --Sleep;
 		}
 
 	}

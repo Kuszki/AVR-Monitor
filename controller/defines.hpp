@@ -24,37 +24,44 @@
 #include "KALibs/KALibs.hpp"
 
 // end of command
-#define EOC			";\n"	//!< Terminator polecenia.
-#define RUN			'\n'		//!< Znak "wykonaj".
+#define EOC			";\n"			//!< Terminator polecenia.
+#define RUN			'\n'				//!< Znak "wykonaj".
 
 // cs pins macros
-#define SHR_CS			PD_5		//!< Pin wyprowadzenia CS dla rejestru szeregowego.
-#define PGA0_CS		PB_1		//!< Pin wyprowadzenia CS dla pierwszego wzmacniacza.
-#define PGA1_CS		PB_0		//!< Pin wyprowadzenia CS dla drugiego wzmacniacza.
-#define SPI_CS			PD_4		//!< Pin wyprowadzenia CS dla wyprowadzenia SPI.
+#define SHR_CS			PD_5				//!< Pin wyprowadzenia CS dla rejestru szeregowego.
+#define PGA0_CS		PB_1				//!< Pin wyprowadzenia CS dla pierwszego wzmacniacza.
+#define PGA1_CS		PB_0				//!< Pin wyprowadzenia CS dla drugiego wzmacniacza.
+#define SPI_CS			PD_4				//!< Pin wyprowadzenia CS dla wyprowadzenia SPI.
 
 // led pins macros
-#define ACT_LED		PD_7		//!< Pin wyprowadzenia diody aktywności programu.
-#define SHR_LED		PD_6		//!< Pin wyprowadzenia diody aktywności wyprowadzeń rejestru szeregowego.
+#define ACT_LED		PD_7				//!< Pin wyprowadzenia diody aktywności programu.
+#define SHR_LED		PD_6				//!< Pin wyprowadzenia diody aktywności wyprowadzeń rejestru szeregowego.
+
+#define ERROR_MSK		0b11000000		//!< Maska błędu przy aktywacji watchdoga.
+#define SLEEP_MSK		0b00111111		//!< Maska czasu oczekiwania pomiędzy iteracjami.
+
+#define ADC_COUNT		6				//!< Liczba przetworników ADC.
 
 // struct declarations
 struct DEVICE
 {
-	bool Online;	//!< Użądzenie online.
-	bool Master;	//!< Praca w trybie `master`.
-	bool Worker;	//!< Użądzenie wykonujące skrypt (true - użądzenie, false - użytkownik).
-};				//!< Struktura opisująca stan użądzenia.
+	char Sleep;		//!< Czas oczekiwania pomiędzy kolejnymi iteracjami skryptu (x100 ms).
+
+	bool Online;		//!< Urządzenie online.
+	bool Master;		//!< Praca w trybie `master`.
+	bool Worker;		//!< Urządzenie wykonujące skrypt (true - użądzenie, false - użytkownik).
+};					//!< Struktura opisująca stan urządzenia.
 
 struct SHIFT
 {
-	bool Enable;	//!< Wyprowadzenia aktywne.
-	char Values;	//!< Wyprowadzone dane.
-};				//!< Struktura opisująca stan rejestru szeregowego.
+	bool Enable;		//!< Wyprowadzenia aktywne.
+	char Values;		//!< Wyprowadzone dane.
+};					//!< Struktura opisująca stan rejestru szeregowego.
 
 struct PGA
 {
-	char Gain_0;	//!< Wzmocnienie pierwszego wzmacniacza.
-	char Gain_1;	//!< Wzmocnienie drugiego wzmacniacza.
-};				//!< Struktura opisująca stan wzmacniaczy operacyjnych.
+	char Gain_0;		//!< Wzmocnienie pierwszego wzmacniacza.
+	char Gain_1;		//!< Wzmocnienie drugiego wzmacniacza.
+};					//!< Struktura opisująca stan wzmacniaczy operacyjnych.
 
 #endif

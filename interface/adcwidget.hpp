@@ -18,51 +18,40 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef AVRTERMINAL_HPP
-#define AVRTERMINAL_HPP
+#ifndef ADCWIDGET_HPP
+#define ADCWIDGET_HPP
 
-#include <QCoreApplication>
-#include <QTextStream>
-#include <QObject>
-#include <QTimer>
+#include <QHBoxLayout>
+#include <QWidget>
+#include <QLabel>
 
-#include <avrbridge.hpp>
+#include <KLLibs.hpp>
 
-#include "terminalreader.hpp"
+namespace Ui
+{
+	class AdcWidget;
+}
 
-class AVRTerminal : public QObject
-
+class AdcWidget : public QWidget
 {
 
 		Q_OBJECT
 
-	protected:
+	private:
 
-		Terminalreader* Worker;
-		AVRBridge* Device;
-		QTimer* Timeout;
+		Ui::AdcWidget *ui;
 
-		QTextStream Cin;
-		QTextStream Cout;
+		QLabel* Values[6];
 
 	public:
 
-		explicit AVRTerminal(const QString Port);
-
-		virtual ~AVRTerminal(void) override;
+		explicit AdcWidget(QWidget* Parent = nullptr);
+		virtual ~AdcWidget(void) override;
 
 	public slots:
 
-		void HandleError(const QString& Error);
-
-		void HandleMessage(const QString& Message);
-
-		void HandleCommand(const QString& Message);
-
-		void HandleConnect(bool Connected);
-
-		void HandleTimeout(void);
+		void ValuesUpdated(const KLVariables& Vars);
 
 };
 
-#endif // AVRTERMINAL_HPP
+#endif // ADCWIDGET_HPP

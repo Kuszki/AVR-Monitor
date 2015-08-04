@@ -25,30 +25,63 @@
 AVRBridge::AVRBridge(QObject* Parent)
 : QObject(Parent)
 {
-	Script = new KLScriptbinding(this);
+	Script = new KLScriptbinding(this, &Sensors);
 	Serial = new QSerialPort(this);
 
-	Script->Variables.Add("ADC0", KLVariables::NUMBER);
-	Script->Variables.Add("ADC1", KLVariables::NUMBER);
-	Script->Variables.Add("ADC2", KLVariables::NUMBER);
-	Script->Variables.Add("ADC3", KLVariables::NUMBER);
-	Script->Variables.Add("ADC4", KLVariables::NUMBER);
-	Script->Variables.Add("ADC5", KLVariables::NUMBER);
+	Sensors.Add("V0", KLVariables::NUMBER);
+	Sensors.Add("V1", KLVariables::NUMBER);
+	Sensors.Add("V2", KLVariables::NUMBER);
+	Sensors.Add("V3", KLVariables::NUMBER);
+	Sensors.Add("V4", KLVariables::NUMBER);
+	Sensors.Add("V5", KLVariables::NUMBER);
 
-	Script->Variables.Add("SHRD", KLVariables::INTEGER);
-	Script->Variables.Add("SHRE", KLVariables::BOOLEAN);
-	Script->Variables.Add("PGA0", KLVariables::INTEGER);
-	Script->Variables.Add("PGA1", KLVariables::INTEGER);
-	Script->Variables.Add("WORK", KLVariables::BOOLEAN);
-	Script->Variables.Add("LINE", KLVariables::BOOLEAN);
-	Script->Variables.Add("FRAM", KLVariables::BOOLEAN);
+	Script->Variables.Add("LINE", KLVariables::BOOLEAN, [this] (double Value) -> void
+	{
+		if (Connection != bool(Value)) emit onConnectionUpdate(Connection = bool(Value));
+	});
+
+	Script->Variables.Add("WORK", KLVariables::BOOLEAN, [this] (double Value) -> void
+	{
+		emit onMasterStatusUpdate(bool(Value));
+	});
+
+	Script->Variables.Add("SHRD", KLVariables::INTEGER, [this] (double Value) -> void
+	{
+		emit onShiftValuesUpdate((unsigned char)(Value));
+	});
+
+	Script->Variables.Add("SHRE", KLVariables::BOOLEAN, [this] (double Value) -> void
+	{
+		emit onShiftStatusUpdate(bool(Value));
+	});
+	Script->Variables.Add("PGA0", KLVariables::INTEGER, [this] (double Value) -> void
+	{
+		emit onGainSettingsUpdate(0, (unsigned char)(Value));
+	});
+
+	Script->Variables.Add("PGA1", KLVariables::INTEGER, [this] (double Value) -> void
+	{
+		emit onGainSettingsUpdate(1, (unsigned char)(Value));
+	});
+
+	Script->Variables.Add("FRAM", KLVariables::BOOLEAN, [this] (double Value) -> void
+	{
+		emit onFreeRamUpdate(unsigned(Value));
+	});
+
+	Script->Bindings.Add("set", [this] (KLVariables& Vars) -> double
+	{
+		for (int i = 0; i < 6; i++) Sensors[KLString('V') + i] = Vars[i].ToNumber();
+
+		emit onSensorsUpdate(Sensors);
+
+		return 0;
+	});
 
 	Serial->setBaudRate(QSerialPort::Baud57600);
 	Serial->setParity(QSerialPort::NoParity);
 	Serial->setStopBits(QSerialPort::OneStop);
 	Serial->setDataBits(QSerialPort::Data8);
-
-	Buffer.reserve(256);
 
 	connect(Serial, SIGNAL(readyRead()), SLOT(ReadData()));
 	connect(Script, SIGNAL(onEvaluate(double)), SLOT(GetResoult(double)));
@@ -57,42 +90,51 @@ AVRBridge::AVRBridge(QObject* Parent)
 
 AVRBridge::~AVRBridge(void)
 {
-	if (Script->Variables["LINE"].ToBool()) Disconnect();
+	if (IsConnected()) Disconnect();
 }
 
 void AVRBridge::ReadData(void)
 {
-	static bool Emited = false;
-
-	char c; while (Serial->getChar(&c)) switch (c)
+	char c; while (Serial->getChar(&c))
+	switch (c)
 	{
+		case '\n':
+		{
+			Buffer[Buffindex] = 0; Buffindex = 0;
 
-		case '\a':
+			QString Command = QString::fromUtf8(Buffer);
 
-			Script->SetCode(Buffer);
-			Script->Evaluate();
+			if (Command.startsWith('#'))
+			{
+				if (Command == SOS) Downloading = true;
+				else if (Command == EOS)
+				{
+					emit onMasterScriptReceive(Input);
 
-			if (!Emited) {emit onConnected(); Emited = true;}
+					Downloading = false; Input.clear();
+				}
+			}
+			else if (Downloading)
+			{
+				Input.append(Buffer);
+				Input.append('\n');
+			}
+			else
+			{
+				Script->SetCode(Command);
+				Script->Evaluate();
+			}
 
-			emit onMessageReceive(Buffer);
-
-			Buffer.clear();
-
+			emit onMessageReceive(Command);
+		}
 		break;
 
-		default: Buffer.append(c);
+		default: Buffer[Buffindex++] = c;
 	}
 }
 
 void AVRBridge::GetResoult(double Value)
 {
-	if (!Script->Variables["LINE"].ToBool())
-	{
-		emit onDisconnected();
-
-		Serial->close();
-	}
-
 	switch (int(Value))
 	{
 		case WRONG_SCRIPT:
@@ -120,8 +162,6 @@ void AVRBridge::GetResoult(double Value)
 			emit onError(tr("Wrong system status."));
 		break;
 	}
-
-	emit onVariablesUpdate(&Script->Variables);
 }
 
 const KLVariables& AVRBridge::Variables(void) const
@@ -129,26 +169,13 @@ const KLVariables& AVRBridge::Variables(void) const
 	return Script->Variables;
 }
 
-bool AVRBridge::Connected(void)
-{
-	if (Script->Variables["LINE"].ToBool() != Serial->isOpen())
-	{
-		emit onError(tr("Device disconnected without information"));
-
-		Script->Variables["LINE"] = false;
-
-		emit onDisconnected();
-	}
-
-	return Script->Variables["LINE"].ToBool() && Serial->isOpen();
-}
-
 void AVRBridge::Command(const QString& Message)
 {
-	if (!Connected()) emit onError(tr("Serial or device not connected"));
+	if (!IsConnected()) emit onError(tr("Serial or device not connected"));
 	{
-		Serial->write(Message.toStdString().c_str());
+		Serial->write(Message.toUtf8());
 		Serial->write("\n");
+		Serial->flush();
 
 		emit onMessageSend(Message);
 	}
@@ -164,7 +191,7 @@ void AVRBridge::Connect(const QString& Port)
 		if (!Serial->open(QIODevice::ReadWrite)) emit onError(tr("Can not open serial - ") + Serial->errorString());
 		else
 		{
-			Serial->write("call dev 2;\n");
+			Serial->write(QString("call dev %1,1;\n").arg(DEV_LINE).toUtf8());
 			Serial->flush();
 		}
 	}
@@ -175,51 +202,99 @@ void AVRBridge::Disconnect(void)
 	if (!Serial->isOpen()) emit onError(tr("Serial not connected"));
 	else
 	{
-		Serial->write("call dev 1;\n");
+		Serial->write(QString("call dev %1,0;\n").arg(DEV_LINE).toUtf8());
 		Serial->flush();
+
+		Script->Variables["LINE"] = false;
 	}
 }
 
+bool AVRBridge::IsConnected(void)
+{
+	if (Script->Variables["LINE"].ToBool() != Serial->isOpen())
+	{
+		emit onError(tr("Device disconnected without information"));
+
+		Script->Variables["LINE"] = false;
+	}
+
+	return Script->Variables["LINE"].ToBool() && Serial->isOpen();
+}
+
+
 void AVRBridge::UpdateSensorVariables(void)
 {
-	Command("call get 0,1,2,3,4,5;\n");
+	Command("call get 0,1,2,3,4,5;");
 }
 
 void AVRBridge::UpdateSystemVariables(void)
 {
-	Command("call sys;\n");
+	Command("call sys;");
 }
 
 void AVRBridge::WriteGainSettings(unsigned char ID, unsigned char Gain)
 {
-	Command(QString("call pga %1, %2;\n").arg(ID).arg(Gain));
+	Command(QString("call pga %1, %2;").arg(ID).arg(Gain));
 }
 
 void AVRBridge::WriteShiftValues(unsigned char Values)
 {
-	Command(QString("call put %1;\n").arg(Values));
+	Command(QString("call put %1;").arg(Values));
 }
 
 void AVRBridge::WriteShiftStatus(bool Enabled)
 {
-	Command(QString("call out %1;\n").arg(Enabled));
+	Command(QString("call out %1;").arg(Enabled));
 }
 
 void AVRBridge::WriteMasterStatus(bool Master)
 {
-	Command(QString("call dev %1;\n").arg(Master ? 8 : 4));
+	Command(QString("call dev %1,%2;").arg(DEV_MASTER).arg(Master));
 }
 
 void AVRBridge::WriteMasterScript(const QString& Code)
 {
-	if (!Connected() || Script->Variables["WORK"].ToBool()) emit onError(tr("Cannot upload master script"));
+	if (!IsConnected() || Script->Variables["WORK"].ToBool()) emit onError(tr("Cannot upload master script"));
 	else
 	{
-		const char START[] = {1, 0};
-		const char STOP[] = {4, 0};
+		Serial->write(QString("call dev %1,0;\n").arg(DEV_SCRIPT).toUtf8());
 
-		Serial->write(START);
-		Serial->write(Code.toStdString().c_str());
-		Serial->write(STOP);
+		for (const char Char: Code.trimmed().toUtf8())
+		{
+			Serial->putChar(Char);
+			Serial->flush();
+
+			thread()->msleep(5);
+		}
+
+		thread()->msleep(5);
+
+		Serial->write("\n\0", 2);
+		Serial->flush();
+
+		thread()->msleep(5);
 	}
+}
+
+void AVRBridge::ReadMasterScript(void)
+{
+	if (!IsConnected()) emit onError(tr("Serial or device not connected"));
+	else if (Script->Variables["WORK"].ToBool()) emit onError(tr("Device is working as master"));
+	{
+		Serial->write(QString("call dev %1,1;\n").arg(DEV_SCRIPT).toUtf8());
+		Serial->flush();
+	}
+}
+
+bool AVRBridge::ConnectSensorEvent(const QString& Name, const boost::function<void (double)>& Callback)
+{
+	const KLString Sensor = Name.toStdString().c_str();
+
+	if (Sensors.Exists(Sensor))
+	{
+		Sensors[Sensor].SetCallback(Callback);
+	}
+	else return false;
+
+	return true;
 }

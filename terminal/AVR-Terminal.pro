@@ -24,10 +24,12 @@ INCLUDEPATH	+=	/home/kuszki/Projekty/AVR-Monitor/bridge
 SOURCES	+=	main.cpp \
 			avrterminal.cpp \
 			terminalreader.cpp \
-   # signalhandler.cpp
+			avruploader.cpp \
+			avrdownloader.cpp
 
 HEADERS	+=	avrterminal.hpp \
 			terminalreader.hpp \
-   # signalhandler.hpp
+			avruploader.hpp \
+			avrdownloader.hpp
 
 QMAKE_CXXFLAGS	+=	-s -fomit-frame-pointer -march=native

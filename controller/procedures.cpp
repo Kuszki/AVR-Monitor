@@ -22,32 +22,39 @@
 
 const char get_INFOSTR[] PROGMEM =
 "\n\
-# AVR-Monitor device;   Controller program v1.0\n\
+# AVR-Monitor device;   Controller program v1.6\n\
 # Copyright (C) 2015     Łukasz \"Kuszki\" Dróżdż\n\
 #\n\
-# Web:    https://github.com/Kuszki/AVR-Monitor\n\
-# Built:                   " __DATE__ " " __TIME__ "\n\
-# Tools:                  GNU GCC version " __VERSION__ "\n\
-# System:     Debian 8 GNU/Linux 3.16.0-4-amd64\n\
-# Params:        -O3 -std=c++11 -fno-rtti -Wall\n\
-# Watchdog:       on every evaluation for 8 sec\n\
-# Program size:        29344 bytes (89.6% Full)\n\
-# Data size:             507 bytes (24.8% Full)\n\
+# Info at https://github.com/Kuszki/AVR-Monitor\n\
+#\n\
+# Release date:            " __DATE__ " " __TIME__ "\n\
+# Used tools:         GNU AVR-GCC version " __VERSION__ "\n\
+# Built on:   Debian 8 GNU/Linux 3.16.0-4-amd64\n\
+# GCC flags:    -O3 -mmcu=atmega328p -std=c++11\n\
+# Watchdog set:   on every evaluation for 8 sec\n\
+#\n\
+# Program size:        29734 bytes (90.7% Full)\n\
+# Data size:             508 bytes (24.8% Full)\n\
 \n";
 
 const char get_GAINS[] PROGMEM 	= { 0b000, 0b001, 0b010, 0b011, 0b100, 0b101, 0b110, 0b111, 0b11110000 };
 
 const char get_RETURN[] PROGMEM	= "return ";
 
+const char get_LINE[] PROGMEM		= "set LINE ";
+const char get_WORK[] PROGMEM		= "set WORK ";
 const char get_SHRD[] PROGMEM		= "set SHRD ";
 const char get_SHRE[] PROGMEM		= "set SHRE ";
 const char get_PGA0[] PROGMEM		= "set PGA0 ";
 const char get_PGA1[] PROGMEM		= "set PGA1 ";
-const char get_WORK[] PROGMEM		= "set WORK ";
-const char get_LINE[] PROGMEM		= "set LINE ";
+const char get_SLPT[] PROGMEM		= "set SLPT ";
 const char get_FRAM[] PROGMEM		= "set FRAM ";
 
+const char get_CALL[] PROGMEM		= "call ";
 const char get_SET[] PROGMEM		= "set ";
+
+const char get_SOS[] PROGMEM		= SOS;
+const char get_EOS[] PROGMEM		= EOS;
 
 const char get_EOC[] PROGMEM		= EOC;
 
@@ -162,65 +169,81 @@ bool ADC_SendFeedback(const KLString& ID)
 	return true;
 }
 
+void ADC_SendSensors(void)
+{
+	char i = 0; UART << PGM_V get_CALL << PGM_V get_SET;
+
+	for (const auto& Var: Inputs)
+	{
+		++i; UART << Var.Value.ToString();
+
+		if (i != ADC_COUNT) UART << ',';
+		else UART << EOC;
+	}
+}
+
 void SYS_SendFeedback(char Mask)
 {
+	if (Mask & GET_LINE) UART << PGM_V get_LINE << int(Monitor.Online)		<< PGM_V get_EOC;
+	if (Mask & GET_WORK) UART << PGM_V get_WORK << int(Monitor.Master)		<< PGM_V get_EOC;
 	if (Mask & GET_SHRD) UART << PGM_V get_SHRD << int(Shift.Values)			<< PGM_V get_EOC;
 	if (Mask & GET_SHRE) UART << PGM_V get_SHRE << int(Shift.Enable)			<< PGM_V get_EOC;
 	if (Mask & GET_PGA0) UART << PGM_V get_PGA0 << int(Gains.Gain_0)			<< PGM_V get_EOC;
 	if (Mask & GET_PGA1) UART << PGM_V get_PGA1 << int(Gains.Gain_1)			<< PGM_V get_EOC;
-	if (Mask & GET_WORK) UART << PGM_V get_WORK << int(Monitor.Master)		<< PGM_V get_EOC;
-	if (Mask & GET_LINE) UART << PGM_V get_LINE << int(Monitor.Online)		<< PGM_V get_EOC;
+	if (Mask & GET_SLPT) UART << PGM_V get_SLPT << int(Monitor.Sleep)		<< PGM_V get_EOC;
 	if (Mask & GET_FRAM) UART << PGM_V get_FRAM << FREE_RAM 				<< PGM_V get_EOC;
 }
 
-int SYS_SetStatus(char Mask)
+int SYS_SetStatus(char Mask, char Value)
 {
 	switch (Mask)
 	{
-		case WORK_OFFLINE:
+		case DEV_LINE:
 
-			Monitor.Online = false;
+			Monitor.Online = Value;
 
-		break;
-
-		case WORK_ONLINE:
-
-			Monitor.Online = true;
-
-			SYS_SendFeedback(GET_ALL);
+			if (Monitor.Online) SYS_SendFeedback(GET_ALL);
 
 		break;
 
-		case WORK_SLAVE:
-		case WORK_MASTER:
+		case DEV_MASTER:
 
-			Monitor.Master = (Mask == WORK_MASTER);
+			Monitor.Master = Value;
 
 			if (Monitor.Online) SYS_SendFeedback(GET_WORK);
 
-			KAOutput::SetState(ACT_LED, Monitor.Master);
+		break;
+		case DEV_SLEEP:
+
+			Monitor.Sleep = Value;
+
+			if (Monitor.Online) SYS_SendFeedback(GET_SLPT);
+
+			KAFlash::Write(1023, Value);
 
 		break;
-		case UPLOAD_CODE:
+		case DEV_SCRIPT:
 
-			Flash.SetAdress(0); do  UART << (Mask = Flash.Read()); while (Mask);
+			Flash.SetAdress(0);
 
-		break;
-		case DOWNLOAD_CODE:
+			if (Value) UART << PGM_V get_SOS << '\n';
 
-			Flash.SetAdress(0); do Flash.Write(Mask = UART.Recv()); while (Mask);
+			if (Value) while (Mask = Flash.Read()) UART << Mask;
+			else do Flash.Write(Mask = UART.Recv()); while (Mask);
 
-		break;
-
-		case CLEAN_RAM:
-
-			Script.Variables.Clean();
+			if (Value) UART << PGM_V get_EOS << '\n';
 
 		break;
 
-		case INFO_STR:
+		case DEV_SPEC:
 
-			UART << PGM_V get_INFOSTR;
+			if (Value == CLEAN_RAM)
+			{
+				Script.Variables.Clean();
+
+				if (Monitor.Online) SYS_SendFeedback(GET_FRAM);
+			}
+			else UART << PGM_V get_INFOSTR;
 
 		break;
 
@@ -232,7 +255,7 @@ int SYS_SetStatus(char Mask)
 
 void SYS_Evaluate(KLString& Buffer)
 {
-	KAOutput::SetState(ACT_LED, !Monitor.Master);
+	KAOutput::SetState(ACT_LED, true);
 
 	for (int i = 0; i < 6; ++i) Analog[i] = KAConverter::GetVoltage(KAConverter::PORT(i));
 
@@ -244,7 +267,7 @@ void SYS_Evaluate(KLString& Buffer)
 
 	if (Monitor.Online && !Monitor.Master) UART << PGM_V get_RETURN << (OK ? Script.GetReturn() : WRONG_SCRIPT) << PGM_V get_EOC;
 
-	KAOutput::SetState(ACT_LED, Monitor.Master);
+	KAOutput::SetState(ACT_LED, false);
 
 	Buffer.Clean();
 }
@@ -282,12 +305,12 @@ void SYS_InitDevice(char Boot)
 	Script.Bindings.Add(BIND(slp));
 
 	// setup adc variables
-	for (char i = 0; i < 6; i++) { Buff[1] = '0' + i; Inputs.Add(Buff, Analog[i]); }
+	for (char i = 0; i < ADC_COUNT; i++) { Buff[1] = '0' + i; Inputs.Add(Buff, Analog[i]); }
 
 	// enable uart
 	UART.Start();
 
-	if (Boot & 0b00001000) switch (KAFlash::Read(1023))
+	switch (KAFlash::Read(1023) & ERROR_MSK)
 	{
 		case MASTER_FROZEN:
 			UART << PGM_V get_RETURN << MASTER_TIMEOUT << PGM_V get_EOC; Monitor.Online = true;
@@ -296,4 +319,6 @@ void SYS_InitDevice(char Boot)
 			UART << PGM_V get_RETURN << REMOTE_TIMEOUT << PGM_V get_EOC; Monitor.Online = true;
 		break;
 	}
+
+	Monitor.Sleep = KAFlash::Read(1023) & SLEEP_MSK;
 }

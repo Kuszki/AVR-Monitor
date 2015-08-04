@@ -84,6 +84,13 @@ char PGA_GetMask(char Gain);
  */
 bool ADC_SendFeedback(const KLString& ID);
 
+/*! \brief		Wysyła do użytkownika stan wszystkich przetworników.
+ *
+ * Wysyła do użytkownika informację o napięciu na wszystkich czujnikach.
+ *
+ */
+void ADC_SendSensors(void);
+
 /*! \brief		Wysyła do użytkownika stan wybranych zmiennych systemowych.
  *  \param [in]	Maks	Maska wyprowadzeń.
  *
@@ -93,13 +100,14 @@ bool ADC_SendFeedback(const KLString& ID);
 void SYS_SendFeedback(char Mask);
 
 /*! \brief		Ustala stan pracy przekazany przez użytkowika.
- *  \param [in]	Maks	Maska dla wyptowadzeń.
+ *  \param [in]	Maks		Polecenie do wykonania.
+ *  \param [in]	Value	Parametr polecenia.
  *  \return		Powodzenie operacji.
  *
  * Wysyła do użytkownika informację o napięciu na wybranym czujniku.
  *
  */
-int SYS_SetStatus(char Mask);
+int SYS_SetStatus(char Mask, char Value);
 
 /*! \brief		Wykonuje skrypt.
  *  \param [in]	Buffer	Skrypt do wykonania.
@@ -109,10 +117,10 @@ int SYS_SetStatus(char Mask);
  */
 void SYS_Evaluate(KLString& Buffer);
 
-/*! \brief		Inicjacja uużądzeń.
+/*! \brief		Inicjacja uurządzeń.
  *  \param [in]	Boot Sygnał resetu..
  *
- * Inicjuje użądzenie biorąc pod uwagę przyczynę resetu.
+ * Inicjuje urządzenie biorąc pod uwagę przyczynę resetu.
  *
  */
 void SYS_InitDevice(char Boot);

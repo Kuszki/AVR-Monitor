@@ -27,6 +27,7 @@
 class Terminalreader : public QThread
 {
 
+
 		Q_OBJECT
 
 	protected:

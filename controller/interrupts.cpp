@@ -39,7 +39,7 @@ void REBOOT_PROC wdt_reboot(void)
 
 ISR(INT0_vect)
 {
-	if (!Monitor.Online) SYS_SetStatus(Monitor.Master ? WORK_SLAVE : WORK_MASTER);
+	if (!Monitor.Online) SYS_SetStatus(DEV_MASTER, !Monitor.Master);
 }
 
 ISR(INT1_vect)
@@ -49,7 +49,7 @@ ISR(INT1_vect)
 
 ISR(WDT_vect)
 {
-	const char Status = (Monitor.Online << 7) | (Monitor.Master << 3) | (Monitor.Worker);
+	const char Status = (KAFlash::Read(1023) & SLEEP_MSK) | (Monitor.Worker << 7) | (Monitor.Online << 6);
 
 	KAFlash::Write(1023, Status);
 }

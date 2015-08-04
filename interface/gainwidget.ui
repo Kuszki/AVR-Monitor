@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>GainWidget</class>
+ <widget class="QWidget" name="GainWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>145</width>
+    <height>86</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QFormLayout" name="formLayout">
+   <item row="0" column="0">
+    <widget class="QLabel" name="labelGain_0">
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Gain of PGA connected to ADC0.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="text">
+      <string>PGA 0 gain</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1">
+    <widget class="QComboBox" name="gainValue_0">
+     <item>
+      <property name="text">
+       <string notr="true">1</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string notr="true">2</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string notr="true">4</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string notr="true">5</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string notr="true">8</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string notr="true">10</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string notr="true">16</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string notr="true">32</string>
+      </property>
+     </item>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QLabel" name="labelGain_1">
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Gain of PGA connected to ADC1.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="text">
+      <string>PGA 1 gain</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <widget class="QComboBox" name="gainValue_1">
+     <item>
+      <property name="text">
+       <string notr="true">1</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string notr="true">2</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string notr="true">4</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string notr="true">5</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string notr="true">8</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string notr="true">10</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string notr="true">16</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string notr="true">32</string>
+      </property>
+     </item>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>gainValue_0</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>GainWidget</receiver>
+   <slot>GainValueChanged(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>142</x>
+     <y>23</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>493</x>
+     <y>22</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>gainValue_1</sender>
+   <signal>currentIndexChanged(int)</signal>
+   <receiver>GainWidget</receiver>
+   <slot>GainValueChanged(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>304</x>
+     <y>67</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>604</x>
+     <y>67</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>GainValueChanged(int)</slot>
+ </slots>
+</ui>

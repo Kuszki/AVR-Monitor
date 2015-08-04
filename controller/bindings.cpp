@@ -26,9 +26,11 @@ extern DEVICE	Monitor;
 
 double get(KLVariables& Vars)
 {
-	if (Vars.Size() == 0) return WRONG_PARAMS;
-
-	for (const auto& Var: Vars)
+	if (Vars.Size() == 0)
+	{
+		ADC_SendSensors();
+	}
+	else for (const auto& Var: Vars)
 	{
 		if (!ADC_SendFeedback(KLString('V') + KLString(Var.Value.ToInt()))) return WRONG_ADC_ID;
 	}
@@ -94,9 +96,9 @@ double sys(KLVariables& Vars)
 
 double dev(KLVariables& Vars)
 {
-	if (Vars.Size() != 1) return WRONG_PARAMS;
+	if (Vars.Size() != 2) return WRONG_PARAMS;
 
-	return SYS_SetStatus(Vars["0"].ToInt());
+	return SYS_SetStatus(Vars["0"].ToInt(), Vars["1"].ToInt());
 }
 
 double spi(KLVariables& Vars)

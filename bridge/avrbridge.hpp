@@ -30,6 +30,9 @@
 #include <QSerialPort>
 #include <QSerialPortInfo>
 
+#include <boost/function.hpp>
+#include <boost/bind.hpp>
+
 #include "../controller/codes.hpp"
 
 class AVRBRIDGE_EXPORT AVRBridge : public QObject
@@ -40,10 +43,18 @@ class AVRBRIDGE_EXPORT AVRBridge : public QObject
 	private:
 
 		KLScriptbinding* Script;
-
 		QSerialPort* Serial;
+		QThread* Thread;
 
-		QString Buffer;
+		KLVariables Sensors;
+
+		QString Input;
+
+		bool Downloading = false;
+		bool Connection = false;
+
+		int Buffindex = 0;
+		char Buffer[256];
 
 	private slots:
 
@@ -59,13 +70,13 @@ class AVRBRIDGE_EXPORT AVRBridge : public QObject
 
 		const KLVariables& Variables(void) const;
 
-		bool Connected(void);
-
 		void Command(const QString& Message);
 
 		void Connect(const QString& Port);
 
 		void Disconnect(void);
+
+		bool IsConnected(void);
 
 		void UpdateSensorVariables(void);
 
@@ -82,17 +93,32 @@ class AVRBRIDGE_EXPORT AVRBridge : public QObject
 
 		void WriteMasterScript(const QString& Code);
 
+		void ReadMasterScript(void);
+
+		bool ConnectSensorEvent(const QString& Name,
+						    const boost::function<void (double)>& Callback);
+
 	signals:
 
-		void onVariablesUpdate(const KLVariables*);
+		void onConnectionUpdate(bool);
+
+		void onShiftValuesUpdate(unsigned char);
+
+		void onShiftStatusUpdate(bool);
+
+		void onGainSettingsUpdate(unsigned char, unsigned char);
+
+		void onMasterStatusUpdate(bool);
+
+		void onFreeRamUpdate(unsigned);
+
+		void onSensorsUpdate(const KLVariables&);
+
+		void onMasterScriptReceive(const QString&);
 
 		void onMessageReceive(const QString&);
 
 		void onMessageSend(const QString&);
-
-		void onConnected(void);
-
-		void onDisconnected(void);
 
 		void onError(const QString&);
 

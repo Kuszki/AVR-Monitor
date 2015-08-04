@@ -37,6 +37,7 @@
  * Umożliwia wysłanie zapytania o aktualny stan napięć wejściowych przetworników ADC.
  *
  * `call get ID_1 [, ID_1[, ...]]; # pobiera dane z wymienionych czujników.
+ * `call get; # pobiera stan wszystkich czujników`
  *
  */
 double get(KLVariables& Vars);
@@ -101,9 +102,9 @@ double sys(KLVariables& Vars);
  *  				WRONG_SYS_CODE w przypadku podania błędnego parametru.
  *  				0 w przypadku powodzenia operacji.
  *
- * Umożliwia modyfikacje stanu połączenia i pracy użądzenia.
+ * Umożliwia modyfikacje stanu połączenia i pracy urządzenia.
  *
- * `call dev Polecenie; # wysyła do użądzenia specjalne polecenie mogące zmienić jego stan pracy`
+ * `call dev Polecenie; # wysyła do urządzenia specjalne polecenie mogące zmienić jego stan pracy`
  *
  */
 double dev(KLVariables& Vars);
@@ -113,7 +114,7 @@ double dev(KLVariables& Vars);
  *  \return		WRONG_PARAMS w przypadku nieprawidłowej ilości parametrów.
  *  				0 w przypadku powodzenia operacji.
  *
- * Umożliwia wysłanie do innego użądzenia danych za pomocą portu SPI. Na wyprowadzeniu SPI dostępntm na obudowie uaktywniony zostanie sygnał CS i wysłane zostaną kolejne bajty danych.
+ * Umożliwia wysłanie do innego urządzenia danych za pomocą portu SPI. Na wyprowadzeniu SPI dostępntm na obudowie uaktywniony zostanie sygnał CS i wysłane zostaną kolejne bajty danych.
  *
  * `call spi Bajt [, Bajt_1[, Bajt 2[, ...]]] ; # wysyła kolejne bajty na wyjście SPI`
  *

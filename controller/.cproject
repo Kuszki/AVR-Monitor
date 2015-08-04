@@ -32,7 +32,7 @@
 								<option id="de.innot.avreclipse.compiler.option.optimize.1841102505" name="Optimization Level" superClass="de.innot.avreclipse.compiler.option.optimize" value="de.innot.avreclipse.compiler.optimize.three" valueType="enumerated"/>
 								<option id="de.innot.avreclipse.compiler.option.std.994144764" name="Language Standard" superClass="de.innot.avreclipse.compiler.option.std" value="de.innot.avreclipse.compiler.option.std.gnu99" valueType="enumerated"/>
 								<option id="de.innot.avreclipse.compiler.option.otherflags.561108553" name="Other flags" superClass="de.innot.avreclipse.compiler.option.otherflags" value="" valueType="string"/>
-								<option id="de.innot.avreclipse.compiler.option.optimize.other.2049880629" name="Other Optimization Flags" superClass="de.innot.avreclipse.compiler.option.optimize.other" value="" valueType="string"/>
+								<option id="de.innot.avreclipse.compiler.option.optimize.other.2049880629" name="Other Optimization Flags" superClass="de.innot.avreclipse.compiler.option.optimize.other" value="-flto" valueType="string"/>
 								<option id="de.innot.avreclipse.compiler.option.optimize.functionsections.257261674" name="Each function in its own section (-ffunction-sections)" superClass="de.innot.avreclipse.compiler.option.optimize.functionsections" value="true" valueType="boolean"/>
 								<option id="de.innot.avreclipse.compiler.option.optimize.datasections.162098643" name="Each data item in its own section (-fdata-sections)" superClass="de.innot.avreclipse.compiler.option.optimize.datasections" value="true" valueType="boolean"/>
 								<inputType id="de.innot.avreclipse.compiler.winavr.input.2033958830" name="C Source Files" superClass="de.innot.avreclipse.compiler.winavr.input"/>
@@ -45,7 +45,7 @@
 									<listOptionValue builtIn="false" value="/home/kuszki/Projekty"/>
 								</option>
 								<option id="de.innot.avreclipse.cppcompiler.option.def.1864093516" name="Define Syms (-D)" superClass="de.innot.avreclipse.cppcompiler.option.def"/>
-								<option id="de.innot.avreclipse.cppcompiler.option.optimize.other.614336830" name="Other Optimization Flags" superClass="de.innot.avreclipse.cppcompiler.option.optimize.other" value="" valueType="string"/>
+								<option id="de.innot.avreclipse.cppcompiler.option.optimize.other.614336830" name="Other Optimization Flags" superClass="de.innot.avreclipse.cppcompiler.option.optimize.other" value="-flto" valueType="string"/>
 								<option id="de.innot.avreclipse.cppcompiler.option.optimize.functionsections.226306559" name="Each function in its own section (-ffunction-sections)" superClass="de.innot.avreclipse.cppcompiler.option.optimize.functionsections" value="true" valueType="boolean"/>
 								<option id="de.innot.avreclipse.cppcompiler.option.optimize.datasections.1947119175" name="Each data item in its own section (-fdata-sections)" superClass="de.innot.avreclipse.cppcompiler.option.optimize.datasections" value="true" valueType="boolean"/>
 								<inputType id="de.innot.avreclipse.cppcompiler.input.824411896" superClass="de.innot.avreclipse.cppcompiler.input"/>

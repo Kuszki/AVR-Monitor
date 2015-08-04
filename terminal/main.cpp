@@ -21,25 +21,18 @@
 
 #include <QCommandLineParser>
 #include <QCoreApplication>
-#include <QTextStream>
-#include <QTimer>
-
-#include "avrterminal.hpp"
-
-#include <QDebug>
 
 #include <signal.h>
 #include <unistd.h>
 #include <stdio.h>
 
+#include "avrterminal.hpp"
+#include "avruploader.hpp"
+#include "avrdownloader.hpp"
+
 int main(int argc, char *argv[])
 {
 	QCoreApplication a(argc, argv);
-
-	signal(SIGINT, [](int) -> void
-	{
-		QCoreApplication::quit();
-	});
 
 	a.setApplicationName("AVR-Terminal");
 	a.setOrganizationName("Łukasz \"Kuszki\" Dróżdż");
@@ -71,42 +64,41 @@ Before use be sure that device is not runing or connected to another application
 	// main options
 	QCommandLineOption tcpServer(QStringList() << "h" << "host", a.tr("Become a TCP server (device works as master)."));
 	QCommandLineOption stdTerminal(QStringList() << "t" << "terminal", a.tr("Work as casual two-side terminal."));
-
-	// server options
-	QCommandLineOption tcpPort(QStringList() << "p" << "port", a.tr("Work in selected port (default is 9966)."), a.tr("port"));
-
-	// terminal options
-	QCommandLineOption stdFile(QStringList() << "s" << "script", a.tr("Connect to device and execute script, then disconnect."), a.tr("script"));
-	QCommandLineOption stdUpload(QStringList() << "u" << "upload", a.tr("Upload script from stdin or from file."));
+	QCommandLineOption stdUpload(QStringList() << "u" << "upload", a.tr("Upload script from file into device."), a.tr("script"));
+	QCommandLineOption stdDownload(QStringList() << "d" << "download", a.tr("Download script from device into file."), a.tr("script"));
 
 	Parser.addOption(tcpServer);
 	Parser.addOption(stdTerminal);
-
-	Parser.addOption(tcpPort);
-
-	Parser.addOption(stdFile);
 	Parser.addOption(stdUpload);
+	Parser.addOption(stdDownload);
 
 	Parser.process(a);
 
-	if (Parser.isSet(tcpServer) == Parser.isSet(stdTerminal) ||
-	    Parser.positionalArguments().isEmpty()) Parser.showHelp(-1);
+	signal(SIGINT, [](int) -> void
+	{
+		QCoreApplication::quit();
+	});
 
-	AVRTerminal* w = new AVRTerminal(Parser.positionalArguments().first(),
-							   Parser.isSet(stdFile) ? Parser.value(stdFile) : QString(),
-							   Parser.isSet(stdUpload));
-
-/*	if (Parser.isSet(tcpServer)) w = new AVRServer(&a,
-					Parser.positionalArguments().first(),
-					Parser.isSet(tcpPort) ? Parser.value(tcpPort) : QString());
-
-	else if (Parser.isSet(stdTerminal)) w = new AVRTerminal(nullptr,
-					Parser.positionalArguments().first(),
-					Parser.isSet(stdFile) ? Parser.value(stdFile) : QString(),
-					Parser.isSet(stdUpload));
-*/
-
-
+	if (Parser.isSet(tcpServer))
+	{
+	//	new AVRServer(Parser.positionalArguments().first(),
+	//			    Parser.isSet(tcpPort) ? Parser.value(tcpPort) : QString());
+	}
+	else if (Parser.isSet(stdTerminal))
+	{
+		new AVRTerminal(Parser.positionalArguments().first());
+	}
+	else if (Parser.isSet(stdUpload))
+	{
+		new AVRUploader(Parser.positionalArguments().first(),
+					 Parser.value(stdUpload));
+	}
+	else if (Parser.isSet(stdDownload))
+	{
+		new AVRDownloader(Parser.positionalArguments().first(),
+					   Parser.value(stdDownload));
+	}
+	else Parser.showHelp(-1);
 
 	return a.exec();
 }

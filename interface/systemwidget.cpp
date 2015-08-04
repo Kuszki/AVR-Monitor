@@ -18,51 +18,59 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef AVRTERMINAL_HPP
-#define AVRTERMINAL_HPP
+#include "systemwidget.hpp"
+#include "ui_systemwidget.h"
 
-#include <QCoreApplication>
-#include <QTextStream>
-#include <QObject>
-#include <QTimer>
-
-#include <avrbridge.hpp>
-
-#include "terminalreader.hpp"
-
-class AVRTerminal : public QObject
-
+SystemWidget::SystemWidget(QWidget *Parent)
+: QWidget(Parent), ui(new Ui::SystemWidget)
 {
+	ui->setupUi(this);
+}
 
-		Q_OBJECT
+SystemWidget::~SystemWidget(void)
+{
+	delete ui;
+}
 
-	protected:
+void SystemWidget::UpdateLink(bool Online)
+{
+	ui->Online->setChecked(Online);
+}
 
-		Terminalreader* Worker;
-		AVRBridge* Device;
-		QTimer* Timeout;
+void SystemWidget::UpdateStatus(bool Master)
+{
+	ui->Master->setChecked(Master);
+}
 
-		QTextStream Cin;
-		QTextStream Cout;
+void SystemWidget::UpdateShiftValues(unsigned char Values)
+{
+	ui->ShiftValue->setText(QString("0b%1").arg(Values, 0, 2));
+}
 
-	public:
+void SystemWidget::UpdateShiftStatus(bool Active)
+{
+	ui->ShiftActive->setCheckable(Active);
+}
 
-		explicit AVRTerminal(const QString Port);
+void SystemWidget::UpdateGainValue(unsigned char ID, unsigned char Gain)
+{
+	switch (ID)
+	{
+		case 0:
+			ui->Gain_0->setText(QString::number(Gain));
+		break;
+		case 1:
+			ui->Gain_1->setText(QString::number(Gain));
+		break;
+	}
+}
 
-		virtual ~AVRTerminal(void) override;
+void SystemWidget::UpdateFreeRam(unsigned Value)
+{
+	ui->FreeRam->setValue(Value);
+}
 
-	public slots:
-
-		void HandleError(const QString& Error);
-
-		void HandleMessage(const QString& Message);
-
-		void HandleCommand(const QString& Message);
-
-		void HandleConnect(bool Connected);
-
-		void HandleTimeout(void);
-
-};
-
-#endif // AVRTERMINAL_HPP
+void SystemWidget::UpdateInterval(double Value)
+{
+	ui->Interval->setText(QString("%1 s").arg(Value, 0, '.', 1));
+}
