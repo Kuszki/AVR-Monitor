@@ -26,6 +26,11 @@ MainWindow::MainWindow(QWidget* Parent)
 {
 	ui->setupUi(this);
 
+	setTabPosition(Qt::DockWidgetArea::TopDockWidgetArea |
+				Qt::LeftDockWidgetArea |
+				Qt::RightDockWidgetArea,
+				QTabWidget::TabPosition::North);
+
 	QSettings INI("layout.ini", QSettings::IniFormat);
 
 	restoreState(INI.value("layout").toByteArray(), 1);
