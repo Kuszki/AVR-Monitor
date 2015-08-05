@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>HelperEntry</class>
+ <widget class="QWidget" name="HelperEntry">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>184</width>
+    <height>50</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QHBoxLayout" name="horizontalLayout">
+   <item>
+    <widget class="QPushButton" name="Copy">
+     <property name="icon">
+      <iconset theme="edit-copy">
+       <normaloff/>
+      </iconset>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPushButton" name="Paste">
+     <property name="icon">
+      <iconset theme="edit-paste">
+       <normaloff/>
+      </iconset>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="Name">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>Copy</sender>
+   <signal>clicked()</signal>
+   <receiver>HelperEntry</receiver>
+   <slot>CopyButtonClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>34</x>
+     <y>32</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>36</x>
+     <y>201</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>Paste</sender>
+   <signal>clicked()</signal>
+   <receiver>HelperEntry</receiver>
+   <slot>PasteButtonClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>92</x>
+     <y>26</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>112</x>
+     <y>164</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>CopyButtonClicked()</slot>
+  <slot>PasteButtonClicked()</slot>
+ </slots>
+</ui>

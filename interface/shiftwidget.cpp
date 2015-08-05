@@ -30,7 +30,9 @@ ShiftWidget::ShiftWidget(QWidget* Parent)
 	{
 		Pins[i] = new QCheckBox(tr("Pin %1").arg(i), this);
 
-		ui->layoutPins->addWidget(Pins[i]);
+		ui->pinLayout->addWidget(Pins[i], i / 2, i % 2);
+
+		if (i % 2) Pins[i]->setLayoutDirection(Qt::RightToLeft);
 
 		connect(Pins[i], &QCheckBox::clicked, this, &ShiftWidget::OutputChanged);
 	}
@@ -79,23 +81,4 @@ void ShiftWidget::UpdateShiftValues(unsigned char Values)
 void ShiftWidget::UpdateShiftStatus(bool Enabled)
 {
 	ui->shiftActive->setChecked(Enabled);
-}
-
-void ShiftWidget::LayoutChanged(Qt::DockWidgetArea Area)
-{
-	switch (Area)
-	{
-		case Qt::LeftDockWidgetArea:
-		case Qt::RightDockWidgetArea:
-			ui->layoutPins->setDirection(QBoxLayout::TopToBottom);
-			ui->layoutWidget->setDirection(QBoxLayout::TopToBottom);
-		break;
-		case Qt::TopDockWidgetArea:
-		case Qt::BottomDockWidgetArea:
-			ui->layoutPins->setDirection(QBoxLayout::LeftToRight);
-			ui->layoutWidget->setDirection(QBoxLayout::LeftToRight);
-		break;
-
-		default: break;
-	}
 }

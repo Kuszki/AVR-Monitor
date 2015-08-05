@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>38</width>
+    <width>225</width>
     <height>26</height>
    </rect>
   </property>
@@ -15,7 +15,7 @@
   </property>
   <layout class="QVBoxLayout" name="mainLayout">
    <item>
-    <layout class="QVBoxLayout" name="layoutConverters"/>
+    <layout class="QVBoxLayout" name="adcLayout"/>
    </item>
    <item>
     <spacer name="verticalSpacer">

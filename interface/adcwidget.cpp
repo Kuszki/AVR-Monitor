@@ -26,32 +26,20 @@ AdcWidget::AdcWidget(QWidget* Parent)
 {
 	ui->setupUi(this);
 
-	for (int i = 0; i < 6; i++)
+	for (unsigned i = 0; i < 6; i++)
 	{
-		QHBoxLayout* layout = new QHBoxLayout();
+		Widgets[i] = new AdcEntry(this, i);
 
-		QLabel* name = new QLabel(tr("ADC %1").arg(i), this);
-		QLabel* value = new QLabel("0", this);
-		QLabel* unit = new QLabel("V", this);
-
-		value->setAlignment(Qt::AlignRight);
-		unit->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Preferred);
-
-		layout->addWidget(name);
-		layout->addWidget(value);
-		layout->addWidget(unit);
-
-		ui->layoutConverters->addLayout(layout);
-
-		Values[i] = value;
-
-		connect(this, &AdcWidget::destroyed, layout, &QLayout::deleteLater);
+		ui->adcLayout->addWidget(Widgets[i]);
 	}
 }
 
 void AdcWidget::UpdateValues(const KLVariables& Vars)
 {
-	if (Vars.Size() == 6) for (const auto& Var: Vars) Values[Var.ID[1] - '0']->setText(QString("%1").arg(Var.Value.ToNumber(), 0, '.', 5));
+	if (Vars.Size() == 6) for (int i = 0; i < 6; i++)
+	{
+		Widgets[i]->UpdateValue(Vars[KLString('V') + KLString(i)].ToNumber());
+	}
 }
 
 AdcWidget::~AdcWidget(void)

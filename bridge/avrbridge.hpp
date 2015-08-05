@@ -99,6 +99,8 @@ class AVRBRIDGE_EXPORT AVRBridge : public QObject
 
 		void ReadMasterScript(void);
 
+		void CleanMasterRam(void);
+
 		bool ConnectSensorEvent(const QString& Name,
 						    const boost::function<void (double)>& Callback);
 

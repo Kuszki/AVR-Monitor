@@ -32,7 +32,6 @@
 // dev special tasks
 #define CLEAN_RAM		1					//!< Wyczyść dodatkowe zmienne.
 
-
 // script error code macro
 #define WRONG_SCRIPT	-255					//!< Skrypt nieprawidłowy.
 #define MASTER_TIMEOUT	-254					//!< Przekroczono limit czasu przez użądzenie.

@@ -21,14 +21,13 @@
 #include "aboutdialog.hpp"
 #include "ui_aboutdialog.h"
 
-AboutDialog::AboutDialog(QWidget *parent) :
-	QDialog(parent),
-	ui(new Ui::AboutDialog)
+AboutDialog::AboutDialog(QWidget* Parent)
+: QDialog(Parent), ui(new Ui::AboutDialog)
 {
 	ui->setupUi(this);
 }
 
-AboutDialog::~AboutDialog()
+AboutDialog::~AboutDialog(void)
 {
 	delete ui;
 }

@@ -18,42 +18,29 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef ADCWIDGET_HPP
-#define ADCWIDGET_HPP
+#include "helperentry.hpp"
+#include "ui_helperentry.h"
 
-#include <QHBoxLayout>
-#include <QWidget>
-#include <QLabel>
-
-#include <KLLibs.hpp>
-
-#include "adcentry.hpp"
-
-namespace Ui
+HelperEntry::HelperEntry(const QString& Label, const QString& Code, QWidget* Parent)
+: QWidget(Parent), ui(new Ui::HelperEntry)
 {
-	class AdcWidget;
+	ui->setupUi(this);
+
+	ui->Name->setText(Label);
+	ui->Name->setToolTip(Code);
 }
 
-class AdcWidget : public QWidget
+HelperEntry::~HelperEntry(void)
 {
+	delete ui;
+}
 
-		Q_OBJECT
+void HelperEntry::CopyButtonClicked(void)
+{
+	QApplication::clipboard()->setText(ui->Name->toolTip());
+}
 
-	private:
-
-		Ui::AdcWidget* ui;
-
-		AdcEntry* Widgets[6];
-
-	public:
-
-		explicit AdcWidget(QWidget* Parent = nullptr);
-		virtual ~AdcWidget(void) override;
-
-	public slots:
-
-		void UpdateValues(const KLVariables& Vars);
-
-};
-
-#endif // ADCWIDGET_HPP
+void HelperEntry::PasteButtonClicked(void)
+{
+	emit onScriptPaste(ui->Name->toolTip() + '\n');
+}

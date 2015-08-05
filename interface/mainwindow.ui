@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
+    <width>875</width>
     <height>602</height>
    </rect>
   </property>
@@ -23,7 +23,7 @@
     <item row="0" column="0">
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>3</number>
       </property>
       <property name="movable">
        <bool>true</bool>
@@ -43,7 +43,7 @@
         <string>Events</string>
        </attribute>
       </widget>
-      <widget class="QWidget" name="tabTerminal">
+      <widget class="TerminalWidget" name="tabTerminal">
        <attribute name="title">
         <string>Terminal</string>
        </attribute>
@@ -62,7 +62,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>875</width>
      <height>29</height>
     </rect>
    </property>
@@ -172,6 +172,9 @@
    <property name="features">
     <set>QDockWidget::DockWidgetClosable|QDockWidget::DockWidgetMovable</set>
    </property>
+   <property name="allowedAreas">
+    <set>Qt::LeftDockWidgetArea|Qt::RightDockWidgetArea</set>
+   </property>
    <property name="windowTitle">
     <string>Shift register</string>
    </property>
@@ -187,6 +190,9 @@
   <widget class="QDockWidget" name="pgaDock">
    <property name="features">
     <set>QDockWidget::DockWidgetClosable|QDockWidget::DockWidgetMovable</set>
+   </property>
+   <property name="allowedAreas">
+    <set>Qt::LeftDockWidgetArea|Qt::RightDockWidgetArea</set>
    </property>
    <property name="windowTitle">
     <string>Amplifiers</string>
@@ -204,6 +210,9 @@
    <property name="features">
     <set>QDockWidget::DockWidgetClosable|QDockWidget::DockWidgetMovable</set>
    </property>
+   <property name="allowedAreas">
+    <set>Qt::LeftDockWidgetArea|Qt::RightDockWidgetArea</set>
+   </property>
    <property name="windowTitle">
     <string>Converters</string>
    </property>
@@ -219,6 +228,9 @@
   <widget class="QDockWidget" name="systemDock">
    <property name="features">
     <set>QDockWidget::DockWidgetClosable|QDockWidget::DockWidgetMovable</set>
+   </property>
+   <property name="allowedAreas">
+    <set>Qt::LeftDockWidgetArea|Qt::RightDockWidgetArea</set>
    </property>
    <property name="windowTitle">
     <string>System</string>
@@ -488,6 +500,12 @@
    <class>SystemWidget</class>
    <extends>QWidget</extends>
    <header>systemwidget.hpp</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>TerminalWidget</class>
+   <extends>QWidget</extends>
+   <header>terminalwidget.hpp</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

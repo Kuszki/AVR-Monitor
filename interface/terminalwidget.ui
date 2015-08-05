@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>TerminalWidget</class>
+ <widget class="QWidget" name="TerminalWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>821</width>
+    <height>514</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="1" column="0" colspan="2">
+    <layout class="QHBoxLayout" name="toolsLayout">
+     <item>
+      <widget class="QPushButton" name="saveButton">
+       <property name="icon">
+        <iconset theme="document-open">
+         <normaloff/>
+        </iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="loadButton">
+       <property name="icon">
+        <iconset theme="document-save">
+         <normaloff/>
+        </iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton">
+       <property name="icon">
+        <iconset theme="edit-clear">
+         <normaloff/>
+        </iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="Clean">
+       <property name="text">
+        <string>Clean on exec</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="helperCheck">
+       <property name="text">
+        <string>Show helper</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="checkButton">
+       <property name="text">
+        <string>Check</string>
+       </property>
+       <property name="icon">
+        <iconset theme="tools-check-spelling">
+         <normaloff/>
+        </iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="sendButton">
+       <property name="text">
+        <string>Execute</string>
+       </property>
+       <property name="icon">
+        <iconset theme="system-run">
+         <normaloff/>
+        </iconset>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="0" column="1">
+    <widget class="HelperWidget" name="Helper" native="true">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0">
+    <widget class="KLScripteditor" name="Script"/>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>KLScripteditor</class>
+   <extends>QPlainTextEdit</extends>
+   <header location="global">qt/klscripteditor.hpp</header>
+  </customwidget>
+  <customwidget>
+   <class>HelperWidget</class>
+   <extends>QWidget</extends>
+   <header>helperwidget.hpp</header>
+   <container>1</container>
+   <slots>
+    <signal>onCodePasteRequest(QString)</signal>
+   </slots>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>pushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>Script</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>142</x>
+     <y>490</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>217</x>
+     <y>314</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>saveButton</sender>
+   <signal>clicked()</signal>
+   <receiver>TerminalWidget</receiver>
+   <slot>LoadButtonClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>32</x>
+     <y>487</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>33</x>
+     <y>513</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>loadButton</sender>
+   <signal>clicked()</signal>
+   <receiver>TerminalWidget</receiver>
+   <slot>SaveButtonClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>81</x>
+     <y>494</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>75</x>
+     <y>513</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>Helper</sender>
+   <signal>onCodePasteRequest(QString)</signal>
+   <receiver>Script</receiver>
+   <slot>insertPlainText(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>801</x>
+     <y>233</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>249</x>
+     <y>236</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>helperCheck</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>Helper</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>569</x>
+     <y>487</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>801</x>
+     <y>343</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>sendButton</sender>
+   <signal>clicked()</signal>
+   <receiver>TerminalWidget</receiver>
+   <slot>ExecuteButtonClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>753</x>
+     <y>501</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>758</x>
+     <y>567</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkButton</sender>
+   <signal>clicked()</signal>
+   <receiver>TerminalWidget</receiver>
+   <slot>CheckButtonClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>685</x>
+     <y>499</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>694</x>
+     <y>601</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>SaveButtonClicked()</slot>
+  <slot>LoadButtonClicked()</slot>
+  <slot>ExecuteButtonClicked()</slot>
+  <slot>CheckButtonClicked()</slot>
+ </slots>
+</ui>

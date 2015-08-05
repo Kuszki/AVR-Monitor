@@ -33,7 +33,7 @@ const char get_INFOSTR[] PROGMEM =
 # GCC flags:    -O3 -mmcu=atmega328p -std=c++11\n\
 # Watchdog set:   on every evaluation for 8 sec\n\
 #\n\
-# Program size:        29772 bytes (90.9% Full)\n\
+# Program size:        29798 bytes (90.9% Full)\n\
 # Data size:             508 bytes (24.8% Full)\n\
 \n";
 
@@ -163,7 +163,7 @@ bool ADC_SendFeedback(const KLString& ID)
 	{
 		const char ADC_ID = ID[1] - '0'; Analog[ADC_ID] = KAConverter::GetVoltage(KAConverter::PORT(ADC_ID));
 
-		if (Monitor.Online) UART << PGM_V get_SET << ID << ' ' << Script.Variables[ID].ToNumber() << EOC;
+		if (!Monitor.Master && Monitor.Online) UART << PGM_V get_SET << ID << ' ' << Script.Variables[ID].ToNumber() << EOC;
 	}
 
 	return true;
@@ -329,4 +329,6 @@ void SYS_InitDevice(char Boot)
 			UART << PGM_V get_RETURN << REMOTE_TIMEOUT << PGM_V get_EOC; Monitor.Online = true;
 		break;
 	}
+
+	if (Monitor.Online) SYS_SendFeedback(GET_ALL);
 }

@@ -59,8 +59,6 @@ class ShiftWidget : public QWidget
 		void UpdateShiftValues(unsigned char Values);
 		void UpdateShiftStatus(bool Enabled);
 
-		void LayoutChanged(Qt::DockWidgetArea Area);
-
 	signals:
 
 		void onShiftChanged(unsigned char);

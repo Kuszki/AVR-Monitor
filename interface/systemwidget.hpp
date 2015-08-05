@@ -44,7 +44,7 @@ class SystemWidget : public QWidget
 
 	private slots:
 
-		void RefreshRamClick(void);
+		void CleanRamClick(void);
 
 	public slots:
 
@@ -64,7 +64,7 @@ class SystemWidget : public QWidget
 
 	signals:
 
-		void onRamRefreshRequest(void);
+		void onRamCleanRequest(void);
 
 };
 

@@ -164,10 +164,10 @@ void AVRBridge::GetResoult(double Value)
 		case WRONG_SYS_STATE:
 			emit onError(tr("Wrong system status"));
 		break;
-		case MASTER_FROZEN:
+		case MASTER_TIMEOUT:
 			emit onError(tr("Device frozen on master script evaluation"));
 		break;
-		case REMOTE_FROZEN:
+		case REMOTE_TIMEOUT:
 			emit onError(tr("Device frozen on remote script evaluation"));
 		break;
 	}
@@ -214,6 +214,9 @@ void AVRBridge::Disconnect(void)
 	{
 		Serial->write(QString("call dev %1,0;\n").arg(DEV_LINE).toUtf8());
 		Serial->flush();
+
+		Serial->thread()->msleep(100);
+
 		Serial->close();
 
 		Script->Variables["LINE"] = false;
@@ -307,6 +310,11 @@ void AVRBridge::ReadMasterScript(void)
 		Serial->write(QString("call dev %1,1;\n").arg(DEV_SCRIPT).toUtf8());
 		Serial->flush();
 	}
+}
+
+void AVRBridge::CleanMasterRam(void)
+{
+	Command(QString("call dev %1,%2;").arg(DEV_SPEC).arg(CLEAN_RAM));
 }
 
 bool AVRBridge::ConnectSensorEvent(const QString& Name, const boost::function<void (double)>& Callback)

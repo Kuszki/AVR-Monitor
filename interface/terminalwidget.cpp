@@ -18,42 +18,62 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef ADCWIDGET_HPP
-#define ADCWIDGET_HPP
+#include "terminalwidget.hpp"
+#include "ui_terminalwidget.h"
 
-#include <QHBoxLayout>
-#include <QWidget>
-#include <QLabel>
-
-#include <KLLibs.hpp>
-
-#include "adcentry.hpp"
-
-namespace Ui
+TerminalWidget::TerminalWidget(QWidget* Parent)
+: QWidget(Parent), ui(new Ui::TerminalWidget)
 {
-	class AdcWidget;
+	ui->setupUi(this);
+
+	ui->Helper->hide();
 }
 
-class AdcWidget : public QWidget
+TerminalWidget::~TerminalWidget(void)
 {
+	delete ui;
+}
 
-		Q_OBJECT
+void TerminalWidget::SaveButtonClicked(void)
+{
+	QString Path = QFileDialog::getSaveFileName(this, tr("Error"), tr("Select file to save script"));
 
-	private:
+	if (!Path.isEmpty())
+	{
+		QFile File(Path);
 
-		Ui::AdcWidget* ui;
+		if (!File.open(QFile::WriteOnly)) QMessageBox::warning(this, tr("Error"), tr("Can't open selected file in write mode"));
+		else
+		{
+			File.write(ui->Script->document()->toPlainText().toUtf8());
+		}
+	}
+}
 
-		AdcEntry* Widgets[6];
+void TerminalWidget::LoadButtonClicked(void)
+{
+	QString Path = QFileDialog::getOpenFileName(this, tr("Error"), tr("Select file to load script"));
 
-	public:
+	if (!Path.isEmpty())
+	{
+		QFile File(Path);
 
-		explicit AdcWidget(QWidget* Parent = nullptr);
-		virtual ~AdcWidget(void) override;
+		if (!File.open(QFile::ReadOnly)) QMessageBox::warning(this, tr("Error"), tr("Can't open selected file in read mode"));
+		else
+		{
+			ui->Script->document()->setPlainText(File.readAll());
+		}
+	}
+}
 
-	public slots:
+void TerminalWidget::ExecuteButtonClicked(void)
+{
+	emit onScriptExecute(ui->Script->document()->toPlainText());
 
-		void UpdateValues(const KLVariables& Vars);
+	if (ui->Clean->isChecked()) ui->Script->document()->clear();
+}
 
-};
-
-#endif // ADCWIDGET_HPP
+void TerminalWidget::CheckButtonClicked(void)
+{
+	emit onScriptValidate(ui->Script->document()->toPlainText());
+}

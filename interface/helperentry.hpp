@@ -18,42 +18,41 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef ADCWIDGET_HPP
-#define ADCWIDGET_HPP
+#ifndef HELPERENTRY_HPP
+#define HELPERENTRY_HPP
 
-#include <QHBoxLayout>
+#include <QApplication>
+#include <QClipboard>
 #include <QWidget>
-#include <QLabel>
-
-#include <KLLibs.hpp>
-
-#include "adcentry.hpp"
 
 namespace Ui
 {
-	class AdcWidget;
+	class HelperEntry;
 }
 
-class AdcWidget : public QWidget
+class HelperEntry : public QWidget
 {
 
 		Q_OBJECT
 
 	private:
 
-		Ui::AdcWidget* ui;
-
-		AdcEntry* Widgets[6];
+		Ui::HelperEntry* ui;
 
 	public:
 
-		explicit AdcWidget(QWidget* Parent = nullptr);
-		virtual ~AdcWidget(void) override;
+		explicit HelperEntry(const QString& Label, const QString& Code, QWidget* Parent = nullptr);
+		virtual ~HelperEntry(void) override;
 
-	public slots:
+	private slots:
 
-		void UpdateValues(const KLVariables& Vars);
+		void CopyButtonClicked(void);
+		void PasteButtonClicked(void);
+
+	signals:
+
+		void onScriptPaste(const QString&);
 
 };
 
-#endif // ADCWIDGET_HPP
+#endif // HELPERENTRY_HPP

@@ -18,42 +18,23 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef ADCWIDGET_HPP
-#define ADCWIDGET_HPP
-
-#include <QHBoxLayout>
-#include <QWidget>
-#include <QLabel>
-
-#include <KLLibs.hpp>
-
 #include "adcentry.hpp"
+#include "ui_adcentry.h"
 
-namespace Ui
+AdcEntry::AdcEntry(QWidget *Parent, unsigned ID)
+: QWidget(Parent), ui(new Ui::AdcEntry)
 {
-	class AdcWidget;
+	ui->setupUi(this);
+
+	ui->Name->setText(tr("ADC %1").arg(ID));
 }
 
-class AdcWidget : public QWidget
+AdcEntry::~AdcEntry(void)
 {
+	delete ui;
+}
 
-		Q_OBJECT
-
-	private:
-
-		Ui::AdcWidget* ui;
-
-		AdcEntry* Widgets[6];
-
-	public:
-
-		explicit AdcWidget(QWidget* Parent = nullptr);
-		virtual ~AdcWidget(void) override;
-
-	public slots:
-
-		void UpdateValues(const KLVariables& Vars);
-
-};
-
-#endif // ADCWIDGET_HPP
+void AdcEntry::UpdateValue(double Value)
+{
+	ui->Value->setText(QString("%1").arg(Value, 0, '.', 5));
+}

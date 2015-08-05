@@ -18,42 +18,34 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef ADCWIDGET_HPP
-#define ADCWIDGET_HPP
+#ifndef ADCENTRY_HPP
+#define ADCENTRY_HPP
 
-#include <QHBoxLayout>
 #include <QWidget>
-#include <QLabel>
-
-#include <KLLibs.hpp>
-
-#include "adcentry.hpp"
 
 namespace Ui
 {
-	class AdcWidget;
+	class AdcEntry;
 }
 
-class AdcWidget : public QWidget
+class AdcEntry : public QWidget
 {
 
 		Q_OBJECT
 
 	private:
 
-		Ui::AdcWidget* ui;
-
-		AdcEntry* Widgets[6];
+		Ui::AdcEntry* ui;
 
 	public:
 
-		explicit AdcWidget(QWidget* Parent = nullptr);
-		virtual ~AdcWidget(void) override;
+		explicit AdcEntry(QWidget* Parent = nullptr, unsigned ID = 0);
+		virtual ~AdcEntry(void) override;
 
 	public slots:
 
-		void UpdateValues(const KLVariables& Vars);
+		void UpdateValue(double Value);
 
 };
 
-#endif // ADCWIDGET_HPP
+#endif // ADCENTRY_HPP

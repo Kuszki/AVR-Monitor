@@ -26,6 +26,9 @@ MainWindow::MainWindow(QWidget* Parent)
 {
 	ui->setupUi(this);
 
+	ui->tabTerminal->setEnabled(false);
+	ui->tabLog->setEnabled(false);
+
 	avrDevice = new AVRBridge(this);
 
 	aboutDialog = new AboutDialog(this);
@@ -34,9 +37,6 @@ MainWindow::MainWindow(QWidget* Parent)
 	setTabPosition(Qt::AllDockWidgetAreas, QTabWidget::TabPosition::North);
 
 	restoreState(QSettings("layout.ini", QSettings::IniFormat).value("layout").toByteArray(), 1);
-
-	// shift dock to shift widget connections
-	connect(ui->shiftDock, &QDockWidget::dockLocationChanged, ui->shiftWidget, &ShiftWidget::LayoutChanged);
 
 	// device to system widget connections
 	connect(avrDevice, &AVRBridge::onConnectionUpdate, ui->systemWidget, &SystemWidget::UpdateLink);
@@ -48,7 +48,7 @@ MainWindow::MainWindow(QWidget* Parent)
 	connect(avrDevice, &AVRBridge::onSleepValueUpdate, ui->systemWidget, &SystemWidget::UpdateInterval);
 
 	// system widget to device connections
-	connect(ui->systemWidget, &SystemWidget::onRamRefreshRequest, boost::bind(&AVRBridge::UpdateSystemVariables, avrDevice, GET_FRAM));
+	connect(ui->systemWidget, &SystemWidget::onRamCleanRequest, avrDevice, &AVRBridge::CleanMasterRam);
 
 	// device to adc widget connections
 	connect(avrDevice, &AVRBridge::onSensorValuesUpdate, ui->adcWidget, &AdcWidget::UpdateValues);
@@ -72,6 +72,9 @@ MainWindow::MainWindow(QWidget* Parent)
 	// shift widget to device connections
 	connect(ui->shiftWidget, &ShiftWidget::onShiftChanged, avrDevice, &AVRBridge::WriteShiftValues);
 	connect(ui->shiftWidget, &ShiftWidget::onEnabledChanged, avrDevice, &AVRBridge::WriteShiftStatus);
+
+	// terminal to device connections SID!
+	connect(ui->tabTerminal, &TerminalWidget::onScriptExecute, [this] (const QString& Code) -> void { avrDevice->Command(KLScriptbinding::Optimize(Code)); });
 
 	// device to main window connections
 	connect(avrDevice, &AVRBridge::onError, this, &MainWindow::ShowErrorMessage);
@@ -138,6 +141,9 @@ void MainWindow::ConnectionChanged(bool Connected)
 	ui->shiftWidget->setEnabled(Connected);
 	ui->systemWidget->setEnabled(Connected);
 	ui->adcWidget->setEnabled(Connected);
+
+	ui->tabTerminal->setEnabled(Connected);
+	ui->tabLog->setEnabled(Connected);
 }
 
 void MainWindow::SaveMasterScript(const QString& Script)

@@ -18,42 +18,45 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef ADCWIDGET_HPP
-#define ADCWIDGET_HPP
+#ifndef TERMINALWIDGET_HPP
+#define TERMINALWIDGET_HPP
 
-#include <QHBoxLayout>
+#include <QMessageBox>
+#include <QFileDialog>
 #include <QWidget>
-#include <QLabel>
-
-#include <KLLibs.hpp>
-
-#include "adcentry.hpp"
 
 namespace Ui
 {
-	class AdcWidget;
+	class TerminalWidget;
 }
 
-class AdcWidget : public QWidget
+class TerminalWidget : public QWidget
 {
 
 		Q_OBJECT
 
 	private:
 
-		Ui::AdcWidget* ui;
-
-		AdcEntry* Widgets[6];
+		Ui::TerminalWidget* ui;
 
 	public:
 
-		explicit AdcWidget(QWidget* Parent = nullptr);
-		virtual ~AdcWidget(void) override;
+		explicit TerminalWidget(QWidget* Parent = nullptr);
+		virtual ~TerminalWidget(void) override;
 
-	public slots:
+	private slots:
 
-		void UpdateValues(const KLVariables& Vars);
+		void SaveButtonClicked(void);
+		void LoadButtonClicked(void);
+
+		void ExecuteButtonClicked(void);
+		void CheckButtonClicked(void);
+
+	signals:
+
+		void onScriptExecute(const QString&);
+		void onScriptValidate(const QString&);
 
 };
 
-#endif // ADCWIDGET_HPP
+#endif // TERMINALWIDGET_HPP

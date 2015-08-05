@@ -18,42 +18,35 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef ADCWIDGET_HPP
-#define ADCWIDGET_HPP
+#ifndef HELPERWIDGET_HPP
+#define HELPERWIDGET_HPP
 
-#include <QHBoxLayout>
+#include <QSpacerItem>
+#include <QStringList>
+#include <QVBoxLayout>
+#include <QTabWidget>
+#include <QSettings>
 #include <QWidget>
-#include <QLabel>
+#include <QList>
 
-#include <KLLibs.hpp>
+#include "helperentry.hpp"
 
-#include "adcentry.hpp"
+#include "../controller/codes.hpp"
 
-namespace Ui
-{
-	class AdcWidget;
-}
-
-class AdcWidget : public QWidget
+class HelperWidget : public QWidget
 {
 
 		Q_OBJECT
 
-	private:
-
-		Ui::AdcWidget* ui;
-
-		AdcEntry* Widgets[6];
-
 	public:
 
-		explicit AdcWidget(QWidget* Parent = nullptr);
-		virtual ~AdcWidget(void) override;
+		explicit HelperWidget(QWidget* Parent = nullptr);
+		virtual ~HelperWidget(void) override;
 
-	public slots:
+	signals:
 
-		void UpdateValues(const KLVariables& Vars);
+		void onCodePasteRequest(const QString&);
 
 };
 
-#endif // ADCWIDGET_HPP
+#endif // HELPERWIDGET_HPP

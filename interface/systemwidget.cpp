@@ -32,9 +32,9 @@ SystemWidget::~SystemWidget(void)
 	delete ui;
 }
 
-void SystemWidget::RefreshRamClick(void)
+void SystemWidget::CleanRamClick(void)
 {
-	emit onRamRefreshRequest();
+	emit onRamCleanRequest();
 }
 
 void SystemWidget::UpdateLink(bool Online)
