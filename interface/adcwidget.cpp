@@ -45,14 +45,13 @@ AdcWidget::AdcWidget(QWidget* Parent)
 
 		Values[i] = value;
 
-		connect(this, SIGNAL(destroyed()),
-			   layout, SLOT(deleteLater()));
+		connect(this, &AdcWidget::destroyed, layout, &QLayout::deleteLater);
 	}
 }
 
-void AdcWidget::ValuesUpdated(const KLVariables& Vars)
+void AdcWidget::UpdateValues(const KLVariables& Vars)
 {
-	if (Vars.Size() == 6) for (const auto& Var: Vars) Values[Var.ID[1]]->setText(QString::number(Var.Value.ToNumber()));
+	if (Vars.Size() == 6) for (const auto& Var: Vars) Values[Var.ID[1] - '0']->setText(QString("%1").arg(Var.Value.ToNumber(), 0, '.', 5));
 }
 
 AdcWidget::~AdcWidget(void)

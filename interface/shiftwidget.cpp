@@ -32,7 +32,7 @@ ShiftWidget::ShiftWidget(QWidget* Parent)
 
 		ui->layoutPins->addWidget(Pins[i]);
 
-		connect(Pins[i], SIGNAL(clicked(bool)), SLOT(OutputChanged(bool)));
+		connect(Pins[i], &QCheckBox::clicked, this, &ShiftWidget::OutputChanged);
 	}
 }
 
@@ -68,7 +68,7 @@ void ShiftWidget::EnabledChanged(bool Enabled)
 	emit onEnabledChanged(Enabled);
 }
 
-void ShiftWidget::ShiftChanged(unsigned char Values)
+void ShiftWidget::UpdateShiftValues(unsigned char Values)
 {
 	for (unsigned char i = 0; i < 8; ++i)
 	{
@@ -76,7 +76,7 @@ void ShiftWidget::ShiftChanged(unsigned char Values)
 	}
 }
 
-void ShiftWidget::StatusChanged(bool Enabled)
+void ShiftWidget::UpdateShiftStatus(bool Enabled)
 {
 	ui->shiftActive->setChecked(Enabled);
 }

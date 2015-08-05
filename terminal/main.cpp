@@ -34,6 +34,8 @@ int main(int argc, char *argv[])
 {
 	QCoreApplication a(argc, argv);
 
+	signal(SIGINT, [](int) -> void { QCoreApplication::quit(); });
+
 	a.setApplicationName("AVR-Terminal");
 	a.setOrganizationName("Łukasz \"Kuszki\" Dróżdż");
 	a.setOrganizationDomain("https://github.com/Kuszki/AVR-Monitor");
@@ -73,11 +75,6 @@ Before use be sure that device is not runing or connected to another application
 	Parser.addOption(stdDownload);
 
 	Parser.process(a);
-
-	signal(SIGINT, [](int) -> void
-	{
-		QCoreApplication::quit();
-	});
 
 	if (Parser.isSet(tcpServer))
 	{

@@ -33,7 +33,7 @@ const char get_INFOSTR[] PROGMEM =
 # GCC flags:    -O3 -mmcu=atmega328p -std=c++11\n\
 # Watchdog set:   on every evaluation for 8 sec\n\
 #\n\
-# Program size:        29734 bytes (90.7% Full)\n\
+# Program size:        29772 bytes (90.9% Full)\n\
 # Data size:             508 bytes (24.8% Full)\n\
 \n";
 
@@ -163,7 +163,7 @@ bool ADC_SendFeedback(const KLString& ID)
 	{
 		const char ADC_ID = ID[1] - '0'; Analog[ADC_ID] = KAConverter::GetVoltage(KAConverter::PORT(ADC_ID));
 
-		if (Monitor.Online) UART << PGM_V get_SET << ID << ' ' << Script.Variables[ID].ToString() << EOC;
+		if (Monitor.Online) UART << PGM_V get_SET << ID << ' ' << Script.Variables[ID].ToNumber() << EOC;
 	}
 
 	return true;
@@ -175,7 +175,7 @@ void ADC_SendSensors(void)
 
 	for (const auto& Var: Inputs)
 	{
-		++i; UART << Var.Value.ToString();
+		++i; UART << Var.Value.ToNumber();
 
 		if (i != ADC_COUNT) UART << ',';
 		else UART << EOC;
@@ -220,6 +220,11 @@ int SYS_SetStatus(char Mask, char Value)
 			if (Monitor.Online) SYS_SendFeedback(GET_SLPT);
 
 			KAFlash::Write(1023, Value);
+
+		break;
+		case DEV_DEFAULT:
+
+			KAFlash::Write(1022, Value);
 
 		break;
 		case DEV_SCRIPT:
@@ -276,6 +281,9 @@ void SYS_InitDevice(char Boot)
 {
 	char Buff[] = "Vx";
 
+	// read sleep time
+	Monitor.Sleep = KAFlash::Read(1023) & SLEEP_MSK;
+
 	// setup interrupts
 	KAInt::SetMode(KAInt::INT_0, KAInt::ON_RISING);
 	KAInt::SetMode(KAInt::INT_1, KAInt::ON_RISING);
@@ -293,8 +301,10 @@ void SYS_InitDevice(char Boot)
 	KAOutput::SetState(KAPin::PORT_D, 0b11000000, false);
 	KAOutput::SetState(KAPin::PORT_B, 0b00000011, true);
 
-	// setup bindings
+	// set default shr states
+	SHR_SetOutputs(KAFlash::Read(1022));
 
+	// setup bindings
 	Script.Bindings.Add(BIND(get));
 	Script.Bindings.Add(BIND(put));
 	Script.Bindings.Add(BIND(pga));
@@ -319,6 +329,4 @@ void SYS_InitDevice(char Boot)
 			UART << PGM_V get_RETURN << REMOTE_TIMEOUT << PGM_V get_EOC; Monitor.Online = true;
 		break;
 	}
-
-	Monitor.Sleep = KAFlash::Read(1023) & SLEEP_MSK;
 }

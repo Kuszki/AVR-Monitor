@@ -26,10 +26,10 @@ AVRUploader::AVRUploader(const QString& Port, const QString& Code)
 	Device = new AVRBridge(this);
 	Timeout = new QTimer(this);
 
-	connect(Device, SIGNAL(onError(const QString&)), SLOT(HandleError(const QString&)));
-	connect(Device, SIGNAL(onConnectionUpdate(bool)), SLOT(HandleConnect(bool)));
+	connect(Device, &AVRBridge::onError, this, &AVRUploader::HandleError);
+	connect(Device, &AVRBridge::onConnectionUpdate, this, &AVRUploader::HandleConnect);
 
-	connect(Timeout, SIGNAL(timeout()), SLOT(HandleTimeout()));
+	connect(Timeout, &QTimer::timeout, this, &AVRUploader::HandleTimeout);
 
 	Timeout->setSingleShot(true);
 	Timeout->setInterval(3000);
@@ -51,7 +51,7 @@ void AVRUploader::HandleConnect(bool Connected)
 {
 	if (Connected)
 	{
-		Cout << tr("Connected after %n milisecond(s).\n", 0,
+		Cout << tr("Connected after %n milisecond(s)\n", 0,
 				 (Timeout->interval() - Timeout->remainingTime()))
 			<< flush;
 
@@ -74,7 +74,7 @@ void AVRUploader::HandleConnect(bool Connected)
 	}
 	else
 	{
-		HandleError(tr("Device disconnected."));
+		HandleError(tr("Device disconnected"));
 
 		QCoreApplication::exit(-1);
 	}
@@ -82,7 +82,7 @@ void AVRUploader::HandleConnect(bool Connected)
 
 void AVRUploader::HandleTimeout(void)
 {
-	HandleError(tr("Cannot connect to device - connection timeout."));
+	HandleError(tr("Cannot connect to device - connection timeout"));
 
 	QCoreApplication::exit(-1);
 }

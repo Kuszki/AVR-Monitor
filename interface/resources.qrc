@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/icon">
+        <file alias="event">icon-event.png</file>
+        <file alias="device">icon-device.png</file>
+        <file alias="options">icon-options.png</file>
+        <file alias="sensor">icon-sensor.png</file>
+    </qresource>
+    <qresource prefix="/logo">
+        <file alias="gnu">logo-gnu.png</file>
+    </qresource>
+</RCC>

@@ -6,51 +6,48 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>220</width>
-    <height>236</height>
+    <width>250</width>
+    <height>250</height>
    </rect>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>250</width>
+    <height>250</height>
+   </size>
+  </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>System</string>
   </property>
   <layout class="QFormLayout" name="mainLayout">
-   <item row="1" column="0">
-    <widget class="QLabel" name="labelMaster">
+   <property name="fieldGrowthPolicy">
+    <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+   </property>
+   <item row="0" column="0">
+    <widget class="QLabel" name="labelOnline">
      <property name="text">
-      <string>Master</string>
+      <string>Online:</string>
      </property>
     </widget>
    </item>
-   <item row="1" column="1">
-    <widget class="QCheckBox" name="Master">
-     <property name="enabled">
-      <bool>false</bool>
-     </property>
-     <property name="layoutDirection">
-      <enum>Qt::RightToLeft</enum>
-     </property>
+   <item row="1" column="0">
+    <widget class="QLabel" name="labelMaster">
      <property name="text">
-      <string notr="true"/>
+      <string>Mode:</string>
      </property>
     </widget>
    </item>
    <item row="2" column="0">
     <widget class="QLabel" name="labelShiftValue">
      <property name="text">
-      <string>Shift data</string>
+      <string>Shift data:</string>
      </property>
     </widget>
    </item>
    <item row="2" column="1">
     <widget class="QLabel" name="ShiftValue">
-     <property name="enabled">
-      <bool>false</bool>
-     </property>
-     <property name="layoutDirection">
-      <enum>Qt::RightToLeft</enum>
-     </property>
      <property name="text">
-      <string notr="true">0b00000000</string>
+      <string>Unknown</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -60,40 +57,21 @@
    <item row="3" column="0">
     <widget class="QLabel" name="labelShiftActive">
      <property name="text">
-      <string>Shift enabled</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="1">
-    <widget class="QCheckBox" name="ShiftActive">
-     <property name="enabled">
-      <bool>false</bool>
-     </property>
-     <property name="layoutDirection">
-      <enum>Qt::RightToLeft</enum>
-     </property>
-     <property name="text">
-      <string notr="true"/>
+      <string>Shift enabled:</string>
      </property>
     </widget>
    </item>
    <item row="4" column="0">
     <widget class="QLabel" name="labelGain_0">
      <property name="text">
-      <string>PGA 0 gain</string>
+      <string>PGA 0 gain:</string>
      </property>
     </widget>
    </item>
    <item row="4" column="1">
     <widget class="QLabel" name="Gain_0">
-     <property name="enabled">
-      <bool>false</bool>
-     </property>
-     <property name="layoutDirection">
-      <enum>Qt::RightToLeft</enum>
-     </property>
      <property name="text">
-      <string notr="true">x1</string>
+      <string>Unknown</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -103,94 +81,121 @@
    <item row="5" column="0">
     <widget class="QLabel" name="labelGain_1">
      <property name="text">
-      <string>PGA 1 gain</string>
+      <string>PGA 1 gain:</string>
      </property>
     </widget>
    </item>
    <item row="5" column="1">
     <widget class="QLabel" name="Gain_1">
-     <property name="enabled">
-      <bool>false</bool>
-     </property>
-     <property name="layoutDirection">
-      <enum>Qt::RightToLeft</enum>
-     </property>
      <property name="text">
-      <string notr="true">x1</string>
+      <string>Unknown</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-     </property>
-    </widget>
-   </item>
-   <item row="7" column="0">
-    <widget class="QLabel" name="labelRam">
-     <property name="text">
-      <string>Free RAM</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="1">
-    <widget class="QCheckBox" name="Online">
-     <property name="enabled">
-      <bool>false</bool>
-     </property>
-     <property name="layoutDirection">
-      <enum>Qt::RightToLeft</enum>
-     </property>
-     <property name="text">
-      <string notr="true"/>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="0">
-    <widget class="QLabel" name="labelOnline">
-     <property name="text">
-      <string>Online</string>
      </property>
     </widget>
    </item>
    <item row="6" column="0">
     <widget class="QLabel" name="labelInterval">
      <property name="text">
-      <string>Script interval</string>
+      <string>Script interval:</string>
      </property>
     </widget>
    </item>
    <item row="6" column="1">
     <widget class="QLabel" name="Interval">
-     <property name="enabled">
-      <bool>false</bool>
-     </property>
-     <property name="layoutDirection">
-      <enum>Qt::RightToLeft</enum>
-     </property>
      <property name="text">
-      <string notr="true">0 s</string>
+      <string>Unknown</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
     </widget>
    </item>
-   <item row="7" column="1">
-    <widget class="QProgressBar" name="FreeRam">
-     <property name="enabled">
-      <bool>false</bool>
+   <item row="7" column="0" colspan="2">
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QProgressBar" name="FreeRam">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="maximum">
+        <number>2048</number>
+       </property>
+       <property name="value">
+        <number>0</number>
+       </property>
+       <property name="format">
+        <string>%v B free RAM</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QToolButton" name="toolButton">
+       <property name="text">
+        <string notr="true"/>
+       </property>
+       <property name="icon">
+        <iconset theme="view-refresh">
+         <normaloff/>
+        </iconset>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="0" column="1">
+    <widget class="QLabel" name="Online">
+     <property name="text">
+      <string>No</string>
      </property>
-     <property name="maximum">
-      <number>2048</number>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
-     <property name="value">
-      <number>1024</number>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <widget class="QLabel" name="Master">
+     <property name="text">
+      <string>Unknown</string>
      </property>
-     <property name="format">
-      <string notr="true">%v B (%p%)</string>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1">
+    <widget class="QLabel" name="ShiftActive">
+     <property name="text">
+      <string>Unknown</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
     </widget>
    </item>
   </layout>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>toolButton</sender>
+   <signal>clicked()</signal>
+   <receiver>SystemWidget</receiver>
+   <slot>RefreshRamClick()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>228</x>
+     <y>217</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>426</x>
+     <y>220</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>RefreshRamClick()</slot>
+ </slots>
 </ui>

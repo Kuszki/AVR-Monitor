@@ -29,13 +29,13 @@ AVRTerminal::AVRTerminal(const QString Port)
 	Worker = new Terminalreader(this);
 	Timeout = new QTimer(this);
 
-	connect(Device, SIGNAL(onError(const QString&)), SLOT(HandleError(const QString&)));
-	connect(Device, SIGNAL(onConnectionUpdate(bool)), SLOT(HandleConnect(bool)));
+	connect(Device, &AVRBridge::onError, this, &AVRTerminal::HandleError);
+	connect(Device, &AVRBridge::onConnectionUpdate, this, &AVRTerminal::HandleConnect);
 
-	connect(Timeout, SIGNAL(timeout()), SLOT(HandleTimeout()));
+	connect(Timeout, &QTimer::timeout, this, &AVRTerminal::HandleTimeout);
 
-	connect(Device, SIGNAL(onMessageReceive(const QString&)), SLOT(HandleMessage(const QString&)));
-	connect(Worker, SIGNAL(onRead(const QString&)), SLOT(HandleCommand(const QString&)));
+	connect(Device, &AVRBridge::onMessageReceive, this, &AVRTerminal::HandleMessage);
+	connect(Worker, &Terminalreader::onRead, this, &AVRTerminal::HandleCommand);
 
 	Timeout->setSingleShot(true);
 	Timeout->setInterval(3000);
@@ -70,7 +70,7 @@ void AVRTerminal::HandleConnect(bool Connected)
 {
 	if (Connected)
 	{
-		Cout << tr("Connected after %n milisecond(s).\n", 0,
+		Cout << tr("Connected after %n milisecond(s)\n", 0,
 				 Timeout->interval() - Timeout->remainingTime() + 100)
 			<< flush;
 
@@ -79,7 +79,7 @@ void AVRTerminal::HandleConnect(bool Connected)
 	}
 	else
 	{
-		HandleError(tr("Device disconnected."));
+		HandleError(tr("Device disconnected"));
 
 		QCoreApplication::exit(-1);
 	}
@@ -87,7 +87,7 @@ void AVRTerminal::HandleConnect(bool Connected)
 
 void AVRTerminal::HandleTimeout(void)
 {
-	HandleError(tr("Cannot connect to device - connection timeout."));
+	HandleError(tr("Cannot connect to device - connection timeout"));
 
 	QCoreApplication::exit(-1);
 }

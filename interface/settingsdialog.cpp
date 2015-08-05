@@ -18,55 +18,54 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef SHIFTWIDGET_HPP
-#define SHIFTWIDGET_HPP
+#include "settingsdialog.hpp"
+#include "ui_settingsdialog.h"
 
-#include <QDockWidget>
-#include <QCheckBox>
-#include <QWidget>
-
-namespace Ui
+SettingsDialog::SettingsDialog(QWidget* Parent)
+: QDialog(Parent), ui(new Ui::SettingsDialog)
 {
-	class ShiftWidget;
+	ui->setupUi(this);
 }
 
-class ShiftWidget : public QWidget
+SettingsDialog::~SettingsDialog(void)
 {
+	delete ui;
+}
 
-		Q_OBJECT
+void SettingsDialog::SetIntervalValues(double Master, double Slave)
+{
+	ui->intervalMaster->setValue(Master);
+	ui->intervalSlave->setValue(Slave);
+}
 
-	private:
+void SettingsDialog::UpdateMasterInterval(double Interval)
+{
+	ui->intervalMaster->setValue(LastMasterInterval = Interval);
+}
 
-		Ui::ShiftWidget *ui;
+void SettingsDialog::open(void)
+{
+	LastMasterInterval = ui->intervalMaster->value();
+	LastSlaveInterval = ui->intervalSlave->value();
 
-		QCheckBox* Pins[8];
+	QDialog::open();
+}
 
-	public:
+void SettingsDialog::accept(void)
+{
+	apply(); QDialog::accept();
+}
 
-		explicit ShiftWidget(QWidget* Parent = nullptr);
-		virtual ~ShiftWidget(void) override;
+void SettingsDialog::reject(void)
+{
+	ui->intervalMaster->setValue(LastMasterInterval);
+	ui->intervalSlave->setValue(LastSlaveInterval);
 
-	private slots:
+	QDialog::reject();
+}
 
-		void EnableAllClicked(void);
-		void DisableAllClicked(void);
-
-		void OutputChanged(bool Enabled);
-		void EnabledChanged(bool Enabled);
-
-	public slots:
-
-		void UpdateShiftValues(unsigned char Values);
-		void UpdateShiftStatus(bool Enabled);
-
-		void LayoutChanged(Qt::DockWidgetArea Area);
-
-	signals:
-
-		void onShiftChanged(unsigned char);
-
-		void onEnabledChanged(bool);
-
-};
-
-#endif // SHIFTWIDGET_HPP
+void SettingsDialog::apply(void)
+{
+	emit onMasterIntervalChange(ui->intervalMaster->value());
+	emit onSlaveIntervalChange(ui->intervalSlave->value());
+}

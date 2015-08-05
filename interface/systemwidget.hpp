@@ -42,6 +42,10 @@ class SystemWidget : public QWidget
 		explicit SystemWidget(QWidget* Parent = nullptr);
 		virtual ~SystemWidget(void) override;
 
+	private slots:
+
+		void RefreshRamClick(void);
+
 	public slots:
 
 		void UpdateLink(bool Online);
@@ -57,6 +61,10 @@ class SystemWidget : public QWidget
 		void UpdateFreeRam(unsigned Value);
 
 		void UpdateInterval(double Value);
+
+	signals:
+
+		void onRamRefreshRequest(void);
 
 };
 

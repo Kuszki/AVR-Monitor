@@ -80,7 +80,7 @@ class AVRBRIDGE_EXPORT AVRBridge : public QObject
 
 		void UpdateSensorVariables(void);
 
-		void UpdateSystemVariables(void);
+		void UpdateSystemVariables(unsigned char Mask = 255);
 
 		void WriteGainSettings(unsigned char ID,
 						   unsigned char Gain);
@@ -90,6 +90,10 @@ class AVRBRIDGE_EXPORT AVRBridge : public QObject
 		void WriteShiftStatus(bool Enabled);
 
 		void WriteMasterStatus(bool Master);
+
+		void WriteSleepValue(double Time);
+
+		void WriteDefaultShift(unsigned char Values);
 
 		void WriteMasterScript(const QString& Code);
 
@@ -110,9 +114,11 @@ class AVRBRIDGE_EXPORT AVRBridge : public QObject
 
 		void onMasterStatusUpdate(bool);
 
+		void onSleepValueUpdate(double);
+
 		void onFreeRamUpdate(unsigned);
 
-		void onSensorsUpdate(const KLVariables&);
+		void onSensorValuesUpdate(const KLVariables&);
 
 		void onMasterScriptReceive(const QString&);
 

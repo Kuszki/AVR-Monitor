@@ -22,19 +22,29 @@ SOURCES	+= 	main.cpp \
 			shiftwidget.cpp \
 			gainwidget.cpp \
 			adcwidget.cpp \
-			systemwidget.cpp
+			systemwidget.cpp \
+    aboutdialog.cpp \
+    settingsdialog.cpp
 
 HEADERS	+=	mainwindow.hpp \
 			shiftwidget.hpp \
 			gainwidget.hpp \
 			adcwidget.hpp \
-			systemwidget.hpp
+			systemwidget.hpp \
+    aboutdialog.hpp \
+    settingsdialog.hpp
 
 FORMS	+=	mainwindow.ui \
 			shiftwidget.ui \
 			gainwidget.ui \
 			adcwidget.ui \
-			systemwidget.ui
+			systemwidget.ui \
+    aboutdialog.ui \
+    settingsdialog.ui
 
+INCLUDEPATH	+=	/home/kuszki/Projekty/AVR-Monitor/bridge
 INCLUDEPATH	+=	/home/kuszki/Projekty/KLLibs
 INCLUDEPATH	+=	/home/kuszki/Projekty/QCustomPlot
+
+RESOURCES += \
+    resources.qrc

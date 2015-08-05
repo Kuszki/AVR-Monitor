@@ -26,24 +26,153 @@ MainWindow::MainWindow(QWidget* Parent)
 {
 	ui->setupUi(this);
 
-	setTabPosition(Qt::DockWidgetArea::TopDockWidgetArea |
-				Qt::LeftDockWidgetArea |
-				Qt::RightDockWidgetArea,
-				QTabWidget::TabPosition::North);
+	avrDevice = new AVRBridge(this);
 
-	QSettings INI("layout.ini", QSettings::IniFormat);
+	aboutDialog = new AboutDialog(this);
+	settingsDialog = new SettingsDialog(this);
 
-	restoreState(INI.value("layout").toByteArray(), 1);
+	setTabPosition(Qt::AllDockWidgetAreas, QTabWidget::TabPosition::North);
 
-	connect(ui->shiftDock, SIGNAL(dockLocationChanged(Qt::DockWidgetArea)),
-		   ui->shiftWidget, SLOT(LayoutChanged(Qt::DockWidgetArea)));
+	restoreState(QSettings("layout.ini", QSettings::IniFormat).value("layout").toByteArray(), 1);
+
+	// shift dock to shift widget connections
+	connect(ui->shiftDock, &QDockWidget::dockLocationChanged, ui->shiftWidget, &ShiftWidget::LayoutChanged);
+
+	// device to system widget connections
+	connect(avrDevice, &AVRBridge::onConnectionUpdate, ui->systemWidget, &SystemWidget::UpdateLink);
+	connect(avrDevice, &AVRBridge::onMasterStatusUpdate, ui->systemWidget, &SystemWidget::UpdateStatus);
+	connect(avrDevice, &AVRBridge::onShiftValuesUpdate,  ui->systemWidget, &SystemWidget::UpdateShiftValues);
+	connect(avrDevice, &AVRBridge::onShiftStatusUpdate, ui->systemWidget, &SystemWidget::UpdateShiftStatus);
+	connect(avrDevice, &AVRBridge::onGainSettingsUpdate, ui->systemWidget, &SystemWidget::UpdateGainValue);
+	connect(avrDevice, &AVRBridge::onFreeRamUpdate, ui->systemWidget, &SystemWidget::UpdateFreeRam);
+	connect(avrDevice, &AVRBridge::onSleepValueUpdate, ui->systemWidget, &SystemWidget::UpdateInterval);
+
+	// system widget to device connections
+	connect(ui->systemWidget, &SystemWidget::onRamRefreshRequest, boost::bind(&AVRBridge::UpdateSystemVariables, avrDevice, GET_FRAM));
+
+	// device to adc widget connections
+	connect(avrDevice, &AVRBridge::onSensorValuesUpdate, ui->adcWidget, &AdcWidget::UpdateValues);
+
+	// device to pga widget connections
+	connect(avrDevice, &AVRBridge::onGainSettingsUpdate, ui->pgaWidget, &GainWidget::GainChanged);
+
+	// pga to device connections
+	connect(ui->pgaWidget, &GainWidget::onGainChange, avrDevice, &AVRBridge::WriteGainSettings);
+
+	// device to settings connections
+	connect(avrDevice, &AVRBridge::onSleepValueUpdate, settingsDialog, &SettingsDialog::UpdateMasterInterval);
+
+	// settings to device connections
+	connect(settingsDialog, &SettingsDialog::onMasterIntervalChange, avrDevice, &AVRBridge::WriteSleepValue);
+
+	// device to shift widget connections
+	connect(avrDevice, &AVRBridge::onShiftValuesUpdate, ui->shiftWidget, &ShiftWidget::UpdateShiftValues);
+	connect(avrDevice, &AVRBridge::onShiftStatusUpdate, ui->shiftWidget, &ShiftWidget::UpdateShiftStatus);
+
+	// shift widget to device connections
+	connect(ui->shiftWidget, &ShiftWidget::onShiftChanged, avrDevice, &AVRBridge::WriteShiftValues);
+	connect(ui->shiftWidget, &ShiftWidget::onEnabledChanged, avrDevice, &AVRBridge::WriteShiftStatus);
+
+	// device to main window connections
+	connect(avrDevice, &AVRBridge::onError, this, &MainWindow::ShowErrorMessage);
+	connect(avrDevice, &AVRBridge::onConnectionUpdate, this, &MainWindow::ConnectionChanged);
+	connect(avrDevice, &AVRBridge::onMasterScriptReceive, this, &MainWindow::SaveMasterScript);
 }
 
 MainWindow::~MainWindow(void)
 {
-	QSettings INI("layout.ini", QSettings::IniFormat);
+	QSettings("layout.ini", QSettings::IniFormat).setValue("layout", saveState(1));
 
-	INI.setValue("layout", saveState(1));
+	delete avrDevice;
 
 	delete ui;
+}
+
+void MainWindow::ConnectDevice(void)
+{
+	avrDevice->Connect("/dev/serial/by-id/usb-Łukasz__Kuszki__Dróżdż_AVR-Monitor_DAYYSEBT-if00-port0");
+}
+
+void MainWindow::DisconnectDevice(void)
+{
+	avrDevice->Disconnect();
+}
+
+void MainWindow::DownloadScript(void)
+{
+	avrDevice->ReadMasterScript();
+}
+
+void MainWindow::UploadScript(void)
+{
+	QString Name = QFileDialog::getOpenFileName(this, tr("Select script to upload"));
+
+	if (!Name.isEmpty())
+	{
+		QFile File(Name);
+
+		if (File.open(QFile::ReadOnly)) avrDevice->WriteMasterScript(File.readAll());
+		else ShowErrorMessage(tr("Can't open provided script file."));
+	}
+}
+
+void MainWindow::ShowErrorMessage(const QString& Message)
+{
+	QMessageBox::warning(this, tr("Error"), Message);
+}
+
+void MainWindow::ConnectionChanged(bool Connected)
+{
+	ui->actionConnect->setEnabled(!Connected);
+	ui->actionDisconnect->setEnabled(Connected);
+
+	ui->actionDownload->setEnabled(Connected);
+	ui->actionUpload->setEnabled(Connected);
+	ui->actionRun->setEnabled(Connected);
+	ui->actionRecord->setEnabled(Connected);
+	ui->actionMaster->setEnabled(Connected);
+	ui->actionSettings->setEnabled(Connected);
+	ui->actionSynchronize->setEnabled(Connected);
+
+	ui->pgaWidget->setEnabled(Connected);
+	ui->shiftWidget->setEnabled(Connected);
+	ui->systemWidget->setEnabled(Connected);
+	ui->adcWidget->setEnabled(Connected);
+}
+
+void MainWindow::SaveMasterScript(const QString& Script)
+{
+	QString Name = QFileDialog::getSaveFileName(this, tr("Select file to save script"));
+
+	if (!Name.isEmpty())
+	{
+		QFile File(Name);
+
+		if (!File.open(QFile::WriteOnly)) ShowErrorMessage(tr("Can't open provided file."));
+		else
+		{
+			File.write(Script.toUtf8());
+		}
+	}
+}
+
+void MainWindow::ShowAboutDialog(void)
+{
+	aboutDialog->show();
+}
+
+void MainWindow::ShowSettingsDialog(void)
+{
+	settingsDialog->open();
+}
+
+void MainWindow::ShowProjectWeb(void)
+{
+	QDesktopServices::openUrl(QUrl::fromUserInput("https://github.com/Kuszki/AVR-Monitor"));
+}
+
+void MainWindow::ToggleFulscreenMode(bool Fulscreen)
+{
+	if (Fulscreen) showFullScreen();
+	else showMaximized();
 }

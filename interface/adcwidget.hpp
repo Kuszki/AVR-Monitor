@@ -50,7 +50,7 @@ class AdcWidget : public QWidget
 
 	public slots:
 
-		void ValuesUpdated(const KLVariables& Vars);
+		void UpdateValues(const KLVariables& Vars);
 
 };
 

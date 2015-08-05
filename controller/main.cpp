@@ -51,7 +51,7 @@ int main(void)
 	KLString Serial, Master;
 
 	// setup sleep timer
-	char Sleep = 0;
+	unsigned Sleep = 0;
 
 	// global system init
 	SYS_InitDevice(Reboot_Code);
@@ -63,9 +63,7 @@ int main(void)
 		// handle serial event
 		while (UART.Ready())
 		{
-			Serial << UART.Recv();
-
-			if (Serial.Last() == RUN && Serial.Size()) SYS_Evaluate(Serial);
+			Serial << UART.Recv(); if (Serial.Last() == RUN && Serial.Size()) SYS_Evaluate(Serial);
 		}
 
 		// enter master device loop
@@ -90,16 +88,14 @@ int main(void)
 			}
 			else if (Monitor.Online)
 			{
-				for (const auto& Var: Script.Variables) UART << "set " << Var.ID << ' ' << Var.Value.ToString() << EOC;
+				ADC_SendSensors(); for (const auto& Var: Script.Variables) UART << "set " << Var.ID << ' ' << Var.Value.ToNumber() << EOC;
 			}
 
-			Script.Variables.Clean();
-
-			Sleep = Monitor.Sleep;
+			Sleep = Monitor.Sleep * 1000;
 		}
 		else
 		{
-			_delay_ms(100); --Sleep;
+			_delay_us(100); --Sleep;
 		}
 
 	}

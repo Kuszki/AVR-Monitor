@@ -18,55 +18,51 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef SHIFTWIDGET_HPP
-#define SHIFTWIDGET_HPP
+#ifndef SETTINGSDIALOG_HPP
+#define SETTINGSDIALOG_HPP
 
-#include <QDockWidget>
-#include <QCheckBox>
-#include <QWidget>
+#include <QDialog>
 
 namespace Ui
 {
-	class ShiftWidget;
+	class SettingsDialog;
 }
 
-class ShiftWidget : public QWidget
+class SettingsDialog : public QDialog
 {
 
 		Q_OBJECT
 
 	private:
 
-		Ui::ShiftWidget *ui;
+		Ui::SettingsDialog *ui;
 
-		QCheckBox* Pins[8];
+		double LastMasterInterval;
+		double LastSlaveInterval;
 
 	public:
 
-		explicit ShiftWidget(QWidget* Parent = nullptr);
-		virtual ~ShiftWidget(void) override;
+		explicit SettingsDialog(QWidget* Parent = nullptr);
+		virtual ~SettingsDialog(void) override;
 
-	private slots:
-
-		void EnableAllClicked(void);
-		void DisableAllClicked(void);
-
-		void OutputChanged(bool Enabled);
-		void EnabledChanged(bool Enabled);
+		void SetIntervalValues(double Master, double Slave);
 
 	public slots:
 
-		void UpdateShiftValues(unsigned char Values);
-		void UpdateShiftStatus(bool Enabled);
+		void UpdateMasterInterval(double Interval);
 
-		void LayoutChanged(Qt::DockWidgetArea Area);
+		virtual void open(void) override;
+
+		virtual void accept(void) override;
+		virtual void reject(void) override;
+
+		virtual void apply(void);
 
 	signals:
 
-		void onShiftChanged(unsigned char);
-
-		void onEnabledChanged(bool);
+		void onMasterIntervalChange(double);
+		void onSlaveIntervalChange(double);
 
 };
 
-#endif // SHIFTWIDGET_HPP
+#endif // SETTINGSDIALOG_HPP

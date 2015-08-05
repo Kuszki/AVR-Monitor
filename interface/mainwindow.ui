@@ -14,7 +14,9 @@
    <string>AVR-Sensors - Interface</string>
   </property>
   <property name="windowIcon">
-   <iconset theme="utilities-system-monitor"/>
+   <iconset theme="utilities-system-monitor">
+    <normaloff/>
+   </iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
@@ -30,11 +32,6 @@
        <attribute name="title">
         <string>Plot</string>
        </attribute>
-       <layout class="QGridLayout" name="gridLayout_2">
-        <item row="0" column="0">
-         <widget class="QCustomPlot" name="Plot" native="true"/>
-        </item>
-       </layout>
       </widget>
       <widget class="QWidget" name="tabSensors">
        <attribute name="title">
@@ -79,6 +76,8 @@
     <addaction name="actionMaster"/>
     <addaction name="separator"/>
     <addaction name="actionSettings"/>
+    <addaction name="separator"/>
+    <addaction name="actionQuit"/>
    </widget>
    <widget class="QMenu" name="menuScript">
     <property name="title">
@@ -108,7 +107,10 @@
    <addaction name="menuScript"/>
    <addaction name="menuHelp"/>
   </widget>
-  <widget class="QToolBar" name="mainToolBar">
+  <widget class="QToolBar" name="toolActions">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="windowTitle">
     <string>Device tools</string>
    </property>
@@ -135,10 +137,11 @@
    <addaction name="separator"/>
    <addaction name="actionUpload"/>
    <addaction name="actionDownload"/>
+   <addaction name="actionSynchronize"/>
    <addaction name="separator"/>
    <addaction name="actionSettings"/>
   </widget>
-  <widget class="QToolBar" name="toolBar">
+  <widget class="QToolBar" name="toolInfo">
    <property name="windowTitle">
     <string>Application tools</string>
    </property>
@@ -162,6 +165,8 @@
    <addaction name="actionHelp"/>
    <addaction name="actionAbout"/>
    <addaction name="actionWeb"/>
+   <addaction name="separator"/>
+   <addaction name="actionFulscreen"/>
   </widget>
   <widget class="QDockWidget" name="shiftDock">
    <property name="features">
@@ -173,7 +178,11 @@
    <attribute name="dockWidgetArea">
     <number>2</number>
    </attribute>
-   <widget class="ShiftWidget" name="shiftWidget"/>
+   <widget class="ShiftWidget" name="shiftWidget">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+   </widget>
   </widget>
   <widget class="QDockWidget" name="pgaDock">
    <property name="features">
@@ -185,7 +194,11 @@
    <attribute name="dockWidgetArea">
     <number>2</number>
    </attribute>
-   <widget class="GainWidget" name="pgaWidget"/>
+   <widget class="GainWidget" name="pgaWidget">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+   </widget>
   </widget>
   <widget class="QDockWidget" name="adcDock">
    <property name="features">
@@ -197,7 +210,11 @@
    <attribute name="dockWidgetArea">
     <number>1</number>
    </attribute>
-   <widget class="AdcWidget" name="adcWidget"/>
+   <widget class="AdcWidget" name="adcWidget">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+   </widget>
   </widget>
   <widget class="QDockWidget" name="systemDock">
    <property name="features">
@@ -209,7 +226,11 @@
    <attribute name="dockWidgetArea">
     <number>1</number>
    </attribute>
-   <widget class="SystemWidget" name="systemWidget"/>
+   <widget class="SystemWidget" name="systemWidget">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+   </widget>
   </widget>
   <action name="actionConnect">
    <property name="icon">
@@ -221,10 +242,13 @@
     <string>Connect</string>
    </property>
    <property name="toolTip">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Attempts to connect with AVR-Monitor device. You dont need to specify device adress, it will be done automatically.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    <string>Attempts to connect with AVR-Monitor device. You dont need to specify device adress, it will be done automatically.</string>
    </property>
   </action>
   <action name="actionDisconnect">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset theme="network-offline">
      <normaloff/>
@@ -234,12 +258,15 @@
     <string>Disconnect</string>
    </property>
    <property name="toolTip">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Stops connection between computer and device.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    <string>Stops connection between computer and device.</string>
    </property>
   </action>
   <action name="actionMaster">
    <property name="checkable">
     <bool>true</bool>
+   </property>
+   <property name="enabled">
+    <bool>false</bool>
    </property>
    <property name="icon">
     <iconset theme="system-run">
@@ -250,10 +277,13 @@
     <string>Master</string>
    </property>
    <property name="toolTip">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If enabled makes device work as master. If disabled device works as slave.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    <string>If enabled makes device work as master. If disabled device works as slave.</string>
    </property>
   </action>
   <action name="actionUpload">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset theme="document-send">
      <normaloff/>
@@ -263,10 +293,13 @@
     <string>Upload</string>
    </property>
    <property name="toolTip">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Upload selected script file to device.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    <string>Upload selected script file to device.</string>
    </property>
   </action>
   <action name="actionDownload">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset theme="emblem-downloads">
      <normaloff/>
@@ -276,7 +309,7 @@
     <string>Download</string>
    </property>
    <property name="toolTip">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Download script from device and save it in selected file.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    <string>Download script from device and save it in selected file.</string>
    </property>
   </action>
   <action name="actionAbout">
@@ -289,7 +322,7 @@
     <string>About</string>
    </property>
    <property name="toolTip">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Shows &amp;quot;About&amp;quot; dialog.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    <string>Shows &quot;About&quot; dialog.</string>
    </property>
   </action>
   <action name="actionHelp">
@@ -302,7 +335,7 @@
     <string>Help</string>
    </property>
    <property name="toolTip">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Shows &amp;quot;Help&amp;quot; dialog.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    <string>Shows &quot;Help&quot; dialog.</string>
    </property>
   </action>
   <action name="actionQuit">
@@ -332,6 +365,9 @@
    </property>
   </action>
   <action name="actionSettings">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset theme="preferences-system">
      <normaloff/>
@@ -341,10 +377,13 @@
     <string>Settings</string>
    </property>
    <property name="toolTip">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Open settings dialog.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    <string>Open settings dialog.</string>
    </property>
   </action>
   <action name="actionRun">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset theme="media-playback-start">
      <normaloff/>
@@ -358,6 +397,9 @@
    </property>
   </action>
   <action name="actionStop">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset theme="media-playback-stop">
      <normaloff/>
@@ -371,6 +413,9 @@
    </property>
   </action>
   <action name="actionRecord">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="icon">
     <iconset theme="media-record">
      <normaloff/>
@@ -383,6 +428,41 @@
     <string>Select file to record data.</string>
    </property>
   </action>
+  <action name="actionFulscreen">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset theme="view-fullscreen">
+     <normaloff/>
+    </iconset>
+   </property>
+   <property name="text">
+    <string>Fulscreen</string>
+   </property>
+   <property name="toolTip">
+    <string>Enable fullscreen view.</string>
+   </property>
+  </action>
+  <action name="actionSynchronize">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset theme="view-refresh">
+     <normaloff/>
+    </iconset>
+   </property>
+   <property name="text">
+    <string>Synchronize</string>
+   </property>
+   <property name="toolTip">
+    <string>Upload current env settings into device.</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
@@ -391,9 +471,6 @@
    <extends>QWidget</extends>
    <header>shiftwidget.hpp</header>
    <container>1</container>
-   <slots>
-    <slot>LayoutChanged(Qt::DockWidgetArea)</slot>
-   </slots>
   </customwidget>
   <customwidget>
    <class>GainWidget</class>
@@ -411,12 +488,6 @@
    <class>SystemWidget</class>
    <extends>QWidget</extends>
    <header>systemwidget.hpp</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>QCustomPlot</class>
-   <extends>QWidget</extends>
-   <header location="global">qcustomplot.hpp</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
@@ -438,5 +509,143 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionAbout</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>ShowAboutDialog()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>399</x>
+     <y>300</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionFulscreen</sender>
+   <signal>triggered(bool)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>ToggleFulscreenMode(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>399</x>
+     <y>300</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionWeb</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>ShowProjectWeb()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>399</x>
+     <y>300</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionSettings</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>ShowSettingsDialog()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>399</x>
+     <y>300</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionConnect</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>ConnectDevice()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>399</x>
+     <y>300</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionDisconnect</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>DisconnectDevice()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>399</x>
+     <y>300</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionDownload</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>DownloadScript()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>399</x>
+     <y>300</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionUpload</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>UploadScript()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>399</x>
+     <y>300</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
+ <slots>
+  <slot>ShowAboutDialog()</slot>
+  <slot>ToggleFulscreenMode(bool)</slot>
+  <slot>ShowProjectWeb()</slot>
+  <slot>ShowSettingsDialog()</slot>
+  <slot>DisconnectDevice()</slot>
+  <slot>ConnectDevice()</slot>
+  <slot>DownloadScript()</slot>
+  <slot>UploadScript()</slot>
+ </slots>
 </ui>

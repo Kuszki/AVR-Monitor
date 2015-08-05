@@ -26,11 +26,11 @@ AVRDownloader::AVRDownloader(const QString& Port, const QString& Out)
 	Device = new AVRBridge(this);
 	Timeout = new QTimer(this);
 
-	connect(Device, SIGNAL(onError(const QString&)), SLOT(HandleError(const QString&)));
-	connect(Device, SIGNAL(onConnectionUpdate(bool)), SLOT(HandleConnect(bool)));
-	connect(Device, SIGNAL(onMasterScriptReceive(const QString&)), SLOT(HandleMessage(const QString&)));
+	connect(Device, &AVRBridge::onError, this, &AVRDownloader::HandleError);
+	connect(Device, &AVRBridge::onConnectionUpdate, this, &AVRDownloader::HandleConnect);
+	connect(Device, &AVRBridge::onMasterScriptReceive, this, &AVRDownloader::HandleMessage);
 
-	connect(Timeout, SIGNAL(timeout()), SLOT(HandleTimeout()));
+	connect(Timeout, &QTimer::timeout, this, &AVRDownloader::HandleTimeout);
 
 	Timeout->setSingleShot(true);
 	Timeout->setInterval(3000);
@@ -52,7 +52,7 @@ void AVRDownloader::HandleConnect(bool Connected)
 {
 	if (Connected)
 	{
-		Cout << tr("Connected after %n milisecond(s).\n", 0,
+		Cout << tr("Connected after %n milisecond(s)\n", 0,
 				 (Timeout->interval() - Timeout->remainingTime()))
 			<< flush;
 
@@ -62,7 +62,7 @@ void AVRDownloader::HandleConnect(bool Connected)
 	}
 	else
 	{
-		HandleError(tr("Device disconnected."));
+		HandleError(tr("Device disconnected"));
 
 		QCoreApplication::exit(-1);
 	}
@@ -70,6 +70,7 @@ void AVRDownloader::HandleConnect(bool Connected)
 
 void AVRDownloader::HandleMessage(const QString& Message)
 {
+	Cout << tr("Master script downloaded\n\n") << flush;
 	Cout << Message << flush;
 
 	QFile File(Script);
@@ -82,7 +83,7 @@ void AVRDownloader::HandleMessage(const QString& Message)
 
 void AVRDownloader::HandleTimeout(void)
 {
-	HandleError(tr("Cannot connect to device - connection timeout."));
+	HandleError(tr("Cannot connect to device - connection timeout"));
 
 	QCoreApplication::exit(-1);
 }

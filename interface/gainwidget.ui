@@ -16,9 +16,6 @@
   <layout class="QFormLayout" name="formLayout">
    <item row="0" column="0">
     <widget class="QLabel" name="labelGain_0">
-     <property name="toolTip">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Gain of PGA connected to ADC0.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-     </property>
      <property name="text">
       <string>PGA 0 gain</string>
      </property>
@@ -70,9 +67,6 @@
    </item>
    <item row="1" column="0">
     <widget class="QLabel" name="labelGain_1">
-     <property name="toolTip">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Gain of PGA connected to ADC1.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-     </property>
      <property name="text">
       <string>PGA 1 gain</string>
      </property>

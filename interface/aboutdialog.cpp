@@ -18,55 +18,17 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef SHIFTWIDGET_HPP
-#define SHIFTWIDGET_HPP
+#include "aboutdialog.hpp"
+#include "ui_aboutdialog.h"
 
-#include <QDockWidget>
-#include <QCheckBox>
-#include <QWidget>
-
-namespace Ui
+AboutDialog::AboutDialog(QWidget *parent) :
+	QDialog(parent),
+	ui(new Ui::AboutDialog)
 {
-	class ShiftWidget;
+	ui->setupUi(this);
 }
 
-class ShiftWidget : public QWidget
+AboutDialog::~AboutDialog()
 {
-
-		Q_OBJECT
-
-	private:
-
-		Ui::ShiftWidget *ui;
-
-		QCheckBox* Pins[8];
-
-	public:
-
-		explicit ShiftWidget(QWidget* Parent = nullptr);
-		virtual ~ShiftWidget(void) override;
-
-	private slots:
-
-		void EnableAllClicked(void);
-		void DisableAllClicked(void);
-
-		void OutputChanged(bool Enabled);
-		void EnabledChanged(bool Enabled);
-
-	public slots:
-
-		void UpdateShiftValues(unsigned char Values);
-		void UpdateShiftStatus(bool Enabled);
-
-		void LayoutChanged(Qt::DockWidgetArea Area);
-
-	signals:
-
-		void onShiftChanged(unsigned char);
-
-		void onEnabledChanged(bool);
-
-};
-
-#endif // SHIFTWIDGET_HPP
+	delete ui;
+}

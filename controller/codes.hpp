@@ -22,12 +22,12 @@
 #define _AVR_MONITOR_UC_CODES
 
 // dev commands
-#define DEV_LINE		1
-#define DEV_MASTER		2
-#define DEV_SLEEP		3
-#define DEV_SCRIPT		4
-#define DEV_SPEC		5
-
+#define DEV_LINE		1					//!< Ustal stan połączenia.
+#define DEV_MASTER		2					//!< Ustal rolę użądzenia.
+#define DEV_SLEEP		3					//!< Ustal czas pomiędzy iteracjami.
+#define DEV_DEFAULT		4					//!< Ustal domyślną wartość rejestru.
+#define DEV_SCRIPT		5					//!< Pobierz lub wyślij skrypt.
+#define DEV_SPEC		6					//!< Opcje specjalne.
 
 // dev special tasks
 #define CLEAN_RAM		1					//!< Wyczyść dodatkowe zmienne.
@@ -35,12 +35,12 @@
 
 // script error code macro
 #define WRONG_SCRIPT	-255					//!< Skrypt nieprawidłowy.
-#define MASTER_TIMEOUT	-254					//!< Przekroczono limit czasu przez użytkownika.
-#define REMOTE_TIMEOUT	-253					//!< Przekroczono limit czasu przez urządzenie.
+#define MASTER_TIMEOUT	-254					//!< Przekroczono limit czasu przez użądzenie.
+#define REMOTE_TIMEOUT	-253					//!< Przekroczono limit czasu przez użytkownika.
 
 // frozen conditions
-#define MASTER_FROZEN	0b01000000			//!< Użytkownik dokonał zamrożenia kodu.
-#define REMOTE_FROZEN	0b11000000			//!< Urządzenie dokonało zamrożenia kodu.
+#define MASTER_FROZEN	0b11000000			//!< Użądzenie dokonało zamrożenia kodu.
+#define REMOTE_FROZEN	0b01000000			//!< Użytkownik dokonał zamrożenia kodu.
 
 // common error codes macros
 #define WRONG_PARAMS	-1					//!< Błędnie parametry funkcji.
@@ -69,7 +69,7 @@
 #define GET_PGA1		32					//!< Pobierz wzmocnienie wzmacniacza 1.
 #define GET_FRAM		64					//!< Pobierz ilość owlnej pamięci RAM.
 #define GET_SLPT		128					//!< Pobierz czas pomiędzy iteracjami.
-#define GET_ALL		255					//!< Pobierz wszystkie dane urządzenia.
+#define GET_ALL		255					//!< Pobierz wszystkie dane użądzenia.
 
 // script send strings
 #define SOS			"# BEGIN"				//!< Początek skryptu.

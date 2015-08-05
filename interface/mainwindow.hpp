@@ -21,7 +21,16 @@
 #ifndef MAINWINDOW_HPP
 #define MAINWINDOW_HPP
 
+#include <QDesktopServices>
+#include <QMessageBox>
 #include <QMainWindow>
+#include <QFileDialog>
+#include <QSettings>
+
+#include <avrbridge.hpp>
+
+#include "aboutdialog.hpp"
+#include "settingsdialog.hpp"
 
 namespace Ui
 {
@@ -33,14 +42,45 @@ class MainWindow : public QMainWindow
 
 		Q_OBJECT
 
+	private:
+
+		Ui::MainWindow *ui;
+
+		AVRBridge* avrDevice;
+
+		AboutDialog* aboutDialog;
+		SettingsDialog* settingsDialog;
+
 	public:
 
 		explicit MainWindow(QWidget *parent = 0);
 		virtual ~MainWindow(void) override;
 
-	private:
+	private slots:
 
-		Ui::MainWindow *ui;
+		void ConnectDevice(void);
+
+		void DisconnectDevice(void);
+
+		void DownloadScript(void);
+
+		void UploadScript(void);
+
+		void ShowErrorMessage(const QString& Message);
+
+		void ConnectionChanged(bool Connected);
+
+		void SaveMasterScript(const QString& Script);
+
+	public slots:
+
+		void ShowAboutDialog(void);
+
+		void ShowSettingsDialog(void);
+
+		void ShowProjectWeb(void);
+
+		void ToggleFulscreenMode(bool Fulscreen);
 
 };
 

@@ -20,7 +20,7 @@
 
 #include "systemwidget.hpp"
 #include "ui_systemwidget.h"
-
+#include <QDebug>
 SystemWidget::SystemWidget(QWidget *Parent)
 : QWidget(Parent), ui(new Ui::SystemWidget)
 {
@@ -32,24 +32,29 @@ SystemWidget::~SystemWidget(void)
 	delete ui;
 }
 
+void SystemWidget::RefreshRamClick(void)
+{
+	emit onRamRefreshRequest();
+}
+
 void SystemWidget::UpdateLink(bool Online)
 {
-	ui->Online->setChecked(Online);
+	ui->Online->setText(Online ? tr("Yes") : tr("No"));
 }
 
 void SystemWidget::UpdateStatus(bool Master)
 {
-	ui->Master->setChecked(Master);
+	ui->Master->setText(Master ? tr("Master") : tr("Slave"));
 }
 
 void SystemWidget::UpdateShiftValues(unsigned char Values)
 {
-	ui->ShiftValue->setText(QString("0b%1").arg(Values, 0, 2));
+	ui->ShiftValue->setText(QString("%1").arg(Values, 8, 2, QChar('0')));
 }
 
 void SystemWidget::UpdateShiftStatus(bool Active)
 {
-	ui->ShiftActive->setCheckable(Active);
+	ui->ShiftActive->setText(Active ? tr("Enabled") : tr("Disabled"));
 }
 
 void SystemWidget::UpdateGainValue(unsigned char ID, unsigned char Gain)
@@ -57,10 +62,10 @@ void SystemWidget::UpdateGainValue(unsigned char ID, unsigned char Gain)
 	switch (ID)
 	{
 		case 0:
-			ui->Gain_0->setText(QString::number(Gain));
+			ui->Gain_0->setText(QString("x%1").arg(Gain));
 		break;
 		case 1:
-			ui->Gain_1->setText(QString::number(Gain));
+			ui->Gain_1->setText(QString("x%1").arg(Gain));
 		break;
 	}
 }

@@ -20,8 +20,6 @@
 
 #include "avrbridge.hpp"
 
-#include <QDebug>
-
 AVRBridge::AVRBridge(QObject* Parent)
 : QObject(Parent)
 {
@@ -64,6 +62,11 @@ AVRBridge::AVRBridge(QObject* Parent)
 		emit onGainSettingsUpdate(1, (unsigned char)(Value));
 	});
 
+	Script->Variables.Add("SLPT", KLVariables::INTEGER, [this] (double Value) -> void
+	{
+		emit onSleepValueUpdate(Value / 10);
+	});
+
 	Script->Variables.Add("FRAM", KLVariables::BOOLEAN, [this] (double Value) -> void
 	{
 		emit onFreeRamUpdate(unsigned(Value));
@@ -71,9 +74,9 @@ AVRBridge::AVRBridge(QObject* Parent)
 
 	Script->Bindings.Add("set", [this] (KLVariables& Vars) -> double
 	{
-		for (int i = 0; i < 6; i++) Sensors[KLString('V') + i] = Vars[i].ToNumber();
+		for (int i = 0; i < 6; i++) Sensors[KLString('V') + KLString(i)] = Vars[i].ToNumber();
 
-		emit onSensorsUpdate(Sensors);
+		emit onSensorValuesUpdate(Sensors);
 
 		return 0;
 	});
@@ -83,8 +86,8 @@ AVRBridge::AVRBridge(QObject* Parent)
 	Serial->setStopBits(QSerialPort::OneStop);
 	Serial->setDataBits(QSerialPort::Data8);
 
-	connect(Serial, SIGNAL(readyRead()), SLOT(ReadData()));
-	connect(Script, SIGNAL(onEvaluate(double)), SLOT(GetResoult(double)));
+	connect(Serial, &QSerialPort::readyRead, this, &AVRBridge::ReadData);
+	connect(Script, &KLScriptbinding::onEvaluate, this, &AVRBridge::GetResoult);
 
 }
 
@@ -138,28 +141,34 @@ void AVRBridge::GetResoult(double Value)
 	switch (int(Value))
 	{
 		case WRONG_SCRIPT:
-			emit onError(tr("Wrong scriptcode."));
+			emit onError(tr("Wrong scriptcode"));
 		break;
 		case WRONG_PARAMS:
-			emit onError(tr("Wrong script params."));
+			emit onError(tr("Wrong script params"));
 		break;
 		case WRONG_SHR_PIN:
-			emit onError(tr("Wrong shift register pin."));
+			emit onError(tr("Wrong shift register pin"));
 		break;
 		case WRONG_PGA_ID:
-			emit onError(tr("Wrong PGA ID."));
+			emit onError(tr("Wrong PGA ID"));
 		break;
 		case WRONG_PGA_GAIN:
-			emit onError(tr("Wrong PGA gain."));
+			emit onError(tr("Wrong PGA gain"));
 		break;
 		case WRONG_ADC_ID:
-			emit onError(tr("Wrong ADC ID."));
+			emit onError(tr("Wrong ADC ID"));
 		break;
 		case WRONG_SYS_CODE:
-			emit onError(tr("Wrong system code."));
+			emit onError(tr("Wrong system code"));
 		break;
 		case WRONG_SYS_STATE:
-			emit onError(tr("Wrong system status."));
+			emit onError(tr("Wrong system status"));
+		break;
+		case MASTER_FROZEN:
+			emit onError(tr("Device frozen on master script evaluation"));
+		break;
+		case REMOTE_FROZEN:
+			emit onError(tr("Device frozen on remote script evaluation"));
 		break;
 	}
 }
@@ -172,6 +181,7 @@ const KLVariables& AVRBridge::Variables(void) const
 void AVRBridge::Command(const QString& Message)
 {
 	if (!IsConnected()) emit onError(tr("Serial or device not connected"));
+	else
 	{
 		Serial->write(Message.toUtf8());
 		Serial->write("\n");
@@ -204,6 +214,7 @@ void AVRBridge::Disconnect(void)
 	{
 		Serial->write(QString("call dev %1,0;\n").arg(DEV_LINE).toUtf8());
 		Serial->flush();
+		Serial->close();
 
 		Script->Variables["LINE"] = false;
 	}
@@ -227,9 +238,9 @@ void AVRBridge::UpdateSensorVariables(void)
 	Command("call get 0,1,2,3,4,5;");
 }
 
-void AVRBridge::UpdateSystemVariables(void)
+void AVRBridge::UpdateSystemVariables(unsigned char Mask)
 {
-	Command("call sys;");
+	Command(QString("call sys %1;").arg(Mask));
 }
 
 void AVRBridge::WriteGainSettings(unsigned char ID, unsigned char Gain)
@@ -252,9 +263,20 @@ void AVRBridge::WriteMasterStatus(bool Master)
 	Command(QString("call dev %1,%2;").arg(DEV_MASTER).arg(Master));
 }
 
+void AVRBridge::WriteSleepValue(double Time)
+{
+	Command(QString("call dev %1,%2;").arg(DEV_SLEEP).arg((unsigned char)(Time * 10)));
+}
+
+void AVRBridge::WriteDefaultShift(unsigned char Values)
+{
+	Command(QString("call dev %1,%2;").arg(DEV_DEFAULT).arg(Values));
+}
+
 void AVRBridge::WriteMasterScript(const QString& Code)
 {
-	if (!IsConnected() || Script->Variables["WORK"].ToBool()) emit onError(tr("Cannot upload master script"));
+	if (!IsConnected()) emit onError(tr("Serial or device not connected"));
+	else if (Script->Variables["WORK"].ToBool()) emit onError(tr("Device is working as master"));
 	else
 	{
 		Serial->write(QString("call dev %1,0;\n").arg(DEV_SCRIPT).toUtf8());
@@ -280,6 +302,7 @@ void AVRBridge::ReadMasterScript(void)
 {
 	if (!IsConnected()) emit onError(tr("Serial or device not connected"));
 	else if (Script->Variables["WORK"].ToBool()) emit onError(tr("Device is working as master"));
+	else
 	{
 		Serial->write(QString("call dev %1,1;\n").arg(DEV_SCRIPT).toUtf8());
 		Serial->flush();
