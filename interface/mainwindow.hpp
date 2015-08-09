@@ -22,6 +22,7 @@
 #define MAINWINDOW_HPP
 
 #include <QDesktopServices>
+#include <QDoubleSpinBox>
 #include <QMessageBox>
 #include <QMainWindow>
 #include <QFileDialog>
@@ -30,7 +31,6 @@
 #include <avrbridge.hpp>
 
 #include "aboutdialog.hpp"
-#include "settingsdialog.hpp"
 
 namespace Ui
 {
@@ -46,14 +46,12 @@ class MainWindow : public QMainWindow
 
 		Ui::MainWindow *ui;
 
-		AVRBridge* avrDevice;
-
 		AboutDialog* aboutDialog;
-		SettingsDialog* settingsDialog;
+		QDoubleSpinBox* Interval;
 
 	public:
 
-		explicit MainWindow(QWidget *parent = 0);
+		explicit MainWindow(QWidget* Parent = nullptr);
 		virtual ~MainWindow(void) override;
 
 	private slots:
@@ -72,11 +70,11 @@ class MainWindow : public QMainWindow
 
 		void SaveMasterScript(const QString& Script);
 
+		void IntervalValueChanged(double Value);
+
 	public slots:
 
 		void ShowAboutDialog(void);
-
-		void ShowSettingsDialog(void);
 
 		void ShowProjectWeb(void);
 

@@ -18,51 +18,45 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef SETTINGSDIALOG_HPP
-#define SETTINGSDIALOG_HPP
+#ifndef EVENTDIALOG_HPP
+#define EVENTDIALOG_HPP
 
+#include <QMessageBox>
 #include <QDialog>
+
+#include "appcore.hpp"
+#include "common.hpp"
 
 namespace Ui
 {
-	class SettingsDialog;
+	class EventDialog;
 }
 
-class SettingsDialog : public QDialog
+class EventDialog : public QDialog
 {
-
 		Q_OBJECT
 
 	private:
 
-		Ui::SettingsDialog *ui;
+		Ui::EventDialog* ui;
 
-		double LastMasterInterval;
-		double LastSlaveInterval;
+		const int ID;
 
 	public:
 
-		explicit SettingsDialog(QWidget* Parent = nullptr);
-		virtual ~SettingsDialog(void) override;
-
-		void SetIntervalValues(double Master, double Slave);
-
-	public slots:
-
-		void UpdateMasterInterval(double Interval);
+		explicit EventDialog(int Event, QWidget* Parent = nullptr);
+		virtual ~EventDialog(void) override;
 
 		virtual void open(void) override;
 
-		virtual void accept(void) override;
-		virtual void reject(void) override;
+	public slots:
 
-		virtual void apply(void);
+		virtual void accept(void) override;
 
 	signals:
 
-		void onMasterIntervalChange(double);
-		void onSlaveIntervalChange(double);
+		void onDialogAccept(const EventData&);
 
 };
 
-#endif // SETTINGSDIALOG_HPP
+#endif // EVENTDIALOG_HPP

@@ -18,62 +18,31 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include "terminalwidget.hpp"
-#include "ui_terminalwidget.h"
+#include "sensorwidget.hpp"
+#include "ui_sensorwidget.h"
 
-TerminalWidget::TerminalWidget(QWidget* Parent)
-: QWidget(Parent), ui(new Ui::TerminalWidget)
+SensorWidget::SensorWidget(QWidget *Parent)
+: QWidget(Parent), ui(new Ui::SensorWidget)
 {
 	ui->setupUi(this);
 
-	ui->Helper->hide();
+	Dialog = new SensorDialog(-1, this);
+
+	for (const auto& Data: AppCore::getInstance()->GetSensors()) AddSensor(Data);
+
+	connect(Dialog, &SensorDialog::onDialogAccept, this, &SensorWidget::AddSensor);
+
+	connect(ui->addButton, &QPushButton::clicked, [this] (void) -> void { Dialog->open(); });
 }
 
-TerminalWidget::~TerminalWidget(void)
+SensorWidget::~SensorWidget(void)
 {
 	delete ui;
 }
 
-void TerminalWidget::SaveButtonClicked(void)
+void SensorWidget::AddSensor(const SensorData& Data)
 {
-	QString Path = QFileDialog::getSaveFileName(this, tr("Select file to save script"));
+	SensorEntry* Entry = new SensorEntry(Data, this);
 
-	if (!Path.isEmpty())
-	{
-		QFile File(Path);
-
-		if (!File.open(QFile::WriteOnly)) QMessageBox::warning(this, tr("Error"), tr("Can't open selected file in write mode"));
-		else
-		{
-			File.write(ui->Script->document()->toPlainText().toUtf8());
-		}
-	}
-}
-
-void TerminalWidget::LoadButtonClicked(void)
-{
-	QString Path = QFileDialog::getOpenFileName(this, tr("Select file to load script"));
-
-	if (!Path.isEmpty())
-	{
-		QFile File(Path);
-
-		if (!File.open(QFile::ReadOnly)) QMessageBox::warning(this, tr("Error"), tr("Can't open selected file in read mode"));
-		else
-		{
-			ui->Script->document()->setPlainText(File.readAll());
-		}
-	}
-}
-
-void TerminalWidget::ExecuteButtonClicked(void)
-{
-	emit onScriptExecute(ui->Script->document()->toPlainText());
-
-	if (ui->Clean->isChecked()) ui->Script->document()->clear();
-}
-
-void TerminalWidget::CheckButtonClicked(void)
-{
-	emit onScriptValidate(ui->Script->document()->toPlainText());
+	ui->sensorsLayout->addWidget(Entry);
 }

@@ -23,7 +23,7 @@
 AVRDownloader::AVRDownloader(const QString& Port, const QString& Out)
 : QObject(QCoreApplication::instance()), Script(Out), Cout(stdout)
 {
-	Device = new AVRBridge(this);
+	Device = new AVRBridge(nullptr, this);
 	Timeout = new QTimer(this);
 
 	connect(Device, &AVRBridge::onError, this, &AVRDownloader::HandleError);

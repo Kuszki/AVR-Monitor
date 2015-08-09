@@ -18,54 +18,55 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include "settingsdialog.hpp"
-#include "ui_settingsdialog.h"
+#include "eventdialog.hpp"
+#include "ui_eventdialog.h"
 
-SettingsDialog::SettingsDialog(QWidget* Parent)
-: QDialog(Parent), ui(new Ui::SettingsDialog)
+EventDialog::EventDialog(int Event, QWidget* Parent)
+: QDialog(Parent), ui(new Ui::EventDialog), ID(Event)
 {
 	ui->setupUi(this);
 }
 
-SettingsDialog::~SettingsDialog(void)
+EventDialog::~EventDialog(void)
 {
 	delete ui;
 }
 
-void SettingsDialog::SetIntervalValues(double Master, double Slave)
+void EventDialog::open(void)
 {
-	ui->intervalMaster->setValue(Master);
-	ui->intervalSlave->setValue(Slave);
-}
+	EventData Data = AppCore::getInstance()->GetEvent(ID);
 
-void SettingsDialog::UpdateMasterInterval(double Interval)
-{
-	ui->intervalMaster->setValue(LastMasterInterval = Interval);
-}
-
-void SettingsDialog::open(void)
-{
-	LastMasterInterval = ui->intervalMaster->value();
-	LastSlaveInterval = ui->intervalSlave->value();
+	ui->Name->setText(Data.Name);
+	ui->Script->document()->setPlainText(Data.Script);
+	ui->Active->setChecked(Data.Active);
 
 	QDialog::open();
 }
 
-void SettingsDialog::accept(void)
+void EventDialog::accept(void)
 {
-	apply(); QDialog::accept();
-}
+	EventData Data; bool OK = false;
 
-void SettingsDialog::reject(void)
-{
-	ui->intervalMaster->setValue(LastMasterInterval);
-	ui->intervalSlave->setValue(LastSlaveInterval);
+	Data.ID = ID;
+	Data.Name = ui->Name->text();
+	Data.Script = ui->Script->document()->toPlainText();
+	Data.Active = ui->Active->isChecked();
 
-	QDialog::reject();
-}
+	if (ID != -1)
+	{
+		OK = AppCore::getInstance()->UpdateEvent(Data);
+	}
+	else
+	{
+		OK = AppCore::getInstance()->AddEvent(Data);
+	}
 
-void SettingsDialog::apply(void)
-{
-	emit onMasterIntervalChange(ui->intervalMaster->value());
-	emit onSlaveIntervalChange(ui->intervalSlave->value());
+	if (OK)
+	{
+		emit onDialogAccept(Data); QDialog::accept();
+	}
+	else
+	{
+		QMessageBox::warning(this, tr("Error"), tr("Can't insert data into database - %1").arg(AppCore::getError()));
+	}
 }

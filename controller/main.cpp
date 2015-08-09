@@ -88,7 +88,7 @@ int main(void)
 			}
 			else if (Monitor.Online)
 			{
-				ADC_SendSensors(); for (const auto& Var: Script.Variables) UART << "set " << Var.ID << ' ' << Var.Value.ToNumber() << EOC;
+				ADC_SendSensors(); Script.Variables.Clean();
 			}
 
 			Sleep = Monitor.Sleep * 1000;

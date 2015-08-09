@@ -18,13 +18,18 @@
  *
  **********************************************************************/
 
-#include "mainwindow.hpp"
 #include <QApplication>
+
+#include "mainwindow.hpp"
+#include "appcore.hpp"
 
 int main(int argc, char *argv[])
 {
 	QApplication a(argc, argv);
+
+	AppCore app;
 	MainWindow w;
+
 	w.show();
 
 	return a.exec();

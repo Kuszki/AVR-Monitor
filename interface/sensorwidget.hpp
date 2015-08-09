@@ -18,62 +18,42 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include "terminalwidget.hpp"
-#include "ui_terminalwidget.h"
+#ifndef SENSORWIDGET_HPP
+#define SENSORWIDGET_HPP
 
-TerminalWidget::TerminalWidget(QWidget* Parent)
-: QWidget(Parent), ui(new Ui::TerminalWidget)
+#include <QPushButton>
+#include <QWidget>
+
+#include "sensordialog.hpp"
+#include "sensorentry.hpp"
+#include "appcore.hpp"
+#include "common.hpp"
+
+namespace Ui
 {
-	ui->setupUi(this);
-
-	ui->Helper->hide();
+	class SensorWidget;
 }
 
-TerminalWidget::~TerminalWidget(void)
+class SensorWidget : public QWidget
 {
-	delete ui;
-}
 
-void TerminalWidget::SaveButtonClicked(void)
-{
-	QString Path = QFileDialog::getSaveFileName(this, tr("Select file to save script"));
+		Q_OBJECT
 
-	if (!Path.isEmpty())
-	{
-		QFile File(Path);
+	private:
 
-		if (!File.open(QFile::WriteOnly)) QMessageBox::warning(this, tr("Error"), tr("Can't open selected file in write mode"));
-		else
-		{
-			File.write(ui->Script->document()->toPlainText().toUtf8());
-		}
-	}
-}
+		Ui::SensorWidget* ui;
 
-void TerminalWidget::LoadButtonClicked(void)
-{
-	QString Path = QFileDialog::getOpenFileName(this, tr("Select file to load script"));
+		SensorDialog* Dialog;
 
-	if (!Path.isEmpty())
-	{
-		QFile File(Path);
+	public:
 
-		if (!File.open(QFile::ReadOnly)) QMessageBox::warning(this, tr("Error"), tr("Can't open selected file in read mode"));
-		else
-		{
-			ui->Script->document()->setPlainText(File.readAll());
-		}
-	}
-}
+		explicit SensorWidget(QWidget* Parent = nullptr);
+		virtual ~SensorWidget(void) override;
 
-void TerminalWidget::ExecuteButtonClicked(void)
-{
-	emit onScriptExecute(ui->Script->document()->toPlainText());
+	private slots:
 
-	if (ui->Clean->isChecked()) ui->Script->document()->clear();
-}
+		void AddSensor(const SensorData& Data);
 
-void TerminalWidget::CheckButtonClicked(void)
-{
-	emit onScriptValidate(ui->Script->document()->toPlainText());
-}
+};
+
+#endif // SENSORWIDGET_HPP

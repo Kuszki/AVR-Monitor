@@ -18,62 +18,50 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include "terminalwidget.hpp"
-#include "ui_terminalwidget.h"
+#ifndef SENSORENTRY_HPP
+#define SENSORENTRY_HPP
 
-TerminalWidget::TerminalWidget(QWidget* Parent)
-: QWidget(Parent), ui(new Ui::TerminalWidget)
+#include <QWidget>
+
+#include "sensordialog.hpp"
+#include "common.hpp"
+
+namespace Ui
 {
-	ui->setupUi(this);
-
-	ui->Helper->hide();
+	class SensorEntry;
 }
 
-TerminalWidget::~TerminalWidget(void)
+class SensorEntry : public QWidget
 {
-	delete ui;
-}
 
-void TerminalWidget::SaveButtonClicked(void)
-{
-	QString Path = QFileDialog::getSaveFileName(this, tr("Select file to save script"));
+		Q_OBJECT
 
-	if (!Path.isEmpty())
-	{
-		QFile File(Path);
+	private:
 
-		if (!File.open(QFile::WriteOnly)) QMessageBox::warning(this, tr("Error"), tr("Can't open selected file in write mode"));
-		else
-		{
-			File.write(ui->Script->document()->toPlainText().toUtf8());
-		}
-	}
-}
+		Ui::SensorEntry* ui;
 
-void TerminalWidget::LoadButtonClicked(void)
-{
-	QString Path = QFileDialog::getOpenFileName(this, tr("Select file to load script"));
+		SensorDialog* Dialog;
 
-	if (!Path.isEmpty())
-	{
-		QFile File(Path);
+		const int ID;
 
-		if (!File.open(QFile::ReadOnly)) QMessageBox::warning(this, tr("Error"), tr("Can't open selected file in read mode"));
-		else
-		{
-			ui->Script->document()->setPlainText(File.readAll());
-		}
-	}
-}
+	public:
 
-void TerminalWidget::ExecuteButtonClicked(void)
-{
-	emit onScriptExecute(ui->Script->document()->toPlainText());
+		explicit SensorEntry(const SensorData& Data, QWidget* Parent = nullptr);
+		virtual ~SensorEntry(void) override;
 
-	if (ui->Clean->isChecked()) ui->Script->document()->clear();
-}
+	private slots:
 
-void TerminalWidget::CheckButtonClicked(void)
-{
-	emit onScriptValidate(ui->Script->document()->toPlainText());
-}
+		void SettingsButtonClicked(void);
+
+		void DeleteButtonClicked(void);
+
+		void UpdateSensor(const SensorData& Data);
+
+	public slots:
+
+		void ReconnectSensor(void);
+
+
+};
+
+#endif // SENSORENTRY_HPP

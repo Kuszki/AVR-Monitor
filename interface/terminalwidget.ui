@@ -17,7 +17,7 @@
    <item row="1" column="0" colspan="2">
     <layout class="QHBoxLayout" name="toolsLayout">
      <item>
-      <widget class="QPushButton" name="saveButton">
+      <widget class="QToolButton" name="saveButton">
        <property name="icon">
         <iconset theme="document-open">
          <normaloff/>
@@ -26,7 +26,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="loadButton">
+      <widget class="QToolButton" name="loadButton">
        <property name="icon">
         <iconset theme="document-save">
          <normaloff/>
@@ -35,7 +35,7 @@
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton">
+      <widget class="QToolButton" name="cleanButton">
        <property name="icon">
         <iconset theme="edit-clear">
          <normaloff/>
@@ -130,54 +130,6 @@
  <resources/>
  <connections>
   <connection>
-   <sender>pushButton</sender>
-   <signal>clicked()</signal>
-   <receiver>Script</receiver>
-   <slot>clear()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>142</x>
-     <y>490</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>217</x>
-     <y>314</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>saveButton</sender>
-   <signal>clicked()</signal>
-   <receiver>TerminalWidget</receiver>
-   <slot>LoadButtonClicked()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>32</x>
-     <y>487</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>33</x>
-     <y>513</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>loadButton</sender>
-   <signal>clicked()</signal>
-   <receiver>TerminalWidget</receiver>
-   <slot>SaveButtonClicked()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>81</x>
-     <y>494</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>75</x>
-     <y>513</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>Helper</sender>
    <signal>onCodePasteRequest(QString)</signal>
    <receiver>Script</receiver>
@@ -185,7 +137,7 @@
    <hints>
     <hint type="sourcelabel">
      <x>801</x>
-     <y>233</y>
+     <y>242</y>
     </hint>
     <hint type="destinationlabel">
      <x>249</x>
@@ -205,7 +157,7 @@
     </hint>
     <hint type="destinationlabel">
      <x>801</x>
-     <y>343</y>
+     <y>352</y>
     </hint>
    </hints>
   </connection>
@@ -238,6 +190,54 @@
     <hint type="destinationlabel">
      <x>694</x>
      <y>601</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cleanButton</sender>
+   <signal>clicked()</signal>
+   <receiver>Script</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>87</x>
+     <y>488</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>372</x>
+     <y>344</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>saveButton</sender>
+   <signal>clicked()</signal>
+   <receiver>TerminalWidget</receiver>
+   <slot>LoadButtonClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>26</x>
+     <y>500</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>33</x>
+     <y>597</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>loadButton</sender>
+   <signal>clicked()</signal>
+   <receiver>TerminalWidget</receiver>
+   <slot>SaveButtonClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>59</x>
+     <y>498</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>59</x>
+     <y>569</y>
     </hint>
    </hints>
   </connection>

@@ -20,10 +20,10 @@
 
 #include "avrbridge.hpp"
 
-AVRBridge::AVRBridge(QObject* Parent)
-: QObject(Parent)
+AVRBridge::AVRBridge(KLVariables* Returns, QObject* Parent)
+: QObject(Parent), Sensors(Returns)
 {
-	Script = new KLScriptbinding(this, &Sensors);
+	Script = new KLScriptbinding(&Sensors, this);
 	Serial = new QSerialPort(this);
 
 	Sensors.Add("V0", KLVariables::NUMBER);
@@ -173,7 +173,7 @@ void AVRBridge::GetResoult(double Value)
 	}
 }
 
-const KLVariables& AVRBridge::Variables(void) const
+KLVariables& AVRBridge::Variables(void)
 {
 	return Script->Variables;
 }
@@ -201,7 +201,7 @@ void AVRBridge::Connect(const QString& Port)
 		if (!Serial->open(QIODevice::ReadWrite)) emit onError(tr("Can not open serial - ") + Serial->errorString());
 		else
 		{
-			Serial->write(QString("call dev %1,1;\n").arg(DEV_LINE).toUtf8());
+			Serial->write(QString("call dev %1,1;call dev %2,0;\n").arg(DEV_LINE).arg(DEV_MASTER).toUtf8());
 			Serial->flush();
 		}
 	}
@@ -238,7 +238,7 @@ bool AVRBridge::IsConnected(void)
 
 void AVRBridge::UpdateSensorVariables(void)
 {
-	Command("call get 0,1,2,3,4,5;");
+	Command("call get;");
 }
 
 void AVRBridge::UpdateSystemVariables(unsigned char Mask)
@@ -276,9 +276,24 @@ void AVRBridge::WriteDefaultShift(unsigned char Values)
 	Command(QString("call dev %1,%2;").arg(DEV_DEFAULT).arg(Values));
 }
 
+void AVRBridge::WriteSpiValues(const QList<unsigned char>& Values)
+{
+	if (Values.size())
+	{
+		QString Code = "call spi ";
+
+		for (const auto& Value: Values) Code.append(QString("%1,").arg(Value));
+
+		Code[Code.size() - 1] = ';';
+
+		Command(Code);
+	}
+}
+
 void AVRBridge::WriteMasterScript(const QString& Code)
 {
-	if (!IsConnected()) emit onError(tr("Serial or device not connected"));
+	if (Code.size() > 1000) emit onError(tr("Script is too large"));
+	else if (!IsConnected()) emit onError(tr("Serial or device not connected"));
 	else if (Script->Variables["WORK"].ToBool()) emit onError(tr("Device is working as master"));
 	else
 	{
@@ -324,6 +339,19 @@ bool AVRBridge::ConnectSensorEvent(const QString& Name, const boost::function<vo
 	if (Sensors.Exists(Sensor))
 	{
 		Sensors[Sensor].SetCallback(Callback);
+	}
+	else return false;
+
+	return true;
+}
+
+bool AVRBridge::DisconnectSensorEvent(const QString &Name)
+{
+	const KLString Sensor = Name.toStdString().c_str();
+
+	if (Sensors.Exists(Sensor))
+	{
+		Sensors[Sensor].SetCallback(boost::function<void (double)>());
 	}
 	else return false;
 

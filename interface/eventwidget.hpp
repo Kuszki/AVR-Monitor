@@ -18,62 +18,41 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include "terminalwidget.hpp"
-#include "ui_terminalwidget.h"
+#ifndef EVENTWIDGET_HPP
+#define EVENTWIDGET_HPP
 
-TerminalWidget::TerminalWidget(QWidget* Parent)
-: QWidget(Parent), ui(new Ui::TerminalWidget)
+#include <QPushButton>
+#include <QWidget>
+
+#include "eventdialog.hpp"
+#include "evententry.hpp"
+#include "appcore.hpp"
+#include "common.hpp"
+
+namespace Ui
 {
-	ui->setupUi(this);
-
-	ui->Helper->hide();
+	class EventWidget;
 }
 
-TerminalWidget::~TerminalWidget(void)
+class EventWidget : public QWidget
 {
-	delete ui;
-}
+		Q_OBJECT
 
-void TerminalWidget::SaveButtonClicked(void)
-{
-	QString Path = QFileDialog::getSaveFileName(this, tr("Select file to save script"));
+	private:
 
-	if (!Path.isEmpty())
-	{
-		QFile File(Path);
+		Ui::EventWidget* ui;
 
-		if (!File.open(QFile::WriteOnly)) QMessageBox::warning(this, tr("Error"), tr("Can't open selected file in write mode"));
-		else
-		{
-			File.write(ui->Script->document()->toPlainText().toUtf8());
-		}
-	}
-}
+		EventDialog* Dialog;
 
-void TerminalWidget::LoadButtonClicked(void)
-{
-	QString Path = QFileDialog::getOpenFileName(this, tr("Select file to load script"));
+	public:
 
-	if (!Path.isEmpty())
-	{
-		QFile File(Path);
+		explicit EventWidget(QWidget* Parent = nullptr);
+		virtual ~EventWidget(void) override;
 
-		if (!File.open(QFile::ReadOnly)) QMessageBox::warning(this, tr("Error"), tr("Can't open selected file in read mode"));
-		else
-		{
-			ui->Script->document()->setPlainText(File.readAll());
-		}
-	}
-}
+	private slots:
 
-void TerminalWidget::ExecuteButtonClicked(void)
-{
-	emit onScriptExecute(ui->Script->document()->toPlainText());
+		void AddEvent(const EventData& Data);
 
-	if (ui->Clean->isChecked()) ui->Script->document()->clear();
-}
+};
 
-void TerminalWidget::CheckButtonClicked(void)
-{
-	emit onScriptValidate(ui->Script->document()->toPlainText());
-}
+#endif // EVENTWIDGET_HPP

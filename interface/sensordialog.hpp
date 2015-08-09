@@ -18,62 +18,46 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include "terminalwidget.hpp"
-#include "ui_terminalwidget.h"
+#ifndef SENSORDIALOG_HPP
+#define SENSORDIALOG_HPP
 
-TerminalWidget::TerminalWidget(QWidget* Parent)
-: QWidget(Parent), ui(new Ui::TerminalWidget)
+#include <QMessageBox>
+#include <QDialog>
+
+#include "appcore.hpp"
+#include "common.hpp"
+
+namespace Ui
 {
-	ui->setupUi(this);
-
-	ui->Helper->hide();
+	class SensorDialog;
 }
 
-TerminalWidget::~TerminalWidget(void)
+class SensorDialog : public QDialog
 {
-	delete ui;
-}
 
-void TerminalWidget::SaveButtonClicked(void)
-{
-	QString Path = QFileDialog::getSaveFileName(this, tr("Select file to save script"));
+		Q_OBJECT
 
-	if (!Path.isEmpty())
-	{
-		QFile File(Path);
+	private:
 
-		if (!File.open(QFile::WriteOnly)) QMessageBox::warning(this, tr("Error"), tr("Can't open selected file in write mode"));
-		else
-		{
-			File.write(ui->Script->document()->toPlainText().toUtf8());
-		}
-	}
-}
+		Ui::SensorDialog* ui;
 
-void TerminalWidget::LoadButtonClicked(void)
-{
-	QString Path = QFileDialog::getOpenFileName(this, tr("Select file to load script"));
+		const int ID;
 
-	if (!Path.isEmpty())
-	{
-		QFile File(Path);
+	public:
 
-		if (!File.open(QFile::ReadOnly)) QMessageBox::warning(this, tr("Error"), tr("Can't open selected file in read mode"));
-		else
-		{
-			ui->Script->document()->setPlainText(File.readAll());
-		}
-	}
-}
+		explicit SensorDialog(int Sensor, QWidget* Parent = nullptr);
+		virtual ~SensorDialog(void) override;
 
-void TerminalWidget::ExecuteButtonClicked(void)
-{
-	emit onScriptExecute(ui->Script->document()->toPlainText());
+		virtual void open(void) override;
 
-	if (ui->Clean->isChecked()) ui->Script->document()->clear();
-}
+	public slots:
 
-void TerminalWidget::CheckButtonClicked(void)
-{
-	emit onScriptValidate(ui->Script->document()->toPlainText());
-}
+		virtual void accept(void) override;
+
+	signals:
+
+		void onDialogAccept(const SensorData&);
+
+};
+
+#endif // SENSORDIALOG_HPP

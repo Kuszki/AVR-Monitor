@@ -18,62 +18,31 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include "terminalwidget.hpp"
-#include "ui_terminalwidget.h"
+#include "eventwidget.hpp"
+#include "ui_eventwidget.h"
 
-TerminalWidget::TerminalWidget(QWidget* Parent)
-: QWidget(Parent), ui(new Ui::TerminalWidget)
+EventWidget::EventWidget(QWidget* Parent)
+: QWidget(Parent), ui(new Ui::EventWidget)
 {
 	ui->setupUi(this);
 
-	ui->Helper->hide();
+	Dialog = new EventDialog(-1, this);
+
+	for (const auto& Data: AppCore::getInstance()->GetEvents()) AddEvent(Data);
+
+	connect(Dialog, &EventDialog::onDialogAccept, this, &EventWidget::AddEvent);
+
+	connect(ui->addButton, &QPushButton::clicked, [this] (void) -> void { Dialog->open(); });
 }
 
-TerminalWidget::~TerminalWidget(void)
+EventWidget::~EventWidget(void)
 {
 	delete ui;
 }
 
-void TerminalWidget::SaveButtonClicked(void)
+void EventWidget::AddEvent(const EventData& Data)
 {
-	QString Path = QFileDialog::getSaveFileName(this, tr("Select file to save script"));
+	EventEntry* Entry = new EventEntry(Data, this);
 
-	if (!Path.isEmpty())
-	{
-		QFile File(Path);
-
-		if (!File.open(QFile::WriteOnly)) QMessageBox::warning(this, tr("Error"), tr("Can't open selected file in write mode"));
-		else
-		{
-			File.write(ui->Script->document()->toPlainText().toUtf8());
-		}
-	}
-}
-
-void TerminalWidget::LoadButtonClicked(void)
-{
-	QString Path = QFileDialog::getOpenFileName(this, tr("Select file to load script"));
-
-	if (!Path.isEmpty())
-	{
-		QFile File(Path);
-
-		if (!File.open(QFile::ReadOnly)) QMessageBox::warning(this, tr("Error"), tr("Can't open selected file in read mode"));
-		else
-		{
-			ui->Script->document()->setPlainText(File.readAll());
-		}
-	}
-}
-
-void TerminalWidget::ExecuteButtonClicked(void)
-{
-	emit onScriptExecute(ui->Script->document()->toPlainText());
-
-	if (ui->Clean->isChecked()) ui->Script->document()->clear();
-}
-
-void TerminalWidget::CheckButtonClicked(void)
-{
-	emit onScriptValidate(ui->Script->document()->toPlainText());
+	ui->eventsLayout->addWidget(Entry);
 }

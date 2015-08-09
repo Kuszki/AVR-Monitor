@@ -23,7 +23,7 @@
 AVRUploader::AVRUploader(const QString& Port, const QString& Code)
 : QObject(QCoreApplication::instance()), Script(Code), Cout(stdout)
 {
-	Device = new AVRBridge(this);
+	Device = new AVRBridge(nullptr, this);
 	Timeout = new QTimer(this);
 
 	connect(Device, &AVRBridge::onError, this, &AVRUploader::HandleError);

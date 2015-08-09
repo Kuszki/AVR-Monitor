@@ -18,62 +18,59 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include "terminalwidget.hpp"
-#include "ui_terminalwidget.h"
+#include "sensordialog.hpp"
+#include "ui_sensordialog.h"
 
-TerminalWidget::TerminalWidget(QWidget* Parent)
-: QWidget(Parent), ui(new Ui::TerminalWidget)
+SensorDialog::SensorDialog(int Sensor, QWidget* Parent)
+: QDialog(Parent), ui(new Ui::SensorDialog), ID(Sensor)
 {
 	ui->setupUi(this);
-
-	ui->Helper->hide();
 }
 
-TerminalWidget::~TerminalWidget(void)
+SensorDialog::~SensorDialog(void)
 {
 	delete ui;
 }
 
-void TerminalWidget::SaveButtonClicked(void)
+void SensorDialog::open(void)
 {
-	QString Path = QFileDialog::getSaveFileName(this, tr("Select file to save script"));
+	SensorData Data = AppCore::getInstance()->GetSensor(ID);
 
-	if (!Path.isEmpty())
+	ui->Name->setText(Data.Name);
+	ui->Label->setText(Data.Label);
+	ui->Unit->setText(Data.Unit);
+	ui->Script->document()->setPlainText(Data.Script);
+	ui->Active->setChecked(Data.Active);
+
+	QDialog::open();
+}
+
+void SensorDialog::accept(void)
+{
+	SensorData Data; bool OK = false;
+
+	Data.ID = ID;
+	Data.Name = ui->Name->text();
+	Data.Label = ui->Label->text();
+	Data.Unit = ui->Unit->text();
+	Data.Script = ui->Script->document()->toPlainText();
+	Data.Active = ui->Active->isChecked();
+
+	if (ID != -1)
 	{
-		QFile File(Path);
-
-		if (!File.open(QFile::WriteOnly)) QMessageBox::warning(this, tr("Error"), tr("Can't open selected file in write mode"));
-		else
-		{
-			File.write(ui->Script->document()->toPlainText().toUtf8());
-		}
+		OK = AppCore::getInstance()->UpdateSensor(Data);
 	}
-}
-
-void TerminalWidget::LoadButtonClicked(void)
-{
-	QString Path = QFileDialog::getOpenFileName(this, tr("Select file to load script"));
-
-	if (!Path.isEmpty())
+	else
 	{
-		QFile File(Path);
-
-		if (!File.open(QFile::ReadOnly)) QMessageBox::warning(this, tr("Error"), tr("Can't open selected file in read mode"));
-		else
-		{
-			ui->Script->document()->setPlainText(File.readAll());
-		}
+		OK = AppCore::getInstance()->AddSensor(Data);
 	}
-}
 
-void TerminalWidget::ExecuteButtonClicked(void)
-{
-	emit onScriptExecute(ui->Script->document()->toPlainText());
-
-	if (ui->Clean->isChecked()) ui->Script->document()->clear();
-}
-
-void TerminalWidget::CheckButtonClicked(void)
-{
-	emit onScriptValidate(ui->Script->document()->toPlainText());
+	if (OK)
+	{
+		emit onDialogAccept(Data); QDialog::accept();
+	}
+	else
+	{
+		QMessageBox::warning(this, tr("Error"), tr("Can't insert data into database - %1").arg(AppCore::getError()));
+	}
 }

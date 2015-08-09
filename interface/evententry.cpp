@@ -18,62 +18,37 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include "terminalwidget.hpp"
-#include "ui_terminalwidget.h"
+#include "evententry.hpp"
+#include "ui_evententry.h"
 
-TerminalWidget::TerminalWidget(QWidget* Parent)
-: QWidget(Parent), ui(new Ui::TerminalWidget)
+EventEntry::EventEntry(const EventData& Data, QWidget* Parent)
+: QWidget(Parent), ui(new Ui::EventEntry), ID(Data.ID)
 {
-	ui->setupUi(this);
+	ui->setupUi(this); UpdateEvent(Data);
 
-	ui->Helper->hide();
+	Dialog = new EventDialog(ID, this);
+
+	connect(Dialog, &EventDialog::onDialogAccept, this, &EventEntry::UpdateEvent);
 }
 
-TerminalWidget::~TerminalWidget(void)
+EventEntry::~EventEntry(void)
 {
 	delete ui;
 }
 
-void TerminalWidget::SaveButtonClicked(void)
+void EventEntry::SettingsButtonClicked(void)
 {
-	QString Path = QFileDialog::getSaveFileName(this, tr("Select file to save script"));
-
-	if (!Path.isEmpty())
-	{
-		QFile File(Path);
-
-		if (!File.open(QFile::WriteOnly)) QMessageBox::warning(this, tr("Error"), tr("Can't open selected file in write mode"));
-		else
-		{
-			File.write(ui->Script->document()->toPlainText().toUtf8());
-		}
-	}
+	Dialog->open();
 }
 
-void TerminalWidget::LoadButtonClicked(void)
+void EventEntry::DeleteButtonClicked(void)
 {
-	QString Path = QFileDialog::getOpenFileName(this, tr("Select file to load script"));
-
-	if (!Path.isEmpty())
-	{
-		QFile File(Path);
-
-		if (!File.open(QFile::ReadOnly)) QMessageBox::warning(this, tr("Error"), tr("Can't open selected file in read mode"));
-		else
-		{
-			ui->Script->document()->setPlainText(File.readAll());
-		}
-	}
+	if (AppCore::getInstance()->DeleteEvent(ID)) deleteLater();
+	else QMessageBox::warning(this, tr("Error"), tr("Can't delete event - %1").arg(AppCore::getError()));
 }
 
-void TerminalWidget::ExecuteButtonClicked(void)
+void EventEntry::UpdateEvent(const EventData& Data)
 {
-	emit onScriptExecute(ui->Script->document()->toPlainText());
-
-	if (ui->Clean->isChecked()) ui->Script->document()->clear();
-}
-
-void TerminalWidget::CheckButtonClicked(void)
-{
-	emit onScriptValidate(ui->Script->document()->toPlainText());
+	ui->Name->setText(Data.Name);
+	ui->Name->setEnabled(Data.Active);
 }

@@ -25,6 +25,7 @@
 
 #include <KLLibs.hpp>
 
+#include <QList>
 #include <QObject>
 #include <QThread>
 #include <QSerialPort>
@@ -64,11 +65,11 @@ class AVRBRIDGE_EXPORT AVRBridge : public QObject
 
 	public:
 
-		explicit AVRBridge(QObject* Parent = nullptr);
+		explicit AVRBridge(KLVariables* Returns = nullptr, QObject* Parent = nullptr);
 
 		virtual ~AVRBridge(void) override;
 
-		const KLVariables& Variables(void) const;
+		KLVariables& Variables(void);
 
 		void Command(const QString& Message);
 
@@ -95,6 +96,8 @@ class AVRBRIDGE_EXPORT AVRBridge : public QObject
 
 		void WriteDefaultShift(unsigned char Values);
 
+		void WriteSpiValues(const QList<unsigned char>& Values);
+
 		void WriteMasterScript(const QString& Code);
 
 		void ReadMasterScript(void);
@@ -103,6 +106,8 @@ class AVRBRIDGE_EXPORT AVRBridge : public QObject
 
 		bool ConnectSensorEvent(const QString& Name,
 						    const boost::function<void (double)>& Callback);
+
+		bool DisconnectSensorEvent(const QString& Name);
 
 	signals:
 

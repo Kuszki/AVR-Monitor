@@ -18,62 +18,55 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include "terminalwidget.hpp"
-#include "ui_terminalwidget.h"
+#include "sensorentry.hpp"
+#include "ui_sensorentry.h"
 
-TerminalWidget::TerminalWidget(QWidget* Parent)
-: QWidget(Parent), ui(new Ui::TerminalWidget)
+SensorEntry::SensorEntry(const SensorData& Data, QWidget* Parent)
+: QWidget(Parent), ui(new Ui::SensorEntry), ID(Data.ID)
 {
-	ui->setupUi(this);
+	ui->setupUi(this); UpdateSensor(Data); ReconnectSensor();
 
-	ui->Helper->hide();
+	Dialog = new SensorDialog(ID, this);
+
+	connect(Dialog, &SensorDialog::onDialogAccept, this, &SensorEntry::UpdateSensor);
+
+	connect(AppCore::getInstance(), &AppCore::onScriptUpdate, this, &SensorEntry::ReconnectSensor);
 }
 
-TerminalWidget::~TerminalWidget(void)
+SensorEntry::~SensorEntry(void)
 {
 	delete ui;
 }
 
-void TerminalWidget::SaveButtonClicked(void)
+void SensorEntry::SettingsButtonClicked(void)
 {
-	QString Path = QFileDialog::getSaveFileName(this, tr("Select file to save script"));
+	Dialog->open();
+}
 
-	if (!Path.isEmpty())
+void SensorEntry::DeleteButtonClicked(void)
+{
+	if (AppCore::getInstance()->DeleteSensor(ID)) deleteLater();
+	else QMessageBox::warning(this, tr("Error"), tr("Can't delete sensor - %1").arg(AppCore::getError()));
+}
+
+void SensorEntry::UpdateSensor(const SensorData& Data)
+{
+	ui->Name->setText(Data.Name);
+	ui->Name->setEnabled(Data.Active);
+
+	ui->Value->display(0);
+	ui->Value->setEnabled(Data.Active);
+
+	ui->Unit->setText(Data.Unit);
+	ui->Unit->setEnabled(Data.Active);
+}
+
+void SensorEntry::ReconnectSensor(void)
+{
+	const SensorData Data = AppCore::getInstance()->GetSensor(ID);
+
+	if (Data.Active) AppCore::getInstance()->ConnectVariable(Data.Label, [this] (double Value) -> void
 	{
-		QFile File(Path);
-
-		if (!File.open(QFile::WriteOnly)) QMessageBox::warning(this, tr("Error"), tr("Can't open selected file in write mode"));
-		else
-		{
-			File.write(ui->Script->document()->toPlainText().toUtf8());
-		}
-	}
-}
-
-void TerminalWidget::LoadButtonClicked(void)
-{
-	QString Path = QFileDialog::getOpenFileName(this, tr("Select file to load script"));
-
-	if (!Path.isEmpty())
-	{
-		QFile File(Path);
-
-		if (!File.open(QFile::ReadOnly)) QMessageBox::warning(this, tr("Error"), tr("Can't open selected file in read mode"));
-		else
-		{
-			ui->Script->document()->setPlainText(File.readAll());
-		}
-	}
-}
-
-void TerminalWidget::ExecuteButtonClicked(void)
-{
-	emit onScriptExecute(ui->Script->document()->toPlainText());
-
-	if (ui->Clean->isChecked()) ui->Script->document()->clear();
-}
-
-void TerminalWidget::CheckButtonClicked(void)
-{
-	emit onScriptValidate(ui->Script->document()->toPlainText());
+		ui->Value->display(Value);
+	});
 }

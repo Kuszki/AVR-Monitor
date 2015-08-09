@@ -20,12 +20,10 @@
 
 #include "avrterminal.hpp"
 
-#include <QDebug>
-
 AVRTerminal::AVRTerminal(const QString Port)
 : QObject(QCoreApplication::instance()), Cin(stdin), Cout(stdout)
 {
-	Device = new AVRBridge(this);
+	Device = new AVRBridge(nullptr, this);
 	Worker = new Terminalreader(this);
 	Timeout = new QTimer(this);
 

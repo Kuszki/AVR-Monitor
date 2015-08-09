@@ -18,62 +18,35 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include "terminalwidget.hpp"
-#include "ui_terminalwidget.h"
+#ifndef LOGWIDGET_HPP
+#define LOGWIDGET_HPP
 
-TerminalWidget::TerminalWidget(QWidget* Parent)
-: QWidget(Parent), ui(new Ui::TerminalWidget)
+#include <QWidget>
+
+namespace Ui
 {
-	ui->setupUi(this);
-
-	ui->Helper->hide();
+	class LogWidget;
 }
 
-TerminalWidget::~TerminalWidget(void)
+class LogWidget : public QWidget
 {
-	delete ui;
-}
 
-void TerminalWidget::SaveButtonClicked(void)
-{
-	QString Path = QFileDialog::getSaveFileName(this, tr("Select file to save script"));
+		Q_OBJECT
 
-	if (!Path.isEmpty())
-	{
-		QFile File(Path);
+	private:
 
-		if (!File.open(QFile::WriteOnly)) QMessageBox::warning(this, tr("Error"), tr("Can't open selected file in write mode"));
-		else
-		{
-			File.write(ui->Script->document()->toPlainText().toUtf8());
-		}
-	}
-}
+		Ui::LogWidget* ui;
 
-void TerminalWidget::LoadButtonClicked(void)
-{
-	QString Path = QFileDialog::getOpenFileName(this, tr("Select file to load script"));
+	public:
 
-	if (!Path.isEmpty())
-	{
-		QFile File(Path);
+		explicit LogWidget(QWidget* Parent = nullptr);
+		virtual ~LogWidget(void) override;
 
-		if (!File.open(QFile::ReadOnly)) QMessageBox::warning(this, tr("Error"), tr("Can't open selected file in read mode"));
-		else
-		{
-			ui->Script->document()->setPlainText(File.readAll());
-		}
-	}
-}
+	public slots:
 
-void TerminalWidget::ExecuteButtonClicked(void)
-{
-	emit onScriptExecute(ui->Script->document()->toPlainText());
+		void AppendInput(const QString& Code);
+		void AppendOutput(const QString& Code);
 
-	if (ui->Clean->isChecked()) ui->Script->document()->clear();
-}
+};
 
-void TerminalWidget::CheckButtonClicked(void)
-{
-	emit onScriptValidate(ui->Script->document()->toPlainText());
-}
+#endif // LOGWIDGET_HPP

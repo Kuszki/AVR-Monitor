@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT		+=	core gui widgets serialport printsupport
+QT		+=	core gui widgets serialport printsupport sql
 
 TARGET	=	AVR-Interface
 TEMPLATE	=	app
@@ -24,11 +24,18 @@ SOURCES	+= 	main.cpp \
 			adcwidget.cpp \
 			systemwidget.cpp \
 			aboutdialog.cpp \
-			settingsdialog.cpp \
 			adcentry.cpp \
 			terminalwidget.cpp \
 			helperwidget.cpp \
-			helperentry.cpp
+			helperentry.cpp \
+			sensorwidget.cpp \
+			sensorentry.cpp \
+			sensordialog.cpp \
+			appcore.cpp \
+			logwidget.cpp \
+			eventdialog.cpp \
+			evententry.cpp \
+			eventwidget.cpp
 
 HEADERS	+=	mainwindow.hpp \
 			shiftwidget.hpp \
@@ -36,11 +43,19 @@ HEADERS	+=	mainwindow.hpp \
 			adcwidget.hpp \
 			systemwidget.hpp \
 			aboutdialog.hpp \
-			settingsdialog.hpp \
 			adcentry.hpp \
 			terminalwidget.hpp \
 			helperwidget.hpp \
-			helperentry.hpp
+			helperentry.hpp \
+			sensorwidget.hpp \
+			sensorentry.hpp \
+			sensordialog.hpp \
+			common.hpp \
+			appcore.hpp \
+			logwidget.hpp \
+			eventdialog.hpp \
+			evententry.hpp \
+			eventwidget.hpp
 
 FORMS	+=	mainwindow.ui \
 			shiftwidget.ui \
@@ -48,10 +63,16 @@ FORMS	+=	mainwindow.ui \
 			adcwidget.ui \
 			systemwidget.ui \
 			aboutdialog.ui \
-			settingsdialog.ui \
 			adcentry.ui \
 			terminalwidget.ui \
-			helperentry.ui
+			helperentry.ui \
+			sensorwidget.ui \
+			sensorentry.ui \
+			sensordialog.ui \
+			logwidget.ui \
+			eventdialog.ui \
+			evententry.ui \
+			eventwidget.ui
 
 RESOURCES	+=	resources.qrc
 
