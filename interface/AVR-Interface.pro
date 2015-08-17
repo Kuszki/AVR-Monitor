@@ -35,7 +35,10 @@ SOURCES	+= 	main.cpp \
 			logwidget.cpp \
 			eventdialog.cpp \
 			evententry.cpp \
-			eventwidget.cpp
+			eventwidget.cpp \
+			devicedialog.cpp \
+			deviceentry.cpp \
+			devicewidget.cpp
 
 HEADERS	+=	mainwindow.hpp \
 			shiftwidget.hpp \
@@ -55,7 +58,10 @@ HEADERS	+=	mainwindow.hpp \
 			logwidget.hpp \
 			eventdialog.hpp \
 			evententry.hpp \
-			eventwidget.hpp
+			eventwidget.hpp \
+			devicedialog.hpp \
+			deviceentry.hpp \
+			devicewidget.hpp
 
 FORMS	+=	mainwindow.ui \
 			shiftwidget.ui \
@@ -72,7 +78,10 @@ FORMS	+=	mainwindow.ui \
 			logwidget.ui \
 			eventdialog.ui \
 			evententry.ui \
-			eventwidget.ui
+			eventwidget.ui \
+			devicedialog.ui \
+			deviceentry.ui \
+			devicewidget.ui
 
 RESOURCES	+=	resources.qrc
 

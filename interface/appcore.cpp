@@ -130,7 +130,7 @@ void AppCore::UpdateStatus(bool Active)
 	if (Active) Interval.start();
 	else Interval.stop();
 }
-#include <QDebug>
+
 void AppCore::SynchronizeDevice(void)
 {
 	QString Code = Initscript;
@@ -138,6 +138,7 @@ void AppCore::SynchronizeDevice(void)
 	for (const auto& Task: Tasks) Code.append('\n').append(Task);
 
 	Device->WriteSleepValue(Interval.interval() / 1000.0);
+	Device->WriteDefaultShift(Values);
 	Device->WriteMasterScript(Code);
 }
 
@@ -233,6 +234,29 @@ void AppCore::UpdateScriptTasks(void)
 	}
 
 	emit onScriptUpdate();
+}
+
+void AppCore::UpdateDefaultOutputs(void)
+{
+	QSqlQuery Query(Database);
+	Values = 0;
+
+	Query.prepare(
+		"SELECT "
+			"output "
+		"FROM "
+			"devices "
+		"WHERE "
+			"active>0");
+
+	if (Query.exec()) while (Query.next())
+	{
+		Values |= (1 << Query.value(0).toInt());
+	}
+	else
+	{
+		LastError = Query.lastError().text();
+	}
 }
 
 bool AppCore::AddSensor(SensorData& Data)
@@ -404,7 +428,10 @@ bool AppCore::AddEvent(EventData& Data)
 	Query.bindValue(":script", Data.Script);
 	Query.bindValue(":active", Data.Active);
 
-	if (Query.exec()) Data.ID = Query.lastInsertId().toInt();
+	if (Query.exec())
+	{
+		Data.ID = Query.lastInsertId().toInt(); UpdateScriptTasks();
+	}
 	else
 	{
 		LastError = Query.lastError().text(); return false;
@@ -515,6 +542,145 @@ QList<EventData> AppCore::GetEvents(void)
 		Data.ID = Query.value(0).toInt();
 		Data.Name = Query.value(1).toString();
 		Data.Script = Query.value(2).toString();
+		Data.Active = Query.value(3).toBool();
+
+		List.append(Data);
+	}
+	else
+	{
+		LastError = Query.lastError().text();
+	}
+
+	return List;
+}
+
+
+bool AppCore::AddDevice(DeviceData& Data)
+{
+	QSqlQuery Query(Database);
+
+	Query.prepare(
+		"INSERT INTO "
+			"devices (name, output, active) "
+		"VALUES "
+			"(:name, :output, :active)");
+
+	Query.bindValue(":name", Data.Name);
+	Query.bindValue(":output", Data.Output);
+	Query.bindValue(":active", Data.Active);
+
+	if (Query.exec())
+	{
+		Data.ID = Query.lastInsertId().toInt(); UpdateDefaultOutputs();
+	}
+	else
+	{
+		LastError = Query.lastError().text(); return false;
+	}
+
+	return true;
+}
+
+bool AppCore::UpdateDevice(DeviceData& Data)
+{
+	QSqlQuery Query(Database);
+
+	Query.prepare(
+		"UPDATE "
+			"devices "
+		"SET "
+			"name=:name, "
+			"output=:output, "
+			"active=:active "
+		"WHERE "
+			"ID=:ID");
+
+	Query.bindValue(":ID", Data.ID);
+
+	Query.bindValue(":name", Data.Name);
+	Query.bindValue(":output", Data.Output);
+	Query.bindValue(":active", Data.Active);
+
+	if (Query.exec()) UpdateDefaultOutputs();
+	else
+	{
+		LastError = Query.lastError().text(); return false;
+	}
+
+	return true;
+}
+
+bool AppCore::DeleteDevice(int ID)
+{
+	QSqlQuery Query(Database);
+
+	Query.prepare(
+		"DELETE FROM "
+			"devices "
+		"WHERE "
+			"ID=:ID");
+
+	Query.bindValue(":ID", ID);
+
+	if (Query.exec()) UpdateDefaultOutputs();
+	else
+	{
+		LastError = Query.lastError().text(); return false;
+	}
+
+	return true;
+}
+
+DeviceData AppCore::GetDevice(int ID)
+{
+	if (ID < 0) return DeviceData();
+
+	QSqlQuery Query(Database);
+	DeviceData Data;
+
+	Query.prepare(
+		"SELECT "
+			"ID, name, output, active "
+		"FROM "
+			"devices "
+		"WHERE "
+			"ID=:ID");
+
+	Query.bindValue(":ID", ID);
+
+	if (Query.exec() && Query.next())
+	{
+		Data.ID = Query.value(0).toInt();
+		Data.Name = Query.value(1).toString();
+		Data.Output = Query.value(2).toInt();
+		Data.Active = Query.value(3).toBool();
+	}
+	else
+	{
+		LastError = Query.lastError().text();
+	}
+
+	return Data;
+}
+
+QList<DeviceData> AppCore::GetDevices(void)
+{
+	QSqlQuery Query(Database);
+	QList<DeviceData> List;
+
+	Query.prepare(
+		"SELECT "
+			"ID, name, output, active "
+		"FROM "
+			"devices");
+
+	if (Query.exec()) while (Query.next())
+	{
+		DeviceData Data;
+
+		Data.ID = Query.value(0).toInt();
+		Data.Name = Query.value(1).toString();
+		Data.Output = Query.value(2).toInt();
 		Data.Active = Query.value(3).toBool();
 
 		List.append(Data);

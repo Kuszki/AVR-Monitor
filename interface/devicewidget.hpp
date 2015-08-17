@@ -1,6 +1,6 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *                                                                         *
- *  Interrupts definitions for AVR-Monitor UC program                      *
+ *  {description}                                                          *
  *  Copyright (C) 2015  Łukasz "Kuszki" Dróżdż            l.drozdz@o2.pl   *
  *                                                                         *
  *  This program is free software: you can redistribute it and/or modify   *
@@ -18,38 +18,42 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include "KLLibs/KLLibs.hpp"
-#include "KALibs/KALibs.hpp"
+#ifndef DEVICEWIDGET_HPP
+#define DEVICEWIDGET_HPP
 
-#include "codes.hpp"
-#include "defines.hpp"
-#include "procedures.hpp"
+#include <QPushButton>
+#include <QWidget>
 
-extern DEVICE	Monitor;
-extern SHIFT	Shift;
+#include "devicedialog.hpp"
+#include "deviceentry.hpp"
+#include "appcore.hpp"
+#include "common.hpp"
 
-extern char	Reboot_Code;
-
-void REBOOT_PROC wdt_reboot(void)
+namespace Ui
 {
-	Reboot_Code = MCUSR; MCUSR = 0;
-
-	wdt_disable();
+	class DeviceWidget;
 }
 
-ISR(INT0_vect)
+class DeviceWidget : public QWidget
 {
-	if (!Monitor.Online) SYS_SetStatus(DEV_MASTER, !Monitor.Master);
-}
 
-ISR(INT1_vect)
-{
-	SHR_SetState(!Shift.Enable);
-}
+		Q_OBJECT
 
-ISR(WDT_vect)
-{
-	const char Status = (KAFlash::Read(TIME_MEM) & SLEEP_MSK) | (Monitor.Worker << 7) | (Monitor.Online << 6);
+	private:
 
-	KAFlash::Write(TIME_MEM, Status);
-}
+		Ui::DeviceWidget* ui;
+
+		DeviceDialog* Dialog;
+
+	public:
+
+		explicit DeviceWidget(QWidget* Parent = nullptr);
+		virtual ~DeviceWidget(void) override;
+
+	private slots:
+
+		void AddDevice(const DeviceData& Data);
+
+};
+
+#endif // DEVICEWIDGET_HPP

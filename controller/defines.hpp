@@ -42,6 +42,11 @@
 
 #define ADC_COUNT		6				//!< Liczba przetworników ADC.
 
+#define TIME_MEM		1023				//!< Adres pamięci kodów czasu.
+#define SHRD_MEM		1022				//!< Adres pamięci danych rejestru.
+#define PGA1_MEM		1021				//!< Adres pamięci wzmicnienia wzmacniacza 1.
+#define PGA0_MEM		1020				//!< Adres pamięci wzmicnienia wzmacniacza 0.
+
 // struct declarations
 struct DEVICE
 {

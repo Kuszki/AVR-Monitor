@@ -33,7 +33,7 @@ const char get_INFOSTR[] PROGMEM =
 # GCC flags:    -O3 -mmcu=atmega328p -std=c++11\n\
 # Watchdog set:   on every evaluation for 8 sec\n\
 #\n\
-# Program size:        29720 bytes (90.7% Full)\n\
+# Program size:        29772 bytes (90.9% Full)\n\
 # Data size:             502 bytes (24.5% Full)\n\
 \n";
 
@@ -150,6 +150,8 @@ int PGA_SetGain(char ID, char Gain)
 
 		(ID == 0 ? Gains.Gain_0 : Gains.Gain_1) = Gain;
 
+		KAFlash::Write(ID == 0 ? PGA0_MEM : PGA1_MEM, Gain);
+
 		if (Monitor.Online) SYS_SendFeedback(ID == 0 ? GET_PGA0 : GET_PGA1);
 	}
 
@@ -219,12 +221,12 @@ int SYS_SetStatus(char Mask, char Value)
 
 			if (Monitor.Online) SYS_SendFeedback(GET_SLPT);
 
-			KAFlash::Write(1023, Value);
+			KAFlash::Write(TIME_MEM, Value);
 
 		break;
 		case DEV_DEFAULT:
 
-			KAFlash::Write(1022, Value);
+			KAFlash::Write(SHRD_MEM, Value);
 
 		break;
 		case DEV_SCRIPT:
@@ -282,7 +284,7 @@ void SYS_InitDevice(char Boot)
 	char Buff[] = "Vx";
 
 	// read sleep time
-	Monitor.Sleep = KAFlash::Read(1023) & SLEEP_MSK;
+	Monitor.Sleep = KAFlash::Read(TIME_MEM) & SLEEP_MSK;
 
 	// setup interrupts
 	KAInt::SetMode(KAInt::INT_0, KAInt::ON_RISING);
@@ -302,7 +304,11 @@ void SYS_InitDevice(char Boot)
 	KAOutput::SetState(KAPin::PORT_B, 0b00000011, true);
 
 	// set default shr states
-	SHR_SetOutputs(KAFlash::Read(1022));
+	SHR_SetOutputs(KAFlash::Read(SHRD_MEM));
+
+	//set saved pga gains
+	PGA_SetGain(0, KAFlash::Read(PGA0_MEM));
+	PGA_SetGain(1, KAFlash::Read(PGA1_MEM));
 
 	// setup bindings
 	Script.Bindings.Add(BIND(get));
@@ -320,7 +326,7 @@ void SYS_InitDevice(char Boot)
 	// enable uart
 	UART.Start();
 
-	switch (KAFlash::Read(1023) & ERROR_MSK)
+	switch (KAFlash::Read(TIME_MEM) & ERROR_MSK)
 	{
 		case MASTER_FROZEN:
 			UART << PGM_V get_RETURN << MASTER_TIMEOUT << PGM_V get_EOC; Monitor.Online = true;

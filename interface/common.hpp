@@ -45,4 +45,15 @@ struct EventData
 	bool Active;
 };
 
+struct DeviceData
+{
+	int ID = -1;
+
+	QString Name;
+
+	int Output;
+
+	bool Active;
+};
+
 #endif // COMMON_HPP

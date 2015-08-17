@@ -1,6 +1,6 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *                                                                         *
- *  Interrupts definitions for AVR-Monitor UC program                      *
+ *  {description}                                                          *
  *  Copyright (C) 2015  Łukasz "Kuszki" Dróżdż            l.drozdz@o2.pl   *
  *                                                                         *
  *  This program is free software: you can redistribute it and/or modify   *
@@ -18,38 +18,36 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include "KLLibs/KLLibs.hpp"
-#include "KALibs/KALibs.hpp"
+#include "deviceentry.hpp"
+#include "ui_deviceentry.h"
 
-#include "codes.hpp"
-#include "defines.hpp"
-#include "procedures.hpp"
-
-extern DEVICE	Monitor;
-extern SHIFT	Shift;
-
-extern char	Reboot_Code;
-
-void REBOOT_PROC wdt_reboot(void)
+DeviceEntry::DeviceEntry(const DeviceData& Data, QWidget* Parent)
+: QWidget(Parent), ui(new Ui::DeviceEntry), ID(Data.ID)
 {
-	Reboot_Code = MCUSR; MCUSR = 0;
+	ui->setupUi(this);
 
-	wdt_disable();
+	Dialog = new DeviceDialog(ID, this); UpdateDevice(Data);
+
+	connect(Dialog, &DeviceDialog::onDialogAccept, this, &DeviceEntry::UpdateDevice);
 }
 
-ISR(INT0_vect)
+DeviceEntry::~DeviceEntry(void)
 {
-	if (!Monitor.Online) SYS_SetStatus(DEV_MASTER, !Monitor.Master);
+	delete ui;
 }
 
-ISR(INT1_vect)
+void DeviceEntry::SettingsButtonClicked(void)
 {
-	SHR_SetState(!Shift.Enable);
+	Dialog->open();
 }
 
-ISR(WDT_vect)
+void DeviceEntry::DeleteButtonClicked(void)
 {
-	const char Status = (KAFlash::Read(TIME_MEM) & SLEEP_MSK) | (Monitor.Worker << 7) | (Monitor.Online << 6);
+	if (AppCore::getInstance()->DeleteDevice(ID)) deleteLater();
+	else QMessageBox::warning(this, tr("Error"), tr("Can't delete device - %1").arg(AppCore::getError()));
+}
 
-	KAFlash::Write(TIME_MEM, Status);
+void DeviceEntry::UpdateDevice(const DeviceData& Data)
+{
+	ui->Name->setText(tr("%1 on pin %2").arg(Data.Name).arg(Data.Output));
 }

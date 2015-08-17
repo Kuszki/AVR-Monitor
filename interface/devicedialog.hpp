@@ -1,6 +1,6 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *                                                                         *
- *  Interrupts definitions for AVR-Monitor UC program                      *
+ *  {description}                                                          *
  *  Copyright (C) 2015  Łukasz "Kuszki" Dróżdż            l.drozdz@o2.pl   *
  *                                                                         *
  *  This program is free software: you can redistribute it and/or modify   *
@@ -18,38 +18,46 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include "KLLibs/KLLibs.hpp"
-#include "KALibs/KALibs.hpp"
+#ifndef DEVICEDIALOG_HPP
+#define DEVICEDIALOG_HPP
 
-#include "codes.hpp"
-#include "defines.hpp"
-#include "procedures.hpp"
+#include <QMessageBox>
+#include <QDialog>
 
-extern DEVICE	Monitor;
-extern SHIFT	Shift;
+#include "appcore.hpp"
+#include "common.hpp"
 
-extern char	Reboot_Code;
-
-void REBOOT_PROC wdt_reboot(void)
+namespace Ui
 {
-	Reboot_Code = MCUSR; MCUSR = 0;
-
-	wdt_disable();
+	class DeviceDialog;
 }
 
-ISR(INT0_vect)
+class DeviceDialog : public QDialog
 {
-	if (!Monitor.Online) SYS_SetStatus(DEV_MASTER, !Monitor.Master);
-}
 
-ISR(INT1_vect)
-{
-	SHR_SetState(!Shift.Enable);
-}
+		Q_OBJECT
 
-ISR(WDT_vect)
-{
-	const char Status = (KAFlash::Read(TIME_MEM) & SLEEP_MSK) | (Monitor.Worker << 7) | (Monitor.Online << 6);
+	private:
 
-	KAFlash::Write(TIME_MEM, Status);
-}
+		Ui::DeviceDialog* ui;
+
+		const int ID;
+
+	public:
+
+		explicit DeviceDialog(int Device, QWidget* Parent = nullptr);
+		virtual ~DeviceDialog(void) override;
+
+		virtual void open(void) override;
+
+	public slots:
+
+		virtual void accept(void) override;
+
+	signals:
+
+		void onDialogAccept(const DeviceData&);
+
+};
+
+#endif // DEVICEDIALOG_HPP

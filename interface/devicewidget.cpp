@@ -1,6 +1,6 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *                                                                         *
- *  Interrupts definitions for AVR-Monitor UC program                      *
+ *  {description}                                                          *
  *  Copyright (C) 2015  Łukasz "Kuszki" Dróżdż            l.drozdz@o2.pl   *
  *                                                                         *
  *  This program is free software: you can redistribute it and/or modify   *
@@ -18,38 +18,31 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include "KLLibs/KLLibs.hpp"
-#include "KALibs/KALibs.hpp"
+#include "devicewidget.hpp"
+#include "ui_devicewidget.h"
 
-#include "codes.hpp"
-#include "defines.hpp"
-#include "procedures.hpp"
-
-extern DEVICE	Monitor;
-extern SHIFT	Shift;
-
-extern char	Reboot_Code;
-
-void REBOOT_PROC wdt_reboot(void)
+DeviceWidget::DeviceWidget(QWidget* Parent)
+: QWidget(Parent), ui(new Ui::DeviceWidget)
 {
-	Reboot_Code = MCUSR; MCUSR = 0;
+	ui->setupUi(this);
 
-	wdt_disable();
+	Dialog = new DeviceDialog(-1, this);
+
+	for (const auto& Data: AppCore::getInstance()->GetDevices()) AddDevice(Data);
+
+	connect(Dialog, &DeviceDialog::onDialogAccept, this, &DeviceWidget::AddDevice);
+
+	connect(ui->addButton, &QPushButton::clicked, [this] (void) -> void { Dialog->open(); });
 }
 
-ISR(INT0_vect)
+DeviceWidget::~DeviceWidget(void)
 {
-	if (!Monitor.Online) SYS_SetStatus(DEV_MASTER, !Monitor.Master);
+	delete ui;
 }
 
-ISR(INT1_vect)
+void DeviceWidget::AddDevice(const DeviceData& Data)
 {
-	SHR_SetState(!Shift.Enable);
-}
+	DeviceEntry* Entry = new DeviceEntry(Data, this);
 
-ISR(WDT_vect)
-{
-	const char Status = (KAFlash::Read(TIME_MEM) & SLEEP_MSK) | (Monitor.Worker << 7) | (Monitor.Online << 6);
-
-	KAFlash::Write(TIME_MEM, Status);
+	ui->devicesLayout->addWidget(Entry);
 }

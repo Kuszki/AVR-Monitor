@@ -23,7 +23,7 @@
     <item row="0" column="0">
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>3</number>
       </property>
       <property name="movable">
        <bool>true</bool>
@@ -43,7 +43,7 @@
         <string>Events</string>
        </attribute>
       </widget>
-      <widget class="QWidget" name="tabDevices">
+      <widget class="DeviceWidget" name="tabDevices">
        <attribute name="title">
         <string>Devices</string>
        </attribute>
@@ -489,6 +489,12 @@
    <class>EventWidget</class>
    <extends>QWidget</extends>
    <header>eventwidget.hpp</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>DeviceWidget</class>
+   <extends>QWidget</extends>
+   <header>devicewidget.hpp</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

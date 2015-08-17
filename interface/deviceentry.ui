@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>DeviceEntry</class>
+ <widget class="QWidget" name="DeviceEntry">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>50</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QHBoxLayout" name="mainLayout">
+   <item>
+    <widget class="QLabel" name="labelIcon">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>28</width>
+       <height>28</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>28</width>
+       <height>28</height>
+      </size>
+     </property>
+     <property name="pixmap">
+      <pixmap resource="resources.qrc">:/icon/device</pixmap>
+     </property>
+     <property name="scaledContents">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="Name"/>
+   </item>
+   <item>
+    <widget class="QToolButton" name="deleteButton">
+     <property name="icon">
+      <iconset theme="list-remove">
+       <normaloff/>
+      </iconset>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QToolButton" name="settingsButton">
+     <property name="icon">
+      <iconset theme="preferences-system">
+       <normaloff/>
+      </iconset>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>deleteButton</sender>
+   <signal>clicked()</signal>
+   <receiver>DeviceEntry</receiver>
+   <slot>DeleteButtonClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>342</x>
+     <y>27</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>350</x>
+     <y>256</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>settingsButton</sender>
+   <signal>clicked()</signal>
+   <receiver>DeviceEntry</receiver>
+   <slot>SettingsButtonClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>378</x>
+     <y>33</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>394</x>
+     <y>156</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>SettingsButtonClicked()</slot>
+  <slot>DeleteButtonClicked()</slot>
+ </slots>
+</ui>

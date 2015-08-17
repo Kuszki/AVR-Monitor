@@ -1,6 +1,6 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *                                                                         *
- *  Interrupts definitions for AVR-Monitor UC program                      *
+ *  {description}                                                          *
  *  Copyright (C) 2015  Łukasz "Kuszki" Dróżdż            l.drozdz@o2.pl   *
  *                                                                         *
  *  This program is free software: you can redistribute it and/or modify   *
@@ -18,38 +18,55 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include "KLLibs/KLLibs.hpp"
-#include "KALibs/KALibs.hpp"
+#include "devicedialog.hpp"
+#include "ui_devicedialog.h"
 
-#include "codes.hpp"
-#include "defines.hpp"
-#include "procedures.hpp"
-
-extern DEVICE	Monitor;
-extern SHIFT	Shift;
-
-extern char	Reboot_Code;
-
-void REBOOT_PROC wdt_reboot(void)
+DeviceDialog::DeviceDialog(int Device, QWidget* Parent)
+: QDialog(Parent), ui(new Ui::DeviceDialog), ID(Device)
 {
-	Reboot_Code = MCUSR; MCUSR = 0;
-
-	wdt_disable();
+	ui->setupUi(this);
 }
 
-ISR(INT0_vect)
+DeviceDialog::~DeviceDialog(void)
 {
-	if (!Monitor.Online) SYS_SetStatus(DEV_MASTER, !Monitor.Master);
+	delete ui;
 }
 
-ISR(INT1_vect)
+void DeviceDialog::open(void)
 {
-	SHR_SetState(!Shift.Enable);
+	DeviceData Data = AppCore::getInstance()->GetDevice(ID);
+
+	ui->Name->setText(Data.Name);
+	ui->Output->setValue(Data.Output);
+	ui->Active->setCurrentIndex(Data.Active);
+
+	QDialog::open();
 }
 
-ISR(WDT_vect)
+void DeviceDialog::accept(void)
 {
-	const char Status = (KAFlash::Read(TIME_MEM) & SLEEP_MSK) | (Monitor.Worker << 7) | (Monitor.Online << 6);
+	DeviceData Data; bool OK = false;
 
-	KAFlash::Write(TIME_MEM, Status);
+	Data.ID = ID;
+	Data.Name = ui->Name->text();
+	Data.Output = ui->Output->value();
+	Data.Active = ui->Active->currentIndex();
+
+	if (ID != -1)
+	{
+		OK = AppCore::getInstance()->UpdateDevice(Data);
+	}
+	else
+	{
+		OK = AppCore::getInstance()->AddDevice(Data);
+	}
+
+	if (OK)
+	{
+		emit onDialogAccept(Data); QDialog::accept();
+	}
+	else
+	{
+		QMessageBox::warning(this, tr("Error"), tr("Can't insert data into database - %1").arg(AppCore::getError()));
+	}
 }

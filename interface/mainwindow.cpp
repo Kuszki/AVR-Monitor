@@ -30,8 +30,8 @@ MainWindow::MainWindow(QWidget* Parent)
 
 	Interval->setPrefix(tr("Delay "));
 	Interval->setSuffix(tr(" s"));
-	Interval->setRange(0.1, 6.0);
-	Interval->setSingleStep(0.1);
+	Interval->setRange(0.05, 6.0);
+	Interval->setSingleStep(0.05);
 	Interval->setEnabled(false);
 
 	// connect interval by old way because of overloaded methods

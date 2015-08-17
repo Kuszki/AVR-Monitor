@@ -56,9 +56,12 @@ class AppCore : public QObject
 		QStringList Tasks;
 		QString Initscript;
 
+		unsigned char Values;
+
 		QTimer Interval;
 
 		void UpdateScriptTasks(void);
+		void UpdateDefaultOutputs(void);
 
 		bool SensorScriptOk(const QString& Code);
 		bool EventScriptOk(const QString& Code);
@@ -83,6 +86,13 @@ class AppCore : public QObject
 
 		EventData GetEvent(int ID);
 		QList<EventData> GetEvents(void);
+
+		bool AddDevice(DeviceData& Data);
+		bool UpdateDevice(DeviceData& Data);
+		bool DeleteDevice(int ID);
+
+		DeviceData GetDevice(int ID);
+		QList<DeviceData> GetDevices(void);
 
 		void ConnectVariable(const QString& Var, const boost::function<void (double)>& Callback);
 		void DisconnectVariable(const QString& Var);

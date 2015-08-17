@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>SensorDialog</class>
- <widget class="QDialog" name="SensorDialog">
+ <class>DeviceDialog</class>
+ <widget class="QDialog" name="DeviceDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>556</height>
+    <width>397</width>
+    <height>166</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Sensor settings</string>
+   <string>Device settings</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout">
+  <layout class="QGridLayout" name="mainLayout">
    <item row="0" column="0">
     <widget class="QLabel" name="labelName">
      <property name="text">
@@ -22,52 +22,48 @@
     </widget>
    </item>
    <item row="0" column="1">
-    <widget class="QLineEdit" name="Name">
-     <property name="maxLength">
-      <number>32</number>
-     </property>
-    </widget>
+    <widget class="QLineEdit" name="Name"/>
    </item>
    <item row="1" column="0">
-    <widget class="QLabel" name="labelLabel">
+    <widget class="QLabel" name="labelOutput">
      <property name="text">
-      <string>Label</string>
+      <string>Output</string>
      </property>
     </widget>
    </item>
    <item row="1" column="1">
-    <widget class="QLineEdit" name="Label">
-     <property name="maxLength">
-      <number>6</number>
+    <widget class="QSpinBox" name="Output">
+     <property name="prefix">
+      <string>Shift register port </string>
+     </property>
+     <property name="maximum">
+      <number>7</number>
      </property>
     </widget>
    </item>
    <item row="2" column="0">
-    <widget class="QLabel" name="labelUnit">
+    <widget class="QLabel" name="labelActive">
      <property name="text">
-      <string>Unit</string>
+      <string>Default</string>
      </property>
     </widget>
    </item>
    <item row="2" column="1">
-    <widget class="QLineEdit" name="Unit">
-     <property name="maxLength">
-      <number>32</number>
-     </property>
+    <widget class="QComboBox" name="Active">
+     <item>
+      <property name="text">
+       <string>Disabled</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Enabled</string>
+      </property>
+     </item>
     </widget>
    </item>
-   <item row="3" column="0" colspan="2">
-    <widget class="KLScripteditor" name="Script"/>
-   </item>
    <item row="4" column="0" colspan="2">
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <item>
-      <widget class="QCheckBox" name="Active">
-       <property name="text">
-        <string>Enabled</string>
-       </property>
-      </widget>
-     </item>
+    <layout class="QHBoxLayout" name="toolsLayout">
      <item>
       <spacer name="horizontalSpacer">
        <property name="orientation">
@@ -97,46 +93,52 @@
      </item>
     </layout>
    </item>
+   <item row="3" column="0" colspan="2">
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>379</width>
+       <height>131</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>KLScripteditor</class>
-   <extends>QPlainTextEdit</extends>
-   <header location="global">qt/klscripteditor.hpp</header>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections>
   <connection>
    <sender>cancelButton</sender>
    <signal>clicked()</signal>
-   <receiver>SensorDialog</receiver>
+   <receiver>DeviceDialog</receiver>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>282</x>
-     <y>524</y>
+     <x>269</x>
+     <y>155</y>
     </hint>
     <hint type="destinationlabel">
-     <x>275</x>
-     <y>590</y>
+     <x>281</x>
+     <y>165</y>
     </hint>
    </hints>
   </connection>
   <connection>
    <sender>saveButton</sender>
    <signal>clicked()</signal>
-   <receiver>SensorDialog</receiver>
+   <receiver>DeviceDialog</receiver>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>345</x>
-     <y>533</y>
+     <x>367</x>
+     <y>153</y>
     </hint>
     <hint type="destinationlabel">
-     <x>350</x>
-     <y>607</y>
+     <x>376</x>
+     <y>165</y>
     </hint>
    </hints>
   </connection>
