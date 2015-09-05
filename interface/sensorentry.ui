@@ -85,6 +85,9 @@
    </item>
    <item>
     <widget class="QToolButton" name="deleteButton">
+     <property name="text">
+      <string>Delete</string>
+     </property>
      <property name="icon">
       <iconset theme="list-remove">
        <normaloff/>
@@ -94,6 +97,9 @@
    </item>
    <item>
     <widget class="QToolButton" name="settingsButton">
+     <property name="text">
+      <string>Edit</string>
+     </property>
      <property name="icon">
       <iconset theme="preferences-system">
        <normaloff/>

@@ -18,6 +18,9 @@
     <layout class="QHBoxLayout" name="toolsLayout">
      <item>
       <widget class="QToolButton" name="saveButton">
+       <property name="text">
+        <string>Export</string>
+       </property>
        <property name="icon">
         <iconset theme="document-open">
          <normaloff/>
@@ -27,6 +30,9 @@
      </item>
      <item>
       <widget class="QToolButton" name="loadButton">
+       <property name="text">
+        <string>Inport</string>
+       </property>
        <property name="icon">
         <iconset theme="document-save">
          <normaloff/>
@@ -36,6 +42,9 @@
      </item>
      <item>
       <widget class="QToolButton" name="cleanButton">
+       <property name="text">
+        <string>Clean</string>
+       </property>
        <property name="icon">
         <iconset theme="edit-clear">
          <normaloff/>

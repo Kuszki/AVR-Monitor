@@ -15,7 +15,10 @@
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
    <item>
-    <widget class="QPushButton" name="Copy">
+    <widget class="QToolButton" name="Copy">
+     <property name="text">
+      <string>Copy</string>
+     </property>
      <property name="icon">
       <iconset theme="edit-copy">
        <normaloff/>
@@ -24,7 +27,10 @@
     </widget>
    </item>
    <item>
-    <widget class="QPushButton" name="Paste">
+    <widget class="QToolButton" name="Paste">
+     <property name="text">
+      <string>Paste</string>
+     </property>
      <property name="icon">
       <iconset theme="edit-paste">
        <normaloff/>
@@ -45,40 +51,7 @@
   </layout>
  </widget>
  <resources/>
- <connections>
-  <connection>
-   <sender>Copy</sender>
-   <signal>clicked()</signal>
-   <receiver>HelperEntry</receiver>
-   <slot>CopyButtonClicked()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>34</x>
-     <y>32</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>36</x>
-     <y>201</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>Paste</sender>
-   <signal>clicked()</signal>
-   <receiver>HelperEntry</receiver>
-   <slot>PasteButtonClicked()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>92</x>
-     <y>26</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>112</x>
-     <y>164</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
  <slots>
   <slot>CopyButtonClicked()</slot>
   <slot>PasteButtonClicked()</slot>

@@ -133,7 +133,7 @@
      <item>
       <widget class="QToolButton" name="clearRam">
        <property name="text">
-        <string notr="true"/>
+        <string notr="true">Clean</string>
        </property>
        <property name="icon">
         <iconset theme="edit-clear">

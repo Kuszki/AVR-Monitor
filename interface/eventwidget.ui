@@ -47,8 +47,13 @@
      </item>
      <item>
       <widget class="QToolButton" name="addButton">
+       <property name="text">
+        <string>Add</string>
+       </property>
        <property name="icon">
-        <iconset theme="list-add"/>
+        <iconset theme="list-add">
+         <normaloff/>
+        </iconset>
        </property>
       </widget>
      </item>
