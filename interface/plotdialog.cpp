@@ -18,67 +18,16 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef COMMON_HPP
-#define COMMON_HPP
+#include "plotdialog.hpp"
+#include "ui_plotdialog.h"
 
-#include <QString>
-
-struct SensorData
+PlotDialog::PlotDialog(QWidget* Parent)
+: QDialog(Parent), ui(new Ui::PlotDialog)
 {
-	int ID = -1;
+	ui->setupUi(this);
+}
 
-	QString Name;
-	QString Label;
-	QString Unit;
-	QString Script;
-
-	bool Active = false;
-};
-
-struct EventData
+PlotDialog::~PlotDialog(void)
 {
-	int ID = -1;
-
-	QString Name;
-	QString Script;
-
-	bool Active;
-};
-
-struct DeviceData
-{
-	int ID = -1;
-
-	QString Name;
-
-	int Output;
-
-	bool Active;
-};
-
-struct AxisData
-{
-	int ID = -1;
-
-	QString Name;
-
-	int Style;
-
-	double Min;
-	double Max;
-
-	bool Label;
-	bool Active;
-};
-
-struct PlotData
-{
-	int ID = -1;
-
-	int AXIS_ID;
-	int SENSOR_ID;
-
-	bool Active;
-};
-
-#endif // COMMON_HPP
+	delete ui;
+}

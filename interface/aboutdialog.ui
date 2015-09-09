@@ -25,112 +25,17 @@
    </iconset>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="4" column="0">
-    <widget class="QLabel" name="labelLicense">
-     <property name="text">
-      <string>License:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="8" column="0" colspan="2">
-    <widget class="QLabel" name="More">
-     <property name="text">
-      <string>&lt;a href=&quot;http://www.gnu.org/licenses/gpl-3.0.en.html&quot;&gt;See more&lt;/a&gt;</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-     </property>
-    </widget>
-   </item>
    <item row="3" column="0">
-    <widget class="QLabel" name="labelSlite">
+    <widget class="QToolButton" name="Close">
      <property name="text">
-      <string>Project slite:</string>
+      <string>Close</string>
+     </property>
+     <property name="icon">
+      <iconset theme="exit"/>
      </property>
     </widget>
    </item>
-   <item row="3" column="1">
-    <widget class="QLabel" name="Slite">
-     <property name="text">
-      <string notr="true">&lt;a href=&quot;https://github.com/Kuszki/AVR-Monitor&quot;&gt;GitHub.com&lt;/a&gt;</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="1">
-    <widget class="QLabel" name="Powered">
-     <property name="text">
-      <string notr="true">&lt;a href=&quot;https://github.com/Kuszki/KLLibs&quot;&gt;QCustomPlot&lt;/a&gt;, &lt;a href=&quot;https://github.com/Kuszki/KLLibs&quot;&gt;KLLibs&lt;/a&gt;, &lt;a href=&quot;http://www.boost.org/&quot;&gt;Boost&lt;/a&gt;, &lt;a href=&quot;http://www.qt.io/&quot;&gt;Qt 5&lt;/a&gt;</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="0">
-    <widget class="QLabel" name="labelMail">
-     <property name="text">
-      <string>Mail:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="1">
-    <widget class="QLabel" name="Author">
-     <property name="text">
-      <string notr="true">Łukasz &quot;Kuszki&quot; Dróżdż</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="0">
-    <widget class="QLabel" name="labelAuthor">
-     <property name="text">
-      <string>Author:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="1">
-    <widget class="QLabel" name="Name">
-     <property name="text">
-      <string notr="true">AVR-Monitor</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="1">
-    <widget class="QLabel" name="Mail">
-     <property name="text">
-      <string notr="true">&lt;a href=&quot;l.drozdz@o2.pl&quot;&gt;l.drozdz@o2.pl&lt;/a&gt;</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="0">
-    <widget class="QLabel" name="labelName">
-     <property name="text">
-      <string>Program name:</string>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="1">
-    <widget class="QLabel" name="License">
-     <property name="text">
-      <string notr="true">&lt;a href=&quot;http://www.gnu.org/licenses/gpl-3.0.en.html&quot;&gt;GNU GPL v3&lt;/a&gt;</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-     </property>
-    </widget>
-   </item>
-   <item row="6" column="0">
+   <item row="0" column="3">
     <widget class="QLabel" name="labelLogo">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -161,7 +66,113 @@
      </property>
     </widget>
    </item>
-   <item row="6" column="1">
+   <item row="0" column="0" colspan="3">
+    <layout class="QFormLayout" name="infoLayout">
+     <item row="0" column="0">
+      <widget class="QLabel" name="labelName">
+       <property name="text">
+        <string>Program name:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLabel" name="Name">
+       <property name="text">
+        <string notr="true">AVR-Monitor</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="labelAuthor">
+       <property name="text">
+        <string>Author:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QLabel" name="Author">
+       <property name="text">
+        <string notr="true">Łukasz &quot;Kuszki&quot; Dróżdż</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="labelMail">
+       <property name="text">
+        <string>Mail:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QLabel" name="Mail">
+       <property name="text">
+        <string notr="true">&lt;a href=&quot;l.drozdz@o2.pl&quot;&gt;l.drozdz@o2.pl&lt;/a&gt;</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="labelSlite">
+       <property name="text">
+        <string>Project slite:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="QLabel" name="Slite">
+       <property name="text">
+        <string notr="true">&lt;a href=&quot;https://github.com/Kuszki/AVR-Monitor&quot;&gt;GitHub.com&lt;/a&gt;</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="0">
+      <widget class="QLabel" name="labelLicense">
+       <property name="text">
+        <string>License:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1">
+      <widget class="QLabel" name="License">
+       <property name="text">
+        <string notr="true">&lt;a href=&quot;http://www.gnu.org/licenses/gpl-3.0.en.html&quot;&gt;GNU GPL v3&lt;/a&gt;</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="0">
+      <widget class="QLabel" name="labelPowered">
+       <property name="text">
+        <string>Powered by:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="1">
+      <widget class="QLabel" name="Powered">
+       <property name="text">
+        <string notr="true">&lt;a href=&quot;https://github.com/Kuszki/KLLibs&quot;&gt;QCustomPlot&lt;/a&gt;, &lt;a href=&quot;https://github.com/Kuszki/KLLibs&quot;&gt;KLLibs&lt;/a&gt;, &lt;a href=&quot;http://www.boost.org/&quot;&gt;Boost&lt;/a&gt;, &lt;a href=&quot;http://www.qt.io/&quot;&gt;Qt 5&lt;/a&gt;</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="1" column="0" colspan="4">
     <widget class="QLabel" name="Info">
      <property name="text">
       <string>This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
@@ -175,14 +186,17 @@ The program is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE WARRAN
      </property>
     </widget>
    </item>
-   <item row="5" column="0">
-    <widget class="QLabel" name="labelPowered">
+   <item row="3" column="1" colspan="3">
+    <widget class="QLabel" name="More">
      <property name="text">
-      <string>Powered by:</string>
+      <string>&lt;a href=&quot;http://www.gnu.org/licenses/gpl-3.0.en.html&quot;&gt;See more&lt;/a&gt;</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
     </widget>
    </item>
-   <item row="7" column="0" colspan="2">
+   <item row="2" column="0" colspan="4">
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
@@ -200,5 +214,22 @@ The program is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE WARRAN
  <resources>
   <include location="resources.qrc"/>
  </resources>
- <connections/>
+ <connections>
+  <connection>
+   <sender>Close</sender>
+   <signal>clicked()</signal>
+   <receiver>AboutDialog</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>46</x>
+     <y>374</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>46</x>
+     <y>580</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

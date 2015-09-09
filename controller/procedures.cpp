@@ -21,21 +21,21 @@
 #include "procedures.hpp"
 
 const char get_INFOSTR[] PROGMEM =
-"\n\
-# AVR-Monitor device;   Controller program v1.6\n\
-# Copyright (C) 2015     Łukasz \"Kuszki\" Dróżdż\n\
-#\n\
-# Info at https://github.com/Kuszki/AVR-Monitor\n\
-#\n\
-# Release date:            " __DATE__ " " __TIME__ "\n\
-# Used tools:         GNU AVR-GCC version " __VERSION__ "\n\
-# Built on:   Debian 8 GNU/Linux 3.16.0-4-amd64\n\
-# GCC flags:    -O3 -mmcu=atmega328p -std=c++11\n\
-# Watchdog set:   on every evaluation for 8 sec\n\
-#\n\
-# Program size:        29772 bytes (90.9% Full)\n\
-# Data size:             502 bytes (24.5% Full)\n\
-\n";
+"\n"
+"# AVR-Monitor device;   Controller program v1.6\n"
+"# Copyright (C) 2015     Łukasz \"Kuszki\" Dróżdż\n"
+"#\n"
+"# Info at https://github.com/Kuszki/AVR-Monitor\n"
+"#\n"
+"# Release date:            " __DATE__ " " __TIME__ "\n"
+"# Used tools:         GNU AVR-GCC version " __VERSION__ "\n"
+"# Built on:    Debian 9 GNU/Linux 4.1.0-2-amd64\n"
+"# GCC flags:    -O3 -mmcu=atmega328p -std=c++11\n"
+"# Watchdog set:   on every evaluation for 8 sec\n"
+"#\n"
+"# Program size:        29772 bytes (90.9% Full)\n"
+"# Data size:             502 bytes (24.5% Full)\n"
+"\n";
 
 const char get_GAINS[] PROGMEM 	= { 0b000, 0b001, 0b010, 0b011, 0b100, 0b101, 0b110, 0b111, 0b11110000 };
 

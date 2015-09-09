@@ -18,67 +18,30 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef COMMON_HPP
-#define COMMON_HPP
+#ifndef AXISDIALOG_HPP
+#define AXISDIALOG_HPP
 
-#include <QString>
+#include <QDialog>
 
-struct SensorData
+namespace Ui
 {
-	int ID = -1;
+	class AxisDialog;
+}
 
-	QString Name;
-	QString Label;
-	QString Unit;
-	QString Script;
+class AxisDialog : public QDialog
+{
 
-	bool Active = false;
+		Q_OBJECT
+
+	private:
+
+		Ui::AxisDialog* ui;
+
+	public:
+
+		explicit AxisDialog(QWidget* Parent = nullptr);
+		virtual ~AxisDialog(void) override;
+
 };
 
-struct EventData
-{
-	int ID = -1;
-
-	QString Name;
-	QString Script;
-
-	bool Active;
-};
-
-struct DeviceData
-{
-	int ID = -1;
-
-	QString Name;
-
-	int Output;
-
-	bool Active;
-};
-
-struct AxisData
-{
-	int ID = -1;
-
-	QString Name;
-
-	int Style;
-
-	double Min;
-	double Max;
-
-	bool Label;
-	bool Active;
-};
-
-struct PlotData
-{
-	int ID = -1;
-
-	int AXIS_ID;
-	int SENSOR_ID;
-
-	bool Active;
-};
-
-#endif // COMMON_HPP
+#endif // AXISDIALOG_HPP

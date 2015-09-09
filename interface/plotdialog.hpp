@@ -18,67 +18,30 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef COMMON_HPP
-#define COMMON_HPP
+#ifndef PLOTDIALOG_HPP
+#define PLOTDIALOG_HPP
 
-#include <QString>
+#include <QDialog>
 
-struct SensorData
+namespace Ui
 {
-	int ID = -1;
+	class PlotDialog;
+}
 
-	QString Name;
-	QString Label;
-	QString Unit;
-	QString Script;
+class PlotDialog : public QDialog
+{
 
-	bool Active = false;
+		Q_OBJECT
+
+	private:
+
+		Ui::PlotDialog* ui;
+
+	public:
+
+		explicit PlotDialog(QWidget* Parent = nullptr);
+		virtual ~PlotDialog(void) override;
+
 };
 
-struct EventData
-{
-	int ID = -1;
-
-	QString Name;
-	QString Script;
-
-	bool Active;
-};
-
-struct DeviceData
-{
-	int ID = -1;
-
-	QString Name;
-
-	int Output;
-
-	bool Active;
-};
-
-struct AxisData
-{
-	int ID = -1;
-
-	QString Name;
-
-	int Style;
-
-	double Min;
-	double Max;
-
-	bool Label;
-	bool Active;
-};
-
-struct PlotData
-{
-	int ID = -1;
-
-	int AXIS_ID;
-	int SENSOR_ID;
-
-	bool Active;
-};
-
-#endif // COMMON_HPP
+#endif // PLOTDIALOG_HPP

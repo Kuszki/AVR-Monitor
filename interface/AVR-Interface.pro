@@ -38,7 +38,9 @@ SOURCES	+= 	main.cpp \
 			eventwidget.cpp \
 			devicedialog.cpp \
 			deviceentry.cpp \
-			devicewidget.cpp
+			devicewidget.cpp \
+    plotdialog.cpp \
+    axisdialog.cpp
 
 HEADERS	+=	mainwindow.hpp \
 			shiftwidget.hpp \
@@ -61,7 +63,9 @@ HEADERS	+=	mainwindow.hpp \
 			eventwidget.hpp \
 			devicedialog.hpp \
 			deviceentry.hpp \
-			devicewidget.hpp
+			devicewidget.hpp \
+    plotdialog.hpp \
+    axisdialog.hpp
 
 FORMS	+=	mainwindow.ui \
 			shiftwidget.ui \
@@ -81,7 +85,9 @@ FORMS	+=	mainwindow.ui \
 			eventwidget.ui \
 			devicedialog.ui \
 			deviceentry.ui \
-			devicewidget.ui
+			devicewidget.ui \
+    plotdialog.ui \
+    axisdialog.ui
 
 RESOURCES	+=	resources.qrc
 

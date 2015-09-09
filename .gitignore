@@ -1,8 +1,4 @@
-/interface/AVR-Interface.pro.user
-
-/terminal/AVR-Terminal.pro.user
-
-/bridge/AVR-Bridge.pro.user
+/*/*.pro.user*
 
 /controller/Release
 /controller/.settings

@@ -36,7 +36,7 @@
 
 #include "common.hpp"
 
-class AppCore : public QObject
+class AppCore final: public QObject
 {
 
 		Q_OBJECT
