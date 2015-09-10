@@ -13,6 +13,9 @@
   <property name="windowTitle">
    <string>Axis settings</string>
   </property>
+  <property name="windowIcon">
+   <iconset theme="preferences-system"/>
+  </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="2" column="1">
     <widget class="QDoubleSpinBox" name="Min">
@@ -136,6 +139,12 @@
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>0</width>
+       <height>0</height>
+      </size>
      </property>
     </spacer>
    </item>
