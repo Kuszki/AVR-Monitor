@@ -94,6 +94,13 @@ class AppCore final: public QObject
 		DeviceData GetDevice(int ID);
 		QList<DeviceData> GetDevices(void);
 
+		bool AddAxis(AxisData& Data);
+		bool UpdateAxis(AxisData& Data);
+		bool DeleteAxis(int ID);
+
+		AxisData GetAxis(int ID);
+		QList<AxisData> GetAxes(void);
+
 		void ConnectVariable(const QString& Var, const boost::function<void (double)>& Callback);
 		void DisconnectVariable(const QString& Var);
 

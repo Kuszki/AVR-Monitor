@@ -18,46 +18,25 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef AXISDIALOG_HPP
-#define AXISDIALOG_HPP
+#ifndef PLOTWIDGET_HPP
+#define PLOTWIDGET_HPP
 
-#include <QMessageBox>
-#include <QDialog>
+#include <QWidget>
 
-#include "appcore.hpp"
-#include "common.hpp"
-
-namespace Ui
-{
-	class AxisDialog;
+namespace Ui {
+	class PlotWidget;
 }
 
-class AxisDialog : public QDialog
+class PlotWidget : public QWidget
 {
-
 		Q_OBJECT
 
-	private:
-
-		Ui::AxisDialog* ui;
-
-		const int ID;
-
 	public:
+		explicit PlotWidget(QWidget *parent = 0);
+		~PlotWidget();
 
-		explicit AxisDialog(int Axis, QWidget* Parent = nullptr);
-		virtual ~AxisDialog(void) override;
-
-		virtual void open(void) override;
-
-	public slots:
-
-		virtual void accept(void) override;
-
-	signals:
-
-		void onDialogAccept(const AxisData&);
-
+	private:
+		Ui::PlotWidget *ui;
 };
 
-#endif // AXISDIALOG_HPP
+#endif // PLOTWIDGET_HPP

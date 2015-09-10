@@ -21,8 +21,8 @@
 #include "axisdialog.hpp"
 #include "ui_axisdialog.h"
 
-AxisDialog::AxisDialog(QWidget* Parent)
-: QDialog(Parent), ui(new Ui::AxisDialog)
+AxisDialog::AxisDialog(int Axis, QWidget* Parent)
+: QDialog(Parent), ui(new Ui::AxisDialog), ID(Axis)
 {
 	ui->setupUi(this);
 }
@@ -30,4 +30,49 @@ AxisDialog::AxisDialog(QWidget* Parent)
 AxisDialog::~AxisDialog(void)
 {
 	delete ui;
+}
+
+void AxisDialog::open(void)
+{
+	AxisData Data = AppCore::getInstance()->GetAxis(ID);
+
+	ui->Name->setText(Data.Name);
+	ui->Style->setCurrentIndex(Data.Style);
+	ui->Min->setValue(Data.Min);
+	ui->Max->setValue(Data.Max);
+	ui->Label->setChecked(Data.Label);
+	ui->Active->setChecked(Data.Active);
+
+	QDialog::open();
+}
+
+void AxisDialog::accept(void)
+{
+	AxisData Data; bool OK = false;
+
+	Data.ID = ID;
+	Data.Name = ui->Name->text();
+	Data.Style = ui->Style->currentIndex();
+	Data.Min = ui->Min->value();
+	Data.Max = ui->Max->value();
+	Data.Label = ui->Label->isChecked();
+	Data.Active = ui->Active->isChecked();
+
+	if (ID != -1)
+	{
+		OK = AppCore::getInstance()->UpdateAxis(Data);
+	}
+	else
+	{
+		OK = AppCore::getInstance()->AddAxis(Data);
+	}
+
+	if (OK)
+	{
+		emit onDialogAccept(Data); QDialog::accept();
+	}
+	else
+	{
+		QMessageBox::warning(this, tr("Error"), tr("Can't insert data into database - %1").arg(AppCore::getError()));
+	}
 }

@@ -2,14 +2,6 @@
 <ui version="4.0">
  <class>SystemWidget</class>
  <widget class="QWidget" name="SystemWidget">
-  <property name="geometry">
-   <rect>
-    <x>0</x>
-    <y>0</y>
-    <width>250</width>
-    <height>250</height>
-   </rect>
-  </property>
   <property name="minimumSize">
    <size>
     <width>250</width>

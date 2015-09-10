@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>875</width>
-    <height>602</height>
+    <width>1200</width>
+    <height>700</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -28,7 +28,7 @@
       <property name="movable">
        <bool>true</bool>
       </property>
-      <widget class="QWidget" name="tabPlot">
+      <widget class="PlotWidget" name="tabPlot">
        <attribute name="title">
         <string>Plot</string>
        </attribute>
@@ -67,7 +67,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>875</width>
+     <width>1200</width>
      <height>29</height>
     </rect>
    </property>
@@ -495,6 +495,12 @@
    <class>DeviceWidget</class>
    <extends>QWidget</extends>
    <header>devicewidget.hpp</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>PlotWidget</class>
+   <extends>QWidget</extends>
+   <header>plotwidget.hpp</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

@@ -20,7 +20,7 @@
 
 #include "systemwidget.hpp"
 #include "ui_systemwidget.h"
-#include <QDebug>
+
 SystemWidget::SystemWidget(QWidget *Parent)
 : QWidget(Parent), ui(new Ui::SystemWidget)
 {

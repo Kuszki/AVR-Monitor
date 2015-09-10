@@ -6,12 +6,12 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>145</width>
-    <height>86</height>
+    <width>250</width>
+    <height>100</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>Gains</string>
   </property>
   <layout class="QFormLayout" name="formLayout">
    <item row="0" column="0">

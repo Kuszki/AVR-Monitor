@@ -6,12 +6,9 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>294</width>
+    <width>300</width>
     <height>46</height>
    </rect>
-  </property>
-  <property name="windowTitle">
-   <string>Form</string>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
    <item>
@@ -43,16 +40,12 @@
     </widget>
    </item>
    <item>
-    <widget class="QLabel" name="Name">
-     <property name="text">
-      <string notr="true">ADC</string>
-     </property>
-    </widget>
+    <widget class="QLabel" name="Name"/>
    </item>
    <item>
     <widget class="QLabel" name="Value">
      <property name="text">
-      <string>0.00000</string>
+      <string notr="true">0.00000</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -68,7 +61,7 @@
       </sizepolicy>
      </property>
      <property name="text">
-      <string>V</string>
+      <string notr="true">V</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -80,5 +73,22 @@
  <resources>
   <include location="resources.qrc"/>
  </resources>
- <connections/>
+ <connections>
+  <connection>
+   <sender>Name</sender>
+   <signal>windowTitleChanged(QString)</signal>
+   <receiver>AdcEntry</receiver>
+   <slot>setWindowTitle(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>43</x>
+     <y>30</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>63</x>
+     <y>45</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

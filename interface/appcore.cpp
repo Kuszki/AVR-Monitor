@@ -693,6 +693,155 @@ QList<DeviceData> AppCore::GetDevices(void)
 	return List;
 }
 
+bool AppCore::AddAxis(AxisData& Data)
+{
+	QSqlQuery Query(Database);
+
+	Query.prepare(
+		"INSERT INTO "
+			"axes (name, style, min, max, label, active) "
+		"VALUES "
+			"(:name, :style, :min, :max, :label, :active)");
+
+	Query.bindValue(":name", Data.Name);
+	Query.bindValue(":style", Data.Style);
+	Query.bindValue(":min", Data.Min);
+	Query.bindValue(":max", Data.Max);
+	Query.bindValue(":label", Data.Label);
+	Query.bindValue(":active", Data.Active);
+
+	if (Query.exec())
+	{
+		Data.ID = Query.lastInsertId().toInt(); return true;
+	}
+	else
+	{
+		LastError = Query.lastError().text(); return false;
+	}
+}
+
+bool AppCore::UpdateAxis(AxisData& Data)
+{
+	QSqlQuery Query(Database);
+
+	Query.prepare(
+		"UPDATE "
+			"axes "
+		"SET "
+			"name=:name, "
+			"style=:style, "
+			"min=:min, "
+			"max=:max, "
+			"label=:label, "
+			"active=:active "
+		"WHERE "
+			"ID=:ID");
+
+	Query.bindValue(":ID", Data.ID);
+
+	Query.bindValue(":name", Data.Name);
+	Query.bindValue(":style", Data.Style);
+	Query.bindValue(":min", Data.Min);
+	Query.bindValue(":max", Data.Max);
+	Query.bindValue(":label", Data.Label);
+	Query.bindValue(":active", Data.Active);
+
+	if (!Query.exec())
+	{
+		LastError = Query.lastError().text(); return false;
+	}
+
+	return true;
+}
+
+bool AppCore::DeleteAxis(int ID)
+{
+	QSqlQuery Query(Database);
+
+	Query.prepare(
+		"DELETE FROM "
+			"axes "
+		"WHERE "
+			"ID=:ID");
+
+	Query.bindValue(":ID", ID);
+
+	if (!Query.exec())
+	{
+		LastError = Query.lastError().text(); return false;
+	}
+
+	return true;
+}
+
+AxisData AppCore::GetAxis(int ID)
+{
+	if (ID < 0) return AxisData();
+
+	QSqlQuery Query(Database);
+	AxisData Data;
+
+	Query.prepare(
+		"SELECT "
+			"ID, name, style, min, max, label, active "
+		"FROM "
+			"axes "
+		"WHERE "
+			"ID=:ID");
+
+	Query.bindValue(":ID", ID);
+
+	if (Query.exec() && Query.next())
+	{
+		Data.ID = Query.value(0).toInt();
+		Data.Name = Query.value(1).toString();
+		Data.Style = Query.value(2).toInt();
+		Data.Min = Query.value(3).toDouble();
+		Data.Max = Query.value(4).toDouble();
+		Data.Label = Query.value(5).toBool();
+		Data.Active = Query.value(6).toBool();
+	}
+	else
+	{
+		LastError = Query.lastError().text();
+	}
+
+	return Data;
+}
+
+QList<AxisData> AppCore::GetAxes(void)
+{
+	QSqlQuery Query(Database);
+	QList<AxisData> List;
+
+	Query.prepare(
+		"SELECT "
+			"ID, name, style, min, max, label, active "
+		"FROM "
+			"axes");
+
+	if (Query.exec()) while (Query.next())
+	{
+		AxisData Data;
+
+		Data.ID = Query.value(0).toInt();
+		Data.Name = Query.value(1).toString();
+		Data.Style = Query.value(2).toInt();
+		Data.Min = Query.value(3).toDouble();
+		Data.Max = Query.value(4).toDouble();
+		Data.Label = Query.value(5).toBool();
+		Data.Active = Query.value(6).toBool();
+
+		List.append(Data);
+	}
+	else
+	{
+		LastError = Query.lastError().text();
+	}
+
+	return List;
+}
+
 void AppCore::ConnectVariable(const QString &Var, const boost::function<void (double)>& Callback)
 {
 	const KLString ID = Var.toStdString().c_str();
