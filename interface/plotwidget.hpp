@@ -22,21 +22,51 @@
 #define PLOTWIDGET_HPP
 
 #include <QWidget>
+#include <QMap>
 
-namespace Ui {
+#include <qcustomplot.hpp>
+
+#include "plotdialog.hpp"
+
+namespace Ui
+{
 	class PlotWidget;
 }
 
 class PlotWidget : public QWidget
 {
+
 		Q_OBJECT
 
-	public:
-		explicit PlotWidget(QWidget *parent = 0);
-		~PlotWidget();
-
 	private:
-		Ui::PlotWidget *ui;
+
+		Ui::PlotWidget* ui;
+
+		PlotDialog* Dialog;
+
+		QMap<QString, QCPGraph*> Vars;
+		QMap<int, QCPGraph*> Plots;
+		QMap<int, QCPAxis*> Axes;
+
+	public:
+
+		explicit PlotWidget(QWidget* Parent = nullptr);
+		virtual ~PlotWidget(void) override;
+
+	private slots:
+
+		void AddPlot(const PlotData& Data);
+		void UpdatePlot(const PlotData& Data);
+		void DeletePlot(int ID);
+
+		void AddAxis(const AxisData& Data);
+		void UpdateAxis(const AxisData& Data);
+		void DeleteAxis(int ID);
+
+		void SettingsButtonClicked(void);
+		void CleanButtonClicked(void);
+		void SaveButtonClicked(void);
+
 };
 
 #endif // PLOTWIDGET_HPP

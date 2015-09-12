@@ -79,6 +79,10 @@ struct PlotData
 	int SENSOR_ID;
 
 	bool Active;
+
+	QString Varname;
+	QString Varlabel;
+	QString Axisname;
 };
 
 #endif // COMMON_HPP

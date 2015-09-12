@@ -21,7 +21,10 @@
 #ifndef PLOTDIALOG_HPP
 #define PLOTDIALOG_HPP
 
+#include <QListWidgetItem>
 #include <QDialog>
+
+#include "axisdialog.hpp"
 
 namespace Ui
 {
@@ -41,6 +44,36 @@ class PlotDialog : public QDialog
 
 		explicit PlotDialog(QWidget* Parent = nullptr);
 		virtual ~PlotDialog(void) override;
+
+	private slots:
+
+		void AddAxis(const AxisData& Axis);
+		void UpdateAxis(const AxisData& Axis);
+
+		void UpdatePlot(QListWidgetItem* Plot);
+
+		void UpdateList(void);
+
+		void AddButtonClicked(void);
+		void DeleteButtonClicked(void);
+		void SettingsButtonClicked(void);
+
+		void InsertButtonClicked(void);
+		void RemoveButtonClicked(void);
+
+	public slots:
+
+		virtual void open(void) override;
+
+	signals:
+
+		void onPlotAdd(const PlotData&);
+		void onPlotChange(const PlotData&);
+		void onPlotDelete(int);
+
+		void onAxisAdd(const AxisData&);
+		void onAxisChange(const AxisData&);
+		void onAxisDelete(int);
 
 };
 

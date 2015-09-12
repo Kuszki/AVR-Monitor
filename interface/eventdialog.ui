@@ -14,7 +14,9 @@
    <string>Event settings</string>
   </property>
   <property name="windowIcon">
-   <iconset theme="preferences-system"/>
+   <iconset theme="preferences-system">
+    <normaloff/>
+   </iconset>
   </property>
   <layout class="QGridLayout" name="mainLayout">
    <item row="0" column="0">
@@ -77,6 +79,13 @@
    <header location="global">qt/klscripteditor.hpp</header>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>Name</tabstop>
+  <tabstop>Script</tabstop>
+  <tabstop>Active</tabstop>
+  <tabstop>cancelButton</tabstop>
+  <tabstop>saveButton</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>

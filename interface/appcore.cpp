@@ -842,6 +842,148 @@ QList<AxisData> AppCore::GetAxes(void)
 	return List;
 }
 
+bool AppCore::AddPlot(PlotData& Data)
+{
+	QSqlQuery Query(Database);
+
+	Query.prepare(
+		"INSERT INTO "
+			"plots (AXIS_ID, SENSOR_ID, active) "
+		"VALUES "
+			"(:AXIS_ID, :SENSOR_ID, :active)");
+
+	Query.bindValue(":AXIS_ID", Data.AXIS_ID);
+	Query.bindValue(":SENSOR_ID", Data.SENSOR_ID);
+	Query.bindValue(":active", Data.Active);
+
+	if (Query.exec())
+	{
+		Data.ID = Query.lastInsertId().toInt(); return true;
+	}
+	else
+	{
+		LastError = Query.lastError().text(); return false;
+	}
+}
+
+bool AppCore::UpdatePlot(PlotData& Data)
+{
+	QSqlQuery Query(Database);
+
+	Query.prepare(
+		"UPDATE "
+			"plots "
+		"SET "
+			"active=:active "
+		"WHERE "
+			"ID=:ID");
+
+	Query.bindValue(":ID", Data.ID);
+
+	Query.bindValue(":active", Data.Active);
+
+	if (!Query.exec())
+	{
+		LastError = Query.lastError().text(); return false;
+	}
+
+	return true;
+}
+
+bool AppCore::DeletePlot(int ID)
+{
+	QSqlQuery Query(Database);
+
+	Query.prepare(
+		"DELETE FROM "
+			"plots "
+		"WHERE "
+			"ID=:ID");
+
+	Query.bindValue(":ID", ID);
+
+	if (!Query.exec())
+	{
+		LastError = Query.lastError().text(); return false;
+	}
+
+	return true;
+}
+
+PlotData AppCore::GetPlot(int ID)
+{
+	if (ID < 0) return PlotData();
+
+	QSqlQuery Query(Database);
+	PlotData Data;
+
+	Query.prepare(
+		"SELECT "
+			"plots.ID, plots.AXIS_ID, plots.SENSOR_ID, plots.active, "
+			"variables.name, variables.label, "
+			"axes.name "
+		"FROM "
+			"plots, variables, axes "
+		"WHERE "
+			"ID=:ID AND plots.AXIS_ID=axes.ID AND plots.SENSOR_ID=sensors.ID");
+
+	Query.bindValue(":ID", ID);
+
+	if (Query.exec() && Query.next())
+	{
+		Data.ID = Query.value(0).toInt();
+		Data.AXIS_ID = Query.value(1).toInt();
+		Data.SENSOR_ID = Query.value(2).toInt();
+		Data.Active = Query.value(3).toInt();
+		Data.Varname = Query.value(4).toString();
+		Data.Varlabel = Query.value(5).toString();
+		Data.Axisname = Query.value(6).toString();
+	}
+	else
+	{
+		LastError = Query.lastError().text();
+	}
+
+	return Data;
+}
+
+QList<PlotData> AppCore::GetPlots(void)
+{
+	QSqlQuery Query(Database);
+	QList<PlotData> List;
+
+	Query.prepare(
+		"SELECT "
+			"plots.ID, plots.AXIS_ID, plots.SENSOR_ID, plots.active, "
+			"sensors.name, sensors.label, "
+			"axes.name "
+		"FROM "
+			"plots, sensors, axes "
+		"WHERE "
+			"plots.AXIS_ID=axes.ID AND plots.SENSOR_ID=sensors.ID");
+
+	if (Query.exec()) while (Query.next())
+	{
+		PlotData Data;
+
+		Data.ID = Query.value(0).toInt();
+		Data.AXIS_ID = Query.value(1).toInt();
+		Data.SENSOR_ID = Query.value(2).toInt();
+		Data.Active = Query.value(3).toInt();
+		Data.Varname = Query.value(4).toString();
+		Data.Varlabel = Query.value(5).toString();
+		Data.Axisname = Query.value(6).toString();
+
+		List.append(Data);
+	}
+	else
+	{
+		LastError = Query.lastError().text();
+	}
+
+	return List;
+}
+
 void AppCore::ConnectVariable(const QString &Var, const boost::function<void (double)>& Callback)
 {
 	const KLString ID = Var.toStdString().c_str();

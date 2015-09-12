@@ -65,6 +65,38 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>Copy</sender>
+   <signal>clicked()</signal>
+   <receiver>HelperEntry</receiver>
+   <slot>CopyButtonClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>28</x>
+     <y>27</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>28</x>
+     <y>120</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>Paste</sender>
+   <signal>clicked()</signal>
+   <receiver>HelperEntry</receiver>
+   <slot>PasteButtonClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>63</x>
+     <y>26</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>60</x>
+     <y>177</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>CopyButtonClicked()</slot>

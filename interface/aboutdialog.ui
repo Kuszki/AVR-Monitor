@@ -31,7 +31,9 @@
       <string>Close</string>
      </property>
      <property name="icon">
-      <iconset theme="exit"/>
+      <iconset theme="exit">
+       <normaloff/>
+      </iconset>
      </property>
     </widget>
    </item>
@@ -211,6 +213,9 @@ The program is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE WARRAN
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>Close</tabstop>
+ </tabstops>
  <resources>
   <include location="resources.qrc"/>
  </resources>

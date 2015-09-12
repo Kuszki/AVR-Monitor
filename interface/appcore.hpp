@@ -101,6 +101,13 @@ class AppCore final: public QObject
 		AxisData GetAxis(int ID);
 		QList<AxisData> GetAxes(void);
 
+		bool AddPlot(PlotData& Data);
+		bool UpdatePlot(PlotData& Data);
+		bool DeletePlot(int ID);
+
+		PlotData GetPlot(int ID);
+		QList<PlotData> GetPlots(void);
+
 		void ConnectVariable(const QString& Var, const boost::function<void (double)>& Callback);
 		void DisconnectVariable(const QString& Var);
 

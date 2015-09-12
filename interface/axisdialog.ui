@@ -7,14 +7,16 @@
     <x>0</x>
     <y>0</y>
     <width>300</width>
-    <height>230</height>
+    <height>235</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Axis settings</string>
   </property>
   <property name="windowIcon">
-   <iconset theme="preferences-system"/>
+   <iconset theme="preferences-system">
+    <normaloff/>
+   </iconset>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="2" column="1">
@@ -29,7 +31,7 @@
       <double>1000.000000000000000</double>
      </property>
      <property name="value">
-      <double>5.000000000000000</double>
+      <double>0.000000000000000</double>
      </property>
     </widget>
    </item>
@@ -48,7 +50,33 @@
     </widget>
    </item>
    <item row="1" column="1">
-    <widget class="QComboBox" name="Style"/>
+    <widget class="QComboBox" name="Style">
+     <item>
+      <property name="text">
+       <string>Solid line</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Dash line</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Dot line</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Dash + dot line</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Dash + dot + dot line</string>
+      </property>
+     </item>
+    </widget>
    </item>
    <item row="0" column="1">
     <widget class="QLineEdit" name="Name"/>
@@ -133,6 +161,9 @@
      <property name="maximum">
       <double>1000.000000000000000</double>
      </property>
+     <property name="value">
+      <double>5.000000000000000</double>
+     </property>
     </widget>
    </item>
    <item row="5" column="0" colspan="2">
@@ -150,6 +181,16 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>Name</tabstop>
+  <tabstop>Style</tabstop>
+  <tabstop>Min</tabstop>
+  <tabstop>Max</tabstop>
+  <tabstop>Label</tabstop>
+  <tabstop>Active</tabstop>
+  <tabstop>cancelButton</tabstop>
+  <tabstop>saveButton</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>

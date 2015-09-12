@@ -71,6 +71,10 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>deleteButton</tabstop>
+  <tabstop>settingsButton</tabstop>
+ </tabstops>
  <resources>
   <include location="resources.qrc"/>
  </resources>

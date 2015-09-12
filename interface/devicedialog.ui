@@ -108,6 +108,13 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>Name</tabstop>
+  <tabstop>Output</tabstop>
+  <tabstop>Active</tabstop>
+  <tabstop>cancelButton</tabstop>
+  <tabstop>saveButton</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>
