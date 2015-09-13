@@ -29,6 +29,8 @@ HEADERS	+=	avrterminal.hpp \
 			avruploader.hpp \
 			avrdownloader.hpp
 
+TRANSLATIONS	+=	avrmonitor_terminal_pl.ts
+
 INCLUDEPATH	+=	$$PWD/../bridge
 INCLUDEPATH	+=	$$PWD/../../KLLibs
 

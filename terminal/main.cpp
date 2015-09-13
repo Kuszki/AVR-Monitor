@@ -41,9 +41,31 @@ int main(int argc, char *argv[])
 	a.setOrganizationDomain("https://github.com/Kuszki/AVR-Monitor");
 	a.setApplicationVersion("1.0");
 
+	QTranslator qtTranslator;
+	qtTranslator.load("qt_" + QLocale::system().name(),
+				   QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+	a.installTranslator(&qtTranslator);
+
+	QTranslator baseTranslator;
+	baseTranslator.load("qtbase_" + QLocale::system().name(),
+				   QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+	a.installTranslator(&baseTranslator);
+
+	QTranslator appTranslator;
+	appTranslator.load("avrmonitor_terminal_" + QLocale::system().name());
+	a.installTranslator(&appTranslator);
+
+	QTranslator bridgeTranslator;
+	bridgeTranslator.load("avrmonitor_bridge_" + QLocale::system().name());
+	a.installTranslator(&bridgeTranslator);
+
+	QTranslator kllibsTranslator;
+	kllibsTranslator.load("kllibs_" + QLocale::system().name());
+	a.installTranslator(&kllibsTranslator);
+
 	QCommandLineParser Parser;
 
-	Parser.setApplicationDescription(a.tr(
+	Parser.setApplicationDescription(qApp->translate("main",
 
 "\n\
 AVR-Terminal - terminal application for AVR-Monitor platform.\n\
@@ -61,13 +83,13 @@ Before use be sure that device is not runing or connected to another application
 	Parser.addVersionOption();
 
 	// device options
-	Parser.addPositionalArgument(a.tr("device"), a.tr("device to open"));
+	Parser.addPositionalArgument(qApp->translate("main", "device"), qApp->translate("main", "device to open"));
 
 	// main options
-	QCommandLineOption tcpServer(QStringList() << "h" << "host", a.tr("Become a TCP server (device works as master). [SID]"));
-	QCommandLineOption stdTerminal(QStringList() << "t" << "terminal", a.tr("Work as casual two-side terminal."));
-	QCommandLineOption stdUpload(QStringList() << "u" << "upload", a.tr("Upload script from file into device."), a.tr("script"));
-	QCommandLineOption stdDownload(QStringList() << "d" << "download", a.tr("Download script from device into file."), a.tr("script"));
+	QCommandLineOption tcpServer(QStringList() << "h" << "host", qApp->translate("main", "Become a TCP server (device works as master). [SID]"));
+	QCommandLineOption stdTerminal(QStringList() << "t" << "terminal", qApp->translate("main", "Work as casual two-side terminal."));
+	QCommandLineOption stdUpload(QStringList() << "u" << "upload", qApp->translate("main", "Upload script from file into device."), qApp->translate("main", "script"));
+	QCommandLineOption stdDownload(QStringList() << "d" << "download", qApp->translate("main", "Download script from device into file."), qApp->translate("main", "script"));
 
 	Parser.addOption(tcpServer);
 	Parser.addOption(stdTerminal);

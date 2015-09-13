@@ -7,13 +7,13 @@
     <x>0</x>
     <y>0</y>
     <width>525</width>
-    <height>400</height>
+    <height>425</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
     <width>525</width>
-    <height>400</height>
+    <height>425</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -192,7 +192,7 @@ The program is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE WARRAN
    <item row="3" column="1" colspan="3">
     <widget class="QLabel" name="More">
      <property name="text">
-      <string>&lt;a href=&quot;http://www.gnu.org/licenses/gpl-3.0.en.html&quot;&gt;See more&lt;/a&gt;</string>
+      <string>&lt;a href=&quot;http://www.fsf.org/&quot;&gt;See more&lt;/a&gt;</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>

@@ -199,24 +199,30 @@ void PlotWidget::SaveButtonClicked(void)
 	{
 		const QChar groupSeparator = ',';
 
-		QFile File(Path); File.open(QFile::WriteOnly);
-		QString Buff(tr("Time")); QList<double> Keys;
+		QFile File(Path); QString Buff(tr("Time")); QList<double> Keys;
 
-		for (const auto& Var: Vars.keys()) if (Vars[Var]->visible()) Buff.append(groupSeparator).append(Var);
-		for (const auto& Plot: Plots) if (Plot->visible()) Keys.append(Plot->data()->keys());
-
-		Buff.append('\n');
-
-		auto Set = Keys.toSet().values(); qSort(Set);
-
-		for (const auto& Key: Set)
+		if (File.open(QFile::WriteOnly))
 		{
-			Buff.append(QString::number(Key));
-			for (const auto& Plot: Vars) if (Plot->visible()) Buff.append(groupSeparator).append(QString::number(Plot->data()->value(Key).value));
-			Buff.append('\n');
-		}
+			for (const auto& Var: Vars.keys()) if (Vars[Var]->visible()) Buff.append(groupSeparator).append(Var);
+			for (const auto& Plot: Plots) if (Plot->visible()) Keys.append(Plot->data()->keys());
 
-		File.write(Buff.toUtf8());
+			Buff.append('\n');
+
+			auto Set = Keys.toSet().values(); qSort(Set);
+
+			for (const auto& Key: Set)
+			{
+				Buff.append(QString::number(Key));
+				for (const auto& Plot: Vars) if (Plot->visible()) Buff.append(groupSeparator).append(QString::number(Plot->data()->value(Key).value));
+				Buff.append('\n');
+			}
+
+			File.write(Buff.toUtf8());
+		}
+		else
+		{
+			QMessageBox::warning(this, tr("Error"), tr("Can't open selected file"));
+		}
 	}
 }
 

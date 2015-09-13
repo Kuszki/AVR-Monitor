@@ -166,7 +166,7 @@ void MainWindow::UploadScript(void)
 		QFile File(Name);
 
 		if (File.open(QFile::ReadOnly)) AppCore::getDevice()->WriteMasterScript(File.readAll());
-		else ShowErrorMessage(tr("Can't open provided script file."));
+		else ShowErrorMessage(tr("Can't open provided script file"));
 	}
 }
 
@@ -205,7 +205,7 @@ void MainWindow::SaveMasterScript(const QString& Script)
 	{
 		QFile File(Name);
 
-		if (!File.open(QFile::WriteOnly)) ShowErrorMessage(tr("Can't open provided file."));
+		if (!File.open(QFile::WriteOnly)) ShowErrorMessage(tr("Can't open provided file"));
 		else
 		{
 			File.write(Script.toUtf8());

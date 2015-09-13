@@ -10,9 +10,6 @@
     <height>50</height>
    </rect>
   </property>
-  <property name="windowTitle">
-   <string>Form</string>
-  </property>
   <layout class="QHBoxLayout" name="mainLayout">
    <item>
     <widget class="QLabel" name="labelIcon">
@@ -108,6 +105,22 @@
     <hint type="destinationlabel">
      <x>394</x>
      <y>156</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>Name</sender>
+   <signal>windowTitleChanged(QString)</signal>
+   <receiver>DeviceEntry</receiver>
+   <slot>setWindowTitle(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>120</x>
+     <y>32</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>127</x>
+     <y>221</y>
     </hint>
    </hints>
   </connection>

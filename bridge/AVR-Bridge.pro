@@ -21,6 +21,8 @@ SOURCES	+=	avrbridge.cpp
 HEADERS	+=	libbuild.hpp \
 			avrbridge.hpp
 
+TRANSLATIONS	+=	avrmonitor_bridge_pl.ts
+
 INCLUDEPATH	+=	$$PWD/../../KLLibs
 
 QMAKE_CXXFLAGS	+=	-s -fomit-frame-pointer -march=native

@@ -94,6 +94,8 @@ FORMS	+=	mainwindow.ui \
 
 RESOURCES	+=	resources.qrc
 
+TRANSLATIONS	+=	avrmonitor_interface_pl.ts
+
 INCLUDEPATH	+=	$$PWD/../bridge
 INCLUDEPATH	+=	$$PWD/../../KLLibs
 INCLUDEPATH	+=	$$PWD/../../QCustomPlot

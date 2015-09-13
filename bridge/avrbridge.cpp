@@ -198,7 +198,7 @@ void AVRBridge::Connect(const QString& Port)
 	{
 		Serial->setPortName(Port);
 
-		if (!Serial->open(QIODevice::ReadWrite)) emit onError(tr("Can not open serial - ") + Serial->errorString());
+		if (!Serial->open(QIODevice::ReadWrite)) emit onError(tr("Can not open serial - %1").arg(Serial->errorString()));
 		else
 		{
 			Serial->write(QString("call dev %1,1;call dev %2,0;\n").arg(DEV_LINE).arg(DEV_MASTER).toUtf8());
