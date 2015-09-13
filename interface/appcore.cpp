@@ -118,6 +118,8 @@ void AppCore::PerformTasks(const KLVariables& Vars)
 		Script.SetCode(Task);
 		Script.Evaluate();
 	}
+
+	emit onValuesUpdate(Script.Variables);
 }
 
 void AppCore::UpdateInterval(double Time)
@@ -238,8 +240,7 @@ void AppCore::UpdateScriptTasks(void)
 
 void AppCore::UpdateDefaultOutputs(void)
 {
-	QSqlQuery Query(Database);
-	Values = 0;
+	QSqlQuery Query(Database); Values = 0;
 
 	Query.prepare(
 		"SELECT "
@@ -279,11 +280,13 @@ bool AppCore::AddSensor(SensorData& Data)
 
 	Query.bindValue(":active", Data.Active);
 
-	if (Query.exec()) Data.ID = Query.lastInsertId().toInt();
+	if (Query.exec()) UpdateScriptTasks();
 	else
 	{
 		LastError = Query.lastError().text(); return false;
 	}
+
+	Data.ID = Query.lastInsertId().toInt();
 
 	return true;
 }
@@ -322,6 +325,8 @@ bool AppCore::UpdateSensor(SensorData& Data)
 		LastError = Query.lastError().text(); return false;
 	}
 
+	emit onSensorUpdate();
+
 	return true;
 }
 
@@ -339,6 +344,19 @@ bool AppCore::DeleteSensor(int ID)
 
 	if (Query.exec()) UpdateScriptTasks();
 	else
+	{
+		LastError = Query.lastError().text(); return false;
+	}
+
+	Query.prepare(
+		"DELETE FROM "
+			"plots "
+		"WHERE "
+			"AXIS_ID=:ID");
+
+	Query.bindValue(":ID", ID);
+
+	if (!Query.exec()) emit onSensorUpdate();
 	{
 		LastError = Query.lastError().text(); return false;
 	}
@@ -380,10 +398,10 @@ SensorData AppCore::GetSensor(int ID)
 	return Data;
 }
 
-QList<SensorData> AppCore::GetSensors(void)
+QMap<int, SensorData> AppCore::GetSensors(void)
 {
 	QSqlQuery Query(Database);
-	QList<SensorData> List;
+	QMap<int, SensorData> List;
 
 	Query.prepare(
 		"SELECT "
@@ -402,7 +420,7 @@ QList<SensorData> AppCore::GetSensors(void)
 		Data.Script = Query.value(4).toString();
 		Data.Active = Query.value(5).toBool();
 
-		List.append(Data);
+		List.insert(Data.ID, Data);
 	}
 	else
 	{
@@ -524,10 +542,10 @@ EventData AppCore::GetEvent(int ID)
 	return Data;
 }
 
-QList<EventData> AppCore::GetEvents(void)
+QMap<int, EventData> AppCore::GetEvents(void)
 {
 	QSqlQuery Query(Database);
-	QList<EventData> List;
+	QMap<int, EventData> List;
 
 	Query.prepare(
 		"SELECT "
@@ -544,7 +562,7 @@ QList<EventData> AppCore::GetEvents(void)
 		Data.Script = Query.value(2).toString();
 		Data.Active = Query.value(3).toBool();
 
-		List.append(Data);
+		List.insert(Data.ID, Data);
 	}
 	else
 	{
@@ -663,10 +681,10 @@ DeviceData AppCore::GetDevice(int ID)
 	return Data;
 }
 
-QList<DeviceData> AppCore::GetDevices(void)
+QMap<int, DeviceData> AppCore::GetDevices(void)
 {
 	QSqlQuery Query(Database);
-	QList<DeviceData> List;
+	QMap<int, DeviceData> List;
 
 	Query.prepare(
 		"SELECT "
@@ -683,7 +701,7 @@ QList<DeviceData> AppCore::GetDevices(void)
 		Data.Output = Query.value(2).toInt();
 		Data.Active = Query.value(3).toBool();
 
-		List.append(Data);
+		List.insert(Data.ID, Data);
 	}
 	else
 	{
@@ -771,6 +789,17 @@ bool AppCore::DeleteAxis(int ID)
 		LastError = Query.lastError().text(); return false;
 	}
 
+	Query.prepare(
+		"DELETE FROM "
+			"plots "
+		"WHERE "
+			"AXIS_ID=:ID");
+
+	if (!Query.exec())
+	{
+		LastError = Query.lastError().text(); return false;
+	}
+
 	return true;
 }
 
@@ -809,10 +838,10 @@ AxisData AppCore::GetAxis(int ID)
 	return Data;
 }
 
-QList<AxisData> AppCore::GetAxes(void)
+QMap<int, AxisData> AppCore::GetAxes(void)
 {
 	QSqlQuery Query(Database);
-	QList<AxisData> List;
+	QMap<int, AxisData> List;
 
 	Query.prepare(
 		"SELECT "
@@ -832,7 +861,7 @@ QList<AxisData> AppCore::GetAxes(void)
 		Data.Label = Query.value(5).toBool();
 		Data.Active = Query.value(6).toBool();
 
-		List.append(Data);
+		List.insert(Data.ID, Data);
 	}
 	else
 	{
@@ -920,12 +949,12 @@ PlotData AppCore::GetPlot(int ID)
 	Query.prepare(
 		"SELECT "
 			"plots.ID, plots.AXIS_ID, plots.SENSOR_ID, plots.active, "
-			"variables.name, variables.label, "
+			"sensors.name, sensors.label, "
 			"axes.name "
 		"FROM "
-			"plots, variables, axes "
+			"plots, sensors, axes "
 		"WHERE "
-			"ID=:ID AND plots.AXIS_ID=axes.ID AND plots.SENSOR_ID=sensors.ID");
+			"plots.ID=:ID AND plots.AXIS_ID=axes.ID AND plots.SENSOR_ID=sensors.ID");
 
 	Query.bindValue(":ID", ID);
 
@@ -947,10 +976,10 @@ PlotData AppCore::GetPlot(int ID)
 	return Data;
 }
 
-QList<PlotData> AppCore::GetPlots(void)
+QMap<int, PlotData> AppCore::GetPlots(void)
 {
 	QSqlQuery Query(Database);
-	QList<PlotData> List;
+	QMap<int, PlotData> List;
 
 	Query.prepare(
 		"SELECT "
@@ -974,7 +1003,7 @@ QList<PlotData> AppCore::GetPlots(void)
 		Data.Varlabel = Query.value(5).toString();
 		Data.Axisname = Query.value(6).toString();
 
-		List.append(Data);
+		List.insert(Data.ID, Data);
 	}
 	else
 	{

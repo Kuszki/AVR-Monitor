@@ -94,7 +94,6 @@
      <string>Help</string>
     </property>
     <addaction name="actionAbout"/>
-    <addaction name="actionHelp"/>
    </widget>
    <widget class="QMenu" name="menuMeasurements">
     <property name="title">
@@ -103,7 +102,6 @@
     <addaction name="actionRun"/>
     <addaction name="actionStop"/>
     <addaction name="separator"/>
-    <addaction name="actionRecord"/>
    </widget>
    <addaction name="menuDevice"/>
    <addaction name="menuMeasurements"/>
@@ -134,7 +132,6 @@
    <addaction name="separator"/>
    <addaction name="actionRun"/>
    <addaction name="actionStop"/>
-   <addaction name="actionRecord"/>
    <addaction name="separator"/>
    <addaction name="actionUpload"/>
    <addaction name="actionDownload"/>
@@ -162,7 +159,6 @@
    </attribute>
    <addaction name="actionQuit"/>
    <addaction name="separator"/>
-   <addaction name="actionHelp"/>
    <addaction name="actionAbout"/>
    <addaction name="actionWeb"/>
    <addaction name="separator"/>
@@ -317,18 +313,8 @@
    <property name="toolTip">
     <string>Shows &quot;About&quot; dialog.</string>
    </property>
-  </action>
-  <action name="actionHelp">
-   <property name="icon">
-    <iconset theme="help-contents">
-     <normaloff/>
-    </iconset>
-   </property>
-   <property name="text">
-    <string>Help</string>
-   </property>
-   <property name="toolTip">
-    <string>Shows &quot;Help&quot; dialog.</string>
+   <property name="shortcut">
+    <string>F1</string>
    </property>
   </action>
   <action name="actionQuit">
@@ -389,22 +375,6 @@
     <string>Stop measurements.</string>
    </property>
   </action>
-  <action name="actionRecord">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="icon">
-    <iconset theme="media-record">
-     <normaloff/>
-    </iconset>
-   </property>
-   <property name="text">
-    <string>Record</string>
-   </property>
-   <property name="toolTip">
-    <string>Select file to record data.</string>
-   </property>
-  </action>
   <action name="actionFulscreen">
    <property name="checkable">
     <bool>true</bool>
@@ -422,6 +392,9 @@
    </property>
    <property name="toolTip">
     <string>Enable fullscreen view.</string>
+   </property>
+   <property name="shortcut">
+    <string>F11</string>
    </property>
   </action>
   <action name="actionSynchronize">

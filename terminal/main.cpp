@@ -64,7 +64,7 @@ Before use be sure that device is not runing or connected to another application
 	Parser.addPositionalArgument(a.tr("device"), a.tr("device to open"));
 
 	// main options
-	QCommandLineOption tcpServer(QStringList() << "h" << "host", a.tr("Become a TCP server (device works as master)."));
+	QCommandLineOption tcpServer(QStringList() << "h" << "host", a.tr("Become a TCP server (device works as master). [SID]"));
 	QCommandLineOption stdTerminal(QStringList() << "t" << "terminal", a.tr("Work as casual two-side terminal."));
 	QCommandLineOption stdUpload(QStringList() << "u" << "upload", a.tr("Upload script from file into device."), a.tr("script"));
 	QCommandLineOption stdDownload(QStringList() << "d" << "download", a.tr("Download script from device into file."), a.tr("script"));

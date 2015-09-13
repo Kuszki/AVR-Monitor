@@ -22,8 +22,10 @@
 #define PLOTWIDGET_HPP
 
 #include <QWidget>
+#include <QTime>
 #include <QMap>
 
+#include <KLLibs.hpp>
 #include <qcustomplot.hpp>
 
 #include "plotdialog.hpp"
@@ -40,6 +42,8 @@ class PlotWidget : public QWidget
 
 	private:
 
+		static const QList<Qt::GlobalColor> Colors;
+
 		Ui::PlotWidget* ui;
 
 		PlotDialog* Dialog;
@@ -48,12 +52,18 @@ class PlotWidget : public QWidget
 		QMap<int, QCPGraph*> Plots;
 		QMap<int, QCPAxis*> Axes;
 
+		QTime Starttime;
+
+		bool Userrange = true;
+
 	public:
 
 		explicit PlotWidget(QWidget* Parent = nullptr);
 		virtual ~PlotWidget(void) override;
 
 	private slots:
+
+		void PlotRangeChanged(const QCPRange& New, const QCPRange& Old);
 
 		void AddPlot(const PlotData& Data);
 		void UpdatePlot(const PlotData& Data);
@@ -66,6 +76,16 @@ class PlotWidget : public QWidget
 		void SettingsButtonClicked(void);
 		void CleanButtonClicked(void);
 		void SaveButtonClicked(void);
+
+		void RangeSpinChanged(void);
+
+	public slots:
+
+		void PlotVariables(const KLVariables& Variables);
+
+		void UpdateSensors(void);
+
+		void RestartPlot(void);
 
 };
 

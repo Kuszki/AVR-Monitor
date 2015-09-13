@@ -78,35 +78,35 @@ class AppCore final: public QObject
 		bool DeleteSensor(int ID);
 
 		SensorData GetSensor(int ID);
-		QList<SensorData> GetSensors(void);
+		QMap<int, SensorData> GetSensors(void);
 
 		bool AddEvent(EventData& Data);
 		bool UpdateEvent(EventData& Data);
 		bool DeleteEvent(int ID);
 
 		EventData GetEvent(int ID);
-		QList<EventData> GetEvents(void);
+		QMap<int, EventData> GetEvents(void);
 
 		bool AddDevice(DeviceData& Data);
 		bool UpdateDevice(DeviceData& Data);
 		bool DeleteDevice(int ID);
 
 		DeviceData GetDevice(int ID);
-		QList<DeviceData> GetDevices(void);
+		QMap<int, DeviceData> GetDevices(void);
 
 		bool AddAxis(AxisData& Data);
 		bool UpdateAxis(AxisData& Data);
 		bool DeleteAxis(int ID);
 
 		AxisData GetAxis(int ID);
-		QList<AxisData> GetAxes(void);
+		QMap<int, AxisData> GetAxes(void);
 
 		bool AddPlot(PlotData& Data);
 		bool UpdatePlot(PlotData& Data);
 		bool DeletePlot(int ID);
 
 		PlotData GetPlot(int ID);
-		QList<PlotData> GetPlots(void);
+		QMap<int, PlotData> GetPlots(void);
 
 		void ConnectVariable(const QString& Var, const boost::function<void (double)>& Callback);
 		void DisconnectVariable(const QString& Var);
@@ -129,7 +129,11 @@ class AppCore final: public QObject
 
 	signals:
 
+		void onValuesUpdate(const KLVariables&);
+
 		void onScriptUpdate(void);
+
+		void onSensorUpdate(void);
 
 };
 

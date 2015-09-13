@@ -52,9 +52,8 @@ void PlotDialog::UpdateAxis(const AxisData& Axis)
 
 void PlotDialog::UpdatePlot(QListWidgetItem* Plot)
 {
-	PlotData Data;
+	PlotData Data = AppCore::getInstance()->GetPlot(Plot->data(Qt::UserRole).toInt());
 
-	Data.ID = Plot->data(Qt::UserRole).toInt();
 	Data.Active = Plot->checkState() == Qt::Checked;
 
 	if (AppCore::getInstance()->UpdatePlot(Data))
@@ -139,7 +138,9 @@ void PlotDialog::SettingsButtonClicked(void)
 
 void PlotDialog::InsertButtonClicked(void)
 {
-	PlotData Plot; const int ID = ui->Sensors->currentRow();
+	const int ID = ui->Sensors->currentRow(); if (ID < 0) return;
+
+	PlotData Plot;
 
 	Plot.AXIS_ID = ui->Axes->currentData().toInt();
 	Plot.SENSOR_ID = ui->Sensors->item(ID, 0)->data(Qt::UserRole).toInt();
@@ -159,11 +160,11 @@ void PlotDialog::InsertButtonClicked(void)
 
 void PlotDialog::RemoveButtonClicked(void)
 {
-	const int ID = ui->Plots->currentRow();
+	QListWidgetItem* Item = ui->Plots->currentItem(); if (!Item) return;
 
-	if (AppCore::getInstance()->DeletePlot(ID))
+	if (AppCore::getInstance()->DeletePlot(Item->data(Qt::UserRole).toInt()))
 	{
-		delete ui->Plots->item(ID); emit onPlotDelete(ID);
+		emit onPlotDelete(Item->data(Qt::UserRole).toInt()); delete Item;
 	}
 	else
 	{

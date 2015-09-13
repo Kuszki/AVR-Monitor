@@ -38,6 +38,7 @@ MainWindow::MainWindow(QWidget* Parent)
 	connect(Interval, SIGNAL(valueChanged(double)), SLOT(IntervalValueChanged(double)));
 
 	Interval->setValue(QSettings("settings.ini", QSettings::IniFormat).value("interval", 1.0).toDouble());
+	AppCore::getInstance()->UpdateInterval(Interval->value());
 
 	ui->tabTerminal->setEnabled(false);
 	ui->tabLog->setEnabled(false);
@@ -78,6 +79,17 @@ MainWindow::MainWindow(QWidget* Parent)
 		AppCore::getInstance()->UpdateStatus(false);
 	});
 
+	// terminal to device connections SID!
+	connect(ui->tabTerminal, &TerminalWidget::onScriptExecute, [this] (const QString& Code) -> void
+	{
+		AppCore::getDevice()->Command(KLScriptbinding::Optimize(Code));
+	});
+
+	// main window to plot widget connections
+	connect(ui->actionRun, &QAction::triggered, ui->tabPlot, &PlotWidget::RestartPlot);
+	connect(AppCore::getInstance(), &AppCore::onValuesUpdate, ui->tabPlot, &PlotWidget::PlotVariables);
+	connect(AppCore::getInstance(), &AppCore::onSensorUpdate, ui->tabPlot, &PlotWidget::UpdateSensors);
+
 	// device to system widget connections
 	connect(AppCore::getDevice(), &AVRBridge::onConnectionUpdate, ui->systemWidget, &SystemWidget::UpdateLink);
 	connect(AppCore::getDevice(), &AVRBridge::onMasterStatusUpdate, ui->systemWidget, &SystemWidget::UpdateStatus);
@@ -107,9 +119,6 @@ MainWindow::MainWindow(QWidget* Parent)
 	connect(ui->shiftWidget, &ShiftWidget::onShiftChanged, AppCore::getDevice(), &AVRBridge::WriteShiftValues);
 	connect(ui->shiftWidget, &ShiftWidget::onEnabledChanged, AppCore::getDevice(), &AVRBridge::WriteShiftStatus);
 
-	// terminal to device connections SID!
-	connect(ui->tabTerminal, &TerminalWidget::onScriptExecute, [this] (const QString& Code) -> void { AppCore::getDevice()->Command(KLScriptbinding::Optimize(Code)); });
-
 	// device to log window
 	connect(AppCore::getDevice(), &AVRBridge::onMessageSend, ui->tabLog, &LogWidget::AppendOutput);
 	connect(AppCore::getDevice(), &AVRBridge::onMessageReceive, ui->tabLog, &LogWidget::AppendInput);
@@ -131,9 +140,18 @@ MainWindow::~MainWindow(void)
 	delete ui;
 }
 
+void MainWindow::showEvent(QShowEvent* Event)
+{
+	QMainWindow::showEvent(Event);
+
+	ui->actionFulscreen->setChecked(windowState() & Qt::WindowFullScreen);
+}
+
 void MainWindow::ConnectDevice(void)
 {
-	AppCore::getDevice()->Connect("/dev/serial/by-id/usb-Łukasz__Kuszki__Dróżdż_AVR-Monitor_DAYYSEBT-if00-port0");
+	const QString Port = QSettings("settings.ini", QSettings::IniFormat).value("port", "/dev/serial/by-id/usb-Łukasz__Kuszki__Dróżdż_AVR-Monitor_DAYYSEBT-if00-port0").toString();
+
+	AppCore::getDevice()->Connect(Port);
 }
 
 void MainWindow::DisconnectDevice(void)
@@ -172,7 +190,6 @@ void MainWindow::ConnectionChanged(bool Connected)
 	ui->actionDownload->setEnabled(Connected);
 	ui->actionUpload->setEnabled(Connected);
 	ui->actionRun->setEnabled(Connected);
-	ui->actionRecord->setEnabled(Connected);
 	ui->actionSynchronize->setEnabled(Connected);
 
 	ui->pgaWidget->setEnabled(Connected);

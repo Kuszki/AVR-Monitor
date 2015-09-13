@@ -14,34 +14,20 @@
    <string>Plot</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0" colspan="4">
-    <widget class="QCustomPlot" name="Plot" native="true"/>
+   <item row="1" column="5">
+    <spacer name="horizontalSpacer">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>0</width>
+       <height>0</height>
+      </size>
+     </property>
+    </spacer>
    </item>
-   <item row="1" column="0">
-    <widget class="QToolButton" name="saveButton">
-     <property name="text">
-      <string>Save</string>
-     </property>
-     <property name="icon">
-      <iconset theme="document-save">
-       <normaloff/>
-      </iconset>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="1">
-    <widget class="QToolButton" name="cleanButton">
-     <property name="text">
-      <string>Clean</string>
-     </property>
-     <property name="icon">
-      <iconset theme="edit-clear">
-       <normaloff/>
-      </iconset>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="3">
+   <item row="1" column="6">
     <widget class="QToolButton" name="settingsButton">
      <property name="text">
       <string>Settings</string>
@@ -54,17 +40,70 @@
     </widget>
    </item>
    <item row="1" column="2">
-    <spacer name="horizontalSpacer">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
+    <widget class="QToolButton" name="cleanButton">
+     <property name="text">
+      <string>Clean</string>
      </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>0</width>
-       <height>0</height>
-      </size>
+     <property name="icon">
+      <iconset theme="edit-clear">
+       <normaloff/>
+      </iconset>
      </property>
-    </spacer>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <widget class="QToolButton" name="saveButton">
+     <property name="text">
+      <string>Save</string>
+     </property>
+     <property name="icon">
+      <iconset theme="document-save">
+       <normaloff/>
+      </iconset>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0" colspan="8">
+    <widget class="QCustomPlot" name="Plot" native="true"/>
+   </item>
+   <item row="1" column="0">
+    <widget class="QDoubleSpinBox" name="Start">
+     <property name="suffix">
+      <string> s</string>
+     </property>
+     <property name="decimals">
+      <number>1</number>
+     </property>
+     <property name="maximum">
+      <double>86400.000000000000000</double>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="7">
+    <widget class="QDoubleSpinBox" name="Stop">
+     <property name="suffix">
+      <string> s</string>
+     </property>
+     <property name="decimals">
+      <number>1</number>
+     </property>
+     <property name="maximum">
+      <double>86400.000000000000000</double>
+     </property>
+     <property name="value">
+      <double>60.000000000000000</double>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="4">
+    <widget class="QCheckBox" name="Follow">
+     <property name="text">
+      <string>Follow new data</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>
@@ -85,8 +124,8 @@
    <slot>SettingsButtonClicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>783</x>
-     <y>576</y>
+     <x>678</x>
+     <y>590</y>
     </hint>
     <hint type="destinationlabel">
      <x>858</x>
@@ -101,8 +140,8 @@
    <slot>CleanButtonClicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>55</x>
-     <y>583</y>
+     <x>186</x>
+     <y>590</y>
     </hint>
     <hint type="destinationlabel">
      <x>54</x>
@@ -117,12 +156,44 @@
    <slot>SaveButtonClicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>26</x>
-     <y>581</y>
+     <x>147</x>
+     <y>590</y>
     </hint>
     <hint type="destinationlabel">
      <x>98</x>
      <y>631</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>Start</sender>
+   <signal>valueChanged(double)</signal>
+   <receiver>PlotWidget</receiver>
+   <slot>RangeSpinChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>79</x>
+     <y>569</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>167</x>
+     <y>659</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>Stop</sender>
+   <signal>valueChanged(double)</signal>
+   <receiver>PlotWidget</receiver>
+   <slot>RangeSpinChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>742</x>
+     <y>579</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>745</x>
+     <y>624</y>
     </hint>
    </hints>
   </connection>
@@ -131,5 +202,6 @@
   <slot>SettingsButtonClicked()</slot>
   <slot>CleanButtonClicked()</slot>
   <slot>SaveButtonClicked()</slot>
+  <slot>RangeSpinChanged()</slot>
  </slots>
 </ui>

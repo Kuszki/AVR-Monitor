@@ -54,6 +54,10 @@ class MainWindow : public QMainWindow
 		explicit MainWindow(QWidget* Parent = nullptr);
 		virtual ~MainWindow(void) override;
 
+	protected:
+
+		virtual void showEvent(QShowEvent* Event) override;
+
 	private slots:
 
 		void ConnectDevice(void);
