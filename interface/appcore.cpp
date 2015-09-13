@@ -1,6 +1,6 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *                                                                         *
- *  {description}                                                          *
+ *  Main AppCore module for AVR-Monitor                                    *
  *  Copyright (C) 2015  Łukasz "Kuszki" Dróżdż            l.drozdz@o2.pl   *
  *                                                                         *
  *  This program is free software: you can redistribute it and/or modify   *
@@ -27,8 +27,7 @@ QString AppCore::LastError = QString();
 AppCore::AppCore(void)
 : QObject(nullptr), Script(&Adc)
 {
-	if (THIS) qFatal("Core object duplicated");
-	else THIS = this;
+	if (THIS) qFatal("Core object duplicated"); else THIS = this;
 
 	Interval.setInterval(1000);
 

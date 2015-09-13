@@ -1,22 +1,22 @@
-/***********************************************************************
- *
- *  AVR-Monitor main. cpp file
- *  Copyright (C) 2015  Łukasz "Kuszki" Dróżdż
- *
- *  This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation, either version 3 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program.  If not, see http://www.gnu.org/licenses/.
- *
- **********************************************************************/
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+ *                                                                         *
+ *  Main window for AVR-Monitor                                            *
+ *  Copyright (C) 2015  Łukasz "Kuszki" Dróżdż            l.drozdz@o2.pl   *
+ *                                                                         *
+ *  This program is free software: you can redistribute it and/or modify   *
+ *  it under the terms of the GNU General Public License as published by   *
+ *  the  Free Software Foundation, either  version 3 of the  License, or   *
+ *  (at your option) any later version.                                    *
+ *                                                                         *
+ *  This  program  is  distributed  in the hope  that it will be useful,   *
+ *  but WITHOUT ANY  WARRANTY;  without  even  the  implied  warranty of   *
+ *  MERCHANTABILITY  or  FITNESS  FOR  A  PARTICULAR  PURPOSE.  See  the   *
+ *  GNU General Public License for more details.                           *
+ *                                                                         *
+ *  You should have  received a copy  of the  GNU General Public License   *
+ *  along with this program. If not, see http://www.gnu.org/licenses/.     *
+ *                                                                         *
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #include "mainwindow.hpp"
 #include "ui_mainwindow.h"
@@ -140,13 +140,6 @@ MainWindow::~MainWindow(void)
 	delete ui;
 }
 
-void MainWindow::showEvent(QShowEvent* Event)
-{
-	QMainWindow::showEvent(Event);
-
-	ui->actionFulscreen->setChecked(windowState() & Qt::WindowFullScreen);
-}
-
 void MainWindow::ConnectDevice(void)
 {
 	const QString Port = QSettings("settings.ini", QSettings::IniFormat).value("port", "/dev/serial/by-id/usb-Łukasz__Kuszki__Dróżdż_AVR-Monitor_DAYYSEBT-if00-port0").toString();
@@ -190,6 +183,7 @@ void MainWindow::ConnectionChanged(bool Connected)
 	ui->actionDownload->setEnabled(Connected);
 	ui->actionUpload->setEnabled(Connected);
 	ui->actionRun->setEnabled(Connected);
+	ui->actionStop->setEnabled(false);
 	ui->actionSynchronize->setEnabled(Connected);
 
 	ui->pgaWidget->setEnabled(Connected);

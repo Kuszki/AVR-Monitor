@@ -64,7 +64,7 @@
       <enum>QFrame::NoFrame</enum>
      </property>
      <property name="digitCount">
-      <number>7</number>
+      <number>5</number>
      </property>
      <property name="segmentStyle">
       <enum>QLCDNumber::Flat</enum>
