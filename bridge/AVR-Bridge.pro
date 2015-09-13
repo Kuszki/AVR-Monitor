@@ -12,7 +12,7 @@ TEMPLATE	=	lib
 
 CONFIG	+=	c++11 shared
 
-LIBS		+=	-L/home/kuszki/Projekty/build-KLLibs -lkllibs
+LIBS		+=	-L$$PWD/../../build-KLLibs -lkllibs
 
 DEFINES	+=	AVRBRIDGE_LIBRARY USING_BOOST USING_QT
 
@@ -21,7 +21,7 @@ SOURCES	+=	avrbridge.cpp
 HEADERS	+=	libbuild.hpp \
 			avrbridge.hpp
 
-INCLUDEPATH	+=	/home/kuszki/Projekty/KLLibs
+INCLUDEPATH	+=	$$PWD/../../KLLibs
 
 QMAKE_CXXFLAGS	+=	-s -fomit-frame-pointer -march=native
 

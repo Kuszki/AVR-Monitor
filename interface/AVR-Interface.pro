@@ -6,18 +6,19 @@
 
 QT		+=	core gui widgets serialport printsupport sql
 
-TARGET	=	AVR-Interface
+TARGET	=	avrinterface
 TEMPLATE	=	app
 
 CONFIG	+=	c++11
 
-LIBS		+=	-L/home/kuszki/Projekty/build-KLLibs -lkllibs
-LIBS		+=	-L/home/kuszki/Projekty/build-AVR-Bridge -lavrbridge
-LIBS		+=	-L/home/kuszki/Projekty/build-QCustomPlot -lqcustomplot
+LIBS		+=	-L$$PWD/../../build-KLLibs -lkllibs
+LIBS		+=	-L$$PWD/../../build-AVR-Bridge -lavrbridge
+LIBS		+=	-L$$PWD/../../build-QCustomPlot -lqcustomplot
 
 DEFINES	+=	USING_BOOST USING_QT
 
 SOURCES	+= 	main.cpp \
+			appcore.cpp \
 			mainwindow.cpp \
 			shiftwidget.cpp \
 			gainwidget.cpp \
@@ -31,7 +32,6 @@ SOURCES	+= 	main.cpp \
 			sensorwidget.cpp \
 			sensorentry.cpp \
 			sensordialog.cpp \
-			appcore.cpp \
 			logwidget.cpp \
 			eventdialog.cpp \
 			evententry.cpp \
@@ -43,7 +43,9 @@ SOURCES	+= 	main.cpp \
 			axisdialog.cpp \
 			plotwidget.cpp
 
-HEADERS	+=	mainwindow.hpp \
+HEADERS	+=	common.hpp \
+			appcore.hpp \
+			mainwindow.hpp \
 			shiftwidget.hpp \
 			gainwidget.hpp \
 			adcwidget.hpp \
@@ -56,8 +58,6 @@ HEADERS	+=	mainwindow.hpp \
 			sensorwidget.hpp \
 			sensorentry.hpp \
 			sensordialog.hpp \
-			common.hpp \
-			appcore.hpp \
 			logwidget.hpp \
 			eventdialog.hpp \
 			evententry.hpp \
@@ -94,6 +94,8 @@ FORMS	+=	mainwindow.ui \
 
 RESOURCES	+=	resources.qrc
 
-INCLUDEPATH	+=	/home/kuszki/Projekty/AVR-Monitor/bridge
-INCLUDEPATH	+=	/home/kuszki/Projekty/KLLibs
-INCLUDEPATH	+=	/home/kuszki/Projekty/QCustomPlot
+INCLUDEPATH	+=	$$PWD/../bridge
+INCLUDEPATH	+=	$$PWD/../../KLLibs
+INCLUDEPATH	+=	$$PWD/../../QCustomPlot
+
+QMAKE_CXXFLAGS	+=	-s -fomit-frame-pointer -march=native
