@@ -85,9 +85,9 @@ void PlotWidget::AddPlot(const PlotData& Data)
 
 	Pen.setColor(Colors.value(Plots.size(), Qt::black));
 
+	Plot->setVisible(Data.Active && Plot->valueAxis()->visible());
 	Plot->setName(Data.Varname);
 	Plot->setPen(Pen);
-	Plot->setVisible(Data.Active);
 
 	Plots.insert(Data.ID, Plot);
 	Vars.insert(Data.Varlabel, Plot);
@@ -99,8 +99,8 @@ void PlotWidget::UpdatePlot(const PlotData& Data)
 {
 	QCPGraph* Plot = Plots[Data.ID];
 
+	Plot->setVisible(Data.Active && Plot->valueAxis()->visible());
 	Plot->setName(Data.Varname);
-	Plot->setVisible(Data.Active);
 
 	Vars.remove(Vars.key(Plot));
 	Vars.insert(Data.Varlabel, Plot);
@@ -158,6 +158,8 @@ void PlotWidget::UpdateAxis(const AxisData& Data)
 		Pen.setStyle(Qt::PenStyle(Data.Style + 1));
 
 		Plot->setPen(Pen);
+
+		Plot->setVisible(Data.Active);
 	}
 
 	ui->Plot->replot();
@@ -209,15 +211,20 @@ void PlotWidget::SaveButtonClicked(void)
 			Buff.append('\n');
 
 			auto Set = Keys.toSet().values(); qSort(Set);
+			const double First = Set.first();
+
+			File.write(Buff.toUtf8());
 
 			for (const auto& Key: Set)
 			{
-				Buff.append(QString::number(Key));
+				Buff.clear();
+
+				Buff.append(QString::number(Key - First));
 				for (const auto& Plot: Vars) if (Plot->visible()) Buff.append(groupSeparator).append(QString::number(Plot->data()->value(Key).value));
 				Buff.append('\n');
-			}
 
-			File.write(Buff.toUtf8());
+				File.write(Buff.toUtf8());
+			}
 		}
 		else
 		{

@@ -111,6 +111,8 @@ class AppCore final: public QObject
 		void ConnectVariable(const QString& Var, const boost::function<void (double)>& Callback);
 		void DisconnectVariable(const QString& Var);
 
+		static QString getValidation(const QString& Code);
+
 		static AppCore* getInstance(void);
 		static AVRBridge* getDevice(void);
 		static QString getError(void);

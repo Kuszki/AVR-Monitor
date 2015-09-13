@@ -225,6 +225,8 @@ void AVRBridge::Disconnect(void)
 
 bool AVRBridge::IsConnected(void)
 {
+	if (Serial->error() == QSerialPort::ResourceError) Serial->close();
+
 	if (Script->Variables["LINE"].ToBool() != Serial->isOpen())
 	{
 		emit onError(tr("Device disconnected without information"));

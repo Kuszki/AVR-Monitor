@@ -85,6 +85,11 @@ MainWindow::MainWindow(QWidget* Parent)
 		AppCore::getDevice()->Command(KLScriptbinding::Optimize(Code));
 	});
 
+	connect(ui->tabTerminal, &TerminalWidget::onScriptValidate, [this] (const QString& Code) -> void
+	{
+		QMessageBox::information(this, tr("Script check"), AppCore::getValidation(Code));
+	});
+
 	// main window to plot widget connections
 	connect(ui->actionRun, &QAction::triggered, ui->tabPlot, &PlotWidget::RestartPlot);
 	connect(AppCore::getInstance(), &AppCore::onValuesUpdate, ui->tabPlot, &PlotWidget::PlotVariables);

@@ -93,6 +93,11 @@ AppCore::AppCore(void)
 		Device->WriteSpiValues(Data); return 0;
 	});
 
+	connect(Device, &AVRBridge::onConnectionUpdate, [this] (bool Active) -> void
+	{
+		if (!Active) Interval.stop();
+	});
+
 	connect(&Interval, &QTimer::timeout, [this] (void) -> void { Device->UpdateSensorVariables(); });
 
 	connect(Device, &AVRBridge::onSensorValuesUpdate, this, &AppCore::PerformTasks);
@@ -1024,6 +1029,13 @@ void AppCore::DisconnectVariable(const QString& Var)
 	const KLString ID = Var.toStdString().c_str();
 
 	if (Script.Variables.Exists(ID)) Script.Variables[ID].SetCallback(boost::function<void (double)>());
+}
+
+QString AppCore::getValidation(const QString& Code)
+{
+	getInstance()->Script.Validate(Code);
+
+	return getInstance()->Script.GetMessage();
 }
 
 AppCore* AppCore::getInstance(void)

@@ -165,7 +165,7 @@
      <item row="5" column="1">
       <widget class="QLabel" name="Powered">
        <property name="text">
-        <string notr="true">&lt;a href=&quot;https://github.com/Kuszki/KLLibs&quot;&gt;QCustomPlot&lt;/a&gt;, &lt;a href=&quot;https://github.com/Kuszki/KLLibs&quot;&gt;KLLibs&lt;/a&gt;, &lt;a href=&quot;http://www.boost.org/&quot;&gt;Boost&lt;/a&gt;, &lt;a href=&quot;http://www.qt.io/&quot;&gt;Qt 5&lt;/a&gt;</string>
+        <string notr="true">&lt;a href=&quot;http://www.qcustomplot.com&quot;&gt;QCustomPlot&lt;/a&gt;, &lt;a href=&quot;https://github.com/Kuszki/KLLibs&quot;&gt;KLLibs&lt;/a&gt;, &lt;a href=&quot;http://www.boost.org/&quot;&gt;Boost&lt;/a&gt;, &lt;a href=&quot;http://www.qt.io/&quot;&gt;Qt 5&lt;/a&gt;</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
