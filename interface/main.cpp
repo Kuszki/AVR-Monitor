@@ -41,7 +41,7 @@ int main(int argc, char *argv[])
 
 	QTranslator baseTranslator;
 	baseTranslator.load("qtbase_" + QLocale::system().name(),
-				   QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+					QLibraryInfo::location(QLibraryInfo::TranslationsPath));
 	a.installTranslator(&baseTranslator);
 
 	QTranslator appTranslator;

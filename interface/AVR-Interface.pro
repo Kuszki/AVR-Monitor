@@ -100,4 +100,4 @@ INCLUDEPATH	+=	$$PWD/../bridge
 INCLUDEPATH	+=	$$PWD/../../KLLibs
 INCLUDEPATH	+=	$$PWD/../../QCustomPlot
 
-QMAKE_CXXFLAGS	+=	-s -fomit-frame-pointer -march=native -opengl
+QMAKE_CXXFLAGS	+=	-s -march=native
