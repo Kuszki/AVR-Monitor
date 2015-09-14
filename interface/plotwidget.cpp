@@ -40,7 +40,6 @@ PlotWidget::PlotWidget(QWidget* Parent)
 	for (const auto& Data: AppCore::getInstance()->GetPlots()) AddPlot(Data);
 
 	ui->Plot->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom);
-	ui->Plot->setNoAntialiasingOnDrag(true);
 	ui->Plot->legend->setVisible(true);
 	ui->Plot->xAxis->setRange(0, 60);
 
