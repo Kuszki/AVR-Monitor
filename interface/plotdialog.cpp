@@ -101,7 +101,7 @@ void PlotDialog::DeleteButtonClicked(void)
 	{
 		QMessageBox::warning(this, tr("Error"), tr("Select a valid axis to delete"));
 	}
-	else
+	else if (QMessageBox::question(this, tr("Delete axis"), tr("Are you sure you wany to delete selected axis (%1)?").arg(ui->Axes->currentText())) == QMessageBox::Yes)
 	{
 		const int ID = ui->Axes->currentData().toInt();
 

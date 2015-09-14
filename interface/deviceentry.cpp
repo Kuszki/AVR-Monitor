@@ -43,8 +43,11 @@ void DeviceEntry::SettingsButtonClicked(void)
 
 void DeviceEntry::DeleteButtonClicked(void)
 {
-	if (AppCore::getInstance()->DeleteDevice(ID)) deleteLater();
-	else QMessageBox::warning(this, tr("Error"), tr("Can't delete device - %1").arg(AppCore::getError()));
+	if (QMessageBox::question(this, tr("Delete device"), tr("Are you sure you wany to delete selected device (%1)?").arg(ui->Name->text())) == QMessageBox::Yes)
+	{
+		if (AppCore::getInstance()->DeleteDevice(ID)) deleteLater();
+		else QMessageBox::warning(this, tr("Error"), tr("Can't delete device - %1").arg(AppCore::getError()));
+	}
 }
 
 void DeviceEntry::UpdateDevice(const DeviceData& Data)

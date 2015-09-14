@@ -77,6 +77,8 @@ class PlotWidget : public QWidget
 		void CleanButtonClicked(void);
 		void SaveButtonClicked(void);
 
+		void LegendCheckClicked(bool Active);
+
 		void RangeSpinChanged(void);
 
 	public slots:

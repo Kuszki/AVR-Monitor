@@ -14,37 +14,37 @@
         <translation>Zamknij</translation>
     </message>
     <message>
-        <location filename="aboutdialog.ui" line="76"/>
+        <location filename="aboutdialog.ui" line="73"/>
         <source>Program name:</source>
         <translation>Program:</translation>
     </message>
     <message>
-        <location filename="aboutdialog.ui" line="93"/>
+        <location filename="aboutdialog.ui" line="90"/>
         <source>Author:</source>
         <translation>Autor:</translation>
     </message>
     <message>
-        <location filename="aboutdialog.ui" line="110"/>
+        <location filename="aboutdialog.ui" line="107"/>
         <source>Mail:</source>
         <translation>E-mail:</translation>
     </message>
     <message>
-        <location filename="aboutdialog.ui" line="127"/>
+        <location filename="aboutdialog.ui" line="124"/>
         <source>Project slite:</source>
         <translation>Strona projektu:</translation>
     </message>
     <message>
-        <location filename="aboutdialog.ui" line="144"/>
+        <location filename="aboutdialog.ui" line="141"/>
         <source>License:</source>
         <translation>Licencja:</translation>
     </message>
     <message>
-        <location filename="aboutdialog.ui" line="161"/>
+        <location filename="aboutdialog.ui" line="158"/>
         <source>Powered by:</source>
         <translation>Wsparcie:</translation>
     </message>
     <message>
-        <location filename="aboutdialog.ui" line="180"/>
+        <location filename="aboutdialog.ui" line="177"/>
         <source>This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
 
 The program is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.</source>
@@ -53,7 +53,7 @@ The program is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE WARRAN
 Niniejszy program rozpowszechniany jest z nadzieją, iż będzie on użyteczny – jednak BEZ ŻADNEJ GWARANCJI, nawet domyślnej gwarancji PRZYDATNOŚCI HANDLOWEJ albo PRZYDATNOŚCI DO OKREŚLONYCH ZASTOSOWAŃ. Bliższe informacje na ten temat można uzyskać z Powszechnej Licencji Publicznej GNU.</translation>
     </message>
     <message>
-        <location filename="aboutdialog.ui" line="195"/>
+        <location filename="aboutdialog.ui" line="192"/>
         <source>&lt;a href=&quot;http://www.fsf.org/&quot;&gt;See more&lt;/a&gt;</source>
         <oldsource>&lt;a href=&quot;http://www.gnu.org/licenses/gpl-3.0.en.html&quot;&gt;See more&lt;/a&gt;</oldsource>
         <translation>&lt;a href=&quot;http://www.fsf.org/&quot;&gt;Dowiedz się więcej&lt;/a&gt;</translation>
@@ -78,8 +78,8 @@ Niniejszy program rozpowszechniany jest z nadzieją, iż będzie on użyteczny �
 <context>
     <name>AppCore</name>
     <message>
-        <location filename="appcore.cpp" line="153"/>
-        <location filename="appcore.cpp" line="174"/>
+        <location filename="appcore.cpp" line="158"/>
+        <location filename="appcore.cpp" line="179"/>
         <source>Invalid script at line %1 (%2)</source>
         <translation>Niepoprawny skrypt w linii %1 (%2)</translation>
     </message>
@@ -243,17 +243,27 @@ Niniejszy program rozpowszechniany jest z nadzieją, iż będzie on użyteczny �
         <translation>Edycja</translation>
     </message>
     <message>
-        <location filename="deviceentry.cpp" line="47"/>
+        <location filename="deviceentry.cpp" line="46"/>
+        <source>Delete device</source>
+        <translation>Usuń urządzenie</translation>
+    </message>
+    <message>
+        <location filename="deviceentry.cpp" line="46"/>
+        <source>Are you sure you wany to delete selected device (%1)?</source>
+        <translation>Czy jesteś pewien że chcesz usunąć wybrane urządzenie (%1)?</translation>
+    </message>
+    <message>
+        <location filename="deviceentry.cpp" line="49"/>
         <source>Error</source>
         <translation>Błąd</translation>
     </message>
     <message>
-        <location filename="deviceentry.cpp" line="47"/>
+        <location filename="deviceentry.cpp" line="49"/>
         <source>Can&apos;t delete device - %1</source>
         <translation>Nie udało się usunąć urządzenia - %1</translation>
     </message>
     <message>
-        <location filename="deviceentry.cpp" line="52"/>
+        <location filename="deviceentry.cpp" line="55"/>
         <source>%1 on pin %2</source>
         <translation>%1 na porcie %2</translation>
     </message>
@@ -322,12 +332,22 @@ Niniejszy program rozpowszechniany jest z nadzieją, iż będzie on użyteczny �
         <translation>Edycja</translation>
     </message>
     <message>
-        <location filename="evententry.cpp" line="47"/>
+        <location filename="evententry.cpp" line="46"/>
+        <source>Delete event</source>
+        <translation>Usuń zdarzenie</translation>
+    </message>
+    <message>
+        <location filename="evententry.cpp" line="46"/>
+        <source>Are you sure you wany to delete selected event (%1)?</source>
+        <translation>Czy jesteś pewien że chcesz usunąć wybrane zdarzenie (%1)?</translation>
+    </message>
+    <message>
+        <location filename="evententry.cpp" line="49"/>
         <source>Error</source>
         <translation>Błąd</translation>
     </message>
     <message>
-        <location filename="evententry.cpp" line="47"/>
+        <location filename="evententry.cpp" line="49"/>
         <source>Can&apos;t delete event - %1</source>
         <translation>Nie udało się usunąć zdarzenia - %1</translation>
     </message>
@@ -921,6 +941,16 @@ done;</translation>
         <translation>Wybierz oś do usunięcia</translation>
     </message>
     <message>
+        <location filename="plotdialog.cpp" line="104"/>
+        <source>Delete axis</source>
+        <translation>Usuń oś</translation>
+    </message>
+    <message>
+        <location filename="plotdialog.cpp" line="104"/>
+        <source>Are you sure you wany to delete selected axis (%1)?</source>
+        <translation>Czy jesteś pewien że chcesz usunąć wybraną oś (%1)?</translation>
+    </message>
+    <message>
         <location filename="plotdialog.cpp" line="116"/>
         <source>Can&apos;t delete axis - %1</source>
         <translation>Nie udało się usunąć osi - %1</translation>
@@ -949,53 +979,64 @@ done;</translation>
         <translation>Wykres</translation>
     </message>
     <message>
-        <location filename="plotwidget.ui" line="33"/>
+        <location filename="plotwidget.ui" line="99"/>
         <source>Settings</source>
         <translation>Ustawienia</translation>
     </message>
     <message>
-        <location filename="plotwidget.ui" line="45"/>
+        <location filename="plotwidget.ui" line="111"/>
+        <source>Show legend</source>
+        <translation>Pokaż legende</translation>
+    </message>
+    <message>
+        <location filename="plotwidget.ui" line="49"/>
         <source>Clean</source>
         <translation>Wyczyść</translation>
     </message>
     <message>
-        <location filename="plotwidget.ui" line="57"/>
+        <location filename="plotwidget.ui" line="77"/>
         <source>Save</source>
         <translation>Zapisz</translation>
     </message>
     <message>
-        <location filename="plotwidget.ui" line="72"/>
-        <location filename="plotwidget.ui" line="85"/>
+        <location filename="plotwidget.ui" line="33"/>
+        <location filename="plotwidget.ui" line="61"/>
         <source> s</source>
         <translation> s</translation>
     </message>
     <message>
-        <location filename="plotwidget.ui" line="101"/>
+        <location filename="plotwidget.ui" line="89"/>
         <source>Follow new data</source>
         <translation>Podążaj za nowymi wartościami</translation>
     </message>
     <message>
-        <location filename="plotwidget.cpp" line="196"/>
+        <location filename="plotwidget.cpp" line="208"/>
         <source>Select file to save data</source>
         <translation>Wybierz plik do zapisu danych</translation>
     </message>
     <message>
-        <location filename="plotwidget.cpp" line="196"/>
+        <location filename="plotwidget.cpp" line="208"/>
         <source>CSV files (*.csv)</source>
         <translation>Pliki CSV (*.csv)</translation>
     </message>
     <message>
-        <location filename="plotwidget.cpp" line="202"/>
+        <location filename="plotwidget.cpp" line="198"/>
         <source>Time</source>
         <translation>Czas</translation>
     </message>
     <message>
-        <location filename="plotwidget.cpp" line="224"/>
+        <location filename="plotwidget.cpp" line="205"/>
+        <location filename="plotwidget.cpp" line="234"/>
         <source>Error</source>
         <translation>Błąd</translation>
     </message>
     <message>
-        <location filename="plotwidget.cpp" line="224"/>
+        <location filename="plotwidget.cpp" line="205"/>
+        <source>Can&apos;t export current data - plot is empty</source>
+        <translation>Nie można wyeksportować danych - wykres jest pusty</translation>
+    </message>
+    <message>
+        <location filename="plotwidget.cpp" line="234"/>
         <source>Can&apos;t open selected file</source>
         <translation>Nie można otworzyć podanego pliku</translation>
     </message>
@@ -1061,12 +1102,22 @@ done;</translation>
         <translation>Edycja</translation>
     </message>
     <message>
-        <location filename="sensorentry.cpp" line="49"/>
+        <location filename="sensorentry.cpp" line="48"/>
+        <source>Delete sensor</source>
+        <translation>Usuń czujnik</translation>
+    </message>
+    <message>
+        <location filename="sensorentry.cpp" line="48"/>
+        <source>Are you sure you wany to delete selected sensor (%1)?</source>
+        <translation>Czy jesteś pewien że chcesz usunąć wybrany czujnik (%1)?</translation>
+    </message>
+    <message>
+        <location filename="sensorentry.cpp" line="51"/>
         <source>Error</source>
         <translation>Błąd</translation>
     </message>
     <message>
-        <location filename="sensorentry.cpp" line="49"/>
+        <location filename="sensorentry.cpp" line="51"/>
         <source>Can&apos;t delete sensor - %1</source>
         <translation>Nie udało się usunąć czujnika - %1</translation>
     </message>

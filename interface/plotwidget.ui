@@ -27,45 +27,6 @@
      </property>
     </spacer>
    </item>
-   <item row="1" column="6">
-    <widget class="QToolButton" name="settingsButton">
-     <property name="text">
-      <string>Settings</string>
-     </property>
-     <property name="icon">
-      <iconset theme="preferences-system">
-       <normaloff/>
-      </iconset>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="2">
-    <widget class="QToolButton" name="cleanButton">
-     <property name="text">
-      <string>Clean</string>
-     </property>
-     <property name="icon">
-      <iconset theme="edit-clear">
-       <normaloff/>
-      </iconset>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="1">
-    <widget class="QToolButton" name="saveButton">
-     <property name="text">
-      <string>Save</string>
-     </property>
-     <property name="icon">
-      <iconset theme="document-save">
-       <normaloff/>
-      </iconset>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="0" colspan="8">
-    <widget class="QCustomPlot" name="Plot" native="true"/>
-   </item>
    <item row="1" column="0">
     <widget class="QDoubleSpinBox" name="Start">
      <property name="suffix">
@@ -79,7 +40,22 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="7">
+   <item row="0" column="0" colspan="9">
+    <widget class="QCustomPlot" name="Plot" native="true"/>
+   </item>
+   <item row="1" column="2">
+    <widget class="QToolButton" name="cleanButton">
+     <property name="text">
+      <string>Clean</string>
+     </property>
+     <property name="icon">
+      <iconset theme="edit-clear">
+       <normaloff/>
+      </iconset>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="8">
     <widget class="QDoubleSpinBox" name="Stop">
      <property name="suffix">
       <string> s</string>
@@ -95,10 +71,44 @@
      </property>
     </widget>
    </item>
+   <item row="1" column="1">
+    <widget class="QToolButton" name="saveButton">
+     <property name="text">
+      <string>Save</string>
+     </property>
+     <property name="icon">
+      <iconset theme="document-save">
+       <normaloff/>
+      </iconset>
+     </property>
+    </widget>
+   </item>
    <item row="1" column="4">
     <widget class="QCheckBox" name="Follow">
      <property name="text">
       <string>Follow new data</string>
+     </property>
+     <property name="checked">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="7">
+    <widget class="QToolButton" name="settingsButton">
+     <property name="text">
+      <string>Settings</string>
+     </property>
+     <property name="icon">
+      <iconset theme="preferences-system">
+       <normaloff/>
+      </iconset>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="6">
+    <widget class="QCheckBox" name="Legend">
+     <property name="text">
+      <string>Show legend</string>
      </property>
      <property name="checked">
       <bool>true</bool>
@@ -124,7 +134,7 @@
    <slot>SettingsButtonClicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>678</x>
+     <x>677</x>
      <y>590</y>
     </hint>
     <hint type="destinationlabel">
@@ -197,11 +207,28 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>Legend</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>PlotWidget</receiver>
+   <slot>LegendCheckClicked(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>601</x>
+     <y>580</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>600</x>
+     <y>613</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>SettingsButtonClicked()</slot>
   <slot>CleanButtonClicked()</slot>
   <slot>SaveButtonClicked()</slot>
   <slot>RangeSpinChanged()</slot>
+  <slot>LegendCheckClicked(bool)</slot>
  </slots>
 </ui>

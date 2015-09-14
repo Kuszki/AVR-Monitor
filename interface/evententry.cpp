@@ -43,8 +43,11 @@ void EventEntry::SettingsButtonClicked(void)
 
 void EventEntry::DeleteButtonClicked(void)
 {
-	if (AppCore::getInstance()->DeleteEvent(ID)) deleteLater();
-	else QMessageBox::warning(this, tr("Error"), tr("Can't delete event - %1").arg(AppCore::getError()));
+	if (QMessageBox::question(this, tr("Delete event"), tr("Are you sure you wany to delete selected event (%1)?").arg(ui->Name->text())) == QMessageBox::Yes)
+	{
+		if (AppCore::getInstance()->DeleteEvent(ID)) deleteLater();
+		else QMessageBox::warning(this, tr("Error"), tr("Can't delete event - %1").arg(AppCore::getError()));
+	}
 }
 
 void EventEntry::UpdateEvent(const EventData& Data)

@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT		+=	core gui widgets serialport printsupport sql
+QT		+=	core gui widgets serialport printsupport sql opengl
 
 TARGET	=	avrinterface
 TEMPLATE	=	app
@@ -100,4 +100,4 @@ INCLUDEPATH	+=	$$PWD/../bridge
 INCLUDEPATH	+=	$$PWD/../../KLLibs
 INCLUDEPATH	+=	$$PWD/../../QCustomPlot
 
-QMAKE_CXXFLAGS	+=	-s -fomit-frame-pointer -march=native
+QMAKE_CXXFLAGS	+=	-s -fomit-frame-pointer -march=native -opengl

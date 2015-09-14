@@ -195,25 +195,28 @@ void PlotWidget::CleanButtonClicked(void)
 
 void PlotWidget::SaveButtonClicked(void)
 {
+	QList<double> Keys; QString Buff(tr("Time"));
+
+	for (const auto& Plot: Plots) if (Plot->visible()) Keys.append(Plot->data()->keys());
+	auto Set = Keys.toSet().values();
+
+	if (Set.isEmpty())
+	{
+		QMessageBox::warning(this, tr("Error"), tr("Can't export current data - plot is empty")); return;
+	}
+
 	const QString Path = QFileDialog::getSaveFileName(this, tr("Select file to save data"), QString(), tr("CSV files (*.csv)"));
 
 	if (!Path.isEmpty())
 	{
-		const QChar groupSeparator = ',';
-
-		QFile File(Path); QString Buff(tr("Time")); QList<double> Keys;
-
-		if (File.open(QFile::WriteOnly))
+		QFile File(Path); if (File.open(QFile::WriteOnly))
 		{
-			for (const auto& Var: Vars.keys()) if (Vars[Var]->visible()) Buff.append(groupSeparator).append(Var);
-			for (const auto& Plot: Plots) if (Plot->visible()) Keys.append(Plot->data()->keys());
-
-			Buff.append('\n');
-
-			auto Set = Keys.toSet().values(); qSort(Set);
+			const QChar groupSeparator = ','; qSort(Set);
 			const double First = Set.first();
 
-			File.write(Buff.toUtf8());
+			for (const auto& Var: Vars.keys()) if (Vars[Var]->visible()) Buff.append(groupSeparator).append(Var);
+
+			Buff.append('\n'); File.write(Buff.toUtf8());
 
 			for (const auto& Key: Set)
 			{
@@ -231,6 +234,12 @@ void PlotWidget::SaveButtonClicked(void)
 			QMessageBox::warning(this, tr("Error"), tr("Can't open selected file"));
 		}
 	}
+}
+
+void PlotWidget::LegendCheckClicked(bool Active)
+{
+	ui->Plot->legend->setVisible(Active);
+	ui->Plot->replot();
 }
 
 void PlotWidget::RangeSpinChanged(void)
