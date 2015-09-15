@@ -24,9 +24,9 @@
 const QList<Qt::GlobalColor> PlotWidget::Colors =
 {
 	Qt::red, Qt::blue, Qt::green,
-	Qt::yellow, Qt::magenta, Qt::cyan,
 	Qt::darkRed, Qt::darkBlue, Qt::darkGreen,
-	Qt::darkYellow, Qt::darkMagenta, Qt::darkCyan
+	Qt::darkYellow, Qt::darkMagenta, Qt::darkCyan,
+	Qt::yellow, Qt::magenta, Qt::cyan
 };
 
 PlotWidget::PlotWidget(QWidget* Parent)
@@ -291,7 +291,7 @@ void PlotWidget::RestartPlot(void)
 
 	for (auto Plot: Plots)
 	{
-		Plot->clearData();
+		Plot->clearData();;
 	}
 
 	ui->Plot->replot();

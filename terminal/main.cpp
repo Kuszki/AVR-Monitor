@@ -18,9 +18,10 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-
 #include <QCommandLineParser>
 #include <QCoreApplication>
+#include <QLibraryInfo>
+#include <QTranslator>
 
 #include <signal.h>
 #include <unistd.h>
