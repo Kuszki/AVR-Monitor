@@ -88,12 +88,15 @@
     </property>
     <addaction name="actionUpload"/>
     <addaction name="actionDownload"/>
+    <addaction name="separator"/>
+    <addaction name="actionSynchronize"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
      <string>Help</string>
     </property>
     <addaction name="actionAbout"/>
+    <addaction name="actionWeb"/>
    </widget>
    <widget class="QMenu" name="menuMeasurements">
     <property name="title">
