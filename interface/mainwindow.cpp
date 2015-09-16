@@ -24,6 +24,10 @@
 MainWindow::MainWindow(QWidget* Parent)
 : QMainWindow(Parent), ui(new Ui::MainWindow)
 {
+	QOpenGLWidget *glWidget = new QOpenGLWidget(this);
+
+	this->setCentralWidget(glWidget);
+
 	ui->setupUi(this);
 
 	Interval = new QDoubleSpinBox(this);

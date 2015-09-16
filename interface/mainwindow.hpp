@@ -23,6 +23,7 @@
 
 #include <QDesktopServices>
 #include <QDoubleSpinBox>
+#include <QOpenGLWidget>
 #include <QMessageBox>
 #include <QMainWindow>
 #include <QFileDialog>
