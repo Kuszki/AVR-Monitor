@@ -59,7 +59,7 @@ int main(int argc, char *argv[])
 	AppCore app;
 	MainWindow w;
 
-	w.show();
+	w.showMaximized();
 
 	return a.exec();
 }
