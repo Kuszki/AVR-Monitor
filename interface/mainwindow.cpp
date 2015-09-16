@@ -24,7 +24,8 @@
 MainWindow::MainWindow(QWidget* Parent)
 : QMainWindow(Parent), ui(new Ui::MainWindow)
 {
-	QOpenGLWidget *glWidget = new QOpenGLWidget(this);
+	QGLFormat format = QGLFormat(QGL::DirectRendering);
+	QGLWidget *glWidget = new QGLWidget(format, this);
 
 	this->setCentralWidget(glWidget);
 
