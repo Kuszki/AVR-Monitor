@@ -979,64 +979,83 @@ done;</translation>
         <translation>Wykres</translation>
     </message>
     <message>
-        <location filename="plotwidget.ui" line="99"/>
+        <location filename="plotwidget.ui" line="112"/>
         <source>Settings</source>
         <translation>Ustawienia</translation>
     </message>
     <message>
-        <location filename="plotwidget.ui" line="111"/>
+        <location filename="plotwidget.ui" line="124"/>
         <source>Show legend</source>
         <translation>Pokaż legende</translation>
     </message>
     <message>
-        <location filename="plotwidget.ui" line="49"/>
+        <location filename="plotwidget.ui" line="134"/>
+        <source> sample</source>
+        <translation> próbkę</translation>
+    </message>
+    <message numerus="yes">
+        <location filename="plotwidget.cpp" line="254"/>
+        <source> sample(s)</source>
+        <translation>
+            <numerusform> próbkę</numerusform>
+            <numerusform> próbki</numerusform>
+            <numerusform> próbek</numerusform>
+        </translation>
+    </message>
+    <message>
+        <location filename="plotwidget.ui" line="137"/>
+        <source>Average </source>
+        <translation>Uśrednij </translation>
+    </message>
+    <message>
+        <location filename="plotwidget.ui" line="62"/>
         <source>Clean</source>
         <translation>Wyczyść</translation>
     </message>
     <message>
-        <location filename="plotwidget.ui" line="77"/>
+        <location filename="plotwidget.ui" line="90"/>
         <source>Save</source>
         <translation>Zapisz</translation>
     </message>
     <message>
-        <location filename="plotwidget.ui" line="33"/>
-        <location filename="plotwidget.ui" line="61"/>
+        <location filename="plotwidget.ui" line="46"/>
+        <location filename="plotwidget.ui" line="74"/>
         <source> s</source>
         <translation> s</translation>
     </message>
     <message>
-        <location filename="plotwidget.ui" line="89"/>
+        <location filename="plotwidget.ui" line="102"/>
         <source>Follow new data</source>
         <translation>Podążaj za nowymi wartościami</translation>
     </message>
     <message>
-        <location filename="plotwidget.cpp" line="208"/>
+        <location filename="plotwidget.cpp" line="213"/>
         <source>Select file to save data</source>
         <translation>Wybierz plik do zapisu danych</translation>
     </message>
     <message>
-        <location filename="plotwidget.cpp" line="208"/>
+        <location filename="plotwidget.cpp" line="213"/>
         <source>CSV files (*.csv)</source>
         <translation>Pliki CSV (*.csv)</translation>
     </message>
     <message>
-        <location filename="plotwidget.cpp" line="198"/>
+        <location filename="plotwidget.cpp" line="203"/>
         <source>Time</source>
         <translation>Czas</translation>
     </message>
     <message>
-        <location filename="plotwidget.cpp" line="205"/>
-        <location filename="plotwidget.cpp" line="234"/>
+        <location filename="plotwidget.cpp" line="210"/>
+        <location filename="plotwidget.cpp" line="239"/>
         <source>Error</source>
         <translation>Błąd</translation>
     </message>
     <message>
-        <location filename="plotwidget.cpp" line="205"/>
+        <location filename="plotwidget.cpp" line="210"/>
         <source>Can&apos;t export current data - plot is empty</source>
         <translation>Nie można wyeksportować danych - wykres jest pusty</translation>
     </message>
     <message>
-        <location filename="plotwidget.cpp" line="234"/>
+        <location filename="plotwidget.cpp" line="239"/>
         <source>Can&apos;t open selected file</source>
         <translation>Nie można otworzyć podanego pliku</translation>
     </message>

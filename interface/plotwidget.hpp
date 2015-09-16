@@ -49,12 +49,16 @@ class PlotWidget : public QWidget
 		PlotDialog* Dialog;
 
 		QMap<QString, QCPGraph*> Vars;
+		QMap<QString, double> Values;
 		QMap<int, QCPGraph*> Plots;
 		QMap<int, QCPAxis*> Axes;
 
 		QTime Starttime;
 
 		bool Userrange = true;
+
+		unsigned Samples = 1;
+		unsigned Step = 1;
 
 	public:
 
@@ -79,6 +83,7 @@ class PlotWidget : public QWidget
 
 		void LegendCheckClicked(bool Active);
 
+		void AverageSpinChanged(int Value);
 		void RangeSpinChanged(void);
 
 	public slots:

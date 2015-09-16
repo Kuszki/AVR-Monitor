@@ -91,6 +91,7 @@ void PlotWidget::AddPlot(const PlotData& Data)
 
 	Plots.insert(Data.ID, Plot);
 	Vars.insert(Data.Varlabel, Plot);
+	Values.insert(Data.Varlabel, 0.0);
 
 	ui->Plot->replot();
 }
@@ -105,12 +106,16 @@ void PlotWidget::UpdatePlot(const PlotData& Data)
 	Vars.remove(Vars.key(Plot));
 	Vars.insert(Data.Varlabel, Plot);
 
+	Values.remove(Vars.key(Plot));
+	Values.insert(Data.Varlabel, 0.0);
+
 	ui->Plot->replot();
 }
 
 void PlotWidget::DeletePlot(int ID)
 {
 	Vars.remove(Vars.key(Plots[ID]));
+	Values.remove(Vars.key(Plots[ID]));
 
 	ui->Plot->removeGraph(Plots.take(ID));
 
@@ -242,6 +247,13 @@ void PlotWidget::LegendCheckClicked(bool Active)
 	ui->Plot->replot();
 }
 
+void PlotWidget::AverageSpinChanged(int Value)
+{
+	for (auto& Value: Values) Value = 0.0; Step = 1; Samples = Value;
+
+	ui->Average->setSuffix(tr(" sample(s)", 0, Value));
+}
+
 void PlotWidget::RangeSpinChanged(void)
 {
 	if (ui->Start->value() > ui->Stop->value())
@@ -265,13 +277,23 @@ void PlotWidget::PlotVariables(const KLVariables& Variables)
 	{
 		const QString ID = (const char*) Var.ID;
 
-		if (Vars.contains(ID)) Vars[ID]->addData(Time, Var.Value.ToNumber());
+		if (Vars.contains(ID))
+		{
+			Values[ID] = Values[ID] + Var.Value.ToNumber();
+
+			if (Step == Samples)
+			{
+				Vars[ID]->addData(Time, Values[ID] / Samples); Values[ID] = 0.0;
+			}
+		}
 	}
 
 	if (ui->Follow->isChecked() && ui->Plot->xAxis->range().upper < Time)
 	{
 		Userrange = false; ui->Plot->xAxis->setRange(Time, ui->Plot->xAxis->range().size(), Qt::AlignRight);
 	}
+
+	if (Step++ == Samples) Step = 1;
 
 	ui->Plot->replot();
 }
@@ -287,14 +309,9 @@ void PlotWidget::UpdateSensors(void)
 
 void PlotWidget::RestartPlot(void)
 {
-	Userrange = false; ui->Plot->xAxis->setRange(0, ui->Plot->xAxis->range().size(), Qt::AlignLeft);
+	for (auto Plot: Plots) Plot->clearData(); ui->Plot->replot(); Userrange = false;
 
-	for (auto Plot: Plots)
-	{
-		Plot->clearData();;
-	}
-
-	ui->Plot->replot();
+	ui->Plot->xAxis->setRange(0, ui->Plot->xAxis->range().size(), Qt::AlignLeft);
 
 	Starttime = QTime::currentTime();
 }

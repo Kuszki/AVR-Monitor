@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
+    <width>826</width>
     <height>600</height>
    </rect>
   </property>
@@ -14,8 +14,21 @@
    <string>Plot</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
+   <item row="1" column="7">
+    <spacer name="rightSpacer">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>0</width>
+       <height>0</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
    <item row="1" column="5">
-    <spacer name="horizontalSpacer">
+    <spacer name="leftSpacer">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
@@ -29,6 +42,12 @@
    </item>
    <item row="1" column="0">
     <widget class="QDoubleSpinBox" name="Start">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="suffix">
       <string> s</string>
      </property>
@@ -40,7 +59,7 @@
      </property>
     </widget>
    </item>
-   <item row="0" column="0" colspan="9">
+   <item row="0" column="0" colspan="11">
     <widget class="QCustomPlot" name="Plot" native="true"/>
    </item>
    <item row="1" column="2">
@@ -55,8 +74,14 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="8">
+   <item row="1" column="10">
     <widget class="QDoubleSpinBox" name="Stop">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="suffix">
       <string> s</string>
      </property>
@@ -93,7 +118,7 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="7">
+   <item row="1" column="9">
     <widget class="QToolButton" name="settingsButton">
      <property name="text">
       <string>Settings</string>
@@ -105,13 +130,35 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="6">
+   <item row="1" column="8">
     <widget class="QCheckBox" name="Legend">
      <property name="text">
       <string>Show legend</string>
      </property>
      <property name="checked">
       <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="6">
+    <widget class="QSpinBox" name="Average">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="suffix">
+      <string> sample</string>
+     </property>
+     <property name="prefix">
+      <string>Average </string>
+     </property>
+     <property name="minimum">
+      <number>1</number>
+     </property>
+     <property name="maximum">
+      <number>150</number>
      </property>
     </widget>
    </item>
@@ -223,6 +270,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>Average</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>PlotWidget</receiver>
+   <slot>AverageSpinChanged(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>442</x>
+     <y>566</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>447</x>
+     <y>628</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>SettingsButtonClicked()</slot>
@@ -230,5 +293,6 @@
   <slot>SaveButtonClicked()</slot>
   <slot>RangeSpinChanged()</slot>
   <slot>LegendCheckClicked(bool)</slot>
+  <slot>AverageSpinChanged(int)</slot>
  </slots>
 </ui>
