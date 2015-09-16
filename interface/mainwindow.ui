@@ -18,10 +18,7 @@
     <normaloff/>
    </iconset>
   </property>
-  <widget class="QGLWidget" name="centralWidget">
-   <property name="autoFillBackground">
-    <bool>false</bool>
-   </property>
+  <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="0">
      <widget class="QTabWidget" name="tabWidget">
@@ -66,14 +63,6 @@
    </layout>
   </widget>
   <widget class="QMenuBar" name="menuBar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>1200</width>
-     <height>29</height>
-    </rect>
-   </property>
    <widget class="QMenu" name="menuDevice">
     <property name="title">
      <string>Device</string>
@@ -481,11 +470,6 @@
    <extends>QWidget</extends>
    <header>plotwidget.hpp</header>
    <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>QGLWidget</class>
-   <extends>QWidget</extends>
-   <header>qglwidget.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
