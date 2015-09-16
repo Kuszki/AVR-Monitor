@@ -27,7 +27,6 @@
 #include <QMainWindow>
 #include <QFileDialog>
 #include <QSettings>
-#include <QGLWidget>
 
 #include <avrbridge.hpp>
 
