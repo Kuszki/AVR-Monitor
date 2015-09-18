@@ -169,7 +169,7 @@ Niniejszy program rozpowszechniany jest z nadzieją, iż będzie on użyteczny �
     <message>
         <location filename="axisdialog.cpp" line="76"/>
         <source>Can&apos;t insert data into database - %1</source>
-        <translation>Cie udało się umieścić danych w bazie - %1</translation>
+        <translation>Nie udało się umieścić danych w bazie - %1</translation>
     </message>
 </context>
 <context>
