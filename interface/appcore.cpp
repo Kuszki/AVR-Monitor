@@ -356,11 +356,12 @@ bool AppCore::DeleteSensor(int ID)
 		"DELETE FROM "
 			"plots "
 		"WHERE "
-			"AXIS_ID=:ID");
+			"SENSOR_ID=:ID");
 
 	Query.bindValue(":ID", ID);
 
-	if (!Query.exec()) emit onSensorUpdate();
+	if (Query.exec()) emit onSensorUpdate();
+	else
 	{
 		LastError = Query.lastError().text(); return false;
 	}
