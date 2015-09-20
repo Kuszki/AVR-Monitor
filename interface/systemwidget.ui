@@ -182,20 +182,20 @@
    <sender>clearRam</sender>
    <signal>clicked()</signal>
    <receiver>SystemWidget</receiver>
-   <slot>CleanRamClick()</slot>
+   <slot>CleanButtonClicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>228</x>
-     <y>217</y>
+     <x>217</x>
+     <y>215</y>
     </hint>
     <hint type="destinationlabel">
-     <x>426</x>
-     <y>220</y>
+     <x>236</x>
+     <y>423</y>
     </hint>
    </hints>
   </connection>
  </connections>
  <slots>
-  <slot>CleanRamClick()</slot>
+  <slot>CleanButtonClicked()</slot>
  </slots>
 </ui>

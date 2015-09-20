@@ -44,7 +44,7 @@ class SystemWidget : public QWidget
 
 	private slots:
 
-		void CleanRamClick(void);
+		void CleanButtonClicked(void);
 
 	public slots:
 

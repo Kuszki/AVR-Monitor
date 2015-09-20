@@ -32,7 +32,7 @@ SystemWidget::~SystemWidget(void)
 	delete ui;
 }
 
-void SystemWidget::CleanRamClick(void)
+void SystemWidget::CleanButtonClicked(void)
 {
 	emit onRamCleanRequest();
 }
