@@ -26,30 +26,26 @@ MainWindow::MainWindow(QWidget* Parent)
 {
 	ui->setupUi(this);
 
+	aboutDialog = new AboutDialog(this);
 	Interval = new QDoubleSpinBox(this);
 
-	Interval->setPrefix(tr("Delay "));
-	Interval->setSuffix(tr(" s"));
+	Interval->setValue(QSettings("settings.ini", QSettings::IniFormat).value("interval", 1.0).toDouble());
 	Interval->setRange(0.05, 6.0);
 	Interval->setSingleStep(0.05);
+	Interval->setPrefix(tr("Delay "));
+	Interval->setSuffix(tr(" s"));
 	Interval->setEnabled(false);
+
+	ui->tabTerminal->setEnabled(false);
+	ui->toolActions->addWidget(Interval);
+
+	setTabPosition(Qt::AllDockWidgetAreas, QTabWidget::TabPosition::North);
+	restoreState(QSettings("layout.ini", QSettings::IniFormat).value("layout").toByteArray(), 1);
+
+	AppCore::getInstance()->UpdateInterval(Interval->value());
 
 	// connect interval by old way because of overloaded methods
 	connect(Interval, SIGNAL(valueChanged(double)), SLOT(IntervalValueChanged(double)));
-
-	Interval->setValue(QSettings("settings.ini", QSettings::IniFormat).value("interval", 1.0).toDouble());
-	AppCore::getInstance()->UpdateInterval(Interval->value());
-
-	ui->tabTerminal->setEnabled(false);
-	ui->tabLog->setEnabled(false);
-
-	ui->toolActions->addWidget(Interval);
-
-	aboutDialog = new AboutDialog(this);
-
-	setTabPosition(Qt::AllDockWidgetAreas, QTabWidget::TabPosition::North);
-
-	restoreState(QSettings("layout.ini", QSettings::IniFormat).value("layout").toByteArray(), 1);
 
 	// this ui to app core connections
 	connect(ui->actionRun, &QAction::triggered, [this] (void) -> void
@@ -74,13 +70,13 @@ MainWindow::MainWindow(QWidget* Parent)
 		ui->actionDownload->setEnabled(true);
 	});
 
-	connect(ui->actionDisconnect, &QAction::triggered, [this] (void) -> void
+	connect(ui->actionDisconnect, &QAction::triggered, [] (void) -> void
 	{
 		AppCore::getInstance()->UpdateStatus(false);
 	});
 
 	// terminal to device connections SID!
-	connect(ui->tabTerminal, &TerminalWidget::onScriptExecute, [this] (const QString& Code) -> void
+	connect(ui->tabTerminal, &TerminalWidget::onScriptExecute, [] (const QString& Code) -> void
 	{
 		AppCore::getDevice()->Command(KLScriptbinding::Optimize(Code));
 	});
@@ -124,9 +120,9 @@ MainWindow::MainWindow(QWidget* Parent)
 	connect(ui->shiftWidget, &ShiftWidget::onShiftChanged, AppCore::getDevice(), &AVRBridge::WriteShiftValues);
 	connect(ui->shiftWidget, &ShiftWidget::onEnabledChanged, AppCore::getDevice(), &AVRBridge::WriteShiftStatus);
 
-	// device to log window
-	connect(AppCore::getDevice(), &AVRBridge::onMessageSend, ui->tabLog, &LogWidget::AppendOutput);
-	connect(AppCore::getDevice(), &AVRBridge::onMessageReceive, ui->tabLog, &LogWidget::AppendInput);
+	// device to terminal log window
+	connect(AppCore::getDevice(), &AVRBridge::onMessageSend, ui->tabTerminal, &TerminalWidget::AppendOutput);
+	connect(AppCore::getDevice(), &AVRBridge::onMessageReceive, ui->tabTerminal, &TerminalWidget::AppendInput);
 
 	// synchronize to app core connections
 	connect(ui->actionSynchronize, &QAction::triggered, AppCore::getInstance(), &AppCore::SynchronizeDevice);
@@ -197,7 +193,6 @@ void MainWindow::ConnectionChanged(bool Connected)
 	ui->adcWidget->setEnabled(Connected);
 
 	ui->tabTerminal->setEnabled(Connected);
-	ui->tabLog->setEnabled(Connected);
 
 	Interval->setEnabled(Connected);
 }

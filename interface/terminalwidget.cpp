@@ -77,3 +77,13 @@ void TerminalWidget::CheckButtonClicked(void)
 {
 	emit onScriptValidate(ui->Script->document()->toPlainText());
 }
+
+void TerminalWidget::AppendInput(const QString& Code)
+{
+	ui->Log->appendPlainText(QString(">> %1").arg(Code));
+}
+
+void TerminalWidget::AppendOutput(const QString& Code)
+{
+	ui->Log->appendPlainText(QString("<< %1").arg(Code));
+}

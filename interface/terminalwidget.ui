@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>610</width>
-    <height>266</height>
+    <width>801</width>
+    <height>600</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,9 +15,13 @@
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
-    <widget class="KLScripteditor" name="Script"/>
+    <widget class="KLScripteditor" name="Log">
+     <property name="readOnly">
+      <bool>true</bool>
+     </property>
+    </widget>
    </item>
-   <item row="0" column="1">
+   <item row="0" column="1" rowspan="2">
     <widget class="HelperWidget" name="Helper" native="true">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
@@ -27,7 +31,10 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="0" colspan="2">
+   <item row="1" column="0">
+    <widget class="KLScripteditor" name="Script"/>
+   </item>
+   <item row="2" column="0" colspan="2">
     <layout class="QHBoxLayout" name="toolsLayout">
      <item>
       <widget class="QToolButton" name="saveButton">
@@ -86,6 +93,16 @@
       </spacer>
      </item>
      <item>
+      <widget class="QCheckBox" name="logCheck">
+       <property name="text">
+        <string>Show log</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QCheckBox" name="helperCheck">
        <property name="text">
         <string>Show helper</string>
@@ -136,6 +153,18 @@
    </slots>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>Log</tabstop>
+  <tabstop>Script</tabstop>
+  <tabstop>saveButton</tabstop>
+  <tabstop>loadButton</tabstop>
+  <tabstop>cleanButton</tabstop>
+  <tabstop>Clean</tabstop>
+  <tabstop>logCheck</tabstop>
+  <tabstop>helperCheck</tabstop>
+  <tabstop>checkButton</tabstop>
+  <tabstop>sendButton</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>
@@ -145,12 +174,12 @@
    <slot>insertPlainText(QString)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>801</x>
-     <y>242</y>
+     <x>781</x>
+     <y>260</y>
     </hint>
     <hint type="destinationlabel">
-     <x>249</x>
-     <y>236</y>
+     <x>258</x>
+     <y>519</y>
     </hint>
    </hints>
   </connection>
@@ -161,12 +190,12 @@
    <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>569</x>
-     <y>487</y>
+     <x>596</x>
+     <y>586</y>
     </hint>
     <hint type="destinationlabel">
-     <x>801</x>
-     <y>352</y>
+     <x>781</x>
+     <y>370</y>
     </hint>
    </hints>
   </connection>
@@ -177,8 +206,8 @@
    <slot>ExecuteButtonClicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>753</x>
-     <y>501</y>
+     <x>790</x>
+     <y>589</y>
     </hint>
     <hint type="destinationlabel">
      <x>758</x>
@@ -193,12 +222,12 @@
    <slot>CheckButtonClicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>685</x>
-     <y>499</y>
+     <x>687</x>
+     <y>589</y>
     </hint>
     <hint type="destinationlabel">
      <x>694</x>
-     <y>601</y>
+     <y>599</y>
     </hint>
    </hints>
   </connection>
@@ -209,8 +238,8 @@
    <slot>clear()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>87</x>
-     <y>488</y>
+     <x>111</x>
+     <y>589</y>
     </hint>
     <hint type="destinationlabel">
      <x>372</x>
@@ -225,8 +254,8 @@
    <slot>LoadButtonClicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>26</x>
-     <y>500</y>
+     <x>36</x>
+     <y>589</y>
     </hint>
     <hint type="destinationlabel">
      <x>33</x>
@@ -241,12 +270,44 @@
    <slot>SaveButtonClicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>59</x>
-     <y>498</y>
+     <x>75</x>
+     <y>589</y>
     </hint>
     <hint type="destinationlabel">
      <x>59</x>
      <y>569</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cleanButton</sender>
+   <signal>clicked()</signal>
+   <receiver>Log</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>96</x>
+     <y>573</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>392</x>
+     <y>142</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>logCheck</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>Log</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>431</x>
+     <y>573</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>392</x>
+     <y>180</y>
     </hint>
    </hints>
   </connection>

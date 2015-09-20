@@ -32,7 +32,6 @@ SOURCES	+= 	main.cpp \
 			sensorwidget.cpp \
 			sensorentry.cpp \
 			sensordialog.cpp \
-			logwidget.cpp \
 			eventdialog.cpp \
 			evententry.cpp \
 			eventwidget.cpp \
@@ -58,7 +57,6 @@ HEADERS	+=	common.hpp \
 			sensorwidget.hpp \
 			sensorentry.hpp \
 			sensordialog.hpp \
-			logwidget.hpp \
 			eventdialog.hpp \
 			evententry.hpp \
 			eventwidget.hpp \
@@ -81,7 +79,6 @@ FORMS	+=	mainwindow.ui \
 			sensorwidget.ui \
 			sensorentry.ui \
 			sensordialog.ui \
-			logwidget.ui \
 			eventdialog.ui \
 			evententry.ui \
 			eventwidget.ui \

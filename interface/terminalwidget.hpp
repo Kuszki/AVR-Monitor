@@ -52,6 +52,11 @@ class TerminalWidget : public QWidget
 		void ExecuteButtonClicked(void);
 		void CheckButtonClicked(void);
 
+	public slots:
+
+		void AppendInput(const QString& Code);
+		void AppendOutput(const QString& Code);
+
 	signals:
 
 		void onScriptExecute(const QString&);

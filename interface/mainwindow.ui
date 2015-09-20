@@ -53,16 +53,19 @@
         <string>Terminal</string>
        </attribute>
       </widget>
-      <widget class="LogWidget" name="tabLog">
-       <attribute name="title">
-        <string>Log</string>
-       </attribute>
-      </widget>
      </widget>
     </item>
    </layout>
   </widget>
   <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>1200</width>
+     <height>29</height>
+    </rect>
+   </property>
    <widget class="QMenu" name="menuDevice">
     <property name="title">
      <string>Device</string>
@@ -445,12 +448,6 @@
    <class>SensorWidget</class>
    <extends>QWidget</extends>
    <header>sensorwidget.hpp</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>LogWidget</class>
-   <extends>QWidget</extends>
-   <header>logwidget.hpp</header>
    <container>1</container>
   </customwidget>
   <customwidget>
