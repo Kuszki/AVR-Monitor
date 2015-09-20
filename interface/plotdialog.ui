@@ -25,18 +25,23 @@
    </iconset>
   </property>
   <layout class="QGridLayout" name="mainLayout">
-   <item row="4" column="1">
-    <spacer name="upperSpacer">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
+   <item row="8" column="1">
+    <widget class="QToolButton" name="exitButton">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
      </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>40</height>
-      </size>
+     <property name="text">
+      <string>Exit</string>
      </property>
-    </spacer>
+     <property name="icon">
+      <iconset theme="exit">
+       <normaloff/>
+      </iconset>
+     </property>
+    </widget>
    </item>
    <item row="3" column="1">
     <widget class="QToolButton" name="editButton">
@@ -74,61 +79,6 @@
      </property>
     </widget>
    </item>
-   <item row="6" column="1">
-    <widget class="QToolButton" name="removeButton">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="text">
-      <string>Remove</string>
-     </property>
-     <property name="icon">
-      <iconset theme="go-next">
-       <normaloff/>
-      </iconset>
-     </property>
-    </widget>
-   </item>
-   <item row="8" column="1">
-    <widget class="QToolButton" name="exitButton">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="text">
-      <string>Exit</string>
-     </property>
-     <property name="icon">
-      <iconset theme="exit">
-       <normaloff/>
-      </iconset>
-     </property>
-    </widget>
-   </item>
-   <item row="7" column="1">
-    <spacer name="lowerSpacer">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>40</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="0" column="0" colspan="2">
-    <widget class="QComboBox" name="Axes"/>
-   </item>
-   <item row="1" column="0" rowspan="8">
-    <widget class="QListWidget" name="Plots"/>
-   </item>
    <item row="2" column="1">
     <widget class="QToolButton" name="deleteButton">
      <property name="sizePolicy">
@@ -142,24 +92,6 @@
      </property>
      <property name="icon">
       <iconset theme="list-remove">
-       <normaloff/>
-      </iconset>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="1">
-    <widget class="QToolButton" name="addButton">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="text">
-      <string>Add</string>
-     </property>
-     <property name="icon">
-      <iconset theme="list-add">
        <normaloff/>
       </iconset>
      </property>
@@ -197,6 +129,74 @@
        <string>Unit</string>
       </property>
      </column>
+    </widget>
+   </item>
+   <item row="4" column="1">
+    <spacer name="upperSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="0" column="0" colspan="2">
+    <widget class="QComboBox" name="Axes"/>
+   </item>
+   <item row="6" column="1">
+    <widget class="QToolButton" name="removeButton">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>Remove</string>
+     </property>
+     <property name="icon">
+      <iconset theme="go-next">
+       <normaloff/>
+      </iconset>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="1">
+    <spacer name="lowerSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="1" column="0" rowspan="8">
+    <widget class="QListWidget" name="Plots"/>
+   </item>
+   <item row="1" column="1">
+    <widget class="QToolButton" name="addButton">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="text">
+      <string>Add</string>
+     </property>
+     <property name="icon">
+      <iconset theme="list-add">
+       <normaloff/>
+      </iconset>
+     </property>
     </widget>
    </item>
   </layout>
