@@ -33,7 +33,7 @@ const char get_INFOSTR[] PROGMEM =
 "# GCC flags:    -O3 -mmcu=atmega328p -std=c++11\n"
 "# Watchdog set:   on every evaluation for 8 sec\n"
 "#\n"
-"# Program size:        29798 bytes (90.9% Full)\n"
+"# Program size:        29796 bytes (90.9% Full)\n"
 "# Data size:             502 bytes (24.5% Full)\n"
 "\n";
 
@@ -73,28 +73,24 @@ extern double		Analog[];
 
 void SHR_SetOutputs(char Mask)
 {
-	SPI.Send(Shift.Values = Mask);
+	if (Shift.Values != Mask)
+	{
+		SPI.Send(Shift.Values = Mask);
 
-	KAOutput::SwitchState(SHR_CS, 2, 0);
+		KAOutput::SwitchState(SHR_CS, 2, 0);
 
-	if (Monitor.Online) SYS_SendFeedback(GET_SHRD);
+		if (Monitor.Online) SYS_SendFeedback(GET_SHRD);
+	}
 }
 
 void SHR_SetState(bool Enable)
 {
 	if (Enable != Shift.Enable)
 	{
-		if (Enable)
-		{
-			SPI.Send(Shift.Values);
+		if (Enable) SPI.Send(Shift.Values);
 
-			KAOutput::SwitchState(SHR_CS, 3, 0);
-		}
-		else KAOutput::SwitchState(SHR_CS, 1, 0);
-
-		KAOutput::SetState(SHR_LED, Enable);
-
-		Shift.Enable = Enable;
+		KAOutput::SwitchState(SHR_CS, Enable ? 3 : 1, 0);
+		KAOutput::SetState(SHR_LED, Shift.Enable = Enable);
 	}
 
 	if (Monitor.Online) SYS_SendFeedback(GET_SHRE);
@@ -105,14 +101,7 @@ int SHR_SetPin(char Pin, bool Enable)
 	if (Pin > 7) return WRONG_SHR_PIN;
 	else
 	{
-		if (Enable) Shift.Values |= (1 << Pin);
-		else Shift.Values &= ~(1 << Pin);
-
-		SPI.Send(Shift.Values);
-
-		KAOutput::SwitchState(SHR_CS, 2, 0);
-
-		if (Monitor.Online) SYS_SendFeedback(GET_SHRD);
+		SHR_SetOutputs(Enable ? Shift.Values | (1 << Pin) : Shift.Values & ~(1 << Pin));
 	}
 
 	return 0;
