@@ -28,15 +28,14 @@ AppCore::AppCore(void)
 : QObject(nullptr), Script(&Adc)
 {
 	if (THIS) qFatal("Core object duplicated"); else THIS = this;
+	if (!QFile::exists("database.sqlite")) qFatal("Can't open database");
 
 	Interval.setInterval(1000);
 
 	Database = QSqlDatabase::addDatabase("QSQLITE");
 	Device = new AVRBridge(&Script.Variables, this);
 
-	Database.setDatabaseName("database.sqlite");
-
-	if (!Database.open()) qFatal("Can't open database");
+	Database.setDatabaseName("database.sqlite"); Database.open();
 
 	Script.Bindings.Add("get", [this] (KLVariables& Vars) -> double
 	{
