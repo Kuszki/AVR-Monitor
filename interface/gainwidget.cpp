@@ -52,6 +52,8 @@ void GainWidget::GainValueChanged(int Index)
 
 void GainWidget::GainChanged(unsigned char ID, unsigned char Gain)
 {
+	blockSignals(true);
+
 	switch (ID)
 	{
 		case 0:
@@ -61,4 +63,6 @@ void GainWidget::GainChanged(unsigned char ID, unsigned char Gain)
 			ui->gainValue_1->setCurrentIndex(GainValues.key(Gain, 0));
 		break;
 	}
+
+	blockSignals(false);
 }
