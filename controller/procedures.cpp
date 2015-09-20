@@ -33,7 +33,7 @@ const char get_INFOSTR[] PROGMEM =
 "# GCC flags:    -O3 -mmcu=atmega328p -std=c++11\n"
 "# Watchdog set:   on every evaluation for 8 sec\n"
 "#\n"
-"# Program size:        29772 bytes (90.9% Full)\n"
+"# Program size:        29798 bytes (90.9% Full)\n"
 "# Data size:             502 bytes (24.5% Full)\n"
 "\n";
 
@@ -269,14 +269,19 @@ void SYS_Evaluate(KLString& Buffer)
 	wdt_intenable(WDTO_4S);
 
 	const bool OK = Script.Evaluate(Buffer);
+	const double Val = Script.GetReturn();
 
 	wdt_disable();
 
-	if (Monitor.Online && !Monitor.Master) UART << PGM_V get_RETURN << (OK ? Script.GetReturn() : WRONG_SCRIPT) << PGM_V get_EOC;
+	Buffer.Clean();
+
+	if (Monitor.Online && !Monitor.Master)
+	{
+		if (!OK) UART << PGM_V get_RETURN << WRONG_SCRIPT << PGM_V get_EOC;
+		if (Val) UART << PGM_V get_RETURN << Val << PGM_V get_EOC;
+	}
 
 	KAOutput::SetState(ACT_LED, false);
-
-	Buffer.Clean();
 }
 
 void SYS_InitDevice(char Boot)

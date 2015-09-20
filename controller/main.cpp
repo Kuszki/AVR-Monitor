@@ -88,7 +88,7 @@ int main(void)
 			}
 			else if (Monitor.Online)
 			{
-				ADC_SendSensors(); Script.Variables.Clean();
+				ADC_SendSensors();
 			}
 
 			Sleep = Monitor.Sleep * 1000;
