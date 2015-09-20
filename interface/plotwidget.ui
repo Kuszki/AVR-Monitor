@@ -172,6 +172,16 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>Start</tabstop>
+  <tabstop>saveButton</tabstop>
+  <tabstop>cleanButton</tabstop>
+  <tabstop>Follow</tabstop>
+  <tabstop>Average</tabstop>
+  <tabstop>Legend</tabstop>
+  <tabstop>settingsButton</tabstop>
+  <tabstop>Stop</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>
