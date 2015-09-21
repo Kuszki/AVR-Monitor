@@ -117,12 +117,21 @@ int SYS_SetStatus(char Mask, char Value);
  */
 void SYS_Evaluate(KLString& Buffer);
 
-/*! \brief		Inicjacja uurządzeń.
- *  \param [in]	Boot Sygnał resetu..
+/*! \brief		Inicjacja urządzeń.
+ *  \param [in]	Boot Sygnał resetu.
  *
  * Inicjuje urządzenie biorąc pod uwagę przyczynę resetu.
  *
  */
 void SYS_InitDevice(char Boot);
+
+/*! \brief		Zgłoszenie błędu.
+ *  \param [in]	Code Kod błędu.
+ *  \return		Kod błędu.
+ *
+ *  Zgłasza wykryty w skrypcie błąd.
+ *
+ */
+int SYS_PostError(int Code);
 
 #endif

@@ -33,7 +33,7 @@ const char get_INFOSTR[] PROGMEM =
 "# GCC flags:    -O3 -mmcu=atmega328p -std=c++11\n"
 "# Watchdog set:   on every evaluation for 8 sec\n"
 "#\n"
-"# Program size:        29796 bytes (90.9% Full)\n"
+"# Program size:        30228 bytes (92.2% Full)\n"
 "# Data size:             502 bytes (24.5% Full)\n"
 "\n";
 
@@ -50,6 +50,7 @@ const char get_PGA1[] PROGMEM		= "set PGA1 ";
 const char get_SLPT[] PROGMEM		= "set SLPT ";
 const char get_FRAM[] PROGMEM		= "set FRAM ";
 
+const char get_FAIL[] PROGMEM		= "fail ";
 const char get_CALL[] PROGMEM		= "call ";
 const char get_SET[] PROGMEM		= "set ";
 
@@ -98,7 +99,7 @@ void SHR_SetState(bool Enable)
 
 int SHR_SetPin(char Pin, bool Enable)
 {
-	if (Pin > 7) return WRONG_SHR_PIN;
+	if (Pin > 7) return SYS_PostError(WRONG_SHR_PIN);
 	else
 	{
 		SHR_SetOutputs(Enable ? Shift.Values | (1 << Pin) : Shift.Values & ~(1 << Pin));
@@ -126,7 +127,7 @@ char PGA_GetMask(char Gain)
 
 int PGA_SetGain(char ID, char Gain)
 {
-	if (ID > 1) return WRONG_PGA_ID;
+	if (ID > 1) return SYS_PostError(WRONG_PGA_ID);
 	else
 	{
 		char Mask = PGA_GetMask(Gain);
@@ -243,7 +244,7 @@ int SYS_SetStatus(char Mask, char Value)
 
 		break;
 
-		default: return WRONG_SYS_CODE;
+		default: return SYS_PostError(WRONG_SYS_CODE);
 	}
 
 	return 0;
@@ -251,26 +252,24 @@ int SYS_SetStatus(char Mask, char Value)
 
 void SYS_Evaluate(KLString& Buffer)
 {
-	KAOutput::SetState(ACT_LED, true);
-
 	for (int i = 0; i < 6; ++i) Analog[i] = KAConverter::GetVoltage(KAConverter::PORT(i));
 
+	KAOutput::SetState(ACT_LED, true);
 	wdt_intenable(WDTO_4S);
 
 	const bool OK = Script.Evaluate(Buffer);
 	const double Val = Script.GetReturn();
 
 	wdt_disable();
+	KAOutput::SetState(ACT_LED, false);
 
 	Buffer.Clean();
 
 	if (Monitor.Online && !Monitor.Master)
 	{
-		if (!OK) UART << PGM_V get_RETURN << WRONG_SCRIPT << PGM_V get_EOC;
+		if (!OK) UART << PGM_V get_CALL << PGM_V get_FAIL << WRONG_SCRIPT << PGM_V get_EOC;
 		if (Val) UART << PGM_V get_RETURN << Val << PGM_V get_EOC;
 	}
-
-	KAOutput::SetState(ACT_LED, false);
 }
 
 void SYS_InitDevice(char Boot)
@@ -323,12 +322,17 @@ void SYS_InitDevice(char Boot)
 	switch (KAFlash::Read(TIME_MEM) & ERROR_MSK)
 	{
 		case MASTER_FROZEN:
-			UART << PGM_V get_RETURN << MASTER_TIMEOUT << PGM_V get_EOC; Monitor.Online = true;
+			SYS_PostError(MASTER_TIMEOUT); Monitor.Online = true;
 		break;
 		case REMOTE_FROZEN:
-			UART << PGM_V get_RETURN << REMOTE_TIMEOUT << PGM_V get_EOC; Monitor.Online = true;
+			SYS_PostError(REMOTE_TIMEOUT); Monitor.Online = true;
 		break;
 	}
 
 	if (Monitor.Online) SYS_SendFeedback(GET_ALL);
+}
+
+int SYS_PostError(int Code)
+{
+	if (Monitor.Online && !Monitor.Master) UART << PGM_V get_CALL << PGM_V get_FAIL << Code << PGM_V get_EOC; return Code;
 }

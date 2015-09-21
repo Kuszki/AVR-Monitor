@@ -61,8 +61,6 @@ class AVRBRIDGE_EXPORT AVRBridge : public QObject
 
 		void ReadData(void);
 
-		void GetResoult(double Value);
-
 	public:
 
 		explicit AVRBridge(KLVariables* Returns = nullptr, QObject* Parent = nullptr);

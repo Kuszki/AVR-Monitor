@@ -32,7 +32,7 @@ double get(KLVariables& Vars)
 	}
 	else for (const auto& Var: Vars)
 	{
-		if (!ADC_SendFeedback(KLString('V') + KLString(Var.Value.ToInt()))) return WRONG_ADC_ID;
+		if (!ADC_SendFeedback(KLString('V') + KLString(Var.Value.ToInt()))) return SYS_PostError(WRONG_ADC_ID);
 	}
 
 	return 0;
@@ -56,21 +56,21 @@ double put(KLVariables& Vars)
 
 		SHR_SetOutputs(Mask);
 	}
-	else return WRONG_PARAMS;
+	else return SYS_PostError(WRONG_PARAMS);
 
 	return 0;
 }
 
 double pga(KLVariables& Vars)
 {
-	if (Vars.Size() != 2) return WRONG_PARAMS;
+	if (Vars.Size() != 2) return SYS_PostError(WRONG_PARAMS);
 
 	return PGA_SetGain(Vars["0"].ToInt(), Vars["1"].ToInt());
 }
 
 double out(KLVariables& Vars)
 {
-	if (Vars.Size() != 1) return WRONG_PARAMS;
+	if (Vars.Size() != 1) return SYS_PostError(WRONG_PARAMS);
 
 	SHR_SetState(Vars["0"].ToBool());
 
@@ -79,7 +79,7 @@ double out(KLVariables& Vars)
 
 double sys(KLVariables& Vars)
 {
-	if (!Monitor.Online) return WRONG_SYS_STATE;
+	if (!Monitor.Online) return SYS_PostError(WRONG_SYS_STATE);
 
 	if (Vars.Size() == 0)
 	{
@@ -89,21 +89,21 @@ double sys(KLVariables& Vars)
 	{
 		SYS_SendFeedback(Vars["0"].ToInt());
 	}
-	else return WRONG_PARAMS;
+	else return SYS_PostError(WRONG_PARAMS);
 
 	return 0;
 }
 
 double dev(KLVariables& Vars)
 {
-	if (Vars.Size() != 2) return WRONG_PARAMS;
+	if (Vars.Size() != 2) return SYS_PostError(WRONG_PARAMS);
 
 	return SYS_SetStatus(Vars["0"].ToInt(), Vars["1"].ToInt());
 }
 
 double spi(KLVariables& Vars)
 {
-	if (Vars.Size() == 0) return WRONG_PARAMS;
+	if (Vars.Size() == 0) return SYS_PostError(WRONG_PARAMS);
 
 	SPI.Select(SPI_CS);
 
@@ -116,7 +116,7 @@ double spi(KLVariables& Vars)
 
 double slp(KLVariables& Vars)
 {
-	if (Vars.Size() != 1) return WRONG_PARAMS;
+	if (Vars.Size() != 1) return SYS_PostError(WRONG_PARAMS);
 
 	unsigned i = Vars["0"].ToInt(); DELAY(i);
 

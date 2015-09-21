@@ -81,14 +81,51 @@ AVRBridge::AVRBridge(KLVariables* Returns, QObject* Parent)
 		return 0;
 	});
 
+	Script->Bindings.Add("fail", [this] (KLVariables& Vars) -> double
+	{
+		if (Vars.Size() == 1) switch (Vars["0"].ToInt())
+		{
+			case WRONG_SCRIPT:
+				emit onError(tr("Wrong scriptcode"));
+			break;
+			case WRONG_PARAMS:
+				emit onError(tr("Wrong script params"));
+			break;
+			case WRONG_SHR_PIN:
+				emit onError(tr("Wrong shift register pin"));
+			break;
+			case WRONG_PGA_ID:
+				emit onError(tr("Wrong PGA ID"));
+			break;
+			case WRONG_PGA_GAIN:
+				emit onError(tr("Wrong PGA gain"));
+			break;
+			case WRONG_ADC_ID:
+				emit onError(tr("Wrong ADC ID"));
+			break;
+			case WRONG_SYS_CODE:
+				emit onError(tr("Wrong system code"));
+			break;
+			case WRONG_SYS_STATE:
+				emit onError(tr("Wrong system status"));
+			break;
+			case MASTER_TIMEOUT:
+				emit onError(tr("Device frozen on master script evaluation"));
+			break;
+			case REMOTE_TIMEOUT:
+				emit onError(tr("Device frozen on remote script evaluation"));
+			break;
+		}
+
+		return 0;
+	});
+
 	Serial->setBaudRate(QSerialPort::Baud57600);
 	Serial->setParity(QSerialPort::NoParity);
 	Serial->setStopBits(QSerialPort::OneStop);
 	Serial->setDataBits(QSerialPort::Data8);
 
 	connect(Serial, &QSerialPort::readyRead, this, &AVRBridge::ReadData);
-	connect(Script, &KLScriptbinding::onEvaluate, this, &AVRBridge::GetResoult);
-
 }
 
 AVRBridge::~AVRBridge(void)
@@ -133,43 +170,6 @@ void AVRBridge::ReadData(void)
 		break;
 
 		default: Buffer[Buffindex++] = c;
-	}
-}
-
-void AVRBridge::GetResoult(double Value)
-{
-	switch (int(Value))
-	{
-		case WRONG_SCRIPT:
-			emit onError(tr("Wrong scriptcode"));
-		break;
-		case WRONG_PARAMS:
-			emit onError(tr("Wrong script params"));
-		break;
-		case WRONG_SHR_PIN:
-			emit onError(tr("Wrong shift register pin"));
-		break;
-		case WRONG_PGA_ID:
-			emit onError(tr("Wrong PGA ID"));
-		break;
-		case WRONG_PGA_GAIN:
-			emit onError(tr("Wrong PGA gain"));
-		break;
-		case WRONG_ADC_ID:
-			emit onError(tr("Wrong ADC ID"));
-		break;
-		case WRONG_SYS_CODE:
-			emit onError(tr("Wrong system code"));
-		break;
-		case WRONG_SYS_STATE:
-			emit onError(tr("Wrong system status"));
-		break;
-		case MASTER_TIMEOUT:
-			emit onError(tr("Device frozen on master script evaluation"));
-		break;
-		case REMOTE_TIMEOUT:
-			emit onError(tr("Device frozen on remote script evaluation"));
-		break;
 	}
 }
 
