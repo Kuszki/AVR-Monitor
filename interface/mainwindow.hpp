@@ -72,6 +72,8 @@ class MainWindow : public QMainWindow
 
 		void IntervalValueChanged(double Value);
 
+		void ServiceStatusChanged(bool Active, bool User);
+
 	public slots:
 
 		void ShowAboutDialog(void);

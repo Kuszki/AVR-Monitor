@@ -137,6 +137,8 @@ class AppCore final: public QObject
 
 		void onSensorUpdate(void);
 
+		void onEmergencyStop(void);
+
 };
 
 #endif // APPCORE_HPP

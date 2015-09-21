@@ -44,38 +44,13 @@ MainWindow::MainWindow(QWidget* Parent)
 
 	AppCore::getInstance()->UpdateInterval(Interval->value());
 
-	// connect interval by old way because of overloaded methods
-	connect(Interval, SIGNAL(valueChanged(double)), SLOT(IntervalValueChanged(double)));
-
-	// this ui to app core connections
-	connect(ui->actionRun, &QAction::triggered, [this] (void) -> void
-	{
-		AppCore::getInstance()->UpdateStatus(true);
-
-		ui->actionRun->setEnabled(false);
-		ui->actionStop->setEnabled(true);
-		ui->actionSynchronize->setEnabled(false);
-		ui->actionUpload->setEnabled(false);
-		ui->actionDownload->setEnabled(false);
-	});
-
-	connect(ui->actionStop, &QAction::triggered, [this] (void) -> void
-	{
-		AppCore::getInstance()->UpdateStatus(false);
-
-		ui->actionRun->setEnabled(true);
-		ui->actionStop->setEnabled(false);
-		ui->actionSynchronize->setEnabled(true);
-		ui->actionUpload->setEnabled(true);
-		ui->actionDownload->setEnabled(true);
-	});
-
+	// actions to app core lambdas connections
 	connect(ui->actionDisconnect, &QAction::triggered, [] (void) -> void
 	{
 		AppCore::getInstance()->UpdateStatus(false);
 	});
 
-	// terminal to device connections SID!
+	// terminal to device connections
 	connect(ui->tabTerminal, &TerminalWidget::onScriptExecute, [] (const QString& Code) -> void
 	{
 		AppCore::getDevice()->Command(KLScriptbinding::Optimize(Code));
@@ -86,8 +61,17 @@ MainWindow::MainWindow(QWidget* Parent)
 		QMessageBox::information(this, tr("Script check"), AppCore::getValidation(Code));
 	});
 
+	// app core to this ui connections
+	connect(AppCore::getInstance(), &AppCore::onEmergencyStop, boost::bind(&MainWindow::ServiceStatusChanged, this, false, false));
+
+	// this ui to app core connections
+	connect(ui->actionRun, &QAction::triggered, boost::bind(&MainWindow::ServiceStatusChanged, this, true, true));
+	connect(ui->actionStop, &QAction::triggered, boost::bind(&MainWindow::ServiceStatusChanged, this, false, true));
+
 	// main window to plot widget connections
 	connect(ui->actionRun, &QAction::triggered, ui->tabPlot, &PlotWidget::RestartPlot);
+
+	// app core to plot widget connections
 	connect(AppCore::getInstance(), &AppCore::onValuesUpdate, ui->tabPlot, &PlotWidget::PlotVariables);
 	connect(AppCore::getInstance(), &AppCore::onSensorUpdate, ui->tabPlot, &PlotWidget::UpdateSensors);
 
@@ -131,6 +115,9 @@ MainWindow::MainWindow(QWidget* Parent)
 	connect(AppCore::getDevice(), &AVRBridge::onError, this, &MainWindow::ShowErrorMessage);
 	connect(AppCore::getDevice(), &AVRBridge::onConnectionUpdate, this, &MainWindow::ConnectionChanged);
 	connect(AppCore::getDevice(), &AVRBridge::onMasterScriptReceive, this, &MainWindow::SaveMasterScript);
+
+	// connect interval by old way because of overloaded methods
+	connect(Interval, SIGNAL(valueChanged(double)), SLOT(IntervalValueChanged(double)));
 }
 
 MainWindow::~MainWindow(void)
@@ -216,6 +203,17 @@ void MainWindow::SaveMasterScript(const QString& Script)
 void MainWindow::IntervalValueChanged(double Value)
 {
 	AppCore::getInstance()->UpdateInterval(Value);
+}
+
+void MainWindow::ServiceStatusChanged(bool Active, bool User)
+{
+	if (User) AppCore::getInstance()->UpdateStatus(Active);
+
+	ui->actionRun->setEnabled(!Active);
+	ui->actionStop->setEnabled(Active);
+	ui->actionSynchronize->setEnabled(!Active);
+	ui->actionUpload->setEnabled(!Active);
+	ui->actionDownload->setEnabled(!Active);
 }
 
 void MainWindow::ShowAboutDialog(void)

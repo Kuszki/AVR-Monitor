@@ -97,7 +97,15 @@ AppCore::AppCore(void)
 		if (!Active) Interval.stop();
 	});
 
-	connect(&Interval, &QTimer::timeout, [this] (void) -> void { Device->UpdateSensorVariables(); });
+	connect(Device, &AVRBridge::onError, [this] (void) -> void
+	{
+		if (Interval.isActive()) emit onEmergencyStop(); Interval.stop();
+	});
+
+	connect(&Interval, &QTimer::timeout, [this] (void) -> void
+	{
+		Device->UpdateSensorVariables();
+	});
 
 	connect(Device, &AVRBridge::onSensorValuesUpdate, this, &AppCore::PerformTasks);
 
