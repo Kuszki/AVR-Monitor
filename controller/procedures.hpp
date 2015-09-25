@@ -99,6 +99,13 @@ void ADC_SendSensors(void);
  */
 void SYS_SendFeedback(char Mask);
 
+/*! \brief		Wysyła do użytkownika wartości wszystkich zmiennych.
+ *
+ * Wysyła do użytkownika informację o zadeklarowanych zmiennych.
+ *
+ */
+void SYS_SendVariables(void);
+
 /*! \brief		Ustala stan pracy przekazany przez użytkowika.
  *  \param [in]	Maks		Polecenie do wykonania.
  *  \param [in]	Value	Parametr polecenia.

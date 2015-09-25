@@ -26,7 +26,7 @@
 #include "bindings.hpp"
 #include "procedures.hpp"
 
-char Reboot_Code REBOOT_CODE;						//!< Informacja o źródle sygnału RESET.
+char 		Reboot_Code REBOOT_CODE;				//!< Informacja o źródle sygnału RESET.
 
 // main control objects
 KAUart		UART(57600);						//!< Odbiornik i nadajnik szeregowy. Praca z prędkością 57600 bps.
@@ -89,6 +89,7 @@ int main(void)
 			else if (Monitor.Online)
 			{
 				ADC_SendSensors();
+				SYS_SendVariables();
 			}
 
 			Sleep = Monitor.Sleep * 1000;
