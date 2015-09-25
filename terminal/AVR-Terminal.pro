@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT		+=	serialport widgets core
+QT		+=	serialport widgets core sql
 QT		-=	gui
 
 TARGET	=	avrterminal
@@ -22,12 +22,14 @@ SOURCES	+=	main.cpp \
 			avrterminal.cpp \
 			terminalreader.cpp \
 			avruploader.cpp \
-			avrdownloader.cpp
+			avrdownloader.cpp \
+			avrserver.cpp
 
 HEADERS	+=	avrterminal.hpp \
 			terminalreader.hpp \
 			avruploader.hpp \
-			avrdownloader.hpp
+			avrdownloader.hpp \
+			avrserver.hpp
 
 TRANSLATIONS	+=	avrmonitor_terminal_pl.ts
 

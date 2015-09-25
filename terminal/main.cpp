@@ -30,6 +30,7 @@
 #include "avrterminal.hpp"
 #include "avruploader.hpp"
 #include "avrdownloader.hpp"
+#include "avrserver.hpp"
 
 int main(int argc, char *argv[])
 {
@@ -91,9 +92,13 @@ Before use be sure that device is not runing or connected to another application
 	QCommandLineOption stdUpload(QStringList() << "u" << "upload", qApp->translate("main", "Upload script from file into device."), qApp->translate("main", "script"));
 	QCommandLineOption stdDownload(QStringList() << "d" << "download", qApp->translate("main", "Download script from device into file."), qApp->translate("main", "script"));
 
+	// server options
+	QCommandLineOption sqlServer(QStringList() << "s" << "server", qApp->translate("main", "Cooperate with SQL server."), qApp->translate("main", "address"));
+
 	Parser.addOption(stdTerminal);
 	Parser.addOption(stdUpload);
 	Parser.addOption(stdDownload);
+	Parser.addOption(sqlServer);
 
 	Parser.process(a);
 
@@ -108,6 +113,10 @@ Before use be sure that device is not runing or connected to another application
 	else if (Parser.isSet(stdDownload))
 	{
 		new AVRDownloader(Parser.positionalArguments().takeFirst(), Parser.value(stdDownload));
+	}
+	else if (Parser.isSet(sqlServer))
+	{
+		new AVRServer(Parser.positionalArguments().takeFirst(), Parser.value(sqlServer));
 	}
 	else Parser.showHelp(-1);
 

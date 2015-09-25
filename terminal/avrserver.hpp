@@ -18,51 +18,51 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef AVRTERMINAL_HPP
-#define AVRTERMINAL_HPP
+#ifndef AVRSERVER_HPP
+#define AVRSERVER_HPP
 
 #include <QCoreApplication>
-#include <QTextStream>
+#include <QSqlDatabase>
+#include <QStringList>
+#include <QSqlQuery>
+#include <QSqlError>
+#include <QVariant>
 #include <QObject>
 #include <QTimer>
 
 #include <avrbridge.hpp>
 
-#include "terminalreader.hpp"
-
-class AVRTerminal : public QObject
-
+class AVRServer : public QObject
 {
 
 		Q_OBJECT
 
-	protected:
+	private:
 
-		Terminalreader* Worker;
+		KLVariables Sensors;
+
+		QSqlDatabase Database;
+
 		AVRBridge* Device;
-		QTimer* Timeout;
 
-		QTextStream Cin;
-		QTextStream Cout;
+		QTimer* Timeout;
 
 	public:
 
-		explicit AVRTerminal(const QString& Port);
+		explicit AVRServer(const QString& Port, const QString& Server);
+		virtual ~AVRServer(void) override;
 
-		virtual ~AVRTerminal(void) override;
-
-	public slots:
-
-		void HandleError(const QString& Error);
-
-		void HandleMessage(const QString& Message);
-
-		void HandleCommand(const QString& Message);
+	private slots:
 
 		void HandleConnect(bool Connected);
 
 		void HandleTimeout(void);
 
+	public slots:
+
+
+	signals:
+
 };
 
-#endif // AVRTERMINAL_HPP
+#endif // AVRSERVER_HPP
