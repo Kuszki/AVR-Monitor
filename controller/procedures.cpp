@@ -33,7 +33,7 @@ const char get_INFOSTR[] PROGMEM =
 "# GCC flags:    -O3 -mmcu=atmega328p -std=c++11\n"
 "# Watchdog set:   on every evaluation for 8 sec\n"
 "#\n"
-"# Program size:        30478 bytes (93.0% Full)\n"
+"# Program size:        30494 bytes (93.1% Full)\n"
 "# Data size:             502 bytes (24.5% Full)\n"
 "\n";
 
@@ -210,6 +210,8 @@ int SYS_SetStatus(char Mask, char Value)
 		break;
 
 		case DEV_MASTER:
+
+			if (!Value) Script.Variables.Clean();
 
 			Monitor.Master = Value;
 

@@ -215,7 +215,8 @@ void AppCore::UpdateScriptTasks(void)
 					   Query.value(1).toString()
 					   .replace(QRegExp("return\\s+([^;]+);"),
 							  QString("set %1 \\1;exit;").
-							  arg(Query.value(0).toString()))));
+							  arg(Query.value(0).toString()))
+					   .remove(QRegExp("exit\\s*;\\s*$"))));
 	}
 	else
 	{
