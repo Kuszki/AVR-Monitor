@@ -49,7 +49,7 @@ int main(int argc, char *argv[])
 
 	QTranslator baseTranslator;
 	baseTranslator.load("qtbase_" + QLocale::system().name(),
-				   QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+					QLibraryInfo::location(QLibraryInfo::TranslationsPath));
 	a.installTranslator(&baseTranslator);
 
 	QTranslator appTranslator;
@@ -87,36 +87,27 @@ Before use be sure that device is not runing or connected to another application
 	Parser.addPositionalArgument(qApp->translate("main", "device"), qApp->translate("main", "device to open"));
 
 	// main options
-	QCommandLineOption tcpServer(QStringList() << "h" << "host", qApp->translate("main", "Become a TCP server (device works as master). [SID]"));
 	QCommandLineOption stdTerminal(QStringList() << "t" << "terminal", qApp->translate("main", "Work as casual two-side terminal."));
 	QCommandLineOption stdUpload(QStringList() << "u" << "upload", qApp->translate("main", "Upload script from file into device."), qApp->translate("main", "script"));
 	QCommandLineOption stdDownload(QStringList() << "d" << "download", qApp->translate("main", "Download script from device into file."), qApp->translate("main", "script"));
 
-	Parser.addOption(tcpServer);
 	Parser.addOption(stdTerminal);
 	Parser.addOption(stdUpload);
 	Parser.addOption(stdDownload);
 
 	Parser.process(a);
 
-	if (Parser.isSet(tcpServer))
+	if (Parser.isSet(stdTerminal))
 	{
-	//	new AVRServer(Parser.positionalArguments().first(),
-	//			    Parser.isSet(tcpPort) ? Parser.value(tcpPort) : QString());
-	}
-	else if (Parser.isSet(stdTerminal))
-	{
-		new AVRTerminal(Parser.positionalArguments().first());
+		new AVRTerminal(Parser.positionalArguments().takeFirst());
 	}
 	else if (Parser.isSet(stdUpload))
 	{
-		new AVRUploader(Parser.positionalArguments().first(),
-					 Parser.value(stdUpload));
+		new AVRUploader(Parser.positionalArguments().takeFirst(), Parser.value(stdUpload));
 	}
 	else if (Parser.isSet(stdDownload))
 	{
-		new AVRDownloader(Parser.positionalArguments().first(),
-					   Parser.value(stdDownload));
+		new AVRDownloader(Parser.positionalArguments().takeFirst(), Parser.value(stdDownload));
 	}
 	else Parser.showHelp(-1);
 
