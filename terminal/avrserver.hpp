@@ -58,10 +58,13 @@ class AVRServer : public QObject
 
 		void HandleTimeout(void);
 
-	public slots:
+		void HandleExec(const QString& Script);
 
+		void HandleCallback(const QString& Name, double Value);
 
-	signals:
+		void HandleSystem(const QString& Name, int Value);
+
+		void HandleConverters(const KLVariables& Vars);
 
 };
 

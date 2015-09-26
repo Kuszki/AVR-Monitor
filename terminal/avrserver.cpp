@@ -23,17 +23,7 @@
 AVRServer::AVRServer(const QString& Port, const QString& Server)
 : QObject(QCoreApplication::instance())
 {
-	auto dbCallback = [this] (const QString& Name, double Value) -> void
-	{
-		QSqlQuery(Database).exec(QString(
-			"UPDATE "
-				"`variables` "
-			"SET "
-				"`value`=%2 "
-			"WHERE "
-				"`name`='%1'")
-		.arg(Name).arg(Value));
-	};
+	const QStringList SYS = { "LINE", "WORK", "SHRD", "SHRE", "SLPT", "FRAM" };
 
 	Database = QSqlDatabase::addDatabase("QMYSQL");
 	Device = new AVRBridge(&Sensors, this);
@@ -46,15 +36,24 @@ AVRServer::AVRServer(const QString& Port, const QString& Server)
 
 	if (!Database.open()) qFatal("Can't open database");
 
-	QSqlQuery Query(Database);
-
-	if (Query.exec("SELECT `name` FROM `variables`")) while (Query.next())
-	{
-		Sensors.Add(Query.value(0).toString().toStdString().c_str(), KLVariables::NUMBER, boost::bind<void>(dbCallback, Query.value(0).toString(), _1));
-	}
-
-	connect(Device, &AVRBridge::onConnectionUpdate, this, &AVRServer::HandleConnect);
 	connect(Timeout, &QTimer::timeout, this, &AVRServer::HandleTimeout);
+
+	connect(Device, &AVRBridge::onMessageReceive, this, &AVRServer::HandleExec);
+	connect(Device, &AVRBridge::onConnectionUpdate, this, &AVRServer::HandleConnect);
+	connect(Device, &AVRBridge::onSensorValuesUpdate, this, &AVRServer::HandleConverters);
+
+	connect(Device, &AVRBridge::onConnectionUpdate, boost::bind(&AVRServer::HandleSystem, this, SYS[0], _1));
+	connect(Device, &AVRBridge::onMasterStatusUpdate, boost::bind(&AVRServer::HandleSystem, this, SYS[1], _1));
+	connect(Device, &AVRBridge::onShiftValuesUpdate, boost::bind(&AVRServer::HandleSystem, this, SYS[2], _1));
+	connect(Device, &AVRBridge::onShiftStatusUpdate, boost::bind(&AVRServer::HandleSystem, this, SYS[3], _1));
+	connect(Device, &AVRBridge::onSleepValueUpdate, boost::bind(&AVRServer::HandleSystem, this, SYS[4], _1));
+	connect(Device, &AVRBridge::onFreeRamUpdate, boost::bind(&AVRServer::HandleSystem, this, SYS[5], _1));
+
+	connect(Device, &AVRBridge::onGainSettingsUpdate, [this, &SYS] (char ID, char Gain) -> void
+	{
+		if (ID == 0) HandleSystem("PGA0", Gain);
+		else HandleSystem("PGA1", Gain);
+	});
 
 	Timeout->setSingleShot(true);
 	Timeout->setInterval(3000);
@@ -79,4 +78,58 @@ void AVRServer::HandleConnect(bool Connected)
 void AVRServer::HandleTimeout(void)
 {
 	qFatal("Connection timeout");
+}
+
+void AVRServer::HandleExec(const QString& Script)
+{
+	QRegExp Regexp("\\bexport\\s+(.*)\\s*\\b;"); Regexp.setMinimal(true);
+
+	if (Regexp.indexIn(Script) != -1)
+	{
+		const KLString Label = Regexp.capturedTexts().at(1).toStdString().c_str();
+		const QString qLabel = Regexp.capturedTexts().at(1);
+
+		if (Device->Variables().Exists(Label) && !Device->Variables()[Label].GetCallback())
+		{
+			Device->Variables()[Label].SetCallback(boost::bind(&AVRServer::HandleCallback, this, qLabel, _1));
+
+			HandleCallback(qLabel, Device->Variables()[Label].ToNumber());
+		}
+	}
+}
+
+void AVRServer::HandleCallback(const QString& Name, double Value)
+{
+	QSqlQuery(Database).exec(QString(
+			"INSERT INTO "
+				"`variables` (`name`, `value`) "
+			"VALUES "
+				"('%1', %2) "
+			"ON DUPLICATE KEY UPDATE "
+				"`value`=%2")
+		.arg(Name).arg(Value));
+}
+
+void AVRServer::HandleSystem(const QString& Name, int Value)
+{
+	QSqlQuery(Database).exec(QString(
+			"INSERT INTO "
+				"`system` (`name`, `value`) "
+			"VALUES "
+				"('%1', %2) "
+			"ON DUPLICATE KEY UPDATE "
+				"`value`=%2")
+		.arg(Name).arg(Value));
+}
+
+void AVRServer::HandleConverters(const KLVariables& Vars)
+{
+	int i = 0; for (const auto& Var: Vars) QSqlQuery(Database).exec(QString(
+			"INSERT INTO "
+				"`converters` (`ID`, `value`) "
+			"VALUES "
+				"('%1', %2) "
+			"ON DUPLICATE KEY UPDATE "
+				"`value`=%2")
+		.arg(++i).arg(Var.Value.ToNumber()));
 }
