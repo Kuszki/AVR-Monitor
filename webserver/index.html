@@ -6,8 +6,12 @@
 	<meta http-equiv="Content-Type" content="text/html" charset="utf-8">
 	<meta http-equiv="Content-Language" content="pl">
 	<meta name="Author" content='Łukasz "Kuszki" Dróżdż'>
+
 	<title>Panel zdalnego monitoringu AVR-Monitor</title>
-	<link rel="Stylesheet" type="text/css" href="style.css" />
+
+	<link rel="stylesheet" type="text/css" href="../../style.css"/>
+	<link rel="stylesheet" type="text/css" href="style.css"/>
+
 	<script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
 	<script src="http://www.chartjs.org/assets/Chart.min.js" type="text/javascript"></script>
 
@@ -26,22 +30,22 @@
 
 		$.getJSON("plots.php?job=init", function(Data)
 		{
-		   Plot = new Chart($("#plot").get(0).getContext("2d")).Line(Data, { responsive: true, animationSteps: 10 });
+			Plot = new Chart($("#plot").get(0).getContext("2d")).Line(Data, { responsive: true, animationSteps: 10 });
 		});
 
 		setInterval(function()
 		{
-		$('#tab_sys').load("tables.php?tab=system");
+			$('#tab_sys').load("tables.php?tab=system");
 		}, 5000);
 
 		setInterval(function()
 		{
-		$('#tab_adc').load("tables.php?tab=converters");
+			$('#tab_adc').load("tables.php?tab=converters");
 		}, 5000);
 
 		setInterval(function()
 		{
-		$('#tab_sensors').load("tables.php?tab=variables");
+			$('#tab_sensors').load("tables.php?tab=variables");
 		}, 5000);
 
 		setInterval(function()
@@ -62,10 +66,11 @@
 	<header id="panel">
 		<p>Panel zdalnego monitoringu AVR-Monitor</p>
 		<nav>
-			<a href="https://github.com/Kuszki/AVR-Monitor" target="_blank">Strona projektu</a>
-		<a href="http://www.gnu.org/licenses/gpl-3.0.en.html" target="_blank">Licencja</a>
-		<a href="http://www.chartjs.org/" target="_blank">Chart.js</a>
-		<a href="mailto:l.drozdz@openmailbox.org">Kontakt</a>
+			<a href="../../">Strona główna</a>
+			<a href="https://github.com/Kuszki/AVR-Monitor" target="_blank">GitHub</a>
+			<a href="http://www.gnu.org/licenses/gpl-3.0.en.html" target="_blank">Licencja</a>
+			<a href="http://www.chartjs.org/" target="_blank">Chart.js</a>
+			<a href="mailto:l.drozdz@openmailbox.org">Kontakt</a>
 		</nav>
 	</header>
 
@@ -75,7 +80,7 @@
 
 	<section id="tables">
 		<div id="tab_sys" class="tabs"></div>
-		<div id="tab_adc" class="tabs"></div>
+		<div id="tab_adc" class="tabs"><h1>wczytywanie...</h1></div>
 		<div id="tab_sensors" class="tabs"></div>
 	</section>
 

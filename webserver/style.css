@@ -1,82 +1,12 @@
-body
-{
-	margin-top: 75px;
-	margin-bottom: 25px;
-}
-
-header
-{
-	position: fixed;
-
-	left: 0;
-	top: 0;
-
-	width: 100%;
-	height: 30px;
-
-	padding: 10px 0px 5px;
-
-	background-color: lightyellow;
-}
-
-header > nav
-{
-	right: 0;
-	float: right;
-}
-
-header > *
-{
-	margin: inherit;
-	position: inherit;
-	height: inherit;
-
-	padding: 15px 25px 10px;
-
-	top: 0;
-}
-
-nav > *
-{
-	padding: inherit;
-}
-
-nav > a
-{
-	background-color: inherit;
-	text-decoration: none;
-	color: darkblue;
-}
-
-section
-{
-	margin-left: auto;
-	margin-right: auto;
-
-	max-width: 1200px;
-	padding: 10px;
-
-	text-align: justify;
-}
-
-footer
-{
-	position: relative;
-	width: inherit;
-
-	bottom: 0px;
-
-	padding: 25px;
-	clear: both;
-
-	text-align: center;
-	font-style: italic;
-}
-
 th
 {
 	padding: 10px;
 	text-align: center;
+}
+
+td
+{
+	padding: 5px;
 }
 
 .tabs
@@ -86,9 +16,11 @@ th
 	min-width: 300px;
 	min-height: 300px;
 
-	width: 32%;
+	width: 33%;
 
 	float: left;
+
+	text-align: center;
 }
 
 .tabs > *
@@ -105,4 +37,39 @@ th
 .value
 {
 	text-align: right;
+
+	font-family: monospace;
+	font-size: 135%;
+}
+
+table
+{
+	border-collapse: collapse;
+}
+
+table td, table th
+{
+	border: 1px solid black;
+}
+
+table tr:first-child th
+{
+	border-top: 0;
+}
+
+table tr:last-child td
+{
+	border-bottom: 0;
+}
+
+table tr td:first-child,
+table tr th:first-child
+{
+	border-left: 0;
+}
+
+table tr td:last-child,
+table tr th:last-child
+{
+	border-right: 0;
 }
