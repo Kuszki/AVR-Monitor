@@ -11,11 +11,11 @@ switch ($PARAMS["tab"])
 	case "system":
 
 		echo '<table id="system" class="variables">'."\n";
-		echo '<th>Rejestr</th><th>Stan</th><th>HEX</th>'."\n";
+		echo '<th>Rejestr</th><th>Stan</th><th>BIN</th>'."\n";
 
 		foreach ($DB->Query("SELECT `name`, `value` FROM `system`") as $Var)
 		{
-			echo '<tr><td class="name">'.$Var[0].'</td><td class="value">'.$Var[1].'</td><td class="value">0x'.dechex($Var[1]).'</td></tr>'."\n";
+			echo '<tr><td class="name">'.$Var[0].'</td><td class="value">'.$Var[1].'</td><td class="value">'.sprintf("%'.08b", $Var[1]).'</td></tr>'."\n";
 		}
 
 		echo '</table>'."\n";
@@ -29,7 +29,7 @@ switch ($PARAMS["tab"])
 
 		foreach ($DB->Query("SELECT `ID`, `value` FROM `converters`") as $Var)
 		{
-			echo '<tr><td class="name">'."ADC ".$Var[0].'</td><td class="value">'.$Var[1]." V".'</td></tr>'."\n";
+			echo '<tr><td class="name">'."ADC ".$Var[0].'</td><td class="value">'.sprintf("%0.3f", $Var[1])." V".'</td></tr>'."\n";
 		}
 
 		echo '</table>'."\n";
@@ -43,7 +43,7 @@ switch ($PARAMS["tab"])
 
 		foreach ($DB->Query("SELECT `name`, `value` FROM `variables`") as $Var)
 		{
-			echo '<tr><td class="name">'.$Var[0].'</td><td class="value">'.$Var[1].'</td></tr>'."\n";
+			echo '<tr><td class="name">'.$Var[0].'</td><td class="value">'.sprintf("%0.3f", $Var[1]).'</td></tr>'."\n";
 		}
 
 		echo '</table>'."\n";

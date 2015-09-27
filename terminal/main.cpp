@@ -40,6 +40,7 @@ int main(int argc, char *argv[])
 
 	signal(SIGINT, [](int) -> void { delete APP_object; });
 	signal(SIGTERM, [](int) -> void { delete APP_object; });
+	signal(SIGABRT, [](int) -> void { delete APP_object; });
 
 	a.setApplicationName("AVR-Terminal");
 	a.setOrganizationName("Łukasz \"Kuszki\" Dróżdż");

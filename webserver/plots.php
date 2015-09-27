@@ -4,8 +4,8 @@ require("../../dev/database.php");
 require("../../dev/params.php");
 
 $DB = new Database("localhost", "avr_monitor", "kuszkiavrmonitor", "avr_monitor");
-$PARAMS = new Params();
 $COLORS = ["red", "blue", "green", "darkorange", "crimson", "olive", "sienna"];
+$PARAMS = new Params();
 
 $i = 0;
 
@@ -27,7 +27,7 @@ switch ($PARAMS["job"])
 
 		foreach ($DB->Query("SELECT `value` FROM `variables`") as $Var)
 		{
-			$Data = $Data.$Var[0].",";
+			$Data = $Data.sprintf("%0.3f", $Var[0]).",";
 		}
 
 		echo trim($Data, ",").'] }';
