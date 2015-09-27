@@ -21,7 +21,7 @@
 #include "avrserver.hpp"
 
 AVRServer::AVRServer(const QString& Port, const QString& Server)
-: QObject(QCoreApplication::instance())
+: QObject(nullptr)
 {
 	const QStringList SYS = { "LINE", "WORK", "SHRD", "SHRE", "SLPT", "FRAM" };
 
@@ -100,7 +100,8 @@ void AVRServer::HandleExec(const QString& Script)
 
 void AVRServer::HandleCallback(const QString& Name, double Value)
 {
-	QSqlQuery(Database).exec(QString(
+	if (!Database.isOpen()) return;
+	else QSqlQuery(Database).exec(QString(
 			"INSERT INTO "
 				"`variables` (`name`, `value`) "
 			"VALUES "
@@ -112,7 +113,8 @@ void AVRServer::HandleCallback(const QString& Name, double Value)
 
 void AVRServer::HandleSystem(const QString& Name, int Value)
 {
-	QSqlQuery(Database).exec(QString(
+	if (!Database.isOpen()) return;
+	else QSqlQuery(Database).exec(QString(
 			"INSERT INTO "
 				"`system` (`name`, `value`) "
 			"VALUES "
@@ -124,6 +126,8 @@ void AVRServer::HandleSystem(const QString& Name, int Value)
 
 void AVRServer::HandleConverters(const KLVariables& Vars)
 {
+	if (!Database.isOpen()) return;
+
 	int i = 0; for (const auto& Var: Vars) QSqlQuery(Database).exec(QString(
 			"INSERT INTO "
 				"`converters` (`ID`, `value`) "

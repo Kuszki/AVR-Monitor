@@ -32,11 +32,14 @@
 #include "avrdownloader.hpp"
 #include "avrserver.hpp"
 
+QObject* APP_object = nullptr;
+
 int main(int argc, char *argv[])
 {
 	QCoreApplication a(argc, argv);
 
-	signal(SIGINT, [](int) -> void { QCoreApplication::quit(); });
+	signal(SIGINT, [](int) -> void { delete APP_object; });
+	signal(SIGTERM, [](int) -> void { delete APP_object; });
 
 	a.setApplicationName("AVR-Terminal");
 	a.setOrganizationName("Łukasz \"Kuszki\" Dróżdż");
@@ -104,21 +107,23 @@ Before use be sure that device is not runing or connected to another application
 
 	if (Parser.isSet(stdTerminal))
 	{
-		new AVRTerminal(Parser.positionalArguments().takeFirst());
+		APP_object = new AVRTerminal(Parser.positionalArguments().takeFirst());
 	}
 	else if (Parser.isSet(stdUpload))
 	{
-		new AVRUploader(Parser.positionalArguments().takeFirst(), Parser.value(stdUpload));
+		APP_object = new AVRUploader(Parser.positionalArguments().takeFirst(), Parser.value(stdUpload));
 	}
 	else if (Parser.isSet(stdDownload))
 	{
-		new AVRDownloader(Parser.positionalArguments().takeFirst(), Parser.value(stdDownload));
+		APP_object = new AVRDownloader(Parser.positionalArguments().takeFirst(), Parser.value(stdDownload));
 	}
 	else if (Parser.isSet(sqlServer))
 	{
-		new AVRServer(Parser.positionalArguments().takeFirst(), Parser.value(sqlServer));
+		APP_object = new AVRServer(Parser.positionalArguments().takeFirst(), Parser.value(sqlServer));
 	}
 	else Parser.showHelp(-1);
+
+	if (APP_object) a.connect(APP_object, &QObject::destroyed, [] (void) { QCoreApplication::exit(); });
 
 	return a.exec();
 }

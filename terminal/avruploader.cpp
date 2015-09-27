@@ -21,7 +21,7 @@
 #include "avruploader.hpp"
 
 AVRUploader::AVRUploader(const QString& Port, const QString& Code)
-: QObject(QCoreApplication::instance()), Script(Code), Cout(stdout)
+: QObject(nullptr), Script(Code), Cout(stdout)
 {
 	Device = new AVRBridge(nullptr, this);
 	Timeout = new QTimer(this);

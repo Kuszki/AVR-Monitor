@@ -21,7 +21,7 @@
 #include "avrterminal.hpp"
 
 AVRTerminal::AVRTerminal(const QString& Port)
-: QObject(QCoreApplication::instance()), Cin(stdin), Cout(stdout)
+: QObject(nullptr), Cin(stdin), Cout(stdout)
 {
 	Device = new AVRBridge(nullptr, this);
 	Worker = new Terminalreader(this);
