@@ -289,9 +289,6 @@ void SYS_InitDevice(char Boot)
 {
 	char Buff[] = "Vx";
 
-	// read sleep time
-	Monitor.Sleep = KAFlash::Read(TIME_MEM) & SLEEP_MSK;
-
 	// setup interrupts
 	KAInt::SetMode(KAInt::INT_0, KAInt::ON_RISING);
 	KAInt::SetMode(KAInt::INT_1, KAInt::ON_RISING);
@@ -309,12 +306,15 @@ void SYS_InitDevice(char Boot)
 	KAOutput::SetState(KAPin::PORT_D, 0b11000000, false);
 	KAOutput::SetState(KAPin::PORT_B, 0b00000011, true);
 
-	// set default shr states
-	SHR_SetOutputs(KAFlash::Read(SHRD_MEM));
-
 	//set saved pga gains
 	PGA_SetGain(0, KAFlash::Read(PGA0_MEM));
 	PGA_SetGain(1, KAFlash::Read(PGA1_MEM));
+
+	// set default shr states
+	SHR_SetOutputs(KAFlash::Read(SHRD_MEM));
+
+	// read sleep time
+	Monitor.Sleep = KAFlash::Read(TIME_MEM) & SLEEP_MSK;
 
 	// setup bindings
 	Script.Bindings.Add(BIND(get));

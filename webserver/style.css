@@ -14,7 +14,7 @@ header
 	width: 100%;
 	height: 30px;
 
-	padding: 10px 0px;
+	padding: 10px 0px 5px;
 
 	background-color: lightyellow;
 }
@@ -22,6 +22,7 @@ header
 header > nav
 {
 	right: 0;
+	float: right;
 }
 
 header > *
@@ -30,14 +31,21 @@ header > *
 	position: inherit;
 	height: inherit;
 
-	padding: 15px 25px 5px;
+	padding: 15px 25px 10px;
 
 	top: 0;
 }
 
 nav > *
 {
-    padding: inherit;
+	padding: inherit;
+}
+
+nav > a
+{
+	background-color: inherit;
+	text-decoration: none;
+	color: darkblue;
 }
 
 section

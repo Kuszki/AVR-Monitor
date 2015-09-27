@@ -11,45 +11,49 @@
 	<script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
 	<script src="http://www.chartjs.org/assets/Chart.min.js" type="text/javascript"></script>
 
-	<script>
+	<script> $(document).ready(function()
+	{
 
-		$(document).ready(function()
+		var Plot, Count = 1;
+
+		$("nav > a").hover(function()
 		{
-
-			var Plot, Count = 1;
-
-			$.getJSON("plots.php?job=init", function(Data)
-			{
-				Plot = new Chart($("#plot").get(0).getContext("2d")).Line(Data, { responsive: true, animationSteps: 10 });
-			});
-
-			setInterval(function()
-			{
-				$('#tab_sys').load("tables.php?tab=system");
-			}, 5000);
-
-			setInterval(function()
-			{
-				$('#tab_adc').load("tables.php?tab=converters");
-			}, 5000);
-
-			setInterval(function()
-			{
-				$('#tab_sensors').load("tables.php?tab=variables");
-			}, 5000);
-
-			setInterval(function()
-			{
-				$.getJSON("plots.php?job=pull", function(Data)
-				{
-					Plot.addData(Data.data, (new Date()).toLocaleTimeString());
-					if (Count > 20) Plot.removeData(); else Count++;
-				});
-			}, 5000);
-
+			$(this).css("background-color", "burlywood");
+		}, function()
+		{
+			$(this).css("background-color", "inherit");
 		});
 
-	</script>
+		$.getJSON("plots.php?job=init", function(Data)
+		{
+		   Plot = new Chart($("#plot").get(0).getContext("2d")).Line(Data, { responsive: true, animationSteps: 10 });
+		});
+
+		setInterval(function()
+		{
+		$('#tab_sys').load("tables.php?tab=system");
+		}, 5000);
+
+		setInterval(function()
+		{
+		$('#tab_adc').load("tables.php?tab=converters");
+		}, 5000);
+
+		setInterval(function()
+		{
+		$('#tab_sensors').load("tables.php?tab=variables");
+		}, 5000);
+
+		setInterval(function()
+		{
+			$.getJSON("plots.php?job=pull", function(Data)
+			{
+				Plot.addData(Data.data, (new Date()).toLocaleTimeString());
+				if (Count > 20) Plot.removeData(); else Count++;
+			});
+		}, 5000);
+
+	});	</script>
 
 </head>
 
@@ -59,9 +63,9 @@
 		<p>Panel zdalnego monitoringu AVR-Monitor</p>
 		<nav>
 			<a href="https://github.com/Kuszki/AVR-Monitor" target="_blank">Strona projektu</a>
-            <a href="http://www.gnu.org/licenses/gpl-3.0.en.html" target="_blank">Licencja</a>
-            <a href="http://www.chartjs.org/" target="_blank">Chart.js</a>
-            <a href="mailto:l.drozdz@openmailbox.org">Kontakt</a>
+		<a href="http://www.gnu.org/licenses/gpl-3.0.en.html" target="_blank">Licencja</a>
+		<a href="http://www.chartjs.org/" target="_blank">Chart.js</a>
+		<a href="mailto:l.drozdz@openmailbox.org">Kontakt</a>
 		</nav>
 	</header>
 
