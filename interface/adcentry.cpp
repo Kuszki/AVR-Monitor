@@ -36,5 +36,5 @@ AdcEntry::~AdcEntry(void)
 
 void AdcEntry::UpdateValue(double Value)
 {
-	ui->Value->setText(QString("%1").arg(Value, 0, '.', 5));
+	ui->Value->setText(QString("%1").arg(Value, 0, '.', 3));
 }

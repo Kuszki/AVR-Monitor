@@ -45,7 +45,7 @@
    <item>
     <widget class="QLabel" name="Value">
      <property name="text">
-      <string notr="true">0.00000</string>
+      <string notr="true">0.000</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
