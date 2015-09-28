@@ -53,7 +53,7 @@ class PlotWidget : public QWidget
 		QMap<int, QCPGraph*> Plots;
 		QMap<int, QCPAxis*> Axes;
 
-		QTime Starttime;
+		QTime Starttime = QTime();
 
 		bool Userrange = true;
 

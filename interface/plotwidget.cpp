@@ -271,7 +271,10 @@ void PlotWidget::RangeSpinChanged(void)
 
 void PlotWidget::PlotVariables(const KLVariables& Variables)
 {
-	const double Time = Starttime.msecsTo(QTime::currentTime()) / 1000.0;
+	double Time = 0;
+
+	if (Starttime.isNull()) Starttime = QTime::currentTime();
+	else Time = Starttime.msecsTo(QTime::currentTime()) / 1000.0;
 
 	for (const auto& Var: Variables)
 	{
@@ -313,5 +316,5 @@ void PlotWidget::RestartPlot(void)
 
 	ui->Plot->xAxis->setRange(0, ui->Plot->xAxis->range().size(), Qt::AlignLeft);
 
-	Starttime = QTime::currentTime();
+	Starttime = QTime();
 }

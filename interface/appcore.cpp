@@ -121,13 +121,16 @@ void AppCore::UpdateVariables(const KLVariables &Vars)
 {
 	for (const auto& Var: Vars) if (Script.Variables.Exists(Var.ID)) Script.Variables[Var.ID] = Var.Value.ToNumber();
 }
-
+#include <QDebug>
 void AppCore::PerformTasks(const KLVariables& Vars)
 {
-	Adc = Vars; for (const auto& Task: Tasks)
+	if (!Device->Variables()["WORK"].ToBool())
 	{
-		Script.SetCode(Task);
-		Script.Evaluate();
+		Adc = Vars; for (const auto& Task: Tasks)
+		{
+			Script.SetCode(Task);
+			Script.Evaluate();
+		}
 	}
 
 	emit onValuesUpdate(Script.Variables);
