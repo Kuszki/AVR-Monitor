@@ -30,10 +30,10 @@ const char get_INFOSTR[] PROGMEM =
 "# Release date:            " __DATE__ " " __TIME__ "\n"
 "# Used tools:         GNU AVR-GCC version " __VERSION__ "\n"
 "# Built on:    Debian 9 GNU/Linux 4.1.0-2-amd64\n"
-"# GCC flags:    -O3 -mmcu=atmega328p -std=c++11\n"
+"# GCC flags:    -Os -mmcu=atmega328p -std=c++11\n"
 "# Watchdog set:   on every evaluation for 8 sec\n"
 "#\n"
-"# Program size:        30756 bytes (93.9% Full)\n"
+"# Program size:        24638 bytes (75.2% Full)\n"
 "# Data size:             510 bytes (24.9% Full)\n"
 "\n";
 
@@ -289,6 +289,9 @@ void SYS_InitDevice(char Boot)
 {
 	char Buff[] = "Vx";
 
+	// enable uart
+	UART.Start();
+
 	// setup interrupts
 	KAInt::SetMode(KAInt::INT_0, KAInt::ON_RISING);
 	KAInt::SetMode(KAInt::INT_1, KAInt::ON_RISING);
@@ -311,7 +314,7 @@ void SYS_InitDevice(char Boot)
 	PGA_SetGain(1, KAFlash::Read(PGA1_MEM));
 
 	// set default shr states
-	SHR_SetOutputs(KAFlash::Read(SHRD_MEM));
+	Shift.Values = KAFlash::Read(SHRD_MEM);
 
 	// read sleep time
 	Monitor.Sleep = KAFlash::Read(TIME_MEM) & SLEEP_MSK;
@@ -329,10 +332,7 @@ void SYS_InitDevice(char Boot)
 	// setup adc variables
 	for (char i = 0; i < ADC_COUNT; i++) { Buff[1] = '0' + i; Inputs.Add(Buff, Analog[i]); }
 
-	// enable uart
-	UART.Start();
-
-	switch (KAFlash::Read(TIME_MEM) & ERROR_MSK)
+	if (Boot & 0b00001000) switch (KAFlash::Read(TIME_MEM) & ERROR_MSK)
 	{
 		case MASTER_FROZEN:
 			Monitor.Online = true; SYS_PostError(MASTER_TIMEOUT);

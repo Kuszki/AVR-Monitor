@@ -47,14 +47,14 @@ double		Analog[]	= {0, 0, 0, 0, 0, 0};		//!< Zmienna przechowująca wyniki opera
 int main(void)
 {
 
+	// global system init
+	SYS_InitDevice(Reboot_Code);
+
 	// setup input buffers
 	KLString Serial, Master;
 
 	// setup sleep timer
 	unsigned Sleep = 0;
-
-	// global system init
-	SYS_InitDevice(Reboot_Code);
 
 	// enter main loop
 	while (true)

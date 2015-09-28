@@ -49,7 +49,5 @@ ISR(INT1_vect)
 
 ISR(WDT_vect)
 {
-	const char Status = (KAFlash::Read(TIME_MEM) & SLEEP_MSK) | (Monitor.Worker << 7) | (Monitor.Online << 6);
-
-	KAFlash::Write(TIME_MEM, Status);
+	KAFlash::Write(TIME_MEM, (KAFlash::Read(TIME_MEM) & SLEEP_MSK) | (Monitor.Worker << 7) | (Monitor.Online << 6));
 }
