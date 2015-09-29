@@ -4,6 +4,7 @@ require("../../dev/database.php");
 require("../../dev/params.php");
 
 $DB = new Database("localhost", "avr_monitor", "kuszkiavrmonitor", "avr_monitor");
+$COLORS = ["red", "blue", "green", "darkorange", "crimson", "olive", "sienna"];
 $PARAMS = new Params();
 
 switch ($PARAMS["tab"])
@@ -41,9 +42,9 @@ switch ($PARAMS["tab"])
 		echo '<table id="system" class="variables">'."\n";
 		echo '<th>Zmienna</th><th>Wartość</th>'."\n";
 
-		foreach ($DB->Query("SELECT `name`, `value` FROM `variables`") as $Var)
+		$i = 0; foreach ($DB->Query("SELECT `name`, `value` FROM `variables`") as $Var)
 		{
-			echo '<tr><td class="name">'.$Var[0].'</td><td class="value">'.sprintf("%0.3f", $Var[1]).'</td></tr>'."\n";
+			echo '<tr><td class="name"><div class="legend" style="background-color: '.$COLORS[$i++].';"></div>'.$Var[0].'</td><td class="value">'.sprintf("%0.3f", $Var[1]).'</td></tr>'."\n";
 		}
 
 		echo '</table>'."\n";
