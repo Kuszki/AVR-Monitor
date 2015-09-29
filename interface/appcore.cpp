@@ -97,6 +97,11 @@ AppCore::AppCore(void)
 		if (!Active) Interval.stop();
 	});
 
+	connect(Device, &AVRBridge::onMasterStatusUpdate, [this] (bool Master) -> void
+	{
+		if (Master && Interval.isActive()) emit onEmergencyStop(); Interval.stop();
+	});
+
 	connect(Device, &AVRBridge::onError, [this] (void) -> void
 	{
 		if (Interval.isActive()) emit onEmergencyStop(); Interval.stop();
@@ -121,7 +126,7 @@ void AppCore::UpdateVariables(const KLVariables &Vars)
 {
 	for (const auto& Var: Vars) if (Script.Variables.Exists(Var.ID)) Script.Variables[Var.ID] = Var.Value.ToNumber();
 }
-#include <QDebug>
+
 void AppCore::PerformTasks(const KLVariables& Vars)
 {
 	if (!Device->Variables()["WORK"].ToBool())
@@ -143,8 +148,12 @@ void AppCore::UpdateInterval(double Time)
 
 void AppCore::UpdateStatus(bool Active)
 {
-	if (Active) Interval.start();
-	else Interval.stop();
+	if (Active && Device->Variables()["WORK"].ToBool()) emit onEmergencyStop();
+	else
+	{
+		if (Active) Interval.start();
+		else Interval.stop();
+	}
 }
 
 void AppCore::SynchronizeDevice(void)

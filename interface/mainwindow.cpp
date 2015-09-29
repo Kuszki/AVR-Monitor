@@ -204,16 +204,16 @@ void MainWindow::IntervalValueChanged(double Value)
 {
 	AppCore::getInstance()->UpdateInterval(Value);
 }
-
+#include <QDebug>
 void MainWindow::ServiceStatusChanged(bool Active, bool User)
 {
-	if (User) AppCore::getInstance()->UpdateStatus(Active);
-
 	ui->actionRun->setEnabled(!Active);
 	ui->actionStop->setEnabled(Active);
 	ui->actionSynchronize->setEnabled(!Active);
 	ui->actionUpload->setEnabled(!Active);
 	ui->actionDownload->setEnabled(!Active);
+
+	if (User) AppCore::getInstance()->UpdateStatus(Active);
 }
 
 void MainWindow::ShowAboutDialog(void)
