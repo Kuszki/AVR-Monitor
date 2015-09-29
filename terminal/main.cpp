@@ -38,9 +38,9 @@ int main(int argc, char *argv[])
 {
 	QCoreApplication a(argc, argv);
 
-	signal(SIGINT, [](int) -> void { delete APP_object; });
-	signal(SIGTERM, [](int) -> void { delete APP_object; });
-	signal(SIGABRT, [](int) -> void { delete APP_object; });
+	signal(SIGINT, [] (int) -> void { delete APP_object; });
+	signal(SIGTERM, [] (int) -> void { delete APP_object; });
+	signal(SIGABRT, [] (int) -> void { delete APP_object; });
 
 	a.setApplicationName("AVR-Terminal");
 	a.setOrganizationName("Łukasz \"Kuszki\" Dróżdż");
@@ -124,7 +124,11 @@ Before use be sure that device is not runing or connected to another application
 	}
 	else Parser.showHelp(-1);
 
+	if (qobject_cast<AVRServer*>(APP_object)) signal(SIGHUP, [] (int) -> void {});
+	else signal(SIGHUP, [] (int) -> void { delete APP_object; });
+
 	if (APP_object) a.connect(APP_object, &QObject::destroyed, [] (void) { QCoreApplication::exit(); });
+	else return -1;
 
 	return a.exec();
 }
