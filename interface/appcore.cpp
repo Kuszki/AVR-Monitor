@@ -27,15 +27,18 @@ QString AppCore::LastError = QString();
 AppCore::AppCore(void)
 : QObject(nullptr), Script(&Adc)
 {
+	const QString DB = QSettings("AVR-Monitor").value("database", "database.sqlite").toString();
+
 	if (THIS) qFatal("Core object duplicated"); else THIS = this;
-	if (!QFile::exists("database.sqlite")) qFatal("Can't open database");
+	if (!QFile::exists(DB)) qFatal("Can't open database");
 
 	Interval.setInterval(1000);
 
 	Database = QSqlDatabase::addDatabase("QSQLITE");
 	Device = new AVRBridge(&Script.Variables, this);
 
-	Database.setDatabaseName("database.sqlite"); Database.open();
+	Database.setDatabaseName(DB);
+	Database.open();
 
 	Script.Bindings.Add("get", [this] (KLVariables& Vars) -> double
 	{

@@ -35,13 +35,11 @@ int main(int argc, char *argv[])
 	a.setApplicationVersion("1.0");
 
 	QTranslator qtTranslator;
-	qtTranslator.load("qt_" + QLocale::system().name(),
-				   QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+	qtTranslator.load("qt_" + QLocale::system().name(), QLibraryInfo::location(QLibraryInfo::TranslationsPath));
 	a.installTranslator(&qtTranslator);
 
 	QTranslator baseTranslator;
-	baseTranslator.load("qtbase_" + QLocale::system().name(),
-					QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+	baseTranslator.load("qtbase_" + QLocale::system().name(), QLibraryInfo::location(QLibraryInfo::TranslationsPath));
 	a.installTranslator(&baseTranslator);
 
 	QTranslator appTranslator;

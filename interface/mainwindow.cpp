@@ -29,7 +29,7 @@ MainWindow::MainWindow(QWidget* Parent)
 	aboutDialog = new AboutDialog(this);
 	Interval = new QDoubleSpinBox(this);
 
-	Interval->setValue(QSettings("settings.ini", QSettings::IniFormat).value("interval", 1.0).toDouble());
+	Interval->setValue(QSettings("AVR-Monitor").value("interval", 1.0).toDouble());
 	Interval->setRange(0.05, 6.0);
 	Interval->setSingleStep(0.05);
 	Interval->setPrefix(tr("Delay "));
@@ -40,7 +40,7 @@ MainWindow::MainWindow(QWidget* Parent)
 	ui->toolActions->addWidget(Interval);
 
 	setTabPosition(Qt::AllDockWidgetAreas, QTabWidget::TabPosition::North);
-	restoreState(QSettings("layout.ini", QSettings::IniFormat).value("layout").toByteArray(), 1);
+	restoreState(QSettings("AVR-Monitor").value("layout").toByteArray(), 1);
 
 	AppCore::getInstance()->UpdateInterval(Interval->value());
 
@@ -122,17 +122,15 @@ MainWindow::MainWindow(QWidget* Parent)
 
 MainWindow::~MainWindow(void)
 {
-	QSettings("layout.ini", QSettings::IniFormat).setValue("layout", saveState(1));
-	QSettings("settings.ini", QSettings::IniFormat).setValue("interval", Interval->value());
+	QSettings("AVR-Monitor").setValue("layout", saveState(1));
+	QSettings("AVR-Monitor").setValue("interval", Interval->value());
 
 	delete ui;
 }
 
 void MainWindow::ConnectDevice(void)
 {
-	const QString Port = QSettings("settings.ini", QSettings::IniFormat).value("port", "/dev/serial/by-id/usb-Łukasz__Kuszki__Dróżdż_AVR-Monitor_DAYYSEBT-if00-port0").toString();
-
-	AppCore::getDevice()->Connect(Port);
+	AppCore::getDevice()->Connect(QSettings("AVR-Monitor").value("port", "/dev/serial/by-id/usb-Łukasz__Kuszki__Dróżdż_AVR-Monitor_DAYYSEBT-if00-port0").toString());
 }
 
 void MainWindow::DisconnectDevice(void)

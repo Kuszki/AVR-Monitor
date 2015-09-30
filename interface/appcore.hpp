@@ -25,6 +25,7 @@
 #include <QStringList>
 #include <QSqlQuery>
 #include <QSqlError>
+#include <QSettings>
 #include <QVariant>
 #include <QObject>
 #include <QRegExp>
