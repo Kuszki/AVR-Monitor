@@ -85,12 +85,12 @@
 		<link>
 			<name>KALibs</name>
 			<type>2</type>
-			<location>/home/kuszki/Projekty/KALibs</location>
+			<locationURI>$%7BPARENT-2-PROJECT_LOC%7D/KALibs</locationURI>
 		</link>
 		<link>
 			<name>KLLibs</name>
 			<type>2</type>
-			<location>/home/kuszki/Projekty/KLLibs</location>
+			<locationURI>$%7BPARENT-2-PROJECT_LOC%7D/KLLibs</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>

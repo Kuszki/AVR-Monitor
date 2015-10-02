@@ -18,8 +18,8 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include "KLLibs/KLLibs.hpp"
-#include "KALibs/KALibs.hpp"
+#include "../../KLLibs/KLLibs.hpp"
+#include "../../KALibs/KALibs.hpp"
 
 #include "codes.hpp"
 #include "defines.hpp"

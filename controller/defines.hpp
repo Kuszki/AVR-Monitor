@@ -21,7 +21,7 @@
 #ifndef _AVR_MONITOR_UC_DEFINES
 #define _AVR_MONITOR_UC_DEFINES
 
-#include "KALibs/KALibs.hpp"
+#include "../../KALibs/KALibs.hpp"
 
 // end of command
 #define EOC			";\n"			//!< Terminator polecenia.

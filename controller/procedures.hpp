@@ -21,8 +21,8 @@
 #ifndef _AVR_MONITOR_UC_PROCEDURES
 #define _AVR_MONITOR_UC_PROCEDURES
 
-#include "KLLibs/KLLibs.hpp"
-#include "KALibs/KALibs.hpp"
+#include "../../KLLibs/KLLibs.hpp"
+#include "../../KALibs/KALibs.hpp"
 
 #include "codes.hpp"
 #include "defines.hpp"
