@@ -132,7 +132,7 @@ void AppCore::UpdateVariables(const KLVariables &Vars)
 
 void AppCore::PerformTasks(const KLVariables& Vars)
 {
-	if (!Device->Variables()["WORK"].ToBool())
+	if (Interval.isActive() && !Device->Variables()["WORK"].ToBool())
 	{
 		Adc = Vars; for (const auto& Task: Tasks)
 		{

@@ -50,9 +50,7 @@ double put(KLVariables& Vars)
 	}
 	else if (Vars.Size() == 8)
 	{
-		char Mask = 0;
-
-		for (char i = 0; i < 8; i++) Mask |= (Vars[KLString(int(i))].ToBool() << i);
+		char Mask = 0; for (char i = 0; i < 8; i++) Mask |= (Vars[KLString(int(i))].ToBool() << i);
 
 		SHR_SetOutputs(Mask);
 	}
@@ -106,9 +104,7 @@ double spi(KLVariables& Vars)
 	if (Vars.Size() == 0) return SYS_PostError(WRONG_PARAMS);
 
 	SPI.Select(SPI_CS);
-
 	for (const auto& Var: Vars) SPI << Var.Value.ToInt();
-
 	SPI.Unselect(SPI_CS);
 
 	return 0;
