@@ -75,14 +75,14 @@ int PGA_SetGain(char ID, char Gain);
  */
 char PGA_GetMask(char Gain);
 
-/*! \brief		Wysyła do użytkownika stan wybranego przetwornika.
- *  \param [in]	ID	ID przetwornika.
+/*! \brief		Odświerza stan wybranego przetwornika.
+ *  \param [in]	ID ID przetwornika.
  *  \return		Powodzenie operacji.
  *
- * Wysyła do użytkownika informację o napięciu na wybranym czujniku.
+ * Odświerza dane przetwornika w trakcie wykonywania skryptu.
  *
  */
-bool ADC_SendFeedback(const KLString& ID);
+bool ADC_GetFeedback(char ID);
 
 /*! \brief		Wysyła do użytkownika stan wszystkich przetworników.
  *

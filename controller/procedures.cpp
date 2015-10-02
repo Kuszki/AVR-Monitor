@@ -33,7 +33,7 @@ const char get_INFOSTR[] PROGMEM =
 "# GCC flags:    -Os -mmcu=atmega328p -std=c++11\n"
 "# Watchdog set:   on every evaluation for 8 sec\n"
 "#\n"
-"# Program size:        24638 bytes (75.2% Full)\n"
+"# Program size:        24366 bytes (74.4% Full)\n"
 "# Data size:             510 bytes (24.9% Full)\n"
 "\n";
 
@@ -154,14 +154,12 @@ int PGA_SetGain(char ID, char Gain)
 	return 0;
 }
 
-bool ADC_SendFeedback(const KLString& ID)
+bool ADC_GetFeedback(char ID)
 {
-	if (!Script.Variables.Exists(ID)) return false;
+	if (ID > 5) return false;
 	else
 	{
-		const char ADC_ID = ID[1] - '0'; Analog[ADC_ID] = KAConverter::GetVoltage(KAConverter::PORT(ADC_ID));
-
-		if (!Monitor.Master && Monitor.Online) UART << PGM_V get_SET << ID << ' ' << Script.Variables[ID].ToNumber() << EOC;
+		Analog[ID] = KAConverter::GetVoltage(KAConverter::PORT(ID));
 	}
 
 	return true;

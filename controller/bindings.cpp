@@ -32,7 +32,7 @@ double get(KLVariables& Vars)
 	}
 	else for (const auto& Var: Vars)
 	{
-		if (!ADC_SendFeedback(KLString('V') + KLString(Var.Value.ToInt()))) return SYS_PostError(WRONG_ADC_ID);
+		ADC_GetFeedback(Var.Value.ToInt());
 	}
 
 	return 0;
