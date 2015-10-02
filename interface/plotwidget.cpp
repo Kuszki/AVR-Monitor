@@ -216,10 +216,10 @@ void PlotWidget::SaveButtonClicked(void)
 	{
 		QFile File(Path); if (File.open(QFile::WriteOnly))
 		{
-			const QChar groupSeparator = ','; qSort(Set);
+			const QChar Separator = ','; qSort(Set);
 			const double First = Set.first();
 
-			for (const auto& Var: Vars.keys()) if (Vars[Var]->visible()) Buff.append(groupSeparator).append(Var);
+			for (const auto& Var: Vars.keys()) if (Vars[Var]->visible()) Buff.append(Separator).append(Var);
 
 			Buff.append('\n'); File.write(Buff.toUtf8());
 
@@ -228,7 +228,7 @@ void PlotWidget::SaveButtonClicked(void)
 				Buff.clear();
 
 				Buff.append(QString::number(Key - First));
-				for (const auto& Plot: Vars) if (Plot->visible()) Buff.append(groupSeparator).append(QString::number(Plot->data()->value(Key).value));
+				for (const auto& Plot: Vars) if (Plot->visible()) Buff.append(Separator).append(QString::number(Plot->data()->value(Key).value));
 				Buff.append('\n');
 
 				File.write(Buff.toUtf8());

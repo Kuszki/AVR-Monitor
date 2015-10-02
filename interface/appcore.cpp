@@ -177,7 +177,7 @@ bool AppCore::SensorScriptOk(const QString& Code)
 	if (Tester.Validate(Code)) return true;
 	else
 	{
-		LastError = QString(tr("Invalid script at line %1 (%2)").arg(Tester.GetLine()).arg(Tester.GetMessage()));
+		LastError = tr("Invalid script at line %1 (%2)").arg(Tester.GetLine()).arg(Tester.GetMessage());
 	}
 
 	return false;
@@ -198,7 +198,7 @@ bool AppCore::EventScriptOk(const QString& Code)
 	if (Tester.Validate(Code)) return true;
 	else
 	{
-		LastError = QString(tr("Invalid script at line %1 (%2)").arg(Tester.GetLine()).arg(Tester.GetMessage()));
+		LastError = tr("Invalid script at line %1 (%2)").arg(Tester.GetLine()).arg(Tester.GetMessage());
 	}
 
 	return false;

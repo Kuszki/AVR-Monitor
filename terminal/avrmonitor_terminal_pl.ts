@@ -72,7 +72,8 @@
         <location filename="avruploader.cpp" line="40"/>
         <source>Waiting 3 seconds for connection...
 </source>
-        <translation>Czekam 3 sekundy na połączenie...</translation>
+        <translation>Czekam 3 sekundy na połączenie...
+</translation>
     </message>
     <message numerus="yes">
         <location filename="avruploader.cpp" line="54"/>
@@ -88,13 +89,15 @@
         <location filename="avruploader.cpp" line="65"/>
         <source>Uploading script from file...
 </source>
-        <translation>Wysyłanie skryptu do urządzenia...\n</translation>
+        <translation>Wysyłanie skryptu do urządzenia...
+</translation>
     </message>
     <message>
         <location filename="avruploader.cpp" line="69"/>
         <source>Upload complete
 </source>
-        <translation>Transmisja zakończona\n</translation>
+        <translation>Transmisja zakończona
+</translation>
     </message>
     <message>
         <location filename="avruploader.cpp" line="71"/>
@@ -115,7 +118,7 @@
 <context>
     <name>main</name>
     <message>
-        <location filename="main.cpp" line="74"/>
+        <location filename="main.cpp" line="75"/>
         <source>
 AVR-Terminal - terminal application for AVR-Monitor platform.
 
@@ -139,43 +142,43 @@ Kopia Powszechnej Licencji Publicznej GNU powinna zostać ci dostarczona razem z
 Przed użyciem upewnij się, że inny program nie używa wybranego urządzenia.</translation>
     </message>
     <message>
-        <location filename="main.cpp" line="92"/>
+        <location filename="main.cpp" line="93"/>
         <source>device</source>
         <translation>urządzenie</translation>
     </message>
     <message>
-        <location filename="main.cpp" line="92"/>
+        <location filename="main.cpp" line="93"/>
         <source>device to open</source>
         <translation>urządzenie do podłączenia</translation>
     </message>
     <message>
-        <location filename="main.cpp" line="95"/>
+        <location filename="main.cpp" line="96"/>
         <source>Work as casual two-side terminal.</source>
         <translation>Uruchamia klasyczny terminal.</translation>
     </message>
     <message>
-        <location filename="main.cpp" line="96"/>
+        <location filename="main.cpp" line="97"/>
         <source>Upload script from file into device.</source>
         <translation>Wysyła wybrany plikt ze skryptem do urządzenia.</translation>
     </message>
     <message>
-        <location filename="main.cpp" line="96"/>
         <location filename="main.cpp" line="97"/>
+        <location filename="main.cpp" line="98"/>
         <source>script</source>
         <translation>skrypt</translation>
     </message>
     <message>
-        <location filename="main.cpp" line="97"/>
+        <location filename="main.cpp" line="98"/>
         <source>Download script from device into file.</source>
         <translation>Pobiera skrypt z urządzenia i zapisuje go do wskkazanego pliku.</translation>
     </message>
     <message>
-        <location filename="main.cpp" line="100"/>
+        <location filename="main.cpp" line="101"/>
         <source>Cooperate with SQL server.</source>
         <translation>Współpracuje z podanym serwerem SQL w celu udostępnienia interfejsu sieciowego.</translation>
     </message>
     <message>
-        <location filename="main.cpp" line="100"/>
+        <location filename="main.cpp" line="101"/>
         <source>address</source>
         <translation>adres</translation>
     </message>
