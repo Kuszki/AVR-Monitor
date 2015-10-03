@@ -120,7 +120,7 @@ AVRBridge::AVRBridge(KLVariables* Returns, QObject* Parent)
 		return 0;
 	});
 
-	Serial->setBaudRate(QSerialPort::Baud57600);
+	Serial->setBaudRate(QSerialPort::Baud115200);
 	Serial->setParity(QSerialPort::NoParity);
 	Serial->setStopBits(QSerialPort::OneStop);
 	Serial->setDataBits(QSerialPort::Data8);
