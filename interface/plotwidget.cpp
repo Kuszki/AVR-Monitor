@@ -172,7 +172,7 @@ void PlotWidget::UpdateAxis(const AxisData& Data)
 
 void PlotWidget::DeleteAxis(int ID)
 {
-	for (auto Plot: Axes[ID]->graphs()) ui->Plot->removeGraph(Plot);
+	for (auto Plot: Axes[ID]->graphs()) DeletePlot(Plots.key(Plot));
 
 	int i = 0; for (auto Plot: Plots)
 	{
