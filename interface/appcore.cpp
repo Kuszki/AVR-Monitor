@@ -823,6 +823,8 @@ bool AppCore::DeleteAxis(int ID)
 		"WHERE "
 			"AXIS_ID=:ID");
 
+	Query.bindValue(":ID", ID);
+
 	if (!Query.exec())
 	{
 		LastError = Query.lastError().text(); return false;
