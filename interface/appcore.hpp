@@ -58,6 +58,7 @@ class AppCore final: public QObject
 		QString Initscript;
 
 		unsigned char Values;
+		bool Done = true;
 
 		QTimer Interval;
 

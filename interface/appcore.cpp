@@ -97,12 +97,12 @@ AppCore::AppCore(void)
 
 	connect(Device, &AVRBridge::onConnectionUpdate, [this] (bool Active) -> void
 	{
-		if (!Active) Interval.stop();
+		if (!Active) { emit onEmergencyStop(); Interval.stop(); }
 	});
 
 	connect(Device, &AVRBridge::onMasterStatusUpdate, [this] (bool Master) -> void
 	{
-		if (Master && Interval.isActive()) emit onEmergencyStop(); Interval.stop();
+		if (Master && Interval.isActive()) { emit onEmergencyStop(); Interval.stop(); }
 	});
 
 	connect(Device, &AVRBridge::onError, [this] (void) -> void
@@ -112,7 +112,7 @@ AppCore::AppCore(void)
 
 	connect(&Interval, &QTimer::timeout, [this] (void) -> void
 	{
-		Device->UpdateSensorVariables();
+		if (Done) Device->UpdateSensorVariables(); Done = false;
 	});
 
 	connect(Device, &AVRBridge::onSensorValuesUpdate, this, &AppCore::PerformTasks);
@@ -142,6 +142,8 @@ void AppCore::PerformTasks(const KLVariables& Vars)
 	}
 
 	emit onValuesUpdate(Script.Variables);
+
+	Done = true;
 }
 
 void AppCore::UpdateInterval(double Time)
@@ -157,6 +159,8 @@ void AppCore::UpdateStatus(bool Active)
 		if (Active) Interval.start();
 		else Interval.stop();
 	}
+
+	Done = true;
 }
 
 void AppCore::SynchronizeDevice(void)
