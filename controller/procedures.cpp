@@ -29,11 +29,11 @@ const char get_INFOSTR[] PROGMEM =
 "#\n"
 "# Release date:            " __DATE__ " " __TIME__ "\n"
 "# Used tools:         GNU AVR-GCC version " __VERSION__ "\n"
-"# Built on:    Debian 9 GNU/Linux 4.1.0-2-amd64\n"
+"# Built on:    Debian 9 GNU/Linux 4.2.1-2-amd64\n"
 "# GCC flags:    -Os -mmcu=atmega328p -std=c++11\n"
 "# Watchdog set:   on every evaluation for 8 sec\n"
 "#\n"
-"# Program size:        24366 bytes (74.4% Full)\n"
+"# Program size:        24348 bytes (74.3% Full)\n"
 "# Data size:             510 bytes (24.9% Full)\n"
 "\n";
 
@@ -167,6 +167,8 @@ bool ADC_GetFeedback(char ID)
 
 void ADC_SendSensors(void)
 {
+	if (!Monitor.Online) return;
+
 	char i = 0; UART << PGM_V get_CALL << PGM_V get_SET;
 
 	for (const auto& Var: Inputs)

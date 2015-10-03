@@ -22,8 +22,6 @@
 
 extern KASpi	SPI;
 
-extern DEVICE	Monitor;
-
 double get(KLVariables& Vars)
 {
 	if (Vars.Size() == 0)
@@ -50,7 +48,9 @@ double put(KLVariables& Vars)
 	}
 	else if (Vars.Size() == 8)
 	{
-		char Mask = 0; for (char i = 0; i < 8; i++) Mask |= (Vars[KLString(int(i))].ToBool() << i);
+		char Mask = 0, i = 0;
+
+		for (const auto& Var: Vars) Mask |= (Var.Value.ToBool() << i);
 
 		SHR_SetOutputs(Mask);
 	}
@@ -77,8 +77,6 @@ double out(KLVariables& Vars)
 
 double sys(KLVariables& Vars)
 {
-	if (!Monitor.Online) return SYS_PostError(WRONG_SYS_STATE);
-
 	if (Vars.Size() == 0)
 	{
 		SYS_SendFeedback(GET_ALL);
@@ -114,7 +112,7 @@ double slp(KLVariables& Vars)
 {
 	if (Vars.Size() != 1) return SYS_PostError(WRONG_PARAMS);
 
-	unsigned i = Vars["0"].ToInt(); DELAY(i);
+	DELAY(Vars["0"].ToInt());
 
 	return 0;
 }
