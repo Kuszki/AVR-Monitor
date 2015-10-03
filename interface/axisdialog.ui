@@ -19,18 +19,42 @@
    </iconset>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="2" column="1">
-    <widget class="QDoubleSpinBox" name="Min">
-     <property name="decimals">
-      <number>2</number>
-     </property>
-     <property name="minimum">
-      <double>-1000.000000000000000</double>
-     </property>
-     <property name="maximum">
-      <double>1000.000000000000000</double>
+   <item row="5" column="0">
+    <widget class="QLabel" name="labelView">
+     <property name="text">
+      <string>View style</string>
      </property>
     </widget>
+   </item>
+   <item row="5" column="1">
+    <widget class="QCheckBox" name="Label">
+     <property name="layoutDirection">
+      <enum>Qt::RightToLeft</enum>
+     </property>
+     <property name="text">
+      <string>Label is visible</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QLabel" name="labelStyle">
+     <property name="text">
+      <string>Line style</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="0" colspan="2">
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>0</width>
+       <height>0</height>
+      </size>
+     </property>
+    </spacer>
    </item>
    <item row="0" column="0">
     <widget class="QLabel" name="labelName">
@@ -39,10 +63,10 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="0">
-    <widget class="QLabel" name="labelStyle">
+   <item row="3" column="0">
+    <widget class="QLabel" name="labelStart">
      <property name="text">
-      <string>Line style</string>
+      <string>Start value</string>
      </property>
     </widget>
    </item>
@@ -78,24 +102,20 @@
    <item row="0" column="1">
     <widget class="QLineEdit" name="Name"/>
    </item>
-   <item row="4" column="1">
-    <widget class="QCheckBox" name="Label">
-     <property name="layoutDirection">
-      <enum>Qt::RightToLeft</enum>
+   <item row="3" column="1">
+    <widget class="QDoubleSpinBox" name="Min">
+     <property name="decimals">
+      <number>2</number>
      </property>
-     <property name="text">
-      <string>Label is visible</string>
+     <property name="minimum">
+      <double>-1000.000000000000000</double>
      </property>
-    </widget>
-   </item>
-   <item row="4" column="0">
-    <widget class="QLabel" name="labelView">
-     <property name="text">
-      <string>View style</string>
+     <property name="maximum">
+      <double>1000.000000000000000</double>
      </property>
     </widget>
    </item>
-   <item row="6" column="0" colspan="2">
+   <item row="7" column="0" colspan="2">
     <layout class="QHBoxLayout" name="toolsLayout">
      <item>
       <widget class="QCheckBox" name="Active">
@@ -133,21 +153,14 @@
      </item>
     </layout>
    </item>
-   <item row="3" column="0">
+   <item row="2" column="0">
     <widget class="QLabel" name="labelStop">
      <property name="text">
       <string>End value</string>
      </property>
     </widget>
    </item>
-   <item row="2" column="0">
-    <widget class="QLabel" name="labelStart">
-     <property name="text">
-      <string>Start value</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="1">
+   <item row="2" column="1">
     <widget class="QDoubleSpinBox" name="Max">
      <property name="decimals">
       <number>2</number>
@@ -160,26 +173,12 @@
      </property>
     </widget>
    </item>
-   <item row="5" column="0" colspan="2">
-    <spacer name="verticalSpacer">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>0</width>
-       <height>0</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
   </layout>
  </widget>
  <tabstops>
   <tabstop>Name</tabstop>
   <tabstop>Style</tabstop>
   <tabstop>Min</tabstop>
-  <tabstop>Max</tabstop>
   <tabstop>Label</tabstop>
   <tabstop>Active</tabstop>
   <tabstop>cancelButton</tabstop>
