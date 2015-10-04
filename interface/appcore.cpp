@@ -95,6 +95,11 @@ AppCore::AppCore(void)
 		Device->WriteSpiValues(Data); return 0;
 	});
 
+	Script.Bindings.Add("dev", [this] (KLVariables& Vars) -> double
+	{
+		return 0;
+	});
+
 	connect(Device, &AVRBridge::onConnectionUpdate, [this] (bool Active) -> void
 	{
 		if (!Active) { emit onEmergencyStop(); Interval.stop(); }
@@ -195,7 +200,6 @@ bool AppCore::EventScriptOk(const QString& Code)
 	Tester.Bindings.Add("put", [] (KLVariables&) -> double {return 0;});
 	Tester.Bindings.Add("out", [] (KLVariables&) -> double {return 0;});
 	Tester.Bindings.Add("pga", [] (KLVariables&) -> double {return 0;});
-	Tester.Bindings.Add("sys", [] (KLVariables&) -> double {return 0;});
 	Tester.Bindings.Add("slp", [] (KLVariables&) -> double {return 0;});
 	Tester.Bindings.Add("spi", [] (KLVariables&) -> double {return 0;});
 
@@ -232,6 +236,7 @@ void AppCore::UpdateScriptTasks(void)
 
 		Tasks.append(KLScriptbinding::Optimize(
 					   Query.value(1).toString()
+					   .remove(QRegExp("\\s*#[^\n]*\\s*"))
 					   .replace(QRegExp("return\\s+([^;]+);"),
 							  QString("set %1 \\1;exit;").
 							  arg(Query.value(0).toString()))
