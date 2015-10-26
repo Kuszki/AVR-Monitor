@@ -161,7 +161,12 @@ void AppCore::UpdateStatus(bool Active)
 	if (Active && Device->Variables()["WORK"].ToBool()) emit onEmergencyStop();
 	else
 	{
-		if (Active) Interval.start();
+		if (Active)
+		{
+			for (auto& Var: Script.Variables) Var.Value = 0;
+
+			Interval.start();
+		}
 		else Interval.stop();
 	}
 
@@ -170,7 +175,7 @@ void AppCore::UpdateStatus(bool Active)
 
 void AppCore::SynchronizeDevice(void)
 {
-	QString Code = Initscript;
+	QString Code = Initscript; UpdateDefaultOutputs();
 
 	for (const auto& Task: Tasks) Code.append('\n').append(Task);
 
