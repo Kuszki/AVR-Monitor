@@ -65,7 +65,7 @@ class AppCore final: public QObject
 		void UpdateScriptTasks(void);
 		void UpdateDefaultOutputs(void);
 
-		bool SensorScriptOk(const QString& Code);
+		bool SensorScriptOk(const QString& Code, const QString& Label);
 		bool EventScriptOk(const QString& Code);
 
 	public:

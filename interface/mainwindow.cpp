@@ -202,7 +202,7 @@ void MainWindow::IntervalValueChanged(double Value)
 {
 	AppCore::getInstance()->UpdateInterval(Value);
 }
-#include <QDebug>
+
 void MainWindow::ServiceStatusChanged(bool Active, bool User)
 {
 	ui->actionRun->setEnabled(!Active);

@@ -184,9 +184,11 @@ void AppCore::SynchronizeDevice(void)
 	Device->WriteMasterScript(Code);
 }
 
-bool AppCore::SensorScriptOk(const QString& Code)
+bool AppCore::SensorScriptOk(const QString& Code, const QString& Label)
 {
 	KLScriptbinding Tester(&Device->Variables());
+
+	if (!Label.isEmpty()) Tester.Variables.Add(Label.toStdString().c_str());
 
 	if (Tester.Validate(Code)) return true;
 	else
@@ -303,7 +305,7 @@ void AppCore::UpdateDefaultOutputs(void)
 
 bool AppCore::AddSensor(SensorData& Data)
 {
-	if (!SensorScriptOk(Data.Script)) return false;
+	if (!SensorScriptOk(Data.Script, Data.Label)) return false;
 
 	QSqlQuery Query(Database);
 
@@ -334,7 +336,7 @@ bool AppCore::AddSensor(SensorData& Data)
 
 bool AppCore::UpdateSensor(SensorData& Data)
 {
-	if (!SensorScriptOk(Data.Script)) return false;
+	if (!SensorScriptOk(Data.Script, Data.Label)) return false;
 
 	QSqlQuery Query(Database);
 
