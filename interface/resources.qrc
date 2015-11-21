@@ -8,5 +8,9 @@
     </qresource>
     <qresource prefix="/logo">
         <file alias="gnu">logo-gnu.png</file>
+        <file alias="gpl">logo-gpl.png</file>
+    </qresource>
+    <qresource prefix="/data">
+        <file alias="database">database.sqlite</file>
     </qresource>
 </RCC>

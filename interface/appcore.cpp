@@ -30,7 +30,7 @@ AppCore::AppCore(void)
 	const QString DB = QSettings("AVR-Monitor").value("database", "database.sqlite").toString();
 
 	if (THIS) qFatal("Core object duplicated"); else THIS = this;
-	if (!QFile::exists(DB)) qFatal("Can't open database");
+	if (!QFile::exists(DB)) QFile::copy(":/data/database", DB);
 
 	Interval.setInterval(1000);
 
