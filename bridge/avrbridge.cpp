@@ -26,12 +26,12 @@ AVRBridge::AVRBridge(KLVariables* Returns, QObject* Parent)
 	Script = new KLScriptbinding(&Sensors, this);
 	Serial = new QSerialPort(this);
 
-	Sensors.Add("V0", KLVariables::NUMBER);
-	Sensors.Add("V1", KLVariables::NUMBER);
-	Sensors.Add("V2", KLVariables::NUMBER);
-	Sensors.Add("V3", KLVariables::NUMBER);
-	Sensors.Add("V4", KLVariables::NUMBER);
-	Sensors.Add("V5", KLVariables::NUMBER);
+	Sensors.Add("V0", KLVariables::NUMBER, KLVariables::KLSCALLBACK(), false);
+	Sensors.Add("V1", KLVariables::NUMBER, KLVariables::KLSCALLBACK(), false);
+	Sensors.Add("V2", KLVariables::NUMBER, KLVariables::KLSCALLBACK(), false);
+	Sensors.Add("V3", KLVariables::NUMBER, KLVariables::KLSCALLBACK(), false);
+	Sensors.Add("V4", KLVariables::NUMBER, KLVariables::KLSCALLBACK(), false);
+	Sensors.Add("V5", KLVariables::NUMBER, KLVariables::KLSCALLBACK(), false);
 
 	Script->Variables.Add("LINE", KLVariables::BOOLEAN, [this] (double Value) -> void
 	{
@@ -45,7 +45,7 @@ AVRBridge::AVRBridge(KLVariables* Returns, QObject* Parent)
 
 	Script->Variables.Add("SHRD", KLVariables::INTEGER, [this] (double Value) -> void
 	{
-		emit onShiftValuesUpdate((unsigned char)(Value));
+		emit onShiftValuesUpdate(unsigned(Value));
 	});
 
 	Script->Variables.Add("SHRE", KLVariables::BOOLEAN, [this] (double Value) -> void
@@ -54,12 +54,12 @@ AVRBridge::AVRBridge(KLVariables* Returns, QObject* Parent)
 	});
 	Script->Variables.Add("PGA0", KLVariables::INTEGER, [this] (double Value) -> void
 	{
-		emit onGainSettingsUpdate(0, (unsigned char)(Value));
+		emit onGainSettingsUpdate(0, unsigned(Value));
 	});
 
 	Script->Variables.Add("PGA1", KLVariables::INTEGER, [this] (double Value) -> void
 	{
-		emit onGainSettingsUpdate(1, (unsigned char)(Value));
+		emit onGainSettingsUpdate(1, unsigned(Value));
 	});
 
 	Script->Variables.Add("SLPT", KLVariables::INTEGER, [this] (double Value) -> void
@@ -72,18 +72,18 @@ AVRBridge::AVRBridge(KLVariables* Returns, QObject* Parent)
 		emit onFreeRamUpdate(unsigned(Value));
 	});
 
-	Script->Bindings.Add("set", [this] (KLVariables& Vars) -> double
+	Script->Bindings.Add("set", [this] (KLList<double>& Vars) -> double
 	{
-		for (int i = 0; i < 6; i++) Sensors[KLString('V') + KLString(i)] = Vars[i].ToNumber();
+		for (int i = 0; i < 6; i++) Sensors[KLString('V') + KLString(i)] = Vars[i];
 
 		emit onSensorValuesUpdate(Sensors);
 
 		return 0;
 	});
 
-	Script->Bindings.Add("fail", [this] (KLVariables& Vars) -> double
+	Script->Bindings.Add("fail", [this] (KLList<double>& Vars) -> double
 	{
-		if (Vars.Size() == 1) switch (Vars["0"].ToInt())
+		if (Vars.Size() == 1) switch (int(Vars[0]))
 		{
 			case WRONG_SCRIPT:
 				emit onError(tr("Wrong scriptcode"));
