@@ -291,7 +291,7 @@ void SYS_InitDevice(char Boot)
 	Script.Bindings.Add(BIND(slp));
 
 	// setup adc variables
-	for (char i = 0; i < ADC_COUNT; i++) { Buff[1] = '0' + i; Inputs.Add(Buff, Analog[i]); }
+	for (char i = 0; i < ADC_COUNT; i++) { Buff[1] = '0' + i; Inputs.Add(Buff, Analog[i], nullptr, false); }
 
 	if (Boot & 0b00001000) switch (KAFlash::Read(TIME_MEM) & ERROR_MSK)
 	{

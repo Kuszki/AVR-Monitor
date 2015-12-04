@@ -40,7 +40,7 @@
  * `call get; # pobiera stan wszystkich czujników`
  *
  */
-double get(KLVariables& Vars);
+double get(KLList<double>& Vars);
 
 /*! \brief		Bind funkcji `put`.
  *  \param [in]	Vars Przestrzeń zmiennych.
@@ -55,7 +55,7 @@ double get(KLVariables& Vars);
  * `call put S0, S1, S2, S3, S4, S5, S6, S7; # ustala stany na kolejnych pinach`
  *
  */
-double put(KLVariables& Vars);
+double put(KLList<double>& Vars);
 
 /*! \brief		Bind funkcji `pga`.
  *  \param [in]	Vars Przestrzeń zmiennych.
@@ -69,7 +69,7 @@ double put(KLVariables& Vars);
  * `call pga ID, Wzmocnienie; # ustala wzmocnienie wybranego układu`
  *
  */
-double pga(KLVariables& Vars);
+double pga(KLList<double>& Vars);
 
 /*! \brief		Bind funkcji `out`.
  *  \param [in]	Vars Przestrzeń zmiennych.
@@ -81,7 +81,7 @@ double pga(KLVariables& Vars);
  * `call out OE; # ustala aktywność wyjść układu`
  *
  */
-double out(KLVariables& Vars);
+double out(KLList<double>& Vars);
 
 /*! \brief		Bind funkcji `sys`.
  *  \param [in]	Vars Przestrzeń zmiennych.
@@ -94,7 +94,7 @@ double out(KLVariables& Vars);
  * `call sys [Maska]; # pobiera stan zmiennych systemowych które pasują do maski, lub wszystkich zmiennych jeśli nie podano maski`
  *
  */
-double sys(KLVariables& Vars);
+double sys(KLList<double>& Vars);
 
 /*! \brief		Bind funkcji `dev`.
  *  \param [in]	Vars Przestrzeń zmiennych.
@@ -107,7 +107,7 @@ double sys(KLVariables& Vars);
  * `call dev Polecenie; # wysyła do urządzenia specjalne polecenie mogące zmienić jego stan pracy`
  *
  */
-double dev(KLVariables& Vars);
+double dev(KLList<double>& Vars);
 
 /*! \brief		Bind funkcji `spi`.
  *  \param [in]	Vars Przestrzeń zmiennych.
@@ -119,7 +119,7 @@ double dev(KLVariables& Vars);
  * `call spi Bajt [, Bajt_1[, Bajt 2[, ...]]] ; # wysyła kolejne bajty na wyjście SPI`
  *
  */
-double spi(KLVariables& Vars);
+double spi(KLList<double>& Vars);
 
 /*! \brief		Bind funkcji `slp`.
  *  \param [in]	Vars Przestrzeń zmiennych.
@@ -132,6 +132,6 @@ double spi(KLVariables& Vars);
  * `call slp Milisekundy; # wstrzymuje pracę na n milisekund`
  *
  */
-double slp(KLVariables& Vars);
+double slp(KLList<double>& Vars);
 
 #endif

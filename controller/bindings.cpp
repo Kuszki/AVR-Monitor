@@ -22,7 +22,7 @@
 
 extern KASpi	SPI;
 
-double get(KLVariables& Vars)
+double get(KLList<double>& Vars)
 {
 	if (Vars.Size() == 0)
 	{
@@ -30,27 +30,27 @@ double get(KLVariables& Vars)
 	}
 	else for (const auto& Var: Vars)
 	{
-		ADC_GetFeedback(Var.Value.ToInt());
+		ADC_GetFeedback(int(Var));
 	}
 
 	return 0;
 }
 
-double put(KLVariables& Vars)
+double put(KLList<double>& Vars)
 {
 	if (Vars.Size() == 1)
 	{
-		SHR_SetOutputs(Vars["0"].ToInt());
+		SHR_SetOutputs(int(Vars[0]));
 	}
 	else if (Vars.Size() == 2)
 	{
-		return SHR_SetPin(Vars["0"].ToInt(), Vars["1"].ToBool());
+		return SHR_SetPin(int(Vars[0]), bool(Vars[1]));
 	}
 	else if (Vars.Size() == 8)
 	{
 		char Mask = 0, i = 0;
 
-		for (const auto& Var: Vars) Mask |= (Var.Value.ToBool() << i);
+		for (const auto& Var: Vars) Mask |= (bool(Var) << i);
 
 		SHR_SetOutputs(Mask);
 	}
@@ -59,23 +59,23 @@ double put(KLVariables& Vars)
 	return 0;
 }
 
-double pga(KLVariables& Vars)
+double pga(KLList<double>& Vars)
 {
 	if (Vars.Size() != 2) return SYS_PostError(WRONG_PARAMS);
 
-	return PGA_SetGain(Vars["0"].ToInt(), Vars["1"].ToInt());
+	return PGA_SetGain(int(Vars[0]), int(Vars[1]));
 }
 
-double out(KLVariables& Vars)
+double out(KLList<double>& Vars)
 {
 	if (Vars.Size() != 1) return SYS_PostError(WRONG_PARAMS);
 
-	SHR_SetState(Vars["0"].ToBool());
+	SHR_SetState(bool(Vars[0]));
 
 	return 0;
 }
 
-double sys(KLVariables& Vars)
+double sys(KLList<double>& Vars)
 {
 	if (Vars.Size() == 0)
 	{
@@ -83,36 +83,36 @@ double sys(KLVariables& Vars)
 	}
 	else if (Vars.Size() == 1)
 	{
-		SYS_SendFeedback(Vars["0"].ToInt());
+		SYS_SendFeedback(int(Vars[0]));
 	}
 	else return SYS_PostError(WRONG_PARAMS);
 
 	return 0;
 }
 
-double dev(KLVariables& Vars)
+double dev(KLList<double>& Vars)
 {
 	if (Vars.Size() != 2) return SYS_PostError(WRONG_PARAMS);
 
-	return SYS_SetStatus(Vars["0"].ToInt(), Vars["1"].ToInt());
+	return SYS_SetStatus(int(Vars[0]), int(Vars[1]));
 }
 
-double spi(KLVariables& Vars)
+double spi(KLList<double>& Vars)
 {
 	if (Vars.Size() == 0) return SYS_PostError(WRONG_PARAMS);
 
 	SPI.Select(SPI_CS);
-	for (const auto& Var: Vars) SPI << Var.Value.ToInt();
+	for (const auto& Var: Vars) SPI << int(Var);
 	SPI.Unselect(SPI_CS);
 
 	return 0;
 }
 
-double slp(KLVariables& Vars)
+double slp(KLList<double>& Vars)
 {
 	if (Vars.Size() != 1) return SYS_PostError(WRONG_PARAMS);
 
-	DELAY(Vars["0"].ToInt());
+	DELAY(int(Vars[0]));
 
 	return 0;
 }
