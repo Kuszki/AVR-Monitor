@@ -40,62 +40,62 @@ AppCore::AppCore(void)
 	Database.setDatabaseName(DB);
 	Database.open();
 
-	Script.Bindings.Add("get", [this] (KLVariables& Vars) -> double
+	Script.Bindings.Add("get", [this] (KLList<double>& Vars) -> double
 	{
 		Device->UpdateSensorVariables(); return 0;
 	});
 
-	Script.Bindings.Add("put", [this] (KLVariables& Vars) -> double
+	Script.Bindings.Add("put", [this] (KLList<double>& Vars) -> double
 	{
 		unsigned char Values = Device->Variables()["SHRD"].ToInt();
 
 		if (Vars.Size() == 1)
 		{
-			Values = Vars["0"].ToInt();
+			Values = int(Vars[0]);
 		}
 		else if (Vars.Size() == 2)
 		{
-			if (Vars["1"].ToBool()) Values |= (1 << Vars["0"].ToInt());
-			else Values &= ~(1 << Vars["0"].ToInt());
+			if (bool(Vars[1])) Values |= (1 << int(Vars[0]));
+			else Values &= ~(1 << int(Vars[0]));
 		}
 		else if (Vars.Size() == 8)
 		{
-			for (int i = Values = 0; i < 8; i++) Values = Values | (Vars[KLString(i)].ToInt() << i);
+			for (int i = Values = 0; i < 8; i++) Values = Values | (int(Vars[i]) << i);
 		}
 
 		Device->WriteShiftValues(Values); return 0;
 	});
 
-	Script.Bindings.Add("pga", [this] (KLVariables& Vars) -> double
+	Script.Bindings.Add("pga", [this] (KLList<double>& Vars) -> double
 	{
-		if (Vars.Size() == 2) Device->WriteGainSettings(Vars["0"].ToInt(), Vars["1"].ToInt()); return 0;
+		if (Vars.Size() == 2) Device->WriteGainSettings(int(Vars[0]), int(Vars[1])); return 0;
 	});
 
-	Script.Bindings.Add("out", [this] (KLVariables& Vars) -> double
+	Script.Bindings.Add("out", [this] (KLList<double>& Vars) -> double
 	{
-		if (Vars.Size() == 1) Device->WriteShiftStatus(Vars["0"].ToBool()); return 0;
+		if (Vars.Size() == 1) Device->WriteShiftStatus(bool(Vars[0])); return 0;
 	});
 
-	Script.Bindings.Add("sys", [this] (KLVariables& Vars) -> double
+	Script.Bindings.Add("sys", [this] (KLList<double>& Vars) -> double
 	{
 		Device->UpdateSystemVariables(); return 0;
 	});
 
-	Script.Bindings.Add("slp", [this] (KLVariables& Vars) -> double
+	Script.Bindings.Add("slp", [this] (KLList<double>& Vars) -> double
 	{
 		return 0;
 	});
 
-	Script.Bindings.Add("spi", [this] (KLVariables& Vars) -> double
+	Script.Bindings.Add("spi", [this] (KLList<double>& Vars) -> double
 	{
 		QList<unsigned char> Data;
 
-		for (const auto& Var: Vars) Data.append(Var.Value.ToInt());
+		for (const auto& Var: Vars) Data.append(unsigned(Var));
 
 		Device->WriteSpiValues(Data); return 0;
 	});
 
-	Script.Bindings.Add("dev", [this] (KLVariables& Vars) -> double
+	Script.Bindings.Add("dev", [this] (KLList<double>& Vars) -> double
 	{
 		return 0;
 	});
@@ -203,12 +203,12 @@ bool AppCore::EventScriptOk(const QString& Code)
 {
 	KLScriptbinding Tester(&Device->Variables());
 
-	Tester.Bindings.Add("get", [] (KLVariables&) -> double {return 0;});
-	Tester.Bindings.Add("put", [] (KLVariables&) -> double {return 0;});
-	Tester.Bindings.Add("out", [] (KLVariables&) -> double {return 0;});
-	Tester.Bindings.Add("pga", [] (KLVariables&) -> double {return 0;});
-	Tester.Bindings.Add("slp", [] (KLVariables&) -> double {return 0;});
-	Tester.Bindings.Add("spi", [] (KLVariables&) -> double {return 0;});
+	Tester.Bindings.Add("get", [] (KLList<double>&) -> double {return 0;});
+	Tester.Bindings.Add("put", [] (KLList<double>&) -> double {return 0;});
+	Tester.Bindings.Add("out", [] (KLList<double>&) -> double {return 0;});
+	Tester.Bindings.Add("pga", [] (KLList<double>&) -> double {return 0;});
+	Tester.Bindings.Add("slp", [] (KLList<double>&) -> double {return 0;});
+	Tester.Bindings.Add("spi", [] (KLList<double>&) -> double {return 0;});
 
 	if (Tester.Validate(Code)) return true;
 	else
