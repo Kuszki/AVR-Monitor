@@ -210,6 +210,7 @@ int SYS_SetStatus(char Mask, char Value)
 
 			if (Value == CLEAN_RAM)
 			{
+				Script.Functions.Clean();
 				Script.Variables.Clean();
 
 				if (Monitor.Online) SYS_SendFeedback(GET_FRAM);
