@@ -6,13 +6,13 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>525</width>
+    <width>550</width>
     <height>425</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>525</width>
+    <width>550</width>
     <height>425</height>
    </size>
   </property>
@@ -21,8 +21,7 @@
   </property>
   <property name="windowIcon">
    <iconset theme="help-about">
-    <normaloff/>
-   </iconset>
+    <normaloff>.</normaloff>.</iconset>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="3" column="0">
@@ -32,8 +31,7 @@
      </property>
      <property name="icon">
       <iconset theme="exit">
-       <normaloff/>
-      </iconset>
+       <normaloff>.</normaloff>.</iconset>
      </property>
     </widget>
    </item>
