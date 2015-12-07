@@ -119,11 +119,13 @@ class AppCore final: public QObject
 		static AVRBridge* getDevice(void);
 		static QString getError(void);
 
-	public slots:
+	private slots:
 
 		void UpdateVariables(const KLVariables& Vars);
 
 		void PerformTasks(const KLVariables& Vars);
+
+	public slots:
 
 		void UpdateStatus(bool Active);
 
