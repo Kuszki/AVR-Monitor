@@ -32,10 +32,10 @@
 #include <QTimer>
 #include <QList>
 
-#include <KLLibs.hpp>
 #include <avrbridge.hpp>
 
 #include "common.hpp"
+#include "scriptworker.hpp"
 
 class AppCore final: public QObject
 {
@@ -60,6 +60,10 @@ class AppCore final: public QObject
 		unsigned char Values;
 		bool Done = true;
 
+		ScriptWorker Worker;
+		QThread Thread;
+
+		QTimer Watchdog;
 		QTimer Interval;
 
 		void UpdateScriptTasks(void);
@@ -125,6 +129,10 @@ class AppCore final: public QObject
 
 		void PerformTasks(const KLVariables& Vars);
 
+		void CompleteEvaluations(void);
+
+		void TerminateEvaluations(void);
+
 	public slots:
 
 		void UpdateStatus(bool Active);
@@ -142,6 +150,10 @@ class AppCore final: public QObject
 		void onSensorUpdate(void);
 
 		void onEmergencyStop(void);
+
+		void onEvaluationRequest(void);
+
+		void onScriptTermination(void);
 
 };
 

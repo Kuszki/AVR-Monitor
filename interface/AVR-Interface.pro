@@ -40,7 +40,8 @@ SOURCES	+= 	main.cpp \
 			devicewidget.cpp \
 			plotdialog.cpp \
 			axisdialog.cpp \
-			plotwidget.cpp
+			plotwidget.cpp \
+			scriptworker.cpp
 
 HEADERS	+=	common.hpp \
 			appcore.hpp \
@@ -65,7 +66,8 @@ HEADERS	+=	common.hpp \
 			devicewidget.hpp \
 			plotdialog.hpp \
 			axisdialog.hpp \
-			plotwidget.hpp
+			plotwidget.hpp \
+			scriptworker.hpp
 
 FORMS	+=	mainwindow.ui \
 			shiftwidget.ui \

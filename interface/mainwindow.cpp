@@ -44,6 +44,12 @@ MainWindow::MainWindow(QWidget* Parent)
 
 	AppCore::getInstance()->UpdateInterval(Interval->value());
 
+	// appcore to main window connections
+	connect(AppCore::getInstance(), &AppCore::onScriptTermination, [this] (void) -> void
+	{
+		QMessageBox::warning(this, tr("Error"), tr("Script evaluation timeout"));
+	});
+
 	// actions to app core lambdas connections
 	connect(ui->actionDisconnect, &QAction::triggered, [] (void) -> void
 	{

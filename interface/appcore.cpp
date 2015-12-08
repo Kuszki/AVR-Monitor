@@ -25,13 +25,17 @@ AVRBridge* AppCore::Device = nullptr;
 QString AppCore::LastError = QString();
 
 AppCore::AppCore(void)
-: QObject(nullptr), Script(&Adc)
+: QObject(nullptr), Script(&Adc), Worker(&Script, &Tasks)
 {
 	const QString DB = QSettings("AVR-Monitor").value("database", "database.sqlite").toString();
 
 	if (THIS) qFatal("Core object duplicated"); else THIS = this;
 	if (!QFile::exists(DB)) QFile::copy(":/data/database", DB);
 
+	Worker.moveToThread(&Thread);
+	Thread.start();
+
+	Watchdog.setInterval(1000);
 	Interval.setInterval(1000);
 
 	Database = QSqlDatabase::addDatabase("QSQLITE");
@@ -120,13 +124,22 @@ AppCore::AppCore(void)
 		if (Done) Device->UpdateSensorVariables(); Done = false;
 	});
 
+	connect(&Watchdog, &QTimer::timeout, this, &AppCore::TerminateEvaluations);
+
 	connect(Device, &AVRBridge::onSensorValuesUpdate, this, &AppCore::PerformTasks);
+
+	connect(&Worker, &ScriptWorker::onEvaluationComplete, this, &AppCore::CompleteEvaluations);
+
+	connect(this, &AppCore::onEvaluationRequest, &Worker, &ScriptWorker::PerformEvaluations);
 
 	UpdateScriptTasks();
 }
 
 AppCore::~AppCore(void)
 {
+	Thread.exit();
+	Thread.wait();
+
 	THIS = nullptr;
 }
 
@@ -139,16 +152,30 @@ void AppCore::PerformTasks(const KLVariables& Vars)
 {
 	if (Interval.isActive() && !Device->Variables()["WORK"].ToBool())
 	{
-		Adc = Vars; for (const auto& Task: Tasks)
-		{
-			Script.SetCode(Task);
-			Script.Evaluate();
-		}
+		Adc = Vars; Watchdog.start();
+
+		emit onEvaluationRequest();
 	}
+}
+
+void AppCore::CompleteEvaluations(void)
+{
+	Done = true; Watchdog.stop();
 
 	emit onValuesUpdate(Script.Variables);
+}
+
+void AppCore::TerminateEvaluations(void)
+{
+	if (!Watchdog.isActive()) return;
+
+	Script.Terminate();
+	Interval.stop();
 
 	Done = true;
+
+	emit onEmergencyStop();
+	emit onScriptTermination();
 }
 
 void AppCore::UpdateInterval(double Time)
@@ -221,6 +248,8 @@ bool AppCore::EventScriptOk(const QString& Code)
 
 void AppCore::UpdateScriptTasks(void)
 {
+	while (!Worker.isComplete());
+
 	QSqlQuery Query(Database);
 
 	Script.Variables.Clean();
