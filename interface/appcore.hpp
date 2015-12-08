@@ -29,6 +29,8 @@
 #include <QVariant>
 #include <QObject>
 #include <QRegExp>
+#include <QThread>
+#include <QMutex>
 #include <QTimer>
 #include <QList>
 
@@ -62,6 +64,7 @@ class AppCore final: public QObject
 
 		ScriptWorker Worker;
 		QThread Thread;
+		QMutex Locker;
 
 		QTimer Watchdog;
 		QTimer Interval;

@@ -20,8 +20,8 @@
 
 #include "scriptworker.hpp"
 
-ScriptWorker::ScriptWorker(KLScriptbinding* Bind, QStringList* Jobs, QObject* Parent)
-: QObject(Parent), Script(Bind), Tasks(Jobs) {}
+ScriptWorker::ScriptWorker(KLScriptbinding* Bind, QStringList* Jobs, QMutex* Sync, QObject* Parent)
+: QObject(Parent), Script(Bind), Tasks(Jobs), Locker(Sync) {}
 
 bool ScriptWorker::isComplete(void) const
 {
@@ -30,7 +30,7 @@ bool ScriptWorker::isComplete(void) const
 
 void ScriptWorker::PerformEvaluations(void)
 {
-	Completed = false;
+	Completed = false; Locker->lock();
 
 	for (const auto& Task: *Tasks)
 	{
@@ -38,7 +38,7 @@ void ScriptWorker::PerformEvaluations(void)
 		Script->Evaluate();
 	}
 
-	Completed = true;
+	Completed = true; Locker->unlock();
 
 	emit onEvaluationComplete();
 }

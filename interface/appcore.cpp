@@ -25,7 +25,7 @@ AVRBridge* AppCore::Device = nullptr;
 QString AppCore::LastError = QString();
 
 AppCore::AppCore(void)
-: QObject(nullptr), Script(&Adc), Worker(&Script, &Tasks)
+: QObject(nullptr), Script(&Adc), Worker(&Script, &Tasks, &Locker)
 {
 	const QString DB = QSettings("AVR-Monitor").value("database", "database.sqlite").toString();
 
@@ -248,7 +248,7 @@ bool AppCore::EventScriptOk(const QString& Code)
 
 void AppCore::UpdateScriptTasks(void)
 {
-	while (!Worker.isComplete());
+	Locker.lock();
 
 	QSqlQuery Query(Database);
 
@@ -306,6 +306,8 @@ void AppCore::UpdateScriptTasks(void)
 	{
 		LastError = Query.lastError().text();
 	}
+
+	Locker.unlock();
 
 	emit onScriptUpdate();
 }

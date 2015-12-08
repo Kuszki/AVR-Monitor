@@ -23,6 +23,7 @@
 
 #include <QStringList>
 #include <QObject>
+#include <QMutex>
 
 #include "KLLibs.hpp"
 
@@ -37,10 +38,11 @@ class ScriptWorker : public QObject
 
 		KLScriptbinding* Script;
 		QStringList* Tasks;
+		QMutex* Locker;
 
 	public:
 
-		explicit ScriptWorker(KLScriptbinding* Bind, QStringList* Jobs, QObject* Parent = nullptr);
+		explicit ScriptWorker(KLScriptbinding* Bind, QStringList* Jobs, QMutex* Sync = nullptr, QObject* Parent = nullptr);
 
 		bool isComplete(void) const;
 
