@@ -9,42 +9,42 @@
         <translation>O programie</translation>
     </message>
     <message>
-        <location filename="aboutdialog.ui" line="31"/>
+        <location filename="aboutdialog.ui" line="30"/>
         <source>Close</source>
         <translation>Zamknij</translation>
     </message>
     <message>
-        <location filename="aboutdialog.ui" line="73"/>
+        <location filename="aboutdialog.ui" line="71"/>
         <source>Program name:</source>
         <translation>Program:</translation>
     </message>
     <message>
-        <location filename="aboutdialog.ui" line="90"/>
+        <location filename="aboutdialog.ui" line="88"/>
         <source>Author:</source>
         <translation>Autor:</translation>
     </message>
     <message>
-        <location filename="aboutdialog.ui" line="107"/>
+        <location filename="aboutdialog.ui" line="105"/>
         <source>Mail:</source>
         <translation>E-mail:</translation>
     </message>
     <message>
-        <location filename="aboutdialog.ui" line="127"/>
+        <location filename="aboutdialog.ui" line="125"/>
         <source>Project slite:</source>
         <translation>Strona projektu:</translation>
     </message>
     <message>
-        <location filename="aboutdialog.ui" line="147"/>
+        <location filename="aboutdialog.ui" line="145"/>
         <source>License:</source>
         <translation>Licencja:</translation>
     </message>
     <message>
-        <location filename="aboutdialog.ui" line="167"/>
+        <location filename="aboutdialog.ui" line="165"/>
         <source>Powered by:</source>
         <translation>Wsparcie:</translation>
     </message>
     <message>
-        <location filename="aboutdialog.ui" line="189"/>
+        <location filename="aboutdialog.ui" line="187"/>
         <source>This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.
 
 The program is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE WARRANTY OF DESIGN, MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.</source>
@@ -53,7 +53,7 @@ The program is provided AS IS with NO WARRANTY OF ANY KIND, INCLUDING THE WARRAN
 Niniejszy program rozpowszechniany jest z nadzieją, iż będzie on użyteczny – jednak BEZ ŻADNEJ GWARANCJI, nawet domyślnej gwarancji PRZYDATNOŚCI HANDLOWEJ albo PRZYDATNOŚCI DO OKREŚLONYCH ZASTOSOWAŃ. Bliższe informacje na ten temat można uzyskać z Powszechnej Licencji Publicznej GNU.</translation>
     </message>
     <message>
-        <location filename="aboutdialog.ui" line="204"/>
+        <location filename="aboutdialog.ui" line="202"/>
         <source>&lt;a href=&quot;http://www.fsf.org/&quot;&gt;See more&lt;/a&gt;</source>
         <oldsource>&lt;a href=&quot;http://www.gnu.org/licenses/gpl-3.0.en.html&quot;&gt;See more&lt;/a&gt;</oldsource>
         <translation>&lt;a href=&quot;http://www.fsf.org/&quot;&gt;Dowiedz się więcej&lt;/a&gt;</translation>
@@ -78,8 +78,8 @@ Niniejszy program rozpowszechniany jest z nadzieją, iż będzie on użyteczny �
 <context>
     <name>AppCore</name>
     <message>
-        <location filename="appcore.cpp" line="180"/>
-        <location filename="appcore.cpp" line="201"/>
+        <location filename="appcore.cpp" line="223"/>
+        <location filename="appcore.cpp" line="243"/>
         <source>Invalid script at line %1 (%2)</source>
         <translation>Niepoprawny skrypt w linii %1 (%2)</translation>
     </message>
@@ -92,72 +92,72 @@ Niniejszy program rozpowszechniany jest z nadzieją, iż będzie on użyteczny �
         <translation>Ustawienia osi</translation>
     </message>
     <message>
-        <location filename="axisdialog.ui" line="38"/>
+        <location filename="axisdialog.ui" line="67"/>
         <source>Name</source>
         <translation>Nazwa</translation>
     </message>
     <message>
-        <location filename="axisdialog.ui" line="45"/>
+        <location filename="axisdialog.ui" line="44"/>
         <source>Line style</source>
         <translation>Styl linii</translation>
     </message>
     <message>
-        <location filename="axisdialog.ui" line="53"/>
+        <location filename="axisdialog.ui" line="88"/>
         <source>Solid line</source>
         <translation>Ciągła linia</translation>
     </message>
     <message>
-        <location filename="axisdialog.ui" line="58"/>
+        <location filename="axisdialog.ui" line="93"/>
         <source>Dash line</source>
         <translation>Przerywana linia</translation>
     </message>
     <message>
-        <location filename="axisdialog.ui" line="63"/>
+        <location filename="axisdialog.ui" line="98"/>
         <source>Dot line</source>
         <translation>Wykropkowana linia</translation>
     </message>
     <message>
-        <location filename="axisdialog.ui" line="68"/>
+        <location filename="axisdialog.ui" line="103"/>
         <source>Dash + dot line</source>
         <translation>Połączenie kreska-kropka</translation>
     </message>
     <message>
-        <location filename="axisdialog.ui" line="73"/>
+        <location filename="axisdialog.ui" line="108"/>
         <source>Dash + dot + dot line</source>
         <translation>Połączenie kreska-kropka-kropka</translation>
     </message>
     <message>
-        <location filename="axisdialog.ui" line="87"/>
+        <location filename="axisdialog.ui" line="37"/>
         <source>Label is visible</source>
         <translation>Etykieta osi widoczna</translation>
     </message>
     <message>
-        <location filename="axisdialog.ui" line="94"/>
+        <location filename="axisdialog.ui" line="24"/>
         <source>View style</source>
         <translation>Wygląd</translation>
     </message>
     <message>
-        <location filename="axisdialog.ui" line="103"/>
+        <location filename="axisdialog.ui" line="134"/>
         <source>Active</source>
         <translation>Aktywna</translation>
     </message>
     <message>
-        <location filename="axisdialog.ui" line="123"/>
+        <location filename="axisdialog.ui" line="154"/>
         <source>Cancel</source>
         <translation>Anuluj</translation>
     </message>
     <message>
-        <location filename="axisdialog.ui" line="130"/>
+        <location filename="axisdialog.ui" line="161"/>
         <source>Save</source>
         <translation>Zapisz</translation>
     </message>
     <message>
-        <location filename="axisdialog.ui" line="139"/>
+        <location filename="axisdialog.ui" line="173"/>
         <source>End value</source>
         <translation>Wartość końcowa</translation>
     </message>
     <message>
-        <location filename="axisdialog.ui" line="146"/>
+        <location filename="axisdialog.ui" line="77"/>
         <source>Start value</source>
         <translation>Wartość początkowa</translation>
     </message>
@@ -185,37 +185,37 @@ Niniejszy program rozpowszechniany jest z nadzieją, iż będzie on użyteczny �
         <translation>Nazwa</translation>
     </message>
     <message>
-        <location filename="devicedialog.ui" line="30"/>
+        <location filename="devicedialog.ui" line="33"/>
         <source>Output</source>
         <translation>Wyjście</translation>
     </message>
     <message>
-        <location filename="devicedialog.ui" line="37"/>
+        <location filename="devicedialog.ui" line="43"/>
         <source>Shift register port </source>
         <translation>Port numer </translation>
     </message>
     <message>
-        <location filename="devicedialog.ui" line="47"/>
+        <location filename="devicedialog.ui" line="53"/>
         <source>Default</source>
         <translation>Domyślnie</translation>
     </message>
     <message>
-        <location filename="devicedialog.ui" line="55"/>
+        <location filename="devicedialog.ui" line="64"/>
         <source>Disabled</source>
         <translation>Wyłączone</translation>
     </message>
     <message>
-        <location filename="devicedialog.ui" line="60"/>
+        <location filename="devicedialog.ui" line="69"/>
         <source>Enabled</source>
         <translation>Włączone</translation>
     </message>
     <message>
-        <location filename="devicedialog.ui" line="83"/>
+        <location filename="devicedialog.ui" line="92"/>
         <source>Cancel</source>
         <translation>Anuluj</translation>
     </message>
     <message>
-        <location filename="devicedialog.ui" line="90"/>
+        <location filename="devicedialog.ui" line="99"/>
         <source>Save</source>
         <translation>Zapisz</translation>
     </message>
@@ -289,22 +289,22 @@ Niniejszy program rozpowszechniany jest z nadzieją, iż będzie on użyteczny �
         <translation>Ustawienia zdarzenia</translation>
     </message>
     <message>
-        <location filename="eventdialog.ui" line="25"/>
+        <location filename="eventdialog.ui" line="24"/>
         <source>Name</source>
         <translation>Nazwa</translation>
     </message>
     <message>
-        <location filename="eventdialog.ui" line="40"/>
+        <location filename="eventdialog.ui" line="42"/>
         <source>Enabled</source>
         <translation>Włączone</translation>
     </message>
     <message>
-        <location filename="eventdialog.ui" line="60"/>
+        <location filename="eventdialog.ui" line="62"/>
         <source>Cancel</source>
         <translation>Anuluj</translation>
     </message>
     <message>
-        <location filename="eventdialog.ui" line="67"/>
+        <location filename="eventdialog.ui" line="69"/>
         <source>Save</source>
         <translation>Zapisz</translation>
     </message>
@@ -378,7 +378,7 @@ Niniejszy program rozpowszechniany jest z nadzieją, iż będzie on użyteczny �
         <translation>Wzmacniacz 0</translation>
     </message>
     <message>
-        <location filename="gainwidget.ui" line="71"/>
+        <location filename="gainwidget.ui" line="74"/>
         <source>PGA 1 gain</source>
         <translation>Wzmacniacz 1</translation>
     </message>
@@ -834,33 +834,39 @@ done;</translation>
         <translation> s</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="61"/>
+        <location filename="mainwindow.cpp" line="50"/>
+        <source>Script evaluation timeout</source>
+        <translation>Przekroczenie czasu przeznaczonego na wykonanie skryptu</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="67"/>
         <source>Script check</source>
         <translation>Test poprawności skryptu</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="148"/>
+        <location filename="mainwindow.cpp" line="154"/>
         <source>Select script to upload</source>
         <translation>Wybierz skrypt do wysłania</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="155"/>
+        <location filename="mainwindow.cpp" line="161"/>
         <source>Can&apos;t open provided script file</source>
         <oldsource>Can&apos;t open provided script file.</oldsource>
         <translation>Nie można otworzyć wybranego skryptu</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="161"/>
+        <location filename="mainwindow.cpp" line="50"/>
+        <location filename="mainwindow.cpp" line="167"/>
         <source>Error</source>
         <translation>Błąd</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="187"/>
+        <location filename="mainwindow.cpp" line="193"/>
         <source>Select file to save script</source>
         <translation>Wybierz plik by zapisać pobrany skrypt</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="193"/>
+        <location filename="mainwindow.cpp" line="199"/>
         <source>Can&apos;t open provided file</source>
         <oldsource>Can&apos;t open provided file.</oldsource>
         <translation>Nie można otworzyć podanego pliku</translation>
@@ -1066,32 +1072,32 @@ done;</translation>
         <translation>Ustawienia czujnika</translation>
     </message>
     <message>
-        <location filename="sensordialog.ui" line="23"/>
+        <location filename="sensordialog.ui" line="24"/>
         <source>Name</source>
         <translation>Nazwa</translation>
     </message>
     <message>
-        <location filename="sensordialog.ui" line="37"/>
+        <location filename="sensordialog.ui" line="41"/>
         <source>Label</source>
         <translation>Zmienna</translation>
     </message>
     <message>
-        <location filename="sensordialog.ui" line="51"/>
+        <location filename="sensordialog.ui" line="58"/>
         <source>Unit</source>
         <translation>Jednostka</translation>
     </message>
     <message>
-        <location filename="sensordialog.ui" line="70"/>
+        <location filename="sensordialog.ui" line="80"/>
         <source>Enabled</source>
         <translation>Włączony</translation>
     </message>
     <message>
-        <location filename="sensordialog.ui" line="90"/>
+        <location filename="sensordialog.ui" line="100"/>
         <source>Cancel</source>
         <translation>Anuluj</translation>
     </message>
     <message>
-        <location filename="sensordialog.ui" line="97"/>
+        <location filename="sensordialog.ui" line="107"/>
         <source>Save</source>
         <translation>Zapisz</translation>
     </message>
