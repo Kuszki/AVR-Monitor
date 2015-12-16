@@ -8,7 +8,7 @@ QT		+=	serialport widgets core sql
 QT		-=	gui
 
 TARGET	=	avrterminal
-CONFIG  	+=	c++11 console
+CONFIG  	+=	c++14 console
 CONFIG	-=	app_bundle
 
 TEMPLATE	=	app

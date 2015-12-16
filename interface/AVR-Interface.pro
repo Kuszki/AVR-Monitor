@@ -9,7 +9,7 @@ QT		+=	core gui widgets serialport printsupport sql opengl
 TARGET	=	avrinterface
 TEMPLATE	=	app
 
-CONFIG	+=	c++11
+CONFIG	+=	c++14
 
 LIBS		+=	-L$$PWD/../../build-KLLibs -lkllibs
 LIBS		+=	-L$$PWD/../../build-AVR-Bridge -lavrbridge
