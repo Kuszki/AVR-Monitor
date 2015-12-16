@@ -33,7 +33,7 @@ AppCore::AppCore(void)
 	if (!QFile::exists(DB)) QFile::copy(":/data/database", DB);
 
 	Worker.moveToThread(&Thread);
-	Thread.start();
+	Script.moveToThread(&Thread);
 
 	Watchdog.setInterval(1000);
 	Interval.setInterval(1000);
@@ -43,6 +43,8 @@ AppCore::AppCore(void)
 
 	Database.setDatabaseName(DB);
 	Database.open();
+
+	Thread.start();
 
 	Script.Bindings.Add("get", [this] (KLList<double>& Vars) -> double
 	{

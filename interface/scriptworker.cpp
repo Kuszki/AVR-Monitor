@@ -30,7 +30,8 @@ bool ScriptWorker::isComplete(void) const
 
 void ScriptWorker::PerformEvaluations(void)
 {
-	Completed = false; Locker->lock();
+	Locker->lock();
+	Completed = false;
 
 	for (const auto& Task: *Tasks)
 	{
@@ -38,7 +39,8 @@ void ScriptWorker::PerformEvaluations(void)
 		Script->Evaluate();
 	}
 
-	Completed = true; Locker->unlock();
+	Completed = true;
+	Locker->unlock();
 
 	emit onEvaluationComplete();
 }
