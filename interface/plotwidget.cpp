@@ -99,6 +99,7 @@ void PlotWidget::AddPlot(const PlotData& Data)
 void PlotWidget::UpdatePlot(const PlotData& Data)
 {
 	QCPGraph* Plot = Plots[Data.ID];
+	double oldVal = Values[Vars.key(Plot)];
 
 	Plot->setVisible(Data.Active && Plot->valueAxis()->visible());
 	Plot->setName(Data.Varname);
@@ -107,7 +108,7 @@ void PlotWidget::UpdatePlot(const PlotData& Data)
 	Vars.insert(Data.Varlabel, Plot);
 
 	Values.remove(Vars.key(Plot));
-	Values.insert(Data.Varlabel, 0.0);
+	Values.insert(Data.Varlabel, oldVal);
 
 	ui->Plot->replot();
 }
