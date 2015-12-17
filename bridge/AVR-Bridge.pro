@@ -25,7 +25,7 @@ TRANSLATIONS	+=	avrmonitor_bridge_pl.ts
 
 INCLUDEPATH	+=	$$PWD/../../KLLibs
 
-QMAKE_CXXFLAGS	+=	-s -march=native
+QMAKE_CXXFLAGS	+=	-s -march=native -std=c++14
 
 unix {
 

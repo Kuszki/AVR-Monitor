@@ -36,4 +36,4 @@ TRANSLATIONS	+=	avrmonitor_terminal_pl.ts
 INCLUDEPATH	+=	$$PWD/../bridge
 INCLUDEPATH	+=	$$PWD/../../KLLibs
 
-QMAKE_CXXFLAGS	+=	-s -fomit-frame-pointer -march=native
+QMAKE_CXXFLAGS	+=	-s -march=native -std=c++14

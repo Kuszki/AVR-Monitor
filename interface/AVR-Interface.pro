@@ -99,4 +99,4 @@ INCLUDEPATH	+=	$$PWD/../bridge
 INCLUDEPATH	+=	$$PWD/../../KLLibs
 INCLUDEPATH	+=	$$PWD/../../QCustomPlot
 
-QMAKE_CXXFLAGS	+=	-s -march=native
+QMAKE_CXXFLAGS	+=	-s -march=native -std=c++14
