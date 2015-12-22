@@ -632,7 +632,7 @@ done;</translation>
     <message>
         <location filename="mainwindow.ui" line="38"/>
         <source>Sensors</source>
-        <translation>Czujniki</translation>
+        <translation type="unfinished">Sensory</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="43"/>
@@ -1069,7 +1069,7 @@ done;</translation>
     <message>
         <location filename="sensordialog.ui" line="14"/>
         <source>Sensor settings</source>
-        <translation>Ustawienia czujnika</translation>
+        <translation>Ustawienia sensora</translation>
     </message>
     <message>
         <location filename="sensordialog.ui" line="24"/>
@@ -1127,12 +1127,12 @@ done;</translation>
     <message>
         <location filename="sensorentry.cpp" line="48"/>
         <source>Delete sensor</source>
-        <translation>Usuń czujnik</translation>
+        <translation>Usuń sensor</translation>
     </message>
     <message>
         <location filename="sensorentry.cpp" line="48"/>
         <source>Are you sure you wany to delete selected sensor (%1)?</source>
-        <translation>Czy jesteś pewien że chcesz usunąć wybrany czujnik (%1)?</translation>
+        <translation>Czy jesteś pewien że chcesz usunąć wybrany sensor (%1)?</translation>
     </message>
     <message>
         <location filename="sensorentry.cpp" line="51"/>
@@ -1142,7 +1142,7 @@ done;</translation>
     <message>
         <location filename="sensorentry.cpp" line="51"/>
         <source>Can&apos;t delete sensor - %1</source>
-        <translation>Nie udało się usunąć czujnika - %1</translation>
+        <translation>Nie udało się usunąć sensora - %1</translation>
     </message>
 </context>
 <context>
@@ -1150,7 +1150,7 @@ done;</translation>
     <message>
         <location filename="sensorwidget.ui" line="14"/>
         <source>Sensors</source>
-        <translation>Czujniki</translation>
+        <translation>Sensory</translation>
     </message>
     <message>
         <location filename="sensorwidget.ui" line="51"/>
