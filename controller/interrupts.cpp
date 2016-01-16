@@ -39,7 +39,11 @@ void REBOOT_PROC wdt_reboot(void)
 
 ISR(INT0_vect)
 {
-	if (!Monitor.Online) Monitor.Master = false;
+	if (!Monitor.Online)
+	{
+		if (Monitor.Master) Monitor.Master = false;
+		else SYS_SetStatus(DEV_MASTER, true);
+	}
 }
 
 ISR(INT1_vect)

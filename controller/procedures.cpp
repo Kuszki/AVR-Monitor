@@ -172,11 +172,10 @@ int SYS_SetStatus(char Mask, char Value)
 
 		case DEV_MASTER:
 
-			if (!Value) Script.Variables.Clean();
-
 			Monitor.Master = Value;
 
 			if (Monitor.Online) SYS_SendFeedback(GET_WORK);
+			if (!Value) SYS_SetStatus(DEV_SPEC, CLEAN_RAM);
 
 		break;
 		case DEV_SLEEP:
