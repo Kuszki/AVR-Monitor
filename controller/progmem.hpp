@@ -37,8 +37,8 @@ const char get_INFOSTR[] PROGMEM =
 "# GCC flags:    -Os -mmcu=atmega328p -std=c++11\n"
 "# Watchdog set:   on every evaluation for 8 sec\n"
 "#\n"
-"# Program size:        27006 bytes (82.4% Full)\n"
-"# Data size:             590 bytes (28.8% Full)\n"
+"# Program size:        24392 bytes (74.4% Full)\n"
+"# Data size:             589 bytes (28.8% Full)\n"
 "\n";
 
 const char get_GAINS[]	PROGMEM 	= { 0b000, 0b001, 0b010, 0b011, 0b100, 0b101, 0b110, 0b111, 0b11110000 };

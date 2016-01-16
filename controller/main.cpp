@@ -93,6 +93,8 @@ int main(void)
 			}
 
 			Sleep = Monitor.Sleep * 1000;
+
+			if (!Monitor.Master) SYS_SetStatus(DEV_MASTER, Monitor.Master);
 		}
 		else
 		{
