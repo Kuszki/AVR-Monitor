@@ -50,7 +50,7 @@ double put(KLList<double>& Vars)
 	{
 		char Mask = 0, i = 0;
 
-		for (const auto& Var: Vars) Mask |= (bool(Var) << i);
+		for (const auto& Var: Vars) Mask |= (bool(Var) << i++);
 
 		SHR_SetOutputs(Mask);
 	}
