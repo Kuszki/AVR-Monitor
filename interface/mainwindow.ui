@@ -11,12 +11,11 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>AVR-Sensors - Interface</string>
+   <string>AVR-Monitor - Interface</string>
   </property>
   <property name="windowIcon">
    <iconset theme="utilities-system-monitor">
-    <normaloff/>
-   </iconset>
+    <normaloff>.</normaloff>.</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
@@ -63,7 +62,7 @@
      <x>0</x>
      <y>0</y>
      <width>1200</width>
-     <height>29</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuDevice">
@@ -229,8 +228,7 @@
   <action name="actionConnect">
    <property name="icon">
     <iconset theme="network-wired">
-     <normaloff/>
-    </iconset>
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Connect</string>
@@ -245,8 +243,7 @@
    </property>
    <property name="icon">
     <iconset theme="network-offline">
-     <normaloff/>
-    </iconset>
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Disconnect</string>
@@ -261,8 +258,7 @@
    </property>
    <property name="icon">
     <iconset theme="document-send">
-     <normaloff/>
-    </iconset>
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Upload</string>
@@ -277,8 +273,7 @@
    </property>
    <property name="icon">
     <iconset theme="emblem-downloads">
-     <normaloff/>
-    </iconset>
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Download</string>
@@ -290,8 +285,7 @@
   <action name="actionAbout">
    <property name="icon">
     <iconset theme="help-about">
-     <normaloff/>
-    </iconset>
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>About</string>
@@ -306,8 +300,7 @@
   <action name="actionQuit">
    <property name="icon">
     <iconset theme="exit">
-     <normaloff/>
-    </iconset>
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Quit</string>
@@ -319,8 +312,7 @@
   <action name="actionWeb">
    <property name="icon">
     <iconset theme="applications-internet">
-     <normaloff/>
-    </iconset>
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Web</string>
@@ -335,8 +327,7 @@
    </property>
    <property name="icon">
     <iconset theme="media-playback-start">
-     <normaloff/>
-    </iconset>
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Run</string>
@@ -351,8 +342,7 @@
    </property>
    <property name="icon">
     <iconset theme="media-playback-stop">
-     <normaloff/>
-    </iconset>
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Stop</string>
@@ -370,8 +360,7 @@
    </property>
    <property name="icon">
     <iconset theme="view-fullscreen">
-     <normaloff/>
-    </iconset>
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Fulscreen</string>
@@ -389,8 +378,7 @@
    </property>
    <property name="icon">
     <iconset theme="view-refresh">
-     <normaloff/>
-    </iconset>
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Synchronize</string>
