@@ -1,7 +1,7 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *                                                                         *
- *  Main window for AVR-Monitor                                            *
- *  Copyright (C) 2015  Łukasz "Kuszki" Dróżdż  l.drozdz@openmailbox.org   *
+ *  Slider widget implementation for AVR-Interface                         *
+ *  Copyright (C) 2016  Łukasz "Kuszki" Dróżdż  l.drozdz@openmailbox.org   *
  *                                                                         *
  *  This program is free software: you can redistribute it and/or modify   *
  *  it under the terms of the GNU General Public License as published by   *
@@ -18,70 +18,42 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef MAINWINDOW_HPP
-#define MAINWINDOW_HPP
+#include "sliderwidget.hpp"
+#include "ui_sliderwidget.h"
 
-#include <QDesktopServices>
-#include <QDoubleSpinBox>
-#include <QMessageBox>
-#include <QMainWindow>
-#include <QFileDialog>
-#include <QSettings>
-
-#include <avrbridge.hpp>
-
-#include "aboutdialog.hpp"
-
-namespace Ui
+SliderWidget::SliderWidget(QWidget* Parent)
+: QWidget(Parent), ui(new Ui::SliderWidget)
 {
-	class MainWindow;
+	ui->setupUi(this);
+
+	ui->slidersLayout->setAlignment(Qt::AlignTop);
+
+	Dialog = new SliderDialog(-1, this);
+
+	for (const auto& Data: AppCore::getInstance()->GetSliders()) AddSlider(Data);
+
+	connect(Dialog, &SliderDialog::onDialogAccept, this, &SliderWidget::AddSlider);
+	connect(ui->addButton, &QPushButton::clicked, Dialog, &QDialog::open);
 }
 
-class MainWindow : public QMainWindow
+SliderWidget::~SliderWidget(void)
 {
+	delete ui;
+}
 
-		Q_OBJECT
+void SliderWidget::RefreshSize(void)
+{
+	const int Items = ui->slidersLayout->minimumSize().width();
+	const int Scroll = ui->scrollArea->verticalScrollBar()->width();
 
-	private:
+	ui->scrollArea->setMinimumWidth(Items + Scroll);
+}
 
-		Ui::MainWindow *ui;
+void SliderWidget::AddSlider(const SliderData& Data)
+{
+	SliderEntry* Entry = new SliderEntry(Data, this);
 
-		AboutDialog* aboutDialog;
-		QDoubleSpinBox* Interval;
+	ui->slidersLayout->addWidget(Entry); RefreshSize();
 
-	public:
-
-		explicit MainWindow(QWidget* Parent = nullptr);
-		virtual ~MainWindow(void) override;
-
-	private slots:
-
-		void ConnectDevice(void);
-
-		void DisconnectDevice(void);
-
-		void DownloadScript(void);
-
-		void UploadScript(void);
-
-		void ShowErrorMessage(const QString& Message);
-
-		void ConnectionChanged(bool Connected);
-
-		void SaveMasterScript(const QString& Script);
-
-		void IntervalValueChanged(double Value);
-
-		void ServiceStatusChanged(bool Active, bool User);
-
-	public slots:
-
-		void ShowAboutDialog(void);
-
-		void ShowProjectWeb(void);
-
-		void ToggleFulscreenMode(bool Fulscreen);
-
-};
-
-#endif // MAINWINDOW_HPP
+	connect(Entry, &SliderEntry::onSliderUpdate, this, &SliderWidget::RefreshSize);
+}

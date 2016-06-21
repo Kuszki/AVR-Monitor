@@ -1,7 +1,7 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *                                                                         *
  *  Main window for AVR-Monitor                                            *
- *  Copyright (C) 2015  Łukasz "Kuszki" Dróżdż            l.drozdz@o2.pl   *
+ *  Copyright (C) 2015  Łukasz "Kuszki" Dróżdż  l.drozdz@openmailbox.org   *
  *                                                                         *
  *  This program is free software: you can redistribute it and/or modify   *
  *  it under the terms of the GNU General Public License as published by   *
@@ -36,13 +36,28 @@ MainWindow::MainWindow(QWidget* Parent)
 	Interval->setSuffix(tr(" s"));
 	Interval->setEnabled(false);
 
-	ui->tabTerminal->setEnabled(false);
+	ui->terminalWidget->setEnabled(false);
 	ui->toolActions->addWidget(Interval);
 
-	setTabPosition(Qt::AllDockWidgetAreas, QTabWidget::TabPosition::North);
-	restoreState(QSettings("AVR-Monitor").value("layout").toByteArray(), 1);
-
 	AppCore::getInstance()->UpdateInterval(Interval->value());
+
+	setTabPosition(Qt::AllDockWidgetAreas, QTabWidget::TabPosition::North);
+	restoreGeometry(QSettings("AVR-Monitor").value("size").toByteArray());
+
+	if (isMaximized()) setGeometry(QApplication::desktop()->availableGeometry(this));
+
+	if (!restoreState(QSettings("AVR-Monitor").value("layout").toByteArray()))
+	{
+		tabifyDockWidget(ui->plotDock, ui->sensorsDock);
+		tabifyDockWidget(ui->plotDock, ui->eventsDock);
+		tabifyDockWidget(ui->plotDock, ui->devicesDock);
+		tabifyDockWidget(ui->plotDock, ui->slidersDock);
+		tabifyDockWidget(ui->plotDock, ui->terminalDock);
+
+		tabifyDockWidget(ui->systemDock, ui->adcDock);
+
+		tabifyDockWidget(ui->shiftDock, ui->pgaDock);
+	}
 
 	// appcore to main window connections
 	connect(AppCore::getInstance(), &AppCore::onScriptTermination, [this] (void) -> void
@@ -57,12 +72,12 @@ MainWindow::MainWindow(QWidget* Parent)
 	});
 
 	// terminal to device connections
-	connect(ui->tabTerminal, &TerminalWidget::onScriptExecute, [] (const QString& Code) -> void
+	connect(ui->terminalWidget, &TerminalWidget::onScriptExecute, [] (const QString& Code) -> void
 	{
 		AppCore::getDevice()->Command(KLScriptbinding::Optimize(Code));
 	});
 
-	connect(ui->tabTerminal, &TerminalWidget::onScriptValidate, [this] (const QString& Code) -> void
+	connect(ui->terminalWidget, &TerminalWidget::onScriptValidate, [this] (const QString& Code) -> void
 	{
 		QMessageBox::information(this, tr("Script check"), AppCore::getValidation(Code));
 	});
@@ -75,11 +90,11 @@ MainWindow::MainWindow(QWidget* Parent)
 	connect(ui->actionStop, &QAction::triggered, boost::bind(&MainWindow::ServiceStatusChanged, this, false, true));
 
 	// main window to plot widget connections
-	connect(ui->actionRun, &QAction::triggered, ui->tabPlot, &PlotWidget::RestartPlot);
+	connect(ui->actionRun, &QAction::triggered, ui->plotWidget, &PlotWidget::RestartPlot);
 
 	// app core to plot widget connections
-	connect(AppCore::getInstance(), &AppCore::onValuesUpdate, ui->tabPlot, &PlotWidget::PlotVariables);
-	connect(AppCore::getInstance(), &AppCore::onSensorUpdate, ui->tabPlot, &PlotWidget::UpdateSensors);
+	connect(AppCore::getInstance(), &AppCore::onValuesUpdate, ui->plotWidget, &PlotWidget::PlotVariables);
+	connect(AppCore::getInstance(), &AppCore::onSensorUpdate, ui->plotWidget, &PlotWidget::UpdateSensors);
 
 	// device to system widget connections
 	connect(AppCore::getDevice(), &AVRBridge::onConnectionUpdate, ui->systemWidget, &SystemWidget::UpdateLink);
@@ -111,8 +126,8 @@ MainWindow::MainWindow(QWidget* Parent)
 	connect(ui->shiftWidget, &ShiftWidget::onEnabledChanged, AppCore::getDevice(), &AVRBridge::WriteShiftStatus);
 
 	// device to terminal log window
-	connect(AppCore::getDevice(), &AVRBridge::onMessageSend, ui->tabTerminal, &TerminalWidget::AppendOutput);
-	connect(AppCore::getDevice(), &AVRBridge::onMessageReceive, ui->tabTerminal, &TerminalWidget::AppendInput);
+	connect(AppCore::getDevice(), &AVRBridge::onMessageSend, ui->terminalWidget, &TerminalWidget::AppendOutput);
+	connect(AppCore::getDevice(), &AVRBridge::onMessageReceive, ui->terminalWidget, &TerminalWidget::AppendInput);
 
 	// synchronize to app core connections
 	connect(ui->actionSynchronize, &QAction::triggered, AppCore::getInstance(), &AppCore::SynchronizeDevice);
@@ -128,7 +143,8 @@ MainWindow::MainWindow(QWidget* Parent)
 
 MainWindow::~MainWindow(void)
 {
-	QSettings("AVR-Monitor").setValue("layout", saveState(1));
+	QSettings("AVR-Monitor").setValue("size", saveGeometry());
+	QSettings("AVR-Monitor").setValue("layout", saveState());
 	QSettings("AVR-Monitor").setValue("interval", Interval->value());
 
 	delete ui;
@@ -183,7 +199,7 @@ void MainWindow::ConnectionChanged(bool Connected)
 	ui->systemWidget->setEnabled(Connected);
 	ui->adcWidget->setEnabled(Connected);
 
-	ui->tabTerminal->setEnabled(Connected);
+	ui->terminalWidget->setEnabled(Connected);
 
 	Interval->setEnabled(Connected);
 }

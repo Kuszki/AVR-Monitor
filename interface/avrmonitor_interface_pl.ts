@@ -78,8 +78,8 @@ Niniejszy program rozpowszechniany jest z nadzieją, iż będzie on użyteczny �
 <context>
     <name>AppCore</name>
     <message>
-        <location filename="appcore.cpp" line="225"/>
-        <location filename="appcore.cpp" line="245"/>
+        <location filename="appcore.cpp" line="237"/>
+        <location filename="appcore.cpp" line="257"/>
         <source>Invalid script at line %1 (%2)</source>
         <translation>Niepoprawny skrypt w linii %1 (%2)</translation>
     </message>
@@ -162,12 +162,12 @@ Niniejszy program rozpowszechniany jest z nadzieją, iż będzie on użyteczny �
         <translation>Wartość początkowa</translation>
     </message>
     <message>
-        <location filename="axisdialog.cpp" line="76"/>
+        <location filename="axisdialog.cpp" line="86"/>
         <source>Error</source>
         <translation>Błąd</translation>
     </message>
     <message>
-        <location filename="axisdialog.cpp" line="76"/>
+        <location filename="axisdialog.cpp" line="86"/>
         <source>Can&apos;t insert data into database - %1</source>
         <translation>Nie udało się umieścić danych w bazie - %1</translation>
     </message>
@@ -210,12 +210,12 @@ Niniejszy program rozpowszechniany jest z nadzieją, iż będzie on użyteczny �
         <translation>Włączone</translation>
     </message>
     <message>
-        <location filename="devicedialog.ui" line="92"/>
+        <location filename="devicedialog.ui" line="86"/>
         <source>Cancel</source>
         <translation>Anuluj</translation>
     </message>
     <message>
-        <location filename="devicedialog.ui" line="99"/>
+        <location filename="devicedialog.ui" line="93"/>
         <source>Save</source>
         <translation>Zapisz</translation>
     </message>
@@ -276,7 +276,7 @@ Niniejszy program rozpowszechniany jest z nadzieją, iż będzie on użyteczny �
         <translation>Urządzenia</translation>
     </message>
     <message>
-        <location filename="devicewidget.ui" line="51"/>
+        <location filename="devicewidget.ui" line="27"/>
         <source>Add</source>
         <translation>Dodaj</translation>
     </message>
@@ -360,7 +360,7 @@ Niniejszy program rozpowszechniany jest z nadzieją, iż będzie on użyteczny �
         <translation>Zdarzenia</translation>
     </message>
     <message>
-        <location filename="eventwidget.ui" line="51"/>
+        <location filename="eventwidget.ui" line="20"/>
         <source>Add</source>
         <translation>Dodaj</translation>
     </message>
@@ -626,27 +626,27 @@ done;</translation>
         <translation>AVR-Monitor - Interfejs</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="32"/>
+        <location filename="mainwindow.ui" line="199"/>
         <source>Plot</source>
         <translation>Wykres</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="37"/>
+        <location filename="mainwindow.ui" line="208"/>
         <source>Sensors</source>
         <translation>Sensory</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="42"/>
+        <location filename="mainwindow.ui" line="217"/>
         <source>Events</source>
         <translation>Zdarzenia</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="47"/>
+        <location filename="mainwindow.ui" line="226"/>
         <source>Devices</source>
         <translation>Urządzenia</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="52"/>
+        <location filename="mainwindow.ui" line="235"/>
         <source>Terminal</source>
         <translation>Terminal</translation>
     </message>
@@ -655,172 +655,177 @@ done;</translation>
         <translation type="vanished">Log</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="70"/>
+        <location filename="mainwindow.ui" line="51"/>
         <source>Device</source>
         <translation>Urządzenie</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="81"/>
+        <location filename="mainwindow.ui" line="62"/>
         <source>Script</source>
         <translation>Skrypt</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="90"/>
+        <location filename="mainwindow.ui" line="71"/>
         <source>Help</source>
         <translation>Pomoc</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="97"/>
+        <location filename="mainwindow.ui" line="78"/>
         <source>Measurements</source>
         <translation>Pomiary</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="113"/>
+        <location filename="mainwindow.ui" line="94"/>
         <source>Device tools</source>
         <translation>Narzędzia urządzenia</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="140"/>
+        <location filename="mainwindow.ui" line="121"/>
         <source>Application tools</source>
         <translation>Narzędzia aplikacji</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="169"/>
+        <location filename="mainwindow.ui" line="147"/>
         <source>Shift register</source>
         <translation>Rejestr wyjściowy</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="185"/>
+        <location filename="mainwindow.ui" line="160"/>
         <source>Amplifiers</source>
         <translation>Wzmacniacze</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="201"/>
+        <location filename="mainwindow.ui" line="173"/>
         <source>Converters</source>
         <translation>Przetworniki</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="217"/>
+        <location filename="mainwindow.ui" line="186"/>
         <source>System</source>
         <translation>Urządzenie</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="234"/>
+        <location filename="mainwindow.ui" line="244"/>
+        <source>Sliders</source>
+        <translation>Parametry</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="257"/>
         <source>Connect</source>
         <translation>Połącz</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="237"/>
+        <location filename="mainwindow.ui" line="260"/>
         <source>Attempts to connect with AVR-Monitor device. You dont need to specify device adress, it will be done automatically.</source>
         <translation>Próbuje nawiązać połączenie z urządzeniem AVR-Monitor. Nie musisz podawać adresu urządzenia - zostanie ono zlokalizowane automatycznie.</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="249"/>
+        <location filename="mainwindow.ui" line="272"/>
         <source>Disconnect</source>
         <translation>Rozłącz</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="252"/>
+        <location filename="mainwindow.ui" line="275"/>
         <source>Stops connection between computer and device.</source>
         <translation>Zamyka połączenie pomiędzy urządzeniem i komputerem.</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="264"/>
+        <location filename="mainwindow.ui" line="287"/>
         <source>Upload</source>
         <translation>Wyślij skrypt</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="267"/>
+        <location filename="mainwindow.ui" line="290"/>
         <source>Upload selected script file to device.</source>
         <translation>Wysyła wybrany plik ze skryptem do pamięci urządzenia.</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="279"/>
+        <location filename="mainwindow.ui" line="302"/>
         <source>Download</source>
         <translation>Pobierz skrypt</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="282"/>
+        <location filename="mainwindow.ui" line="305"/>
         <source>Download script from device and save it in selected file.</source>
         <translation>Pobiera skrypt z pamięci urządzenia i zapisuje go w wybranym pliku.</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="291"/>
+        <location filename="mainwindow.ui" line="314"/>
         <source>About</source>
         <translation>O programie</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="294"/>
+        <location filename="mainwindow.ui" line="317"/>
         <source>Shows &quot;About&quot; dialog.</source>
         <translation>Pokazuje dialog &quot;O programie&quot;.</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="297"/>
+        <location filename="mainwindow.ui" line="320"/>
         <source>F1</source>
         <translation>F1</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="306"/>
+        <location filename="mainwindow.ui" line="329"/>
         <source>Quit</source>
         <translation>Wyjście</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="309"/>
+        <location filename="mainwindow.ui" line="332"/>
         <source>Closes this application.</source>
         <translation>Zamyka aplikacje.</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="318"/>
+        <location filename="mainwindow.ui" line="341"/>
         <source>Web</source>
         <translation>WWW</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="321"/>
+        <location filename="mainwindow.ui" line="344"/>
         <source>Open project slite.</source>
         <translation>Otwiera stronę projektu w domyślnej przeglądarce.</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="333"/>
+        <location filename="mainwindow.ui" line="356"/>
         <source>Run</source>
         <translation>Uruchom</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="336"/>
+        <location filename="mainwindow.ui" line="359"/>
         <source>Enable measurements.</source>
         <translation>Uruchamia pomiary.</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="348"/>
+        <location filename="mainwindow.ui" line="371"/>
         <source>Stop</source>
         <translation>Zatrzymaj</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="351"/>
+        <location filename="mainwindow.ui" line="374"/>
         <source>Stop measurements.</source>
         <translation>Zatrzymuje pomiary.</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="366"/>
+        <location filename="mainwindow.ui" line="389"/>
         <source>Fulscreen</source>
         <translation>Pełyny ekran</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="369"/>
+        <location filename="mainwindow.ui" line="392"/>
         <source>Enable fullscreen view.</source>
         <translation>Aktywuje widok na pełnym ekranie.</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="372"/>
+        <location filename="mainwindow.ui" line="395"/>
         <source>F11</source>
         <translation>F11</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="384"/>
+        <location filename="mainwindow.ui" line="407"/>
         <source>Synchronize</source>
         <translation>Synchronizuj</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="387"/>
+        <location filename="mainwindow.ui" line="410"/>
         <source>Upload current env settings into device.</source>
         <translation>Wysyła aktualne ustawienia środowiska do urządzenia.</translation>
     </message>
@@ -835,39 +840,39 @@ done;</translation>
         <translation> s</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="50"/>
+        <location filename="mainwindow.cpp" line="65"/>
         <source>Script evaluation timeout</source>
         <translation>Przekroczenie czasu przeznaczonego na wykonanie skryptu</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="67"/>
+        <location filename="mainwindow.cpp" line="82"/>
         <source>Script check</source>
         <translation>Test poprawności skryptu</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="154"/>
+        <location filename="mainwindow.cpp" line="170"/>
         <source>Select script to upload</source>
         <translation>Wybierz skrypt do wysłania</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="161"/>
+        <location filename="mainwindow.cpp" line="177"/>
         <source>Can&apos;t open provided script file</source>
         <oldsource>Can&apos;t open provided script file.</oldsource>
         <translation>Nie można otworzyć wybranego skryptu</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="50"/>
-        <location filename="mainwindow.cpp" line="167"/>
+        <location filename="mainwindow.cpp" line="65"/>
+        <location filename="mainwindow.cpp" line="183"/>
         <source>Error</source>
         <translation>Błąd</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="193"/>
+        <location filename="mainwindow.cpp" line="209"/>
         <source>Select file to save script</source>
         <translation>Wybierz plik by zapisać pobrany skrypt</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="199"/>
+        <location filename="mainwindow.cpp" line="215"/>
         <source>Can&apos;t open provided file</source>
         <oldsource>Can&apos;t open provided file.</oldsource>
         <translation>Nie można otworzyć podanego pliku</translation>
@@ -1103,12 +1108,12 @@ done;</translation>
         <translation>Zapisz</translation>
     </message>
     <message>
-        <location filename="sensordialog.cpp" line="74"/>
+        <location filename="sensordialog.cpp" line="76"/>
         <source>Error</source>
         <translation>Błąd</translation>
     </message>
     <message>
-        <location filename="sensordialog.cpp" line="74"/>
+        <location filename="sensordialog.cpp" line="76"/>
         <source>Can&apos;t insert data into database - %1</source>
         <translation>Nie udało się umieścić danych w bazie - %1</translation>
     </message>
@@ -1154,7 +1159,7 @@ done;</translation>
         <translation>Sensory</translation>
     </message>
     <message>
-        <location filename="sensorwidget.ui" line="51"/>
+        <location filename="sensorwidget.ui" line="20"/>
         <source>Add</source>
         <translation>Dodaj</translation>
     </message>
@@ -1182,9 +1187,113 @@ done;</translation>
         <translation>OE</translation>
     </message>
     <message>
-        <location filename="shiftwidget.cpp" line="31"/>
+        <location filename="shiftwidget.cpp" line="33"/>
         <source>Pin %1</source>
         <translation>Port %1</translation>
+    </message>
+</context>
+<context>
+    <name>SliderDialog</name>
+    <message>
+        <location filename="sliderdialog.ui" line="14"/>
+        <source>Slider settings</source>
+        <translation>Ustawienia parametru</translation>
+    </message>
+    <message>
+        <location filename="sliderdialog.ui" line="33"/>
+        <source>Maximum value</source>
+        <translation>Wartość maksymalna</translation>
+    </message>
+    <message>
+        <location filename="sliderdialog.ui" line="53"/>
+        <source>Variable</source>
+        <translation>Zmienna</translation>
+    </message>
+    <message>
+        <location filename="sliderdialog.ui" line="62"/>
+        <source>Enabled</source>
+        <translation>Włączony</translation>
+    </message>
+    <message>
+        <location filename="sliderdialog.ui" line="82"/>
+        <source>Cancel</source>
+        <translation>Anuluj</translation>
+    </message>
+    <message>
+        <location filename="sliderdialog.ui" line="89"/>
+        <source>Save</source>
+        <translation>Zapisz</translation>
+    </message>
+    <message>
+        <location filename="sliderdialog.ui" line="101"/>
+        <source>Minimum value</source>
+        <translation>Wartość minimalna</translation>
+    </message>
+    <message>
+        <location filename="sliderdialog.ui" line="108"/>
+        <source>Name</source>
+        <translation>Nazwa</translation>
+    </message>
+    <message>
+        <location filename="sliderdialog.ui" line="115"/>
+        <source>Steps</source>
+        <translation>Liczba kroków</translation>
+    </message>
+    <message>
+        <location filename="sliderdialog.ui" line="122"/>
+        <source>Initial value</source>
+        <translation>Wartość początkowa</translation>
+    </message>
+    <message>
+        <location filename="sliderdialog.cpp" line="92"/>
+        <source>Error</source>
+        <translation>Błąd</translation>
+    </message>
+    <message>
+        <location filename="sliderdialog.cpp" line="92"/>
+        <source>Can&apos;t insert data into database - %1</source>
+        <translation>Nie udało się umieścić danych w bazie - %1</translation>
+    </message>
+</context>
+<context>
+    <name>SliderEntry</name>
+    <message>
+        <location filename="sliderentry.ui" line="62"/>
+        <source>Delete</source>
+        <translation>Usuń</translation>
+    </message>
+    <message>
+        <location filename="sliderentry.ui" line="73"/>
+        <source>Edit</source>
+        <translation>Edycja</translation>
+    </message>
+    <message>
+        <location filename="sliderentry.cpp" line="77"/>
+        <source>Delete slider</source>
+        <translation>Usuń parametr</translation>
+    </message>
+    <message>
+        <location filename="sliderentry.cpp" line="77"/>
+        <source>Are you sure you wany to delete selected slider (%1)?</source>
+        <translation>Czy jesteś pewien że chcesz usunąć wybrany parametr (%1)?</translation>
+    </message>
+    <message>
+        <location filename="sliderentry.cpp" line="80"/>
+        <source>Error</source>
+        <translation>Błąd</translation>
+    </message>
+    <message>
+        <location filename="sliderentry.cpp" line="80"/>
+        <source>Can&apos;t delete slider - %1</source>
+        <translation>Nie można usunąć parametru - %1</translation>
+    </message>
+</context>
+<context>
+    <name>SliderWidget</name>
+    <message>
+        <location filename="sliderwidget.ui" line="17"/>
+        <source>Add</source>
+        <translation>Dodaj</translation>
     </message>
 </context>
 <context>
@@ -1294,37 +1403,37 @@ done;</translation>
         <translation>Eksportuj</translation>
     </message>
     <message>
-        <location filename="terminalwidget.ui" line="57"/>
+        <location filename="terminalwidget.ui" line="56"/>
         <source>Inport</source>
         <translation>Importuj</translation>
     </message>
     <message>
-        <location filename="terminalwidget.ui" line="69"/>
+        <location filename="terminalwidget.ui" line="67"/>
         <source>Clean</source>
         <translation>Wyczyść</translation>
     </message>
     <message>
-        <location filename="terminalwidget.ui" line="81"/>
+        <location filename="terminalwidget.ui" line="78"/>
         <source>Clean on exec</source>
         <translation>Wyczyść przy wykonywaniu</translation>
     </message>
     <message>
-        <location filename="terminalwidget.ui" line="101"/>
+        <location filename="terminalwidget.ui" line="98"/>
         <source>Show log</source>
         <translation>Pokaż log</translation>
     </message>
     <message>
-        <location filename="terminalwidget.ui" line="111"/>
+        <location filename="terminalwidget.ui" line="108"/>
         <source>Show helper</source>
         <translation>Pokaż pomocnika</translation>
     </message>
     <message>
-        <location filename="terminalwidget.ui" line="118"/>
+        <location filename="terminalwidget.ui" line="115"/>
         <source>Check</source>
         <translation>Sprawdź</translation>
     </message>
     <message>
-        <location filename="terminalwidget.ui" line="130"/>
+        <location filename="terminalwidget.ui" line="126"/>
         <source>Execute</source>
         <translation>Wykonaj</translation>
     </message>

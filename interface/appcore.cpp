@@ -1,7 +1,7 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *                                                                         *
  *  Main AppCore module for AVR-Monitor                                    *
- *  Copyright (C) 2015  Łukasz "Kuszki" Dróżdż            l.drozdz@o2.pl   *
+ *  Copyright (C) 2015  Łukasz "Kuszki" Dróżdż  l.drozdz@openmailbox.org   *
  *                                                                         *
  *  This program is free software: you can redistribute it and/or modify   *
  *  it under the terms of the GNU General Public License as published by   *
@@ -22,10 +22,11 @@
 
 AppCore* AppCore::THIS = nullptr;
 AVRBridge* AppCore::Device = nullptr;
+QRegExpValidator* AppCore::Validator = nullptr;
 QString AppCore::LastError = QString();
 
 AppCore::AppCore(void)
-: QObject(nullptr), Script(&Adc), Worker(&Script, &Tasks, &Locker)
+: QObject(nullptr), Adc(&Params), Script(&Adc), Worker(&Script, &Tasks, &Locker)
 {
 	const QString DB = QSettings("AVR-Monitor").value("database", "database.sqlite").toString();
 
@@ -40,6 +41,7 @@ AppCore::AppCore(void)
 
 	Database = QSqlDatabase::addDatabase("QSQLITE");
 	Device = new AVRBridge(&Script.Variables, this);
+	Validator = new QRegExpValidator(QRegExp("\\b[a-zA-Z_]+[a-zA-Z0-9_]*\\b"), this);
 
 	Database.setDatabaseName(DB);
 	Database.open();
@@ -185,6 +187,14 @@ void AppCore::UpdateInterval(double Time)
 	Interval.setInterval(Time * 1000);
 }
 
+void AppCore::UpdateVariable(const QString& Label, double Value)
+{
+	if (Params.Exists(Label.toStdString().c_str()))
+	{
+		Params[Label.toStdString().c_str()] = Value;
+	}
+}
+
 void AppCore::UpdateStatus(bool Active)
 {
 	if (Active && Device->Variables()["WORK"].ToBool()) emit onEmergencyStop();
@@ -207,6 +217,8 @@ void AppCore::SynchronizeDevice(void)
 	QString Code = Initscript; UpdateDefaultOutputs();
 
 	for (const auto& Task: Tasks) Code.append('\n').append(Task);
+
+	for (const auto& Var: Params) Code.replace(QRegExp(QString("\\b%1\\b").arg((const char*) Var.ID)), QString::number(Var.Value.ToNumber()));
 
 	Device->WriteSleepValue(Interval.interval() / 1000.0);
 	Device->WriteDefaultShift(Values);
@@ -255,6 +267,7 @@ void AppCore::UpdateScriptTasks(void)
 	QSqlQuery Query(Database);
 
 	Script.Variables.Clean();
+	Params.Clean();
 
 	Tasks.clear();
 	Initscript.clear();
@@ -270,7 +283,7 @@ void AppCore::UpdateScriptTasks(void)
 
 	if (Query.exec()) while (Query.next())
 	{
-		Script.Variables.Add(Query.value(0).toString().toStdString().c_str(), KLVariables::NUMBER);
+		Script.Variables.Add(Query.value(0).toString().toStdString().c_str());
 
 		Tasks.append(KLScriptbinding::Optimize(
 					   Query.value(1).toString()
@@ -285,11 +298,31 @@ void AppCore::UpdateScriptTasks(void)
 		LastError = Query.lastError().text();
 	}
 
+	Query.prepare(
+		"SELECT "
+			"label, "
+			"init "
+		"FROM "
+			"sliders "
+		"WHERE "
+			"active>0");
+
+	if (Query.exec()) while (Query.next())
+	{
+		Params.Add(Query.value(0).toString().toStdString().c_str(),
+				 KLVariables::NUMBER, KLVariables::KLSCALLBACK(), false);
+	}
+	else
+	{
+		LastError = Query.lastError().text();
+	}
+
 	if (!Tasks.isEmpty())
 	{
 		for (const auto& Var: Script.Variables) Initscript.append(Var.ID).append(',');
 
-		Initscript[Initscript.size() - 1] = ';'; Initscript = QString("export %1").arg(Initscript);
+		Initscript[Initscript.size() - 1] = ';';
+		Initscript = QString("export %1").arg(Initscript);
 	}
 
 	Query.prepare(
@@ -369,7 +402,7 @@ bool AppCore::AddSensor(SensorData& Data)
 
 bool AppCore::UpdateSensor(SensorData& Data)
 {
-	if (!SensorScriptOk(Data.Script, Data.Label)) return false;
+	if (Data.Active) if (!SensorScriptOk(Data.Script, Data.Label)) return false;
 
 	QSqlQuery Query(Database);
 
@@ -537,7 +570,7 @@ bool AppCore::AddEvent(EventData& Data)
 
 bool AppCore::UpdateEvent(EventData& Data)
 {
-	if (!EventScriptOk(Data.Script)) return false;
+	if (Data.Active) if (!EventScriptOk(Data.Script)) return false;
 
 	QSqlQuery Query(Database);
 
@@ -1092,7 +1125,161 @@ QMap<int, PlotData> AppCore::GetPlots(void)
 	return List;
 }
 
-void AppCore::ConnectVariable(const QString &Var, const boost::function<void (double)>& Callback)
+bool AppCore::AddSlider(SliderData& Data)
+{
+	QSqlQuery Query(Database);
+
+	Query.prepare(
+		"INSERT INTO "
+			"sliders (name, label, min, max, init, steps, active) "
+		"VALUES "
+			"(:name, :label, :min, :max, :init, :steps, :active)");
+
+	Query.bindValue(":name", Data.Name);
+	Query.bindValue(":label", Data.Label);
+	Query.bindValue(":min", Data.Min);
+	Query.bindValue(":max", Data.Max);
+	Query.bindValue(":init", Data.Init);
+	Query.bindValue(":steps", Data.Steps);
+	Query.bindValue(":active", Data.Active);
+
+	if (Query.exec())
+	{
+		Data.ID = Query.lastInsertId().toInt(); return true;
+	}
+	else
+	{
+		LastError = Query.lastError().text(); return false;
+	}
+}
+
+bool AppCore::UpdateSlider(SliderData& Data)
+{
+	QSqlQuery Query(Database);
+
+	Query.prepare(
+		"UPDATE "
+			"sliders "
+		"SET "
+			"name=:name, "
+			"label=:label, "
+			"min=:min, "
+			"max=:max, "
+			"init=:init, "
+			"steps=:steps, "
+			"active=:active "
+		"WHERE "
+			"ID=:ID");
+
+	Query.bindValue(":ID", Data.ID);
+
+	Query.bindValue(":name", Data.Name);
+	Query.bindValue(":label", Data.Label);
+	Query.bindValue(":min", Data.Min);
+	Query.bindValue(":max", Data.Max);
+	Query.bindValue(":init", Data.Init);
+	Query.bindValue(":steps", Data.Steps);
+	Query.bindValue(":active", Data.Active);
+
+	if (!Query.exec())
+	{
+		LastError = Query.lastError().text(); return false;
+	}
+
+	return true;
+}
+
+bool AppCore::DeleteSlider(int ID)
+{
+	QSqlQuery Query(Database);
+
+	Query.prepare(
+		"DELETE FROM "
+			"sliders "
+		"WHERE "
+			"ID=:ID");
+
+	Query.bindValue(":ID", ID);
+
+	if (!Query.exec())
+	{
+		LastError = Query.lastError().text(); return false;
+	}
+
+	return true;
+}
+
+SliderData AppCore::GetSlider(int ID)
+{
+	if (ID < 0) return SliderData();
+
+	QSqlQuery Query(Database);
+	SliderData Data;
+
+	Query.prepare(
+		"SELECT "
+			"ID, name, label, min, max, init, steps, active "
+		"FROM "
+			"sliders "
+		"WHERE "
+			"ID=:ID");
+
+	Query.bindValue(":ID", ID);
+
+	if (Query.exec() && Query.next())
+	{
+		Data.ID = Query.value(0).toInt();
+		Data.Name = Query.value(1).toString();
+		Data.Label = Query.value(2).toString();
+		Data.Min = Query.value(3).toDouble();
+		Data.Max = Query.value(4).toDouble();
+		Data.Init = Query.value(5).toDouble();
+		Data.Steps = Query.value(6).toInt();
+		Data.Active = Query.value(7).toBool();
+	}
+	else
+	{
+		LastError = Query.lastError().text();
+	}
+
+	return Data;
+}
+
+QMap<int, SliderData> AppCore::GetSliders(void)
+{
+	QSqlQuery Query(Database);
+	QMap<int, SliderData> List;
+
+	Query.prepare(
+		"SELECT "
+			"ID, name, label, min, max, init, steps, active "
+		"FROM "
+			"sliders");
+
+	if (Query.exec()) while (Query.next())
+	{
+		SliderData Data;
+
+		Data.ID = Query.value(0).toInt();
+		Data.Name = Query.value(1).toString();
+		Data.Label = Query.value(2).toString();
+		Data.Min = Query.value(3).toDouble();
+		Data.Max = Query.value(4).toDouble();
+		Data.Init = Query.value(5).toDouble();
+		Data.Steps = Query.value(6).toInt();
+		Data.Active = Query.value(7).toBool();
+
+		List.insert(Data.ID, Data);
+	}
+	else
+	{
+		LastError = Query.lastError().text();
+	}
+
+	return List;
+}
+
+void AppCore::ConnectVariable(const QString& Var, const boost::function<void (double)>& Callback)
 {
 	const KLString ID = Var.toStdString().c_str();
 
@@ -1111,6 +1298,11 @@ QString AppCore::getValidation(const QString& Code)
 	getInstance()->Script.Validate(Code);
 
 	return getInstance()->Script.GetMessage();
+}
+
+QRegExpValidator* AppCore::getValidator(void)
+{
+	return Validator;
 }
 
 AppCore* AppCore::getInstance(void)

@@ -1,7 +1,7 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *                                                                         *
  *  Sensor settings dialog for AVR-Monitor                                 *
- *  Copyright (C) 2015  Łukasz "Kuszki" Dróżdż            l.drozdz@o2.pl   *
+ *  Copyright (C) 2015  Łukasz "Kuszki" Dróżdż  l.drozdz@openmailbox.org   *
  *                                                                         *
  *  This program is free software: you can redistribute it and/or modify   *
  *  it under the terms of the GNU General Public License as published by   *
@@ -25,6 +25,8 @@ SensorDialog::SensorDialog(int Sensor, QWidget* Parent)
 : QDialog(Parent), ui(new Ui::SensorDialog), ID(Sensor)
 {
 	ui->setupUi(this);
+
+	ui->Label->setValidator(AppCore::getValidator());
 }
 
 SensorDialog::~SensorDialog(void)

@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>SliderDialog</class>
+ <widget class="QDialog" name="SliderDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>300</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Slider settings</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="5" column="1">
+    <widget class="QSpinBox" name="Steps">
+     <property name="minimum">
+      <number>2</number>
+     </property>
+     <property name="maximum">
+      <number>100</number>
+     </property>
+     <property name="value">
+      <number>5</number>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0">
+    <widget class="QLabel" name="labelMax">
+     <property name="text">
+      <string>Maximum value</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1">
+    <widget class="QDoubleSpinBox" name="Min">
+     <property name="decimals">
+      <number>5</number>
+     </property>
+     <property name="minimum">
+      <double>-99999.000000000000000</double>
+     </property>
+     <property name="maximum">
+      <double>99999.000000000000000</double>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QLabel" name="labelLabel">
+     <property name="text">
+      <string>Variable</string>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="0" colspan="2">
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QCheckBox" name="Active">
+       <property name="text">
+        <string>Enabled</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="cancelButton">
+       <property name="text">
+        <string>Cancel</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="saveButton">
+       <property name="text">
+        <string>Save</string>
+       </property>
+       <property name="default">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item row="2" column="0">
+    <widget class="QLabel" name="labelMin">
+     <property name="text">
+      <string>Minimum value</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0">
+    <widget class="QLabel" name="labelName">
+     <property name="text">
+      <string>Name</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="0">
+    <widget class="QLabel" name="labelStep">
+     <property name="text">
+      <string>Steps</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="0">
+    <widget class="QLabel" name="labelInit">
+     <property name="text">
+      <string>Initial value</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="1">
+    <widget class="QDoubleSpinBox" name="Init">
+     <property name="decimals">
+      <number>5</number>
+     </property>
+     <property name="minimum">
+      <double>-99999.000000000000000</double>
+     </property>
+     <property name="maximum">
+      <double>99999.000000000000000</double>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1">
+    <widget class="QLineEdit" name="Name"/>
+   </item>
+   <item row="3" column="1">
+    <widget class="QDoubleSpinBox" name="Max">
+     <property name="decimals">
+      <number>5</number>
+     </property>
+     <property name="minimum">
+      <double>-99999.000000000000000</double>
+     </property>
+     <property name="maximum">
+      <double>99999.000000000000000</double>
+     </property>
+     <property name="value">
+      <double>5.000000000000000</double>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <widget class="QLineEdit" name="Label"/>
+   </item>
+   <item row="6" column="0" colspan="2">
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>0</width>
+       <height>0</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <tabstops>
+  <tabstop>Name</tabstop>
+  <tabstop>Label</tabstop>
+  <tabstop>Min</tabstop>
+  <tabstop>Max</tabstop>
+  <tabstop>Init</tabstop>
+  <tabstop>Active</tabstop>
+  <tabstop>cancelButton</tabstop>
+  <tabstop>saveButton</tabstop>
+ </tabstops>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>saveButton</sender>
+   <signal>clicked()</signal>
+   <receiver>SliderDialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>389</x>
+     <y>289</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>648</x>
+     <y>346</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cancelButton</sender>
+   <signal>clicked()</signal>
+   <receiver>SliderDialog</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>303</x>
+     <y>289</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>302</x>
+     <y>414</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>Min</sender>
+   <signal>valueChanged(double)</signal>
+   <receiver>SliderDialog</receiver>
+   <slot>MinSpinChange(double)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>254</x>
+     <y>91</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>710</x>
+     <y>93</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>Max</sender>
+   <signal>valueChanged(double)</signal>
+   <receiver>SliderDialog</receiver>
+   <slot>MaxSpinChange(double)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>350</x>
+     <y>129</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>633</x>
+     <y>129</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>MaxSpinChange(double)</slot>
+  <slot>MinSpinChange(double)</slot>
+ </slots>
+</ui>

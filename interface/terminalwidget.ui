@@ -46,8 +46,7 @@
        </property>
        <property name="icon">
         <iconset theme="document-open">
-         <normaloff/>
-        </iconset>
+         <normaloff>.</normaloff>.</iconset>
        </property>
       </widget>
      </item>
@@ -58,8 +57,7 @@
        </property>
        <property name="icon">
         <iconset theme="document-save">
-         <normaloff/>
-        </iconset>
+         <normaloff>.</normaloff>.</iconset>
        </property>
       </widget>
      </item>
@@ -70,8 +68,7 @@
        </property>
        <property name="icon">
         <iconset theme="edit-clear">
-         <normaloff/>
-        </iconset>
+         <normaloff>.</normaloff>.</iconset>
        </property>
       </widget>
      </item>
@@ -119,8 +116,7 @@
        </property>
        <property name="icon">
         <iconset theme="tools-check-spelling">
-         <normaloff/>
-        </iconset>
+         <normaloff>.</normaloff>.</iconset>
        </property>
       </widget>
      </item>
@@ -131,8 +127,7 @@
        </property>
        <property name="icon">
         <iconset theme="system-run">
-         <normaloff/>
-        </iconset>
+         <normaloff>.</normaloff>.</iconset>
        </property>
       </widget>
      </item>

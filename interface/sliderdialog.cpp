@@ -1,7 +1,7 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *                                                                         *
- *  Event options dialog for AVR-Monitor                                   *
- *  Copyright (C) 2015  Łukasz "Kuszki" Dróżdż  l.drozdz@openmailbox.org   *
+ *  Slider dialog implementation for AVR-Interface                         *
+ *  Copyright (C) 2016  Łukasz "Kuszki" Dróżdż  l.drozdz@openmailbox.org   *
  *                                                                         *
  *  This program is free software: you can redistribute it and/or modify   *
  *  it under the terms of the GNU General Public License as published by   *
@@ -18,47 +18,69 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include "eventdialog.hpp"
-#include "ui_eventdialog.h"
+#include "sliderdialog.hpp"
+#include "ui_sliderdialog.h"
 
-EventDialog::EventDialog(int Event, QWidget* Parent)
-: QDialog(Parent), ui(new Ui::EventDialog), ID(Event)
+SliderDialog::SliderDialog(int Slider, QWidget* Parent)
+: QDialog(Parent), ui(new Ui::SliderDialog), ID(Slider)
 {
 	ui->setupUi(this);
+
+	ui->Label->setValidator(AppCore::getValidator());
 }
 
-EventDialog::~EventDialog(void)
+SliderDialog::~SliderDialog(void)
 {
 	delete ui;
 }
 
-void EventDialog::open(void)
+void SliderDialog::open(void)
 {
-	EventData Data = AppCore::getInstance()->GetEvent(ID);
+	SliderData Data = AppCore::getInstance()->GetSlider(ID);
 
 	ui->Name->setText(Data.Name);
-	ui->Script->document()->setPlainText(Data.Script);
+	ui->Label->setText(Data.Label);
+	ui->Min->setValue(Data.Min);
+	ui->Max->setValue(Data.Max);
+	ui->Init->setValue(Data.Init);
+	ui->Steps->setValue(Data.Steps);
 	ui->Active->setChecked(Data.Active);
 
 	QDialog::open();
 }
 
-void EventDialog::accept(void)
+void SliderDialog::MaxSpinChange(double Value)
 {
-	EventData Data; bool OK = false;
+	ui->Min->setMaximum(Value);
+	ui->Init->setMaximum(Value);
+}
+
+void SliderDialog::MinSpinChange(double Value)
+{
+	ui->Max->setMinimum(Value);
+	ui->Init->setMinimum(Value);
+}
+
+void SliderDialog::accept(void)
+{
+	SliderData Data; bool OK = false;
 
 	Data.ID = ID;
 	Data.Name = ui->Name->text();
-	Data.Script = ui->Script->document()->toPlainText();
+	Data.Label = ui->Label->text();
+	Data.Min = ui->Min->value();
+	Data.Max = ui->Max->value();
+	Data.Init = ui->Init->value();
+	Data.Steps = ui->Steps->value();
 	Data.Active = ui->Active->isChecked();
 
 	if (ID != -1)
 	{
-		OK = AppCore::getInstance()->UpdateEvent(Data);
+		OK = AppCore::getInstance()->UpdateSlider(Data);
 	}
 	else
 	{
-		OK = AppCore::getInstance()->AddEvent(Data);
+		OK = AppCore::getInstance()->AddSlider(Data);
 	}
 
 	if (OK)

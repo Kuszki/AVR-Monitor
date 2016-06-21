@@ -13,51 +13,45 @@
   <property name="windowTitle">
    <string>Devices</string>
   </property>
-  <layout class="QVBoxLayout" name="mainLayout">
-   <item>
-    <layout class="QVBoxLayout" name="devicesLayout"/>
-   </item>
-   <item>
-    <spacer name="verticalSpacer">
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="1" column="0">
+    <spacer name="horizontalSpacer">
      <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>40</height>
-      </size>
+      <enum>Qt::Horizontal</enum>
      </property>
     </spacer>
    </item>
-   <item>
-    <layout class="QHBoxLayout" name="toolsLayout">
-     <item>
-      <spacer name="horizontalSpacer">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QToolButton" name="addButton">
-       <property name="text">
-        <string>Add</string>
-       </property>
-       <property name="icon">
-        <iconset theme="list-add">
-         <normaloff/>
-        </iconset>
-       </property>
-      </widget>
-     </item>
-    </layout>
+   <item row="1" column="1">
+    <widget class="QToolButton" name="addButton">
+     <property name="text">
+      <string>Add</string>
+     </property>
+     <property name="icon">
+      <iconset theme="list-add">
+       <normaloff>.</normaloff>.</iconset>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0" colspan="2">
+    <widget class="QScrollArea" name="scrollArea">
+     <property name="frameShape">
+      <enum>QFrame::NoFrame</enum>
+     </property>
+     <property name="widgetResizable">
+      <bool>true</bool>
+     </property>
+     <widget class="QWidget" name="scrollAreaWidgetContents">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>782</width>
+        <height>553</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout" name="devicesLayout"/>
+     </widget>
+    </widget>
    </item>
   </layout>
  </widget>

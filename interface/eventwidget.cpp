@@ -1,7 +1,7 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *                                                                         *
  *  Event widget for AVR-Monitor                                           *
- *  Copyright (C) 2015  Łukasz "Kuszki" Dróżdż            l.drozdz@o2.pl   *
+ *  Copyright (C) 2015  Łukasz "Kuszki" Dróżdż  l.drozdz@openmailbox.org   *
  *                                                                         *
  *  This program is free software: you can redistribute it and/or modify   *
  *  it under the terms of the GNU General Public License as published by   *
@@ -26,13 +26,14 @@ EventWidget::EventWidget(QWidget* Parent)
 {
 	ui->setupUi(this);
 
+	ui->eventsLayout->setAlignment(Qt::AlignTop);
+
 	Dialog = new EventDialog(-1, this);
 
 	for (const auto& Data: AppCore::getInstance()->GetEvents()) AddEvent(Data);
 
 	connect(Dialog, &EventDialog::onDialogAccept, this, &EventWidget::AddEvent);
-
-	connect(ui->addButton, &QPushButton::clicked, [this] (void) -> void { Dialog->open(); });
+	connect(ui->addButton, &QPushButton::clicked, Dialog, &QDialog::open);
 }
 
 EventWidget::~EventWidget(void)
@@ -40,9 +41,19 @@ EventWidget::~EventWidget(void)
 	delete ui;
 }
 
+void EventWidget::RefreshSize(void)
+{
+	const int Items = ui->eventsLayout->minimumSize().width();
+	const int Scroll = ui->scrollArea->verticalScrollBar()->width();
+
+	ui->scrollArea->setMinimumWidth(Items + Scroll);
+}
+
 void EventWidget::AddEvent(const EventData& Data)
 {
 	EventEntry* Entry = new EventEntry(Data, this);
 
-	ui->eventsLayout->addWidget(Entry);
+	ui->eventsLayout->addWidget(Entry); RefreshSize();
+
+	connect(Entry, &EventEntry::onEventUpdate, this, &EventWidget::RefreshSize);
 }

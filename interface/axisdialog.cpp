@@ -1,7 +1,7 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *                                                                         *
  *  Axis settings dialog for AVR-Monitor                                   *
- *  Copyright (C) 2015  Łukasz "Kuszki" Dróżdż            l.drozdz@o2.pl   *
+ *  Copyright (C) 2015  Łukasz "Kuszki" Dróżdż  l.drozdz@openmailbox.org   *
  *                                                                         *
  *  This program is free software: you can redistribute it and/or modify   *
  *  it under the terms of the GNU General Public License as published by   *
@@ -44,6 +44,16 @@ void AxisDialog::open(void)
 	ui->Active->setChecked(Data.Active);
 
 	QDialog::open();
+}
+
+void AxisDialog::MaxSpinChange(double Value)
+{
+	ui->Min->setMaximum(Value);
+}
+
+void AxisDialog::MinSpinChange(double Value)
+{
+	ui->Max->setMinimum(Value);
 }
 
 void AxisDialog::accept(void)

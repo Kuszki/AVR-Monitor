@@ -142,8 +142,8 @@
        </property>
        <property name="sizeHint" stdset="0">
         <size>
-         <width>40</width>
-         <height>20</height>
+         <width>0</width>
+         <height>0</height>
         </size>
        </property>
       </spacer>
@@ -236,5 +236,41 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>Max</sender>
+   <signal>valueChanged(double)</signal>
+   <receiver>AxisDialog</receiver>
+   <slot>MaxSpinChange(double)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>258</x>
+     <y>91</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>627</x>
+     <y>92</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>Min</sender>
+   <signal>valueChanged(double)</signal>
+   <receiver>AxisDialog</receiver>
+   <slot>MinSpinChange(double)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>255</x>
+     <y>130</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>440</x>
+     <y>130</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
+ <slots>
+  <slot>MaxSpinChange(double)</slot>
+  <slot>MinSpinChange(double)</slot>
+ </slots>
 </ui>

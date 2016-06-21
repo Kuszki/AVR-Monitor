@@ -1,7 +1,7 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *                                                                         *
  *  Shift register control widget for AVR-Monitor                          *
- *  Copyright (C) 2015  Łukasz "Kuszki" Dróżdż            l.drozdz@o2.pl   *
+ *  Copyright (C) 2015  Łukasz "Kuszki" Dróżdż  l.drozdz@openmailbox.org   *
  *                                                                         *
  *  This program is free software: you can redistribute it and/or modify   *
  *  it under the terms of the GNU General Public License as published by   *
@@ -25,6 +25,8 @@ ShiftWidget::ShiftWidget(QWidget* Parent)
 : QWidget(Parent), ui(new Ui::ShiftWidget)
 {
 	ui->setupUi(this);
+
+	ui->mainLayout->setAlignment(Qt::AlignTop);
 
 	for (int i = 0; i < 8; i++)
 	{

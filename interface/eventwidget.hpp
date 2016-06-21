@@ -1,7 +1,7 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *                                                                         *
  *  Event widget for AVR-Monitor                                           *
- *  Copyright (C) 2015  Łukasz "Kuszki" Dróżdż            l.drozdz@o2.pl   *
+ *  Copyright (C) 2015  Łukasz "Kuszki" Dróżdż  l.drozdz@openmailbox.org   *
  *                                                                         *
  *  This program is free software: you can redistribute it and/or modify   *
  *  it under the terms of the GNU General Public License as published by   *
@@ -22,6 +22,8 @@
 #define EVENTWIDGET_HPP
 
 #include <QPushButton>
+#include <QScrollArea>
+#include <QScrollBar>
 #include <QWidget>
 
 #include "eventdialog.hpp"
@@ -48,6 +50,10 @@ class EventWidget : public QWidget
 
 		explicit EventWidget(QWidget* Parent = nullptr);
 		virtual ~EventWidget(void) override;
+
+	public slots:
+
+		void RefreshSize(void);
 
 	private slots:
 

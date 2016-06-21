@@ -1,7 +1,7 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *                                                                         *
  *  Common types and structures definitions for AVR-Monitor                *
- *  Copyright (C) 2015  Łukasz "Kuszki" Dróżdż            l.drozdz@o2.pl   *
+ *  Copyright (C) 2015  Łukasz "Kuszki" Dróżdż  l.drozdz@openmailbox.org   *
  *                                                                         *
  *  This program is free software: you can redistribute it and/or modify   *
  *  it under the terms of the GNU General Public License as published by   *
@@ -32,7 +32,7 @@ struct SensorData
 	QString Unit;
 	QString Script;
 
-	bool Active = false;
+	bool Active;
 };
 
 struct EventData
@@ -83,6 +83,22 @@ struct PlotData
 	QString Varname;
 	QString Varlabel;
 	QString Axisname;
+};
+
+struct SliderData
+{
+	int ID = -1;
+
+	QString Name;
+	QString Label;
+
+	double Min;
+	double Max;
+	double Init;
+
+	int Steps;
+
+	bool Active;
 };
 
 #endif // COMMON_HPP

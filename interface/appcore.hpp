@@ -1,7 +1,7 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *                                                                         *
  *  Main AppCore module for AVR-Monitor                                    *
- *  Copyright (C) 2015  Łukasz "Kuszki" Dróżdż            l.drozdz@o2.pl   *
+ *  Copyright (C) 2015  Łukasz "Kuszki" Dróżdż  l.drozdz@openmailbox.org   *
  *                                                                         *
  *  This program is free software: you can redistribute it and/or modify   *
  *  it under the terms of the GNU General Public License as published by   *
@@ -21,6 +21,7 @@
 #ifndef APPCORE_HPP
 #define APPCORE_HPP
 
+#include <QRegExpValidator>
 #include <QSqlDatabase>
 #include <QStringList>
 #include <QSqlQuery>
@@ -48,12 +49,14 @@ class AppCore final: public QObject
 
 		static AppCore* THIS;
 		static AVRBridge* Device;
+		static QRegExpValidator* Validator;
 
 		static QString LastError;
 
 		QSqlDatabase Database;
 
 		KLScriptbinding Script;
+		KLVariables Params;
 		KLVariables Adc;
 
 		QStringList Tasks;
@@ -117,11 +120,19 @@ class AppCore final: public QObject
 		PlotData GetPlot(int ID);
 		QMap<int, PlotData> GetPlots(void);
 
+		bool AddSlider(SliderData& Data);
+		bool UpdateSlider(SliderData& Data);
+		bool DeleteSlider(int ID);
+
+		SliderData GetSlider(int ID);
+		QMap<int, SliderData> GetSliders(void);
+
 		void ConnectVariable(const QString& Var, const boost::function<void (double)>& Callback);
 		void DisconnectVariable(const QString& Var);
 
 		static QString getValidation(const QString& Code);
 
+		static QRegExpValidator* getValidator(void);
 		static AppCore* getInstance(void);
 		static AVRBridge* getDevice(void);
 		static QString getError(void);
@@ -141,6 +152,8 @@ class AppCore final: public QObject
 		void UpdateStatus(bool Active);
 
 		void UpdateInterval(double Time);
+
+		void UpdateVariable(const QString& Label, double Value);
 
 		void SynchronizeDevice(void);
 

@@ -1,7 +1,7 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *                                                                         *
  *  Sensor widget for AVR-Monitor                                          *
- *  Copyright (C) 2015  Łukasz "Kuszki" Dróżdż            l.drozdz@o2.pl   *
+ *  Copyright (C) 2015  Łukasz "Kuszki" Dróżdż  l.drozdz@openmailbox.org   *
  *                                                                         *
  *  This program is free software: you can redistribute it and/or modify   *
  *  it under the terms of the GNU General Public License as published by   *
@@ -26,13 +26,14 @@ SensorWidget::SensorWidget(QWidget *Parent)
 {
 	ui->setupUi(this);
 
+	ui->sensorsLayout->setAlignment(Qt::AlignTop);
+
 	Dialog = new SensorDialog(-1, this);
 
 	for (const auto& Data: AppCore::getInstance()->GetSensors()) AddSensor(Data);
 
 	connect(Dialog, &SensorDialog::onDialogAccept, this, &SensorWidget::AddSensor);
-
-	connect(ui->addButton, &QPushButton::clicked, [this] (void) -> void { Dialog->open(); });
+	connect(ui->addButton, &QPushButton::clicked, Dialog, &QDialog::open);
 }
 
 SensorWidget::~SensorWidget(void)
@@ -40,9 +41,19 @@ SensorWidget::~SensorWidget(void)
 	delete ui;
 }
 
+void SensorWidget::RefreshSize(void)
+{
+	const int Items = ui->sensorsLayout->minimumSize().width();
+	const int Scroll = ui->scrollArea->verticalScrollBar()->width();
+
+	ui->scrollArea->setMinimumWidth(Items + Scroll);
+}
+
 void SensorWidget::AddSensor(const SensorData& Data)
 {
 	SensorEntry* Entry = new SensorEntry(Data, this);
 
-	ui->sensorsLayout->addWidget(Entry);
+	ui->sensorsLayout->addWidget(Entry); RefreshSize();
+
+	connect(Entry, &SensorEntry::onSensorUpdate, this, &SensorWidget::RefreshSize);
 }

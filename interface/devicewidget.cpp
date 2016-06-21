@@ -1,7 +1,7 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *                                                                         *
  *  Device widget for AVR-Monitor                                          *
- *  Copyright (C) 2015  Łukasz "Kuszki" Dróżdż            l.drozdz@o2.pl   *
+ *  Copyright (C) 2015  Łukasz "Kuszki" Dróżdż  l.drozdz@openmailbox.org   *
  *                                                                         *
  *  This program is free software: you can redistribute it and/or modify   *
  *  it under the terms of the GNU General Public License as published by   *
@@ -26,16 +26,14 @@ DeviceWidget::DeviceWidget(QWidget* Parent)
 {
 	ui->setupUi(this);
 
+	ui->devicesLayout->setAlignment(Qt::AlignTop);
+
 	Dialog = new DeviceDialog(-1, this);
 
 	for (const auto& Data: AppCore::getInstance()->GetDevices()) AddDevice(Data);
 
 	connect(Dialog, &DeviceDialog::onDialogAccept, this, &DeviceWidget::AddDevice);
-
-	connect(ui->addButton, &QPushButton::clicked, [this] (void) -> void
-	{
-		Dialog->open();
-	});
+	connect(ui->addButton, &QPushButton::clicked, Dialog, &QDialog::open);
 }
 
 DeviceWidget::~DeviceWidget(void)
@@ -43,9 +41,19 @@ DeviceWidget::~DeviceWidget(void)
 	delete ui;
 }
 
+void DeviceWidget::RefreshSize(void)
+{
+	const int Items = ui->devicesLayout->minimumSize().width();
+	const int Scroll = ui->scrollArea->verticalScrollBar()->width();
+
+	ui->scrollArea->setMinimumWidth(Items + Scroll);
+}
+
 void DeviceWidget::AddDevice(const DeviceData& Data)
 {
 	DeviceEntry* Entry = new DeviceEntry(Data, this);
 
-	ui->devicesLayout->addWidget(Entry);
+	ui->devicesLayout->addWidget(Entry); RefreshSize();
+
+	connect(Entry, &DeviceEntry::onDeviceUpdate, this, &DeviceWidget::RefreshSize);
 }

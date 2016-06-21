@@ -1,7 +1,7 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *                                                                         *
- *  Main window for AVR-Monitor                                            *
- *  Copyright (C) 2015  Łukasz "Kuszki" Dróżdż  l.drozdz@openmailbox.org   *
+ *  Slider widget implementation for AVR-Interface                         *
+ *  Copyright (C) 2016  Łukasz "Kuszki" Dróżdż  l.drozdz@openmailbox.org   *
  *                                                                         *
  *  This program is free software: you can redistribute it and/or modify   *
  *  it under the terms of the GNU General Public License as published by   *
@@ -18,70 +18,48 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef MAINWINDOW_HPP
-#define MAINWINDOW_HPP
+#ifndef SLIDERWIDGET_HPP
+#define SLIDERWIDGET_HPP
 
-#include <QDesktopServices>
-#include <QDoubleSpinBox>
-#include <QMessageBox>
-#include <QMainWindow>
-#include <QFileDialog>
-#include <QSettings>
+#include <QPushButton>
+#include <QScrollArea>
+#include <QScrollBar>
+#include <QWidget>
 
-#include <avrbridge.hpp>
-
-#include "aboutdialog.hpp"
+#include "sliderdialog.hpp"
+#include "sliderentry.hpp"
+#include "appcore.hpp"
+#include "common.hpp"
 
 namespace Ui
 {
-	class MainWindow;
+	class SliderWidget;
 }
 
-class MainWindow : public QMainWindow
+class SliderWidget : public QWidget
 {
 
 		Q_OBJECT
 
 	private:
 
-		Ui::MainWindow *ui;
+		Ui::SliderWidget* ui;
 
-		AboutDialog* aboutDialog;
-		QDoubleSpinBox* Interval;
+		SliderDialog* Dialog;
 
 	public:
 
-		explicit MainWindow(QWidget* Parent = nullptr);
-		virtual ~MainWindow(void) override;
-
-	private slots:
-
-		void ConnectDevice(void);
-
-		void DisconnectDevice(void);
-
-		void DownloadScript(void);
-
-		void UploadScript(void);
-
-		void ShowErrorMessage(const QString& Message);
-
-		void ConnectionChanged(bool Connected);
-
-		void SaveMasterScript(const QString& Script);
-
-		void IntervalValueChanged(double Value);
-
-		void ServiceStatusChanged(bool Active, bool User);
+		explicit SliderWidget(QWidget* Parent = nullptr);
+		virtual ~SliderWidget(void) override;
 
 	public slots:
 
-		void ShowAboutDialog(void);
+		void RefreshSize(void);
 
-		void ShowProjectWeb(void);
+	private slots:
 
-		void ToggleFulscreenMode(bool Fulscreen);
+		void AddSlider(const SliderData& Data);
 
 };
 
-#endif // MAINWINDOW_HPP
+#endif // SLIDERWIDGET_HPP

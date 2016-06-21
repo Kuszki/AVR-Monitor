@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1200</width>
-    <height>700</height>
+    <width>600</width>
+    <height>400</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,52 +17,33 @@
    <iconset theme="utilities-system-monitor">
     <normaloff>.</normaloff>.</iconset>
   </property>
+  <property name="dockNestingEnabled">
+   <bool>true</bool>
+  </property>
   <widget class="QWidget" name="centralWidget">
-   <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="0">
-     <widget class="QTabWidget" name="tabWidget">
-      <property name="currentIndex">
-       <number>0</number>
-      </property>
-      <property name="movable">
-       <bool>true</bool>
-      </property>
-      <widget class="PlotWidget" name="tabPlot">
-       <attribute name="title">
-        <string>Plot</string>
-       </attribute>
-      </widget>
-      <widget class="SensorWidget" name="tabSensors">
-       <attribute name="title">
-        <string>Sensors</string>
-       </attribute>
-      </widget>
-      <widget class="EventWidget" name="tabEvents">
-       <attribute name="title">
-        <string>Events</string>
-       </attribute>
-      </widget>
-      <widget class="DeviceWidget" name="tabDevices">
-       <attribute name="title">
-        <string>Devices</string>
-       </attribute>
-      </widget>
-      <widget class="TerminalWidget" name="tabTerminal">
-       <attribute name="title">
-        <string>Terminal</string>
-       </attribute>
-      </widget>
-     </widget>
-    </item>
-   </layout>
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>0</width>
+     <height>0</height>
+    </size>
+   </property>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1200</width>
-     <height>26</height>
+     <width>600</width>
+     <height>25</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuDevice">
@@ -162,14 +143,11 @@
    <addaction name="actionFulscreen"/>
   </widget>
   <widget class="QDockWidget" name="shiftDock">
-   <property name="allowedAreas">
-    <set>Qt::LeftDockWidgetArea|Qt::RightDockWidgetArea</set>
-   </property>
    <property name="windowTitle">
     <string>Shift register</string>
    </property>
    <attribute name="dockWidgetArea">
-    <number>2</number>
+    <number>1</number>
    </attribute>
    <widget class="ShiftWidget" name="shiftWidget">
     <property name="enabled">
@@ -178,14 +156,11 @@
    </widget>
   </widget>
   <widget class="QDockWidget" name="pgaDock">
-   <property name="allowedAreas">
-    <set>Qt::LeftDockWidgetArea|Qt::RightDockWidgetArea</set>
-   </property>
    <property name="windowTitle">
     <string>Amplifiers</string>
    </property>
    <attribute name="dockWidgetArea">
-    <number>2</number>
+    <number>1</number>
    </attribute>
    <widget class="GainWidget" name="pgaWidget">
     <property name="enabled">
@@ -194,9 +169,6 @@
    </widget>
   </widget>
   <widget class="QDockWidget" name="adcDock">
-   <property name="allowedAreas">
-    <set>Qt::LeftDockWidgetArea|Qt::RightDockWidgetArea</set>
-   </property>
    <property name="windowTitle">
     <string>Converters</string>
    </property>
@@ -210,9 +182,6 @@
    </widget>
   </widget>
   <widget class="QDockWidget" name="systemDock">
-   <property name="allowedAreas">
-    <set>Qt::LeftDockWidgetArea|Qt::RightDockWidgetArea</set>
-   </property>
    <property name="windowTitle">
     <string>System</string>
    </property>
@@ -224,6 +193,60 @@
      <bool>false</bool>
     </property>
    </widget>
+  </widget>
+  <widget class="QDockWidget" name="plotDock">
+   <property name="windowTitle">
+    <string>Plot</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>2</number>
+   </attribute>
+   <widget class="PlotWidget" name="plotWidget"/>
+  </widget>
+  <widget class="QDockWidget" name="sensorsDock">
+   <property name="windowTitle">
+    <string>Sensors</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>2</number>
+   </attribute>
+   <widget class="SensorWidget" name="sensorsWidget"/>
+  </widget>
+  <widget class="QDockWidget" name="eventsDock">
+   <property name="windowTitle">
+    <string>Events</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>2</number>
+   </attribute>
+   <widget class="EventWidget" name="eventsWidget"/>
+  </widget>
+  <widget class="QDockWidget" name="devicesDock">
+   <property name="windowTitle">
+    <string>Devices</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>2</number>
+   </attribute>
+   <widget class="DeviceWidget" name="devicesWidget"/>
+  </widget>
+  <widget class="QDockWidget" name="terminalDock">
+   <property name="windowTitle">
+    <string>Terminal</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>2</number>
+   </attribute>
+   <widget class="TerminalWidget" name="terminalWidget"/>
+  </widget>
+  <widget class="QDockWidget" name="slidersDock">
+   <property name="windowTitle">
+    <string>Sliders</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>2</number>
+   </attribute>
+   <widget class="SliderWidget" name="slidersWidget"/>
   </widget>
   <action name="actionConnect">
    <property name="icon">
@@ -442,6 +465,12 @@
    <class>PlotWidget</class>
    <extends>QWidget</extends>
    <header>plotwidget.hpp</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>SliderWidget</class>
+   <extends>QWidget</extends>
+   <header>sliderwidget.hpp</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

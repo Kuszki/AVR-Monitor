@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>SliderEntry</class>
+ <widget class="QWidget" name="SliderEntry">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>600</width>
+    <height>54</height>
+   </rect>
+  </property>
+  <layout class="QHBoxLayout" name="horizontalLayout">
+   <item>
+    <widget class="QLabel" name="labelIcon">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>28</width>
+       <height>28</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>28</width>
+       <height>28</height>
+      </size>
+     </property>
+     <property name="pixmap">
+      <pixmap resource="resources.qrc">:/icon/options</pixmap>
+     </property>
+     <property name="scaledContents">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="Name"/>
+   </item>
+   <item>
+    <widget class="QSlider" name="Slider">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QDoubleSpinBox" name="Spin">
+     <property name="decimals">
+      <number>5</number>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QToolButton" name="deleteButton">
+     <property name="text">
+      <string>Delete</string>
+     </property>
+     <property name="icon">
+      <iconset theme="list-remove">
+       <normaloff>.</normaloff>.</iconset>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QToolButton" name="settingsButton">
+     <property name="text">
+      <string>Edit</string>
+     </property>
+     <property name="icon">
+      <iconset theme="preferences-system">
+       <normaloff>.</normaloff>.</iconset>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>settingsButton</sender>
+   <signal>clicked()</signal>
+   <receiver>SliderEntry</receiver>
+   <slot>SettingsButtonClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>582</x>
+     <y>32</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>853</x>
+     <y>248</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>deleteButton</sender>
+   <signal>clicked()</signal>
+   <receiver>SliderEntry</receiver>
+   <slot>DeleteButtonClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>552</x>
+     <y>28</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>552</x>
+     <y>202</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>Slider</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>SliderEntry</receiver>
+   <slot>SliderValueChange(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>140</x>
+     <y>26</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>204</x>
+     <y>257</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>Spin</sender>
+   <signal>valueChanged(double)</signal>
+   <receiver>SliderEntry</receiver>
+   <slot>SpinValueChange(double)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>491</x>
+     <y>34</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>532</x>
+     <y>191</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>SettingsButtonClicked()</slot>
+  <slot>DeleteButtonClicked()</slot>
+  <slot>SliderValueChange(int)</slot>
+  <slot>SpinValueChange(double)</slot>
+ </slots>
+</ui>

@@ -13,14 +13,22 @@
   <property name="windowTitle">
    <string>Sensors</string>
   </property>
-  <layout class="QVBoxLayout" name="mainLayout">
-   <item>
-    <layout class="QVBoxLayout" name="sensorsLayout"/>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="1" column="1">
+    <widget class="QToolButton" name="addButton">
+     <property name="text">
+      <string>Add</string>
+     </property>
+     <property name="icon">
+      <iconset theme="list-add">
+       <normaloff>.</normaloff>.</iconset>
+     </property>
+    </widget>
    </item>
-   <item>
-    <spacer name="verticalSpacer">
+   <item row="1" column="0">
+    <spacer name="horizontalSpacer">
      <property name="orientation">
-      <enum>Qt::Vertical</enum>
+      <enum>Qt::Horizontal</enum>
      </property>
      <property name="sizeHint" stdset="0">
       <size>
@@ -30,34 +38,26 @@
      </property>
     </spacer>
    </item>
-   <item>
-    <layout class="QHBoxLayout" name="toolsLayout">
-     <item>
-      <spacer name="horizontalSpacer">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>0</width>
-         <height>0</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QToolButton" name="addButton">
-       <property name="text">
-        <string>Add</string>
-       </property>
-       <property name="icon">
-        <iconset theme="list-add">
-         <normaloff/>
-        </iconset>
-       </property>
-      </widget>
-     </item>
-    </layout>
+   <item row="0" column="0" colspan="2">
+    <widget class="QScrollArea" name="scrollArea">
+     <property name="frameShape">
+      <enum>QFrame::NoFrame</enum>
+     </property>
+     <property name="widgetResizable">
+      <bool>true</bool>
+     </property>
+     <widget class="QWidget" name="scrollAreaWidgetContents">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>232</width>
+        <height>253</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout" name="sensorsLayout"/>
+     </widget>
+    </widget>
    </item>
   </layout>
  </widget>
