@@ -21,6 +21,11 @@
 #ifndef APPCORE_HPP
 #define APPCORE_HPP
 
+#define EmitError { LastError = Query.lastError().text(); return false; }
+#define EmitNotFound { LastError = tr("Item with selected ID doesn't exists"); return false; }
+
+#define VREADONLY KLVariables::NUMBER, KLVariables::KLSCALLBACK(), false
+
 #include <QRegExpValidator>
 #include <QSqlDatabase>
 #include <QStringList>
@@ -40,7 +45,7 @@
 #include "common.hpp"
 #include "scriptworker.hpp"
 
-class AppCore final: public QObject
+class AppCore final : public QObject
 {
 
 		Q_OBJECT
@@ -55,27 +60,34 @@ class AppCore final: public QObject
 
 		QSqlDatabase Database;
 
+		QMap<int, SensorData> Sensors;
+		QMap<int, EventData> Events;
+		QMap<int, DeviceData> Devices;
+		QMap<int, AxisData> Axes;
+		QMap<int, PlotData> Plots;
+		QMap<int, SliderData> Sliders;
+
+		KLVariables SlidersVar;
+		KLVariables SensorsVar;
+		KLVariables AdcVar;
+
 		KLScriptbinding Script;
-		KLVariables Params;
-		KLVariables Adc;
 
 		QStringList Tasks;
-		QString Initscript;
 
 		unsigned char Values;
 		bool Done = true;
 
-		ScriptWorker Worker;
-		QThread Thread;
 		QMutex Locker;
+		QThread Thread;
+		ScriptWorker Worker;
 
 		QTimer Watchdog;
 		QTimer Interval;
 
-		void UpdateScriptTasks(void);
-		void UpdateDefaultOutputs(void);
+	private:
 
-		bool SensorScriptOk(const QString& Code, const QString& Label);
+		bool SensorScriptOk(const QString& Code, const QString& Label = QString());
 		bool EventScriptOk(const QString& Code);
 
 	public:
@@ -88,41 +100,47 @@ class AppCore final: public QObject
 		bool AddSensor(SensorData& Data);
 		bool UpdateSensor(SensorData& Data);
 		bool DeleteSensor(int ID);
+		bool DisableSensor(int ID);
 
-		SensorData GetSensor(int ID);
-		QMap<int, SensorData> GetSensors(void);
+		const SensorData& GetSensor(int ID);
+		const QMap<int, SensorData>& GetSensors(void);
 
 		bool AddEvent(EventData& Data);
 		bool UpdateEvent(EventData& Data);
 		bool DeleteEvent(int ID);
+		bool DisableEvent(int ID);
 
-		EventData GetEvent(int ID);
-		QMap<int, EventData> GetEvents(void);
+		const EventData& GetEvent(int ID);
+		const QMap<int, EventData>& GetEvents(void);
 
 		bool AddDevice(DeviceData& Data);
 		bool UpdateDevice(DeviceData& Data);
 		bool DeleteDevice(int ID);
+		bool DisableDevice(int ID);
 
-		DeviceData GetDevice(int ID);
-		QMap<int, DeviceData> GetDevices(void);
+		const DeviceData& GetDevice(int ID);
+		const QMap<int, DeviceData>& GetDevices(void);
 
 		bool AddAxis(AxisData& Data);
 		bool UpdateAxis(AxisData& Data);
 		bool DeleteAxis(int ID);
+		bool DisableAxis(int ID);
 
-		AxisData GetAxis(int ID);
-		QMap<int, AxisData> GetAxes(void);
+		const AxisData& GetAxis(int ID);
+		const QMap<int, AxisData>& GetAxes(void);
 
 		bool AddPlot(PlotData& Data);
 		bool UpdatePlot(PlotData& Data);
 		bool DeletePlot(int ID);
+		bool DisablePlot(int ID);
 
-		PlotData GetPlot(int ID);
-		QMap<int, PlotData> GetPlots(void);
+		const PlotData& GetPlot(int ID);
+		const QMap<int, PlotData>& GetPlots(void);
 
 		bool AddSlider(SliderData& Data);
 		bool UpdateSlider(SliderData& Data);
 		bool DeleteSlider(int ID);
+		bool DisableSlider(int ID);
 
 		SliderData GetSlider(int ID);
 		QMap<int, SliderData> GetSliders(void);
@@ -143,6 +161,12 @@ class AppCore final: public QObject
 
 		void PerformTasks(const KLVariables& Vars);
 
+		void UpdateInvalidItems(void);
+
+		void UpdateScriptTasks(void);
+
+		void UpdateDefaultOutputs(void);
+
 		void CompleteEvaluations(void);
 
 		void TerminateEvaluations(void);
@@ -153,7 +177,7 @@ class AppCore final: public QObject
 
 		void UpdateInterval(double Time);
 
-		void UpdateVariable(const QString& Label, double Value);
+		void UpdateVariable(int ID, double Value);
 
 		void SynchronizeDevice(void);
 
@@ -162,13 +186,16 @@ class AppCore final: public QObject
 		void onValuesUpdate(const KLVariables&);
 
 		void onScriptUpdate(void);
-
-		void onSensorUpdate(void);
+		void onSensorUpdate(int);
+		void onEventUpdate(int);
+		void onDeviceUpdate(int);
+		void onAxisUpdate(int);
+		void onPlotUpdate(int);
+		void onSliderUpdate(int);
 
 		void onEmergencyStop(void);
 
 		void onEvaluationRequest(void);
-
 		void onScriptTermination(void);
 
 };

@@ -21,7 +21,10 @@
 #ifndef COMMON_HPP
 #define COMMON_HPP
 
+#define toKls toStdString().c_str
+
 #include <QString>
+#include <QDebug>
 
 struct SensorData
 {

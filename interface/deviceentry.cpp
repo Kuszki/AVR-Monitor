@@ -24,11 +24,14 @@
 DeviceEntry::DeviceEntry(const DeviceData& Data, QWidget* Parent)
 : QWidget(Parent), ui(new Ui::DeviceEntry), ID(Data.ID)
 {
-	ui->setupUi(this);
+	ui->setupUi(this); UpdateDevice(Data);
 
-	Dialog = new DeviceDialog(ID, this); UpdateDevice(Data);
+	Dialog = new DeviceDialog(ID, this);
 
-	connect(Dialog, &DeviceDialog::onDialogAccept, this, &DeviceEntry::UpdateDevice);
+	connect(AppCore::getInstance(), &AppCore::onDeviceUpdate, [this] (int Index) -> void
+	{
+		if (Index == ID) UpdateDevice(AppCore::getInstance()->GetDevice(ID));
+	});
 }
 
 DeviceEntry::~DeviceEntry(void)

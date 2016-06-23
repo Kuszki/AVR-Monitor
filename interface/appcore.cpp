@@ -26,7 +26,7 @@ QRegExpValidator* AppCore::Validator = nullptr;
 QString AppCore::LastError = QString();
 
 AppCore::AppCore(void)
-: QObject(nullptr), Adc(&Params), Script(&Adc), Worker(&Script, &Tasks, &Locker)
+: QObject(nullptr), SensorsVar(&SlidersVar), AdcVar(&SensorsVar), Script(&AdcVar), Locker(QMutex::Recursive), Worker(&Script, &Tasks, &Locker)
 {
 	const QString DB = QSettings("AVR-Monitor").value("database", "database.sqlite").toString();
 
@@ -133,9 +133,27 @@ AppCore::AppCore(void)
 	connect(Device, &AVRBridge::onSensorValuesUpdate, this, &AppCore::PerformTasks);
 
 	connect(&Worker, &ScriptWorker::onEvaluationComplete, this, &AppCore::CompleteEvaluations);
-
 	connect(this, &AppCore::onEvaluationRequest, &Worker, &ScriptWorker::PerformEvaluations);
 
+	connect(this, &AppCore::onSensorUpdate, this, &AppCore::UpdateScriptTasks);
+	connect(this, &AppCore::onEventUpdate, this, &AppCore::UpdateScriptTasks);
+	connect(this, &AppCore::onSliderUpdate, this, &AppCore::UpdateScriptTasks);
+
+	connect(this, &AppCore::onDeviceUpdate, this, &AppCore::UpdateDefaultOutputs);
+
+	GetSensors();
+	GetEvents();
+	GetDevices();
+	GetAxes();
+	GetPlots();
+	GetSliders();
+
+//	qDebug() << "Var dump after reload:";
+//	for (const KLVariables* Vars = &Device->Variables(); Vars; Vars = Vars->Parent)
+//		for (const auto& Var: *Vars) qDebug() << Var.ID << "=" << Var.Value.ToNumber();
+//	qDebug() << "======================";
+
+	UpdateDefaultOutputs();
 	UpdateScriptTasks();
 }
 
@@ -156,7 +174,7 @@ void AppCore::PerformTasks(const KLVariables& Vars)
 {
 	if (Interval.isActive() && !Device->Variables()["WORK"].ToBool())
 	{
-		Adc = Vars; Watchdog.start();
+		AdcVar = Vars; Watchdog.start();
 
 		emit onEvaluationRequest();
 	}
@@ -187,16 +205,20 @@ void AppCore::UpdateInterval(double Time)
 	Interval.setInterval(Time * 1000);
 }
 
-void AppCore::UpdateVariable(const QString& Label, double Value)
+void AppCore::UpdateVariable(int ID, double Value)
 {
-	if (Params.Exists(Label.toStdString().c_str()))
+	if (Sliders.contains(ID))
 	{
-		Params[Label.toStdString().c_str()] = Value;
+		QMutexLocker AutoLocker(&Locker);
+
+		SlidersVar[Sliders[ID].Label.toKls()] = Value;
 	}
 }
 
 void AppCore::UpdateStatus(bool Active)
 {
+	QMutexLocker AutoLocker(&Locker);
+
 	if (Active && Device->Variables()["WORK"].ToBool()) emit onEmergencyStop();
 	else
 	{
@@ -214,11 +236,30 @@ void AppCore::UpdateStatus(bool Active)
 
 void AppCore::SynchronizeDevice(void)
 {
-	QString Code = Initscript; UpdateDefaultOutputs();
+	QMutexLocker AutoLocker(&Locker);
+
+	QString Code;
+
+	for (const auto& Sensor : Sensors) if (Sensor.Active)
+	{
+		Code.append(Sensor.Label).append(',');
+	}
+
+	for (const auto& Event : Events) if (Event.Active)
+	{
+		Tasks.append(KLScriptbinding::Optimize(Event.Script));
+	}
+
+	if (Code.size())
+	{
+		Code[Code.size() - 1] = ';';
+		Code = QString("export %1").arg(Code);
+	}
 
 	for (const auto& Task: Tasks) Code.append('\n').append(Task);
 
-	for (const auto& Var: Params) Code.replace(QRegExp(QString("\\b%1\\b").arg((const char*) Var.ID)), QString::number(Var.Value.ToNumber()));
+	for (const auto& Var: SlidersVar) Code.replace(QRegExp(QString("\\b%1\\b").arg((const char*) Var.ID)),
+										  QString::number(Var.Value.ToNumber()));
 
 	Device->WriteSleepValue(Interval.interval() / 1000.0);
 	Device->WriteDefaultShift(Values);
@@ -227,14 +268,16 @@ void AppCore::SynchronizeDevice(void)
 
 bool AppCore::SensorScriptOk(const QString& Code, const QString& Label)
 {
+	QMutexLocker AutoLocker(&Locker);
+
 	KLScriptbinding Tester(&Device->Variables());
 
-	if (!Label.isEmpty()) Tester.Variables.Add(Label.toStdString().c_str());
+	if (!Label.isEmpty()) Tester.Variables.Add(Label.toKls());
 
 	if (Tester.Validate(Code)) return true;
 	else
 	{
-		LastError = tr("Invalid script at line %1 (%2)").arg(Tester.GetLine()).arg(Tester.GetMessage());
+		LastError = tr("Invalid script at line %1: %2").arg(Tester.GetLine()).arg(Tester.GetMessage());
 	}
 
 	return false;
@@ -242,131 +285,84 @@ bool AppCore::SensorScriptOk(const QString& Code, const QString& Label)
 
 bool AppCore::EventScriptOk(const QString& Code)
 {
+	QMutexLocker AutoLocker(&Locker);
+
 	KLScriptbinding Tester(&Device->Variables());
 
-	Tester.Bindings.Add("get", [] (KLList<double>&) -> double {return 0;});
-	Tester.Bindings.Add("put", [] (KLList<double>&) -> double {return 0;});
-	Tester.Bindings.Add("out", [] (KLList<double>&) -> double {return 0;});
-	Tester.Bindings.Add("pga", [] (KLList<double>&) -> double {return 0;});
-	Tester.Bindings.Add("slp", [] (KLList<double>&) -> double {return 0;});
-	Tester.Bindings.Add("spi", [] (KLList<double>&) -> double {return 0;});
+	Tester.Bindings.Add("get", [] (KLList<double>&) -> double { return 0; } );
+	Tester.Bindings.Add("put", [] (KLList<double>&) -> double { return 0; } );
+	Tester.Bindings.Add("out", [] (KLList<double>&) -> double { return 0; } );
+	Tester.Bindings.Add("pga", [] (KLList<double>&) -> double { return 0; } );
+	Tester.Bindings.Add("slp", [] (KLList<double>&) -> double { return 0; } );
+	Tester.Bindings.Add("spi", [] (KLList<double>&) -> double { return 0; } );
 
 	if (Tester.Validate(Code)) return true;
 	else
 	{
-		LastError = tr("Invalid script at line %1 (%2)").arg(Tester.GetLine()).arg(Tester.GetMessage());
+		LastError = tr("Invalid script at line %1: %2").arg(Tester.GetLine()).arg(Tester.GetMessage());
 	}
 
 	return false;
 }
 
+void AppCore::UpdateInvalidItems(void)
+{
+	QMutexLocker AutoLocker(&Locker);
+
+	disconnect(this, &AppCore::onSensorUpdate, this, &AppCore::UpdateScriptTasks);
+	disconnect(this, &AppCore::onEventUpdate, this, &AppCore::UpdateScriptTasks);
+
+	bool OK; do
+	{
+		OK = true;
+
+		for (auto& Sensor : Sensors) if (Sensor.Active && !SensorScriptOk(Sensor.Script))
+		{
+			Sensor.Active = false; DisableSensor(Sensor.ID); OK = false;
+		}
+
+		for (auto& Event : Events) if (Event.Active && !EventScriptOk(Event.Script))
+		{
+			Event.Active = false; DisableEvent(Event.ID); OK = false;
+		}
+	}
+	while (!OK);
+
+	connect(this, &AppCore::onSensorUpdate, this, &AppCore::UpdateScriptTasks);
+	connect(this, &AppCore::onEventUpdate, this, &AppCore::UpdateScriptTasks);
+}
+
 void AppCore::UpdateScriptTasks(void)
 {
-	Locker.lock();
-
-	QSqlQuery Query(Database);
+	QMutexLocker AutoLocker(&Locker);
 
 	Script.Variables.Clean();
-	Params.Clean();
 
 	Tasks.clear();
-	Initscript.clear();
 
-	Query.prepare(
-		"SELECT "
-			"label, "
-			"script "
-		"FROM "
-			"sensors "
-		"WHERE "
-			"active>0");
+	UpdateInvalidItems();
 
-	if (Query.exec()) while (Query.next())
+	for (const auto& Sensor : Sensors) if (Sensor.Active)
 	{
-		Script.Variables.Add(Query.value(0).toString().toStdString().c_str());
-
-		Tasks.append(KLScriptbinding::Optimize(
-					   Query.value(1).toString()
+		Tasks.append(KLScriptbinding::Optimize(QString(Sensor.Script)
 					   .remove(QRegExp("\\s*#[^\n]*\\s*"))
 					   .replace(QRegExp("return\\s+([^;]+);"),
 							  QString("set %1 \\1;exit;").
-							  arg(Query.value(0).toString()))
+							  arg(Sensor.Label))
 					   .remove(QRegExp("exit\\s*;\\s*$"))));
 	}
-	else
+
+	for (const auto& Event : Events) if (Event.Active)
 	{
-		LastError = Query.lastError().text();
+		Tasks.append(KLScriptbinding::Optimize(Event.Script));
 	}
-
-	Query.prepare(
-		"SELECT "
-			"label, "
-			"init "
-		"FROM "
-			"sliders "
-		"WHERE "
-			"active>0");
-
-	if (Query.exec()) while (Query.next())
-	{
-		Params.Add(Query.value(0).toString().toStdString().c_str(),
-				 KLVariables::NUMBER, KLVariables::KLSCALLBACK(), false);
-	}
-	else
-	{
-		LastError = Query.lastError().text();
-	}
-
-	if (!Tasks.isEmpty())
-	{
-		for (const auto& Var: Script.Variables) Initscript.append(Var.ID).append(',');
-
-		Initscript[Initscript.size() - 1] = ';';
-		Initscript = QString("export %1").arg(Initscript);
-	}
-
-	Query.prepare(
-		"SELECT "
-			"script "
-		"FROM "
-			"events "
-		"WHERE "
-			"active>0");
-
-	if (Query.exec()) while (Query.next())
-	{
-		Tasks.append(KLScriptbinding::Optimize(Query.value(0).toString()));
-	}
-	else
-	{
-		LastError = Query.lastError().text();
-	}
-
-	Locker.unlock();
 
 	emit onScriptUpdate();
 }
 
 void AppCore::UpdateDefaultOutputs(void)
 {
-	QSqlQuery Query(Database); Values = 0;
-
-	Query.prepare(
-		"SELECT "
-			"output "
-		"FROM "
-			"devices "
-		"WHERE "
-			"active>0");
-
-	if (Query.exec()) while (Query.next())
-	{
-		Values |= (1 << Query.value(0).toInt());
-	}
-	else
-	{
-		LastError = Query.lastError().text();
-	}
+	Values = 0; for (const auto& Device : Devices) Values |= (1 << Device.Output);
 }
 
 bool AppCore::AddSensor(SensorData& Data)
@@ -384,25 +380,31 @@ bool AppCore::AddSensor(SensorData& Data)
 	Query.bindValue(":name", Data.Name);
 	Query.bindValue(":label", Data.Label);
 	Query.bindValue(":unit", Data.Unit);
-
 	Query.bindValue(":script", Data.Script);
-
 	Query.bindValue(":active", Data.Active);
 
-	if (Query.exec()) UpdateScriptTasks();
+	if (!Query.exec()) EmitError
 	else
 	{
-		LastError = Query.lastError().text(); return false;
-	}
+		QMutexLocker AutoLocker(&Locker);
 
-	Data.ID = Query.lastInsertId().toInt();
+		Data.ID = Query.lastInsertId().toInt();
+
+		Sensors.insert(Data.ID, Data);
+
+		SensorsVar.Add(Data.Label.toKls());
+
+		emit onSensorUpdate(Data.ID);
+	}
 
 	return true;
 }
 
 bool AppCore::UpdateSensor(SensorData& Data)
 {
-	if (Data.Active) if (!SensorScriptOk(Data.Script, Data.Label)) return false;
+	if (!Sensors.contains(Data.ID)) EmitNotFound
+
+	if (!SensorScriptOk(Data.Script, Data.Label)) return false;
 
 	QSqlQuery Query(Database);
 
@@ -410,114 +412,127 @@ bool AppCore::UpdateSensor(SensorData& Data)
 		"UPDATE "
 			"sensors "
 		"SET "
-			"name=:name, "
-			"label=:label, "
-			"unit=:unit, "
-			"script=:script, "
-			"active=:active "
+			"name	= :name, "
+			"label	= :label, "
+			"unit	= :unit, "
+			"script	= :script, "
+			"active	= :active "
 		"WHERE "
-			"ID=:ID");
+			"ID		= :ID");
 
 	Query.bindValue(":ID", Data.ID);
 
 	Query.bindValue(":name", Data.Name);
 	Query.bindValue(":label", Data.Label);
 	Query.bindValue(":unit", Data.Unit);
-
 	Query.bindValue(":script", Data.Script);
-
 	Query.bindValue(":active", Data.Active);
 
-	if (Query.exec()) UpdateScriptTasks();
+	if (!Query.exec()) EmitError
 	else
 	{
-		LastError = Query.lastError().text(); return false;
-	}
+		QMutexLocker AutoLocker(&Locker);
 
-	emit onSensorUpdate();
+		SensorsVar.Delete(Sensors[Data.ID].Label.toKls());
+		Sensors[Data.ID] = Data;
+		SensorsVar.Add(Data.Label.toKls());
+
+		for (auto& Plot : Plots) if (Plot.SENSOR_ID == Data.ID)
+		{
+			Plot.Varlabel = Data.Label;
+			Plot.Varname = Data.Name;
+
+			emit onPlotUpdate(Plot.ID);
+		}
+
+		emit onSensorUpdate(Data.ID);
+	}
 
 	return true;
 }
 
 bool AppCore::DeleteSensor(int ID)
 {
+	if (!Sensors.contains(ID)) EmitNotFound
+
+	QSqlQuery Query(Database);
+
+	Query.prepare("DELETE FROM sensors WHERE ID = :ID");
+
+	Query.bindValue(":ID", ID);
+
+	if (!Query.exec()) EmitError
+
+	Query.prepare("DELETE FROM plots WHERE SENSOR_ID = :ID");
+
+	Query.bindValue(":ID", ID);
+
+	if (!Query.exec()) EmitError
+
+	QMutexLocker AutoLocker(&Locker);
+
+	SensorsVar.Delete(Sensors[ID].Label.toKls());
+	Sensors.remove(ID);
+
+	for (const auto& Index : Plots.keys()) if (Plots[Index].SENSOR_ID == ID)
+	{
+		Plots.remove(Index); emit onPlotUpdate(Index);
+	}
+
+	emit onSensorUpdate(ID);
+
+	return true;
+}
+
+bool AppCore::DisableSensor(int ID)
+{
 	QSqlQuery Query(Database);
 
 	Query.prepare(
-		"DELETE FROM "
+		"UPDATE "
 			"sensors "
+		"SET "
+			"active	= 0 "
 		"WHERE "
-			"ID=:ID");
+			"ID		= :ID");
 
 	Query.bindValue(":ID", ID);
 
-	if (Query.exec()) UpdateScriptTasks();
+	if (!Query.exec()) EmitError
 	else
 	{
-		LastError = Query.lastError().text(); return false;
-	}
+		QMutexLocker AutoLocker(&Locker);
 
-	Query.prepare(
-		"DELETE FROM "
-			"plots "
-		"WHERE "
-			"SENSOR_ID=:ID");
+		SensorsVar.Delete(Sensors[ID].Label.toKls());
+		Sensors[ID].Active = false;
 
-	Query.bindValue(":ID", ID);
-
-	if (Query.exec()) emit onSensorUpdate();
-	else
-	{
-		LastError = Query.lastError().text(); return false;
+		emit onSensorUpdate(ID);
 	}
 
 	return true;
 }
 
-SensorData AppCore::GetSensor(int ID)
+const SensorData& AppCore::GetSensor(int ID)
 {
-	if (ID < 0) return SensorData();
+	static const SensorData SensorDummy = SensorData();
 
-	QSqlQuery Query(Database);
-	SensorData Data;
-
-	Query.prepare(
-		"SELECT "
-			"ID, name, label, unit, script, active "
-		"FROM "
-			"sensors "
-		"WHERE "
-			"ID=:ID");
-
-	Query.bindValue(":ID", ID);
-
-	if (Query.exec() && Query.next())
-	{
-		Data.ID = Query.value(0).toInt();
-		Data.Name = Query.value(1).toString();
-		Data.Label = Query.value(2).toString();
-		Data.Unit = Query.value(3).toString();
-		Data.Script = Query.value(4).toString();
-		Data.Active = Query.value(5).toBool();
-	}
-	else
-	{
-		LastError = Query.lastError().text();
-	}
-
-	return Data;
+	if (Sensors.contains(ID)) return Sensors[ID];
+	else return SensorDummy;
 }
 
-QMap<int, SensorData> AppCore::GetSensors(void)
+const QMap<int, SensorData>& AppCore::GetSensors(void)
 {
+	if (!Sensors.empty()) return Sensors;
+
 	QSqlQuery Query(Database);
-	QMap<int, SensorData> List;
 
 	Query.prepare(
 		"SELECT "
 			"ID, name, label, unit, script, active "
 		"FROM "
 			"sensors");
+
+	QMutexLocker AutoLocker(&Locker);
 
 	if (Query.exec()) while (Query.next())
 	{
@@ -530,14 +545,16 @@ QMap<int, SensorData> AppCore::GetSensors(void)
 		Data.Script = Query.value(4).toString();
 		Data.Active = Query.value(5).toBool();
 
-		List.insert(Data.ID, Data);
+		SensorsVar.Add(Data.Label.toKls());
+
+		Sensors.insert(Data.ID, Data);
 	}
 	else
 	{
 		LastError = Query.lastError().text();
 	}
 
-	return List;
+	return Sensors;
 }
 
 bool AppCore::AddEvent(EventData& Data)
@@ -556,13 +573,16 @@ bool AppCore::AddEvent(EventData& Data)
 	Query.bindValue(":script", Data.Script);
 	Query.bindValue(":active", Data.Active);
 
-	if (Query.exec())
-	{
-		Data.ID = Query.lastInsertId().toInt(); UpdateScriptTasks();
-	}
+	if (!Query.exec()) EmitError
 	else
 	{
-		LastError = Query.lastError().text(); return false;
+		QMutexLocker AutoLocker(&Locker);
+
+		Data.ID = Query.lastInsertId().toInt();
+
+		Events.insert(Data.ID, Data);
+
+		emit onEventUpdate(Data.ID);
 	}
 
 	return true;
@@ -570,7 +590,9 @@ bool AppCore::AddEvent(EventData& Data)
 
 bool AppCore::UpdateEvent(EventData& Data)
 {
-	if (Data.Active) if (!EventScriptOk(Data.Script)) return false;
+	if (!Events.contains(Data.ID)) EmitNotFound
+
+	if (!EventScriptOk(Data.Script)) return false;
 
 	QSqlQuery Query(Database);
 
@@ -578,11 +600,11 @@ bool AppCore::UpdateEvent(EventData& Data)
 		"UPDATE "
 			"events "
 		"SET "
-			"name=:name, "
-			"script=:script, "
-			"active=:active "
+			"name	= :name, "
+			"script	= :script, "
+			"active	= :active "
 		"WHERE "
-			"ID=:ID");
+			"ID		= :ID");
 
 	Query.bindValue(":ID", Data.ID);
 
@@ -590,10 +612,14 @@ bool AppCore::UpdateEvent(EventData& Data)
 	Query.bindValue(":script", Data.Script);
 	Query.bindValue(":active", Data.Active);
 
-	if (Query.exec()) UpdateScriptTasks();
+	if (!Query.exec()) EmitError
 	else
 	{
-		LastError = Query.lastError().text(); return false;
+		QMutexLocker AutoLocker(&Locker);
+
+		Events[Data.ID] = Data;
+
+		emit onEventUpdate(Data.ID);
 	}
 
 	return true;
@@ -601,61 +627,65 @@ bool AppCore::UpdateEvent(EventData& Data)
 
 bool AppCore::DeleteEvent(int ID)
 {
+	if (!Events.contains(ID)) EmitNotFound
+
 	QSqlQuery Query(Database);
 
-	Query.prepare(
-		"DELETE FROM "
-			"events "
-		"WHERE "
-			"ID=:ID");
+	Query.prepare("DELETE FROM events WHERE ID = :ID");
 
 	Query.bindValue(":ID", ID);
 
-	if (Query.exec()) UpdateScriptTasks();
+	if (!Query.exec()) EmitError
+
+	QMutexLocker AutoLocker(&Locker);
+
+	Events.remove(ID);
+
+	emit onEventUpdate(ID);
+
+	return true;
+}
+
+bool AppCore::DisableEvent(int ID)
+{
+	QSqlQuery Query(Database);
+
+	Query.prepare(
+		"UPDATE "
+			"events "
+		"SET "
+			"active	= 0 "
+		"WHERE "
+			"ID		= :ID");
+
+	Query.bindValue(":ID", ID);
+
+	if (!Query.exec()) EmitError
 	else
 	{
-		LastError = Query.lastError().text(); return false;
+		QMutexLocker AutoLocker(&Locker);
+
+		Events[ID].Active = false;
+
+		emit onEventUpdate(ID);
 	}
 
 	return true;
 }
 
-EventData AppCore::GetEvent(int ID)
+const EventData& AppCore::GetEvent(int ID)
 {
-	if (ID < 0) return EventData();
+	static const EventData EventDummy = EventData();
 
-	QSqlQuery Query(Database);
-	EventData Data;
-
-	Query.prepare(
-		"SELECT "
-			"ID, name, script, active "
-		"FROM "
-			"events "
-		"WHERE "
-			"ID=:ID");
-
-	Query.bindValue(":ID", ID);
-
-	if (Query.exec() && Query.next())
-	{
-		Data.ID = Query.value(0).toInt();
-		Data.Name = Query.value(1).toString();
-		Data.Script = Query.value(2).toString();
-		Data.Active = Query.value(3).toBool();
-	}
-	else
-	{
-		LastError = Query.lastError().text();
-	}
-
-	return Data;
+	if (Events.contains(ID)) return Events[ID];
+	else return EventDummy;
 }
 
-QMap<int, EventData> AppCore::GetEvents(void)
+const QMap<int, EventData>& AppCore::GetEvents(void)
 {
+	if (!Events.empty()) return Events;
+
 	QSqlQuery Query(Database);
-	QMap<int, EventData> List;
 
 	Query.prepare(
 		"SELECT "
@@ -672,14 +702,14 @@ QMap<int, EventData> AppCore::GetEvents(void)
 		Data.Script = Query.value(2).toString();
 		Data.Active = Query.value(3).toBool();
 
-		List.insert(Data.ID, Data);
+		Events.insert(Data.ID, Data);
 	}
 	else
 	{
 		LastError = Query.lastError().text();
 	}
 
-	return List;
+	return Events;
 }
 
 
@@ -697,13 +727,16 @@ bool AppCore::AddDevice(DeviceData& Data)
 	Query.bindValue(":output", Data.Output);
 	Query.bindValue(":active", Data.Active);
 
-	if (Query.exec())
-	{
-		Data.ID = Query.lastInsertId().toInt(); UpdateDefaultOutputs();
-	}
+	if (!Query.exec()) EmitError
 	else
 	{
-		LastError = Query.lastError().text(); return false;
+		QMutexLocker AutoLocker(&Locker);
+
+		Data.ID = Query.lastInsertId().toInt();
+
+		Devices.insert(Data.ID, Data);
+
+		emit onDeviceUpdate(Data.ID);
 	}
 
 	return true;
@@ -711,17 +744,19 @@ bool AppCore::AddDevice(DeviceData& Data)
 
 bool AppCore::UpdateDevice(DeviceData& Data)
 {
+	if (!Devices.contains(Data.ID)) EmitNotFound
+
 	QSqlQuery Query(Database);
 
 	Query.prepare(
 		"UPDATE "
 			"devices "
 		"SET "
-			"name=:name, "
-			"output=:output, "
-			"active=:active "
+			"name	= :name, "
+			"output	= :output, "
+			"active	= :active "
 		"WHERE "
-			"ID=:ID");
+			"ID		= :ID");
 
 	Query.bindValue(":ID", Data.ID);
 
@@ -729,10 +764,14 @@ bool AppCore::UpdateDevice(DeviceData& Data)
 	Query.bindValue(":output", Data.Output);
 	Query.bindValue(":active", Data.Active);
 
-	if (Query.exec()) UpdateDefaultOutputs();
+	if (!Query.exec()) EmitError
 	else
 	{
-		LastError = Query.lastError().text(); return false;
+		QMutexLocker AutoLocker(&Locker);
+
+		Devices[Data.ID] = Data;
+
+		emit onDeviceUpdate(Data.ID);
 	}
 
 	return true;
@@ -740,67 +779,73 @@ bool AppCore::UpdateDevice(DeviceData& Data)
 
 bool AppCore::DeleteDevice(int ID)
 {
+	if (!Devices.contains(ID)) EmitNotFound
+
 	QSqlQuery Query(Database);
 
-	Query.prepare(
-		"DELETE FROM "
-			"devices "
-		"WHERE "
-			"ID=:ID");
+	Query.prepare("DELETE FROM devices WHERE ID = :ID");
 
 	Query.bindValue(":ID", ID);
 
-	if (Query.exec()) UpdateDefaultOutputs();
+	if (!Query.exec()) EmitError
+
+	QMutexLocker AutoLocker(&Locker);
+
+	Devices.remove(ID);
+
+	emit onDeviceUpdate(ID);
+
+	return true;
+}
+
+bool AppCore::DisableDevice(int ID)
+{
+	QSqlQuery Query(Database);
+
+	Query.prepare(
+		"UPDATE "
+			"devices "
+		"SET "
+			"active	= 0 "
+		"WHERE "
+			"ID		= :ID");
+
+	Query.bindValue(":ID", ID);
+
+	if (!Query.exec()) EmitError
 	else
 	{
-		LastError = Query.lastError().text(); return false;
+		QMutexLocker AutoLocker(&Locker);
+
+		Devices[ID].Active = false;
+
+		emit onDeviceUpdate(ID);
 	}
 
 	return true;
 }
 
-DeviceData AppCore::GetDevice(int ID)
+const DeviceData& AppCore::GetDevice(int ID)
 {
-	if (ID < 0) return DeviceData();
+	static const DeviceData DeviceDummy = DeviceData();
 
-	QSqlQuery Query(Database);
-	DeviceData Data;
-
-	Query.prepare(
-		"SELECT "
-			"ID, name, output, active "
-		"FROM "
-			"devices "
-		"WHERE "
-			"ID=:ID");
-
-	Query.bindValue(":ID", ID);
-
-	if (Query.exec() && Query.next())
-	{
-		Data.ID = Query.value(0).toInt();
-		Data.Name = Query.value(1).toString();
-		Data.Output = Query.value(2).toInt();
-		Data.Active = Query.value(3).toBool();
-	}
-	else
-	{
-		LastError = Query.lastError().text();
-	}
-
-	return Data;
+	if (Devices.contains(ID)) return Devices[ID];
+	else return DeviceDummy;
 }
 
-QMap<int, DeviceData> AppCore::GetDevices(void)
+const QMap<int, DeviceData>& AppCore::GetDevices(void)
 {
+	if (!Devices.empty()) return Devices;
+
 	QSqlQuery Query(Database);
-	QMap<int, DeviceData> List;
 
 	Query.prepare(
 		"SELECT "
 			"ID, name, output, active "
 		"FROM "
 			"devices");
+
+	QMutexLocker AutoLocker(&Locker);
 
 	if (Query.exec()) while (Query.next())
 	{
@@ -811,14 +856,14 @@ QMap<int, DeviceData> AppCore::GetDevices(void)
 		Data.Output = Query.value(2).toInt();
 		Data.Active = Query.value(3).toBool();
 
-		List.insert(Data.ID, Data);
+		Devices.insert(Data.ID, Data);
 	}
 	else
 	{
 		LastError = Query.lastError().text();
 	}
 
-	return List;
+	return Devices;
 }
 
 bool AppCore::AddAxis(AxisData& Data)
@@ -838,32 +883,39 @@ bool AppCore::AddAxis(AxisData& Data)
 	Query.bindValue(":label", Data.Label);
 	Query.bindValue(":active", Data.Active);
 
-	if (Query.exec())
-	{
-		Data.ID = Query.lastInsertId().toInt(); return true;
-	}
+	if (!Query.exec()) EmitError
 	else
 	{
-		LastError = Query.lastError().text(); return false;
+		QMutexLocker AutoLocker(&Locker);
+
+		Data.ID = Query.lastInsertId().toInt();
+
+		Axes.insert(Data.ID, Data);
+
+		emit onAxisUpdate(Data.ID);
 	}
+
+	return true;
 }
 
 bool AppCore::UpdateAxis(AxisData& Data)
 {
+	if (!Axes.contains(Data.ID)) EmitNotFound
+
 	QSqlQuery Query(Database);
 
 	Query.prepare(
 		"UPDATE "
 			"axes "
 		"SET "
-			"name=:name, "
-			"style=:style, "
-			"min=:min, "
-			"max=:max, "
-			"label=:label, "
-			"active=:active "
+			"name	= :name, "
+			"style	= :style, "
+			"min		= :min, "
+			"max		= :max, "
+			"label	= :label, "
+			"active	= :active "
 		"WHERE "
-			"ID=:ID");
+			"ID		= :ID");
 
 	Query.bindValue(":ID", Data.ID);
 
@@ -874,9 +926,21 @@ bool AppCore::UpdateAxis(AxisData& Data)
 	Query.bindValue(":label", Data.Label);
 	Query.bindValue(":active", Data.Active);
 
-	if (!Query.exec())
+	if (!Query.exec()) EmitError
+	else
 	{
-		LastError = Query.lastError().text(); return false;
+		QMutexLocker AutoLocker(&Locker);
+
+		Axes[Data.ID] = Data;
+
+		for (auto& Plot : Plots) if (Plot.AXIS_ID == Data.ID)
+		{
+			Plot.Axisname = Data.Name;
+
+			emit onPlotUpdate(Plot.ID);
+		}
+
+		emit onAxisUpdate(Data.ID);
 	}
 
 	return true;
@@ -884,74 +948,75 @@ bool AppCore::UpdateAxis(AxisData& Data)
 
 bool AppCore::DeleteAxis(int ID)
 {
+	if (!Axes.contains(ID)) EmitNotFound
+
+	QSqlQuery Query(Database);
+
+	Query.prepare("DELETE FROM axes WHERE ID = :ID");
+
+	Query.bindValue(":ID", ID);
+
+	if (!Query.exec()) EmitError
+
+	Query.prepare("DELETE FROM plots WHERE AXIS_ID = :ID");
+
+	Query.bindValue(":ID", ID);
+
+	if (!Query.exec()) EmitError
+
+	QMutexLocker AutoLocker(&Locker);
+
+	Axes.remove(ID);
+
+	for (const auto& Index : Plots.keys()) if (Plots[Index].AXIS_ID == ID)
+	{
+		Plots.remove(Index); emit onPlotUpdate(Index);
+	}
+
+	emit onAxisUpdate(ID);
+
+	return true;
+}
+
+bool AppCore::DisableAxis(int ID)
+{
 	QSqlQuery Query(Database);
 
 	Query.prepare(
-		"DELETE FROM "
+		"UPDATE "
 			"axes "
+		"SET "
+			"active	= 0 "
 		"WHERE "
-			"ID=:ID");
+			"ID		= :ID");
 
 	Query.bindValue(":ID", ID);
 
-	if (!Query.exec())
+	if (!Query.exec()) EmitError
+	else
 	{
-		LastError = Query.lastError().text(); return false;
-	}
+		QMutexLocker AutoLocker(&Locker);
 
-	Query.prepare(
-		"DELETE FROM "
-			"plots "
-		"WHERE "
-			"AXIS_ID=:ID");
+		Axes[ID].Active = false;
 
-	Query.bindValue(":ID", ID);
-
-	if (!Query.exec())
-	{
-		LastError = Query.lastError().text(); return false;
+		emit onAxisUpdate(ID);
 	}
 
 	return true;
 }
 
-AxisData AppCore::GetAxis(int ID)
+const AxisData& AppCore::GetAxis(int ID)
 {
-	if (ID < 0) return AxisData();
+	static const AxisData AxisDummy = AxisData();
 
-	QSqlQuery Query(Database);
-	AxisData Data;
-
-	Query.prepare(
-		"SELECT "
-			"ID, name, style, min, max, label, active "
-		"FROM "
-			"axes "
-		"WHERE "
-			"ID=:ID");
-
-	Query.bindValue(":ID", ID);
-
-	if (Query.exec() && Query.next())
-	{
-		Data.ID = Query.value(0).toInt();
-		Data.Name = Query.value(1).toString();
-		Data.Style = Query.value(2).toInt();
-		Data.Min = Query.value(3).toDouble();
-		Data.Max = Query.value(4).toDouble();
-		Data.Label = Query.value(5).toBool();
-		Data.Active = Query.value(6).toBool();
-	}
-	else
-	{
-		LastError = Query.lastError().text();
-	}
-
-	return Data;
+	if (Axes.contains(ID)) return Axes[ID];
+	else return AxisDummy;
 }
 
-QMap<int, AxisData> AppCore::GetAxes(void)
+const QMap<int, AxisData>& AppCore::GetAxes(void)
 {
+	if (!Axes.empty()) return Axes;
+
 	QSqlQuery Query(Database);
 	QMap<int, AxisData> List;
 
@@ -960,6 +1025,8 @@ QMap<int, AxisData> AppCore::GetAxes(void)
 			"ID, name, style, min, max, label, active "
 		"FROM "
 			"axes");
+
+	QMutexLocker AutoLocker(&Locker);
 
 	if (Query.exec()) while (Query.next())
 	{
@@ -980,7 +1047,7 @@ QMap<int, AxisData> AppCore::GetAxes(void)
 		LastError = Query.lastError().text();
 	}
 
-	return List;
+	return Axes = List;
 }
 
 bool AppCore::AddPlot(PlotData& Data)
@@ -997,35 +1064,51 @@ bool AppCore::AddPlot(PlotData& Data)
 	Query.bindValue(":SENSOR_ID", Data.SENSOR_ID);
 	Query.bindValue(":active", Data.Active);
 
-	if (Query.exec())
-	{
-		Data.ID = Query.lastInsertId().toInt(); return true;
-	}
+	if (!Query.exec()) EmitError
 	else
 	{
-		LastError = Query.lastError().text(); return false;
+		QMutexLocker AutoLocker(&Locker);
+
+		Data.ID = Query.lastInsertId().toInt();
+
+		Data.Varname = Sensors[Data.SENSOR_ID].Name;
+		Data.Varlabel = Sensors[Data.SENSOR_ID].Label;
+		Data.Axisname = Axes[Data.AXIS_ID].Name;
+
+		Plots.insert(Data.ID, Data);
+
+		emit onPlotUpdate(Data.ID);
 	}
+
+		return true;
 }
 
 bool AppCore::UpdatePlot(PlotData& Data)
 {
+	if (!Plots.contains(Data.ID)) EmitNotFound
+
 	QSqlQuery Query(Database);
 
 	Query.prepare(
 		"UPDATE "
 			"plots "
 		"SET "
-			"active=:active "
+			"active	= :active "
 		"WHERE "
-			"ID=:ID");
+			"ID		= :ID");
 
 	Query.bindValue(":ID", Data.ID);
 
 	Query.bindValue(":active", Data.Active);
 
-	if (!Query.exec())
+	if (!Query.exec()) EmitError
+	else
 	{
-		LastError = Query.lastError().text(); return false;
+		QMutexLocker AutoLocker(&Locker);
+
+		Plots[Data.ID] = Data;
+
+		emit onPlotUpdate(Data.ID);
 	}
 
 	return true;
@@ -1033,65 +1116,65 @@ bool AppCore::UpdatePlot(PlotData& Data)
 
 bool AppCore::DeletePlot(int ID)
 {
+	if (!Plots.contains(ID)) EmitNotFound
+
 	QSqlQuery Query(Database);
 
-	Query.prepare(
-		"DELETE FROM "
-			"plots "
-		"WHERE "
-			"ID=:ID");
+	Query.prepare("DELETE FROM plots WHERE ID=:ID");
 
 	Query.bindValue(":ID", ID);
 
-	if (!Query.exec())
+	if (!Query.exec()) EmitError
+
+	QMutexLocker AutoLocker(&Locker);
+
+	Plots.remove(ID);
+
+	emit onPlotUpdate(ID);
+
+	return true;
+}
+
+bool AppCore::DisablePlot(int ID)
+{
+	QSqlQuery Query(Database);
+
+	Query.prepare(
+		"UPDATE "
+			"plots "
+		"SET "
+			"active	= 0 "
+		"WHERE "
+			"ID		= :ID");
+
+	Query.bindValue(":ID", ID);
+
+	if (!Query.exec()) EmitError
+	else
 	{
-		LastError = Query.lastError().text(); return false;
+		QMutexLocker AutoLocker(&Locker);
+
+		Plots[ID].Active = false;
+
+		emit onPlotUpdate(ID);
 	}
 
 	return true;
 }
 
-PlotData AppCore::GetPlot(int ID)
+const PlotData& AppCore::GetPlot(int ID)
 {
-	if (ID < 0) return PlotData();
+	static const PlotData PlotDummy = PlotData();
 
-	QSqlQuery Query(Database);
-	PlotData Data;
-
-	Query.prepare(
-		"SELECT "
-			"plots.ID, plots.AXIS_ID, plots.SENSOR_ID, plots.active, "
-			"sensors.name, sensors.label, "
-			"axes.name "
-		"FROM "
-			"plots, sensors, axes "
-		"WHERE "
-			"plots.ID=:ID AND plots.AXIS_ID=axes.ID AND plots.SENSOR_ID=sensors.ID");
-
-	Query.bindValue(":ID", ID);
-
-	if (Query.exec() && Query.next())
-	{
-		Data.ID = Query.value(0).toInt();
-		Data.AXIS_ID = Query.value(1).toInt();
-		Data.SENSOR_ID = Query.value(2).toInt();
-		Data.Active = Query.value(3).toInt();
-		Data.Varname = Query.value(4).toString();
-		Data.Varlabel = Query.value(5).toString();
-		Data.Axisname = Query.value(6).toString();
-	}
-	else
-	{
-		LastError = Query.lastError().text();
-	}
-
-	return Data;
+	if (Plots.contains(ID)) return Plots[ID];
+	else return PlotDummy;
 }
 
-QMap<int, PlotData> AppCore::GetPlots(void)
+const QMap<int, PlotData>& AppCore::GetPlots(void)
 {
+	if (!Plots.empty()) return Plots;
+
 	QSqlQuery Query(Database);
-	QMap<int, PlotData> List;
 
 	Query.prepare(
 		"SELECT "
@@ -1099,9 +1182,17 @@ QMap<int, PlotData> AppCore::GetPlots(void)
 			"sensors.name, sensors.label, "
 			"axes.name "
 		"FROM "
-			"plots, sensors, axes "
-		"WHERE "
-			"plots.AXIS_ID=axes.ID AND plots.SENSOR_ID=sensors.ID");
+			"plots "
+		"INNER JOIN "
+			"sensors "
+		"ON "
+			"plots.SENSOR_ID = sensors.ID "
+		"INNER JOIN "
+			"axes "
+		"ON "
+			"plots.AXIS_ID = axes.ID");
+
+	QMutexLocker AutoLocker(&Locker);
 
 	if (Query.exec()) while (Query.next())
 	{
@@ -1115,14 +1206,14 @@ QMap<int, PlotData> AppCore::GetPlots(void)
 		Data.Varlabel = Query.value(5).toString();
 		Data.Axisname = Query.value(6).toString();
 
-		List.insert(Data.ID, Data);
+		Plots.insert(Data.ID, Data);
 	}
 	else
 	{
 		LastError = Query.lastError().text();
 	}
 
-	return List;
+	return Plots;
 }
 
 bool AppCore::AddSlider(SliderData& Data)
@@ -1143,33 +1234,41 @@ bool AppCore::AddSlider(SliderData& Data)
 	Query.bindValue(":steps", Data.Steps);
 	Query.bindValue(":active", Data.Active);
 
-	if (Query.exec())
-	{
-		Data.ID = Query.lastInsertId().toInt(); return true;
-	}
+	if (!Query.exec()) EmitError
 	else
 	{
-		LastError = Query.lastError().text(); return false;
+		QMutexLocker AutoLocker(&Locker);
+
+		Data.ID = Query.lastInsertId().toInt();
+
+		SlidersVar.Add(Data.Label.toKls(), VREADONLY);
+		Sliders.insert(Data.ID, Data);
+
+		emit onSliderUpdate(Data.ID);
 	}
+
+	return true;
 }
 
 bool AppCore::UpdateSlider(SliderData& Data)
 {
+	if (!Sliders.contains(Data.ID)) EmitNotFound
+
 	QSqlQuery Query(Database);
 
 	Query.prepare(
 		"UPDATE "
 			"sliders "
 		"SET "
-			"name=:name, "
-			"label=:label, "
-			"min=:min, "
-			"max=:max, "
-			"init=:init, "
-			"steps=:steps, "
-			"active=:active "
+			"name	= :name, "
+			"label	= :label, "
+			"min		= :min, "
+			"max		= :max, "
+			"init	= :init, "
+			"steps	= :steps, "
+			"active	= :active "
 		"WHERE "
-			"ID=:ID");
+			"ID		= :ID");
 
 	Query.bindValue(":ID", Data.ID);
 
@@ -1181,9 +1280,17 @@ bool AppCore::UpdateSlider(SliderData& Data)
 	Query.bindValue(":steps", Data.Steps);
 	Query.bindValue(":active", Data.Active);
 
-	if (!Query.exec())
+	if (!Query.exec()) EmitError
+	else
 	{
-		LastError = Query.lastError().text(); return false;
+		QMutexLocker AutoLocker(&Locker);
+
+		SlidersVar.Delete(Sliders[Data.ID].Label.toKls());
+		Sliders[Data.ID] = Data;
+		SlidersVar.Add(Data.Label.toKls(), VREADONLY);
+		SlidersVar[Data.Label.toKls()] = Data.Init;
+
+		emit onSliderUpdate(Data.ID);
 	}
 
 	return true;
@@ -1191,19 +1298,51 @@ bool AppCore::UpdateSlider(SliderData& Data)
 
 bool AppCore::DeleteSlider(int ID)
 {
+	if (!Sliders.contains(ID)) EmitNotFound
+
 	QSqlQuery Query(Database);
 
-	Query.prepare(
-		"DELETE FROM "
-			"sliders "
-		"WHERE "
-			"ID=:ID");
+	Query.prepare("DELETE FROM sliders WHERE ID = :ID");
 
 	Query.bindValue(":ID", ID);
 
-	if (!Query.exec())
+	if (!Query.exec()) EmitError
+	else
 	{
-		LastError = Query.lastError().text(); return false;
+		QMutexLocker AutoLocker(&Locker);
+
+		SlidersVar.Delete(Sliders[ID].Label.toKls());
+		Sliders.remove(ID);
+
+		emit onSliderUpdate(ID);
+	}
+
+	return true;
+}
+
+bool AppCore::DisableSlider(int ID)
+{
+	QSqlQuery Query(Database);
+
+	Query.prepare(
+		"UPDATE "
+			"sliders "
+		"SET "
+			"active	= 0 "
+		"WHERE "
+			"ID		= :ID");
+
+	Query.bindValue(":ID", ID);
+
+	if (!Query.exec()) EmitError
+	else
+	{
+		QMutexLocker AutoLocker(&Locker);
+
+		SlidersVar[Sliders[ID].Label.toKls()] = Sliders[ID].Init;
+		Sliders[ID].Active = false;
+
+		emit onSliderUpdate(ID);
 	}
 
 	return true;
@@ -1211,50 +1350,25 @@ bool AppCore::DeleteSlider(int ID)
 
 SliderData AppCore::GetSlider(int ID)
 {
-	if (ID < 0) return SliderData();
+	static const SliderData SliderDummy = SliderData();
 
-	QSqlQuery Query(Database);
-	SliderData Data;
-
-	Query.prepare(
-		"SELECT "
-			"ID, name, label, min, max, init, steps, active "
-		"FROM "
-			"sliders "
-		"WHERE "
-			"ID=:ID");
-
-	Query.bindValue(":ID", ID);
-
-	if (Query.exec() && Query.next())
-	{
-		Data.ID = Query.value(0).toInt();
-		Data.Name = Query.value(1).toString();
-		Data.Label = Query.value(2).toString();
-		Data.Min = Query.value(3).toDouble();
-		Data.Max = Query.value(4).toDouble();
-		Data.Init = Query.value(5).toDouble();
-		Data.Steps = Query.value(6).toInt();
-		Data.Active = Query.value(7).toBool();
-	}
-	else
-	{
-		LastError = Query.lastError().text();
-	}
-
-	return Data;
+	if (Sliders.contains(ID)) return Sliders[ID];
+	else return SliderDummy;
 }
 
 QMap<int, SliderData> AppCore::GetSliders(void)
 {
+	if (!Sliders.empty()) return Sliders;
+
 	QSqlQuery Query(Database);
-	QMap<int, SliderData> List;
 
 	Query.prepare(
 		"SELECT "
 			"ID, name, label, min, max, init, steps, active "
 		"FROM "
 			"sliders");
+
+	QMutexLocker AutoLocker(&Locker);
 
 	if (Query.exec()) while (Query.next())
 	{
@@ -1269,26 +1383,27 @@ QMap<int, SliderData> AppCore::GetSliders(void)
 		Data.Steps = Query.value(6).toInt();
 		Data.Active = Query.value(7).toBool();
 
-		List.insert(Data.ID, Data);
+		SlidersVar.Add(Data.Label.toKls());
+		Sliders.insert(Data.ID, Data);
 	}
 	else
 	{
 		LastError = Query.lastError().text();
 	}
 
-	return List;
+	return Sliders;
 }
 
 void AppCore::ConnectVariable(const QString& Var, const boost::function<void (double)>& Callback)
 {
-	const KLString ID = Var.toStdString().c_str();
+	const KLString ID = Var.toKls();
 
 	if (Script.Variables.Exists(ID)) Script.Variables[ID].SetCallback(Callback);
 }
 
 void AppCore::DisconnectVariable(const QString& Var)
 {
-	const KLString ID = Var.toStdString().c_str();
+	const KLString ID = Var.toKls();
 
 	if (Script.Variables.Exists(ID)) Script.Variables[ID].SetCallback(boost::function<void (double)>());
 }

@@ -24,13 +24,19 @@
 SliderEntry::SliderEntry(const SliderData& Data, QWidget* Parent)
 : QWidget(Parent), ui(new Ui::SliderEntry), ID(Data.ID)
 {
-	ui->setupUi(this); UpdateSlider(Data); ReconnectSlider();
+	ui->setupUi(this); UpdateSlider(Data);
 
 	Dialog = new SliderDialog(ID, this);
 
-	connect(Dialog, &SliderDialog::onDialogAccept, this, &SliderEntry::UpdateSlider);
+	connect(AppCore::getInstance(), &AppCore::onSliderUpdate, [this] (int Index) -> void
+	{
+		if (Index == ID) UpdateSlider(AppCore::getInstance()->GetSlider(ID));
+	});
 
-	connect(AppCore::getInstance(), &AppCore::onSensorUpdate, this, &SliderEntry::ReconnectSlider);
+	connect(this, &SliderEntry::onValueUpdate, [this] (double Value) -> void
+	{
+		AppCore::getInstance()->UpdateVariable(ID, Value);
+	});
 }
 
 SliderEntry::~SliderEntry(void)
@@ -53,18 +59,17 @@ void SliderEntry::SliderValueChange(int Value)
 
 void SliderEntry::SpinValueChange(double Value)
 {
-	const double Set = ui->Spin->value();
 	const double Min = ui->Spin->minimum();
 	const double Max = ui->Spin->maximum();
 
 	const int Full = ui->Slider->maximum();
-	const int Pos = ((Set - Min) * Full) / (Max - Min);
+	const int Pos = ((Value - Min) * Full) / (Max - Min);
 
 	ui->Slider->blockSignals(true);
 	ui->Slider->setValue(Pos);
 	ui->Slider->blockSignals(false);
 
-	emit onValueUpdate(Set);
+	emit onValueUpdate(Value);
 }
 
 void SliderEntry::SettingsButtonClicked(void)
@@ -106,13 +111,4 @@ void SliderEntry::UpdateSlider(const SliderData& Data)
 	ui->Spin->blockSignals(false);
 
 	emit onSliderUpdate(Data);
-}
-
-void SliderEntry::ReconnectSlider(void)
-{
-	const SliderData Data = AppCore::getInstance()->GetSlider(ID);
-
-	if (Data.Active) connect(this, &SliderEntry::onValueUpdate, boost::bind(&AppCore::UpdateVariable, AppCore::getInstance(), Data.Label, _1));
-
-	emit onValueUpdate(Data.Init);
 }

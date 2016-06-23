@@ -90,8 +90,6 @@ class PlotWidget : public QWidget
 
 		void PlotVariables(const KLVariables& Variables);
 
-		void UpdateSensors(void);
-
 		void RestartPlot(void);
 
 };

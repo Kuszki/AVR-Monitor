@@ -79,7 +79,7 @@ void AxisDialog::accept(void)
 
 	if (OK)
 	{
-		emit onDialogAccept(Data); QDialog::accept();
+		QDialog::accept(); emit onDialogAccept(Data);
 	}
 	else
 	{

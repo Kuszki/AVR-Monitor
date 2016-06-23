@@ -29,6 +29,11 @@ EventEntry::EventEntry(const EventData& Data, QWidget* Parent)
 	Dialog = new EventDialog(ID, this);
 
 	connect(Dialog, &EventDialog::onDialogAccept, this, &EventEntry::UpdateEvent);
+
+	connect(AppCore::getInstance(), &AppCore::onEventUpdate, [this] (int Index) -> void
+	{
+		if (Index == ID) UpdateEvent(AppCore::getInstance()->GetEvent(ID));
+	});
 }
 
 EventEntry::~EventEntry(void)

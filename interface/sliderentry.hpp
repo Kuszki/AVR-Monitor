@@ -61,8 +61,6 @@ class SliderEntry : public QWidget
 
 		void UpdateSlider(const SliderData& Data);
 
-		void ReconnectSlider(void);
-
 	signals:
 
 		void onSliderUpdate(const SliderData&);

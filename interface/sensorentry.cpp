@@ -24,13 +24,14 @@
 SensorEntry::SensorEntry(const SensorData& Data, QWidget* Parent)
 : QWidget(Parent), ui(new Ui::SensorEntry), ID(Data.ID)
 {
-	ui->setupUi(this); UpdateSensor(Data); ReconnectSensor();
+	ui->setupUi(this); UpdateSensor(Data);
 
 	Dialog = new SensorDialog(ID, this);
 
-	connect(Dialog, &SensorDialog::onDialogAccept, this, &SensorEntry::UpdateSensor);
-
-	connect(AppCore::getInstance(), &AppCore::onScriptUpdate, this, &SensorEntry::ReconnectSensor);
+	connect(AppCore::getInstance(), &AppCore::onSensorUpdate, [this] (int Index) -> void
+	{
+		if (Index == ID) UpdateSensor(AppCore::getInstance()->GetSensor(ID));
+	});
 }
 
 SensorEntry::~SensorEntry(void)
@@ -63,15 +64,10 @@ void SensorEntry::UpdateSensor(const SensorData& Data)
 	ui->Unit->setText(Data.Unit);
 	ui->Unit->setEnabled(Data.Active);
 
-	emit onSensorUpdate(Data);
-}
-
-void SensorEntry::ReconnectSensor(void)
-{
-	const SensorData Data = AppCore::getInstance()->GetSensor(ID);
-
-	if (Data.Active) AppCore::getInstance()->ConnectVariable(Data.Label, [this] (double Value) -> void
+	AppCore::getInstance()->ConnectVariable(Data.Label, [this] (double Value) -> void
 	{
 		ui->Value->display(Value);
 	});
+
+	emit onSensorUpdate(Data);
 }

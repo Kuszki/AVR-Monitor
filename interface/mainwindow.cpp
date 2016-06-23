@@ -94,7 +94,6 @@ MainWindow::MainWindow(QWidget* Parent)
 
 	// app core to plot widget connections
 	connect(AppCore::getInstance(), &AppCore::onValuesUpdate, ui->plotWidget, &PlotWidget::PlotVariables);
-	connect(AppCore::getInstance(), &AppCore::onSensorUpdate, ui->plotWidget, &PlotWidget::UpdateSensors);
 
 	// device to system widget connections
 	connect(AppCore::getDevice(), &AVRBridge::onConnectionUpdate, ui->systemWidget, &SystemWidget::UpdateLink);

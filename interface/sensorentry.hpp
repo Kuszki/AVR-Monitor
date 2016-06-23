@@ -57,8 +57,6 @@ class SensorEntry : public QWidget
 
 		void UpdateSensor(const SensorData& Data);
 
-		void ReconnectSensor(void);
-
 	signals:
 
 		void onSensorUpdate(const SensorData&);

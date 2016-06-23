@@ -30,9 +30,11 @@ const QList<Qt::GlobalColor> PlotWidget::Colors =
 };
 
 PlotWidget::PlotWidget(QWidget* Parent)
-: QWidget(Parent), ui(new Ui::PlotWidget), Dialog(new PlotDialog(this))
+: QWidget(Parent), ui(new Ui::PlotWidget)
 {
 	ui->setupUi(this);
+
+	Dialog = new PlotDialog(this);
 
 	for (auto Axis: ui->Plot->axisRect()->axes(QCPAxis::atLeft)) ui->Plot->axisRect()->removeAxis(Axis);
 
@@ -43,15 +45,27 @@ PlotWidget::PlotWidget(QWidget* Parent)
 	ui->Plot->legend->setVisible(true);
 	ui->Plot->xAxis->setRange(0, 60);
 
-	connect(Dialog, &PlotDialog::onAxisAdd, this, &PlotWidget::AddAxis);
-	connect(Dialog, &PlotDialog::onAxisChange, this, &PlotWidget::UpdateAxis);
-	connect(Dialog, &PlotDialog::onAxisDelete, this, &PlotWidget::DeleteAxis);
-
-	connect(Dialog, &PlotDialog::onPlotAdd, this, &PlotWidget::AddPlot);
-	connect(Dialog, &PlotDialog::onPlotChange, this, &PlotWidget::UpdatePlot);
-	connect(Dialog, &PlotDialog::onPlotDelete, this, &PlotWidget::DeletePlot);
-
 	connect(ui->Plot->xAxis, SIGNAL(rangeChanged(const QCPRange&, const QCPRange)), SLOT(PlotRangeChanged(const QCPRange&, const QCPRange&)));
+
+	connect(AppCore::getInstance(), &AppCore::onAxisUpdate, [this] (int Index) -> void
+	{
+		if (Axes.contains(Index))
+		{
+			if (AppCore::getInstance()->GetAxis(Index).ID == -1) DeleteAxis(Index);
+			else UpdateAxis(AppCore::getInstance()->GetAxis(Index));
+		}
+		else AddAxis(AppCore::getInstance()->GetAxis(Index));
+	});
+
+	connect(AppCore::getInstance(), &AppCore::onPlotUpdate, [this] (int Index) -> void
+	{
+		if (Plots.contains(Index))
+		{
+			if (AppCore::getInstance()->GetPlot(Index).ID == -1) DeletePlot(Index);
+			else UpdatePlot(AppCore::getInstance()->GetPlot(Index));
+		}
+		else AddPlot(AppCore::getInstance()->GetPlot(Index));
+	});
 }
 
 PlotWidget::~PlotWidget(void)
@@ -300,15 +314,6 @@ void PlotWidget::PlotVariables(const KLVariables& Variables)
 	if (Step++ == Samples) Step = 1;
 
 	ui->Plot->replot();
-}
-
-void PlotWidget::UpdateSensors(void)
-{
-	const auto Data = AppCore::getInstance()->GetPlots();
-
-	for (auto ID: Plots.keys()) if (!Data.contains(ID)) DeletePlot(ID);
-
-	for (const auto& Plot: Data) UpdatePlot(Plot);
 }
 
 void PlotWidget::RestartPlot(void)
