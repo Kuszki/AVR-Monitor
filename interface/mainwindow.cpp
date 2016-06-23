@@ -39,6 +39,18 @@ MainWindow::MainWindow(QWidget* Parent)
 	ui->terminalWidget->setEnabled(false);
 	ui->toolActions->addWidget(Interval);
 
+	ui->adcWidget->SetTitleWidget(new TitleWidget(ui->adcDock));
+	ui->systemWidget->SetTitleWidget(new TitleWidget(ui->systemDock));
+	ui->pgaWidget->SetTitleWidget(new TitleWidget(ui->pgaDock));
+	ui->shiftWidget->SetTitleWidget(new TitleWidget(ui->shiftDock));
+
+	ui->plotWidget->SetTitleWidget(new TitleWidget(ui->plotDock));
+	ui->terminalWidget->SetTitleWidget(new TitleWidget(ui->terminalDock));
+	ui->sensorsWidget->SetTitleWidget(new TitleWidget(ui->sensorsDock));
+	ui->eventsWidget->SetTitleWidget(new TitleWidget(ui->eventsDock));
+	ui->slidersWidget->SetTitleWidget(new TitleWidget(ui->slidersDock));
+	ui->devicesWidget->SetTitleWidget(new TitleWidget(ui->devicesDock));
+
 	AppCore::getInstance()->UpdateInterval(Interval->value());
 
 	setTabPosition(Qt::AllDockWidgetAreas, QTabWidget::TabPosition::North);

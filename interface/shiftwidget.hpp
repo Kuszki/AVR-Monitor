@@ -25,6 +25,8 @@
 #include <QCheckBox>
 #include <QWidget>
 
+#include "titlewidget.hpp"
+
 namespace Ui
 {
 	class ShiftWidget;
@@ -45,6 +47,8 @@ class ShiftWidget : public QWidget
 
 		explicit ShiftWidget(QWidget* Parent = nullptr);
 		virtual ~ShiftWidget(void) override;
+
+		void SetTitleWidget(TitleWidget* Widget);
 
 	private slots:
 

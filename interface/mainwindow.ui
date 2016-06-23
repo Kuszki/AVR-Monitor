@@ -143,6 +143,10 @@
    <addaction name="actionFulscreen"/>
   </widget>
   <widget class="QDockWidget" name="shiftDock">
+   <property name="windowIcon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icon/output</normaloff>:/icon/output</iconset>
+   </property>
    <property name="windowTitle">
     <string>Shift register</string>
    </property>
@@ -156,6 +160,10 @@
    </widget>
   </widget>
   <widget class="QDockWidget" name="pgaDock">
+   <property name="windowIcon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icon/gain</normaloff>:/icon/gain</iconset>
+   </property>
    <property name="windowTitle">
     <string>Amplifiers</string>
    </property>
@@ -169,6 +177,10 @@
    </widget>
   </widget>
   <widget class="QDockWidget" name="adcDock">
+   <property name="windowIcon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icon/adc</normaloff>:/icon/adc</iconset>
+   </property>
    <property name="windowTitle">
     <string>Converters</string>
    </property>
@@ -182,6 +194,10 @@
    </widget>
   </widget>
   <widget class="QDockWidget" name="systemDock">
+   <property name="windowIcon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icon/system</normaloff>:/icon/system</iconset>
+   </property>
    <property name="windowTitle">
     <string>System</string>
    </property>
@@ -195,6 +211,10 @@
    </widget>
   </widget>
   <widget class="QDockWidget" name="plotDock">
+   <property name="windowIcon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icon/plot</normaloff>:/icon/plot</iconset>
+   </property>
    <property name="windowTitle">
     <string>Plot</string>
    </property>
@@ -204,6 +224,10 @@
    <widget class="PlotWidget" name="plotWidget"/>
   </widget>
   <widget class="QDockWidget" name="sensorsDock">
+   <property name="windowIcon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icon/sensor</normaloff>:/icon/sensor</iconset>
+   </property>
    <property name="windowTitle">
     <string>Sensors</string>
    </property>
@@ -213,6 +237,10 @@
    <widget class="SensorWidget" name="sensorsWidget"/>
   </widget>
   <widget class="QDockWidget" name="eventsDock">
+   <property name="windowIcon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icon/event</normaloff>:/icon/event</iconset>
+   </property>
    <property name="windowTitle">
     <string>Events</string>
    </property>
@@ -222,6 +250,10 @@
    <widget class="EventWidget" name="eventsWidget"/>
   </widget>
   <widget class="QDockWidget" name="devicesDock">
+   <property name="windowIcon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icon/device</normaloff>:/icon/device</iconset>
+   </property>
    <property name="windowTitle">
     <string>Devices</string>
    </property>
@@ -231,6 +263,10 @@
    <widget class="DeviceWidget" name="devicesWidget"/>
   </widget>
   <widget class="QDockWidget" name="terminalDock">
+   <property name="windowIcon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icon/terminal</normaloff>:/icon/terminal</iconset>
+   </property>
    <property name="windowTitle">
     <string>Terminal</string>
    </property>
@@ -240,6 +276,10 @@
    <widget class="TerminalWidget" name="terminalWidget"/>
   </widget>
   <widget class="QDockWidget" name="slidersDock">
+   <property name="windowIcon">
+    <iconset resource="resources.qrc">
+     <normaloff>:/icon/options</normaloff>:/icon/options</iconset>
+   </property>
    <property name="windowTitle">
     <string>Sliders</string>
    </property>
@@ -474,7 +514,9 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>actionQuit</sender>

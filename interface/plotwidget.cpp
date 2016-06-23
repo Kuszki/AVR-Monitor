@@ -73,6 +73,19 @@ PlotWidget::~PlotWidget(void)
 	delete ui;
 }
 
+void PlotWidget::SetTitleWidget(TitleWidget* Widget)
+{
+	while (ui->toolsLayout->count())
+	{
+		QLayoutItem* I = ui->toolsLayout->takeAt(0);
+
+		if (QWidget* W = I->widget())
+			Widget->addRightWidget(W);
+		else if (QSpacerItem* S = I->spacerItem())
+			Widget->addRightSpacer(S);
+	}
+}
+
 void PlotWidget::PlotRangeChanged(const QCPRange& New, const QCPRange& Old)
 {
 	if (New.lower < 0) ui->Plot->xAxis->setRange(0, Old.size());

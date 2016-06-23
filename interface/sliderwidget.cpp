@@ -41,6 +41,11 @@ SliderWidget::~SliderWidget(void)
 	delete ui;
 }
 
+void SliderWidget::SetTitleWidget(TitleWidget* Widget)
+{
+	Widget->addRightWidget(ui->addButton);
+}
+
 void SliderWidget::RefreshSize(void)
 {
 	const int Items = ui->slidersLayout->minimumSize().width();

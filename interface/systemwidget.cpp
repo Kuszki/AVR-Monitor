@@ -32,6 +32,11 @@ SystemWidget::~SystemWidget(void)
 	delete ui;
 }
 
+void SystemWidget::SetTitleWidget(TitleWidget* Widget)
+{
+
+}
+
 void SystemWidget::CleanButtonClicked(void)
 {
 	emit onRamCleanRequest();

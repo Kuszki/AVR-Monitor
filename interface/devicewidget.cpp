@@ -41,6 +41,11 @@ DeviceWidget::~DeviceWidget(void)
 	delete ui;
 }
 
+void DeviceWidget::SetTitleWidget(TitleWidget* Widget)
+{
+	Widget->addRightWidget(ui->addButton);
+}
+
 void DeviceWidget::RefreshSize(void)
 {
 	const int Items = ui->devicesLayout->minimumSize().width();

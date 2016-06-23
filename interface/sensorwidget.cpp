@@ -41,6 +41,11 @@ SensorWidget::~SensorWidget(void)
 	delete ui;
 }
 
+void SensorWidget::SetTitleWidget(TitleWidget* Widget)
+{
+	Widget->addRightWidget(ui->addButton);
+}
+
 void SensorWidget::RefreshSize(void)
 {
 	const int Items = ui->sensorsLayout->minimumSize().width();

@@ -25,6 +25,8 @@
 #include <QFileDialog>
 #include <QWidget>
 
+#include "titlewidget.hpp"
+
 namespace Ui
 {
 	class TerminalWidget;
@@ -39,10 +41,16 @@ class TerminalWidget : public QWidget
 
 		Ui::TerminalWidget* ui;
 
+	protected:
+
+		virtual void changeEvent(QEvent* Event) override;
+
 	public:
 
 		explicit TerminalWidget(QWidget* Parent = nullptr);
 		virtual ~TerminalWidget(void) override;
+
+		void SetTitleWidget(TitleWidget* Widget);
 
 	private slots:
 

@@ -45,6 +45,11 @@ ShiftWidget::~ShiftWidget(void)
 	delete ui;
 }
 
+void ShiftWidget::SetTitleWidget(TitleWidget* Widget)
+{
+
+}
+
 void ShiftWidget::EnableAllClicked(void)
 {
 	emit onShiftChanged(255);

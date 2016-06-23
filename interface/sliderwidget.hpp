@@ -27,6 +27,7 @@
 #include <QWidget>
 
 #include "sliderdialog.hpp"
+#include "titlewidget.hpp"
 #include "sliderentry.hpp"
 #include "appcore.hpp"
 #include "common.hpp"
@@ -51,6 +52,8 @@ class SliderWidget : public QWidget
 
 		explicit SliderWidget(QWidget* Parent = nullptr);
 		virtual ~SliderWidget(void) override;
+
+		void SetTitleWidget(TitleWidget* Widget);
 
 	public slots:
 

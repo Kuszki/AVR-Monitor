@@ -28,6 +28,7 @@
 
 #include "sensordialog.hpp"
 #include "sensorentry.hpp"
+#include "titlewidget.hpp"
 #include "appcore.hpp"
 #include "common.hpp"
 
@@ -51,6 +52,8 @@ class SensorWidget : public QWidget
 
 		explicit SensorWidget(QWidget* Parent = nullptr);
 		virtual ~SensorWidget(void) override;
+
+		void SetTitleWidget(TitleWidget* Widget);
 
 	public slots:
 

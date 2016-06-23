@@ -23,6 +23,8 @@
 
 #include <QWidget>
 
+#include "titlewidget.hpp"
+
 namespace Ui
 {
 	class SystemWidget;
@@ -41,6 +43,8 @@ class SystemWidget : public QWidget
 
 		explicit SystemWidget(QWidget* Parent = nullptr);
 		virtual ~SystemWidget(void) override;
+
+		void SetTitleWidget(TitleWidget* Widget);
 
 	private slots:
 

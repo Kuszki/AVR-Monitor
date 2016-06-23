@@ -48,3 +48,8 @@ AdcWidget::~AdcWidget(void)
 {
 	delete ui;
 }
+
+void AdcWidget::SetTitleWidget(TitleWidget* Widget)
+{
+
+}

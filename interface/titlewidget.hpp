@@ -1,7 +1,7 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *                                                                         *
- *  Event widget for AVR-Monitor                                           *
- *  Copyright (C) 2015  Łukasz "Kuszki" Dróżdż  l.drozdz@openmailbox.org   *
+ *  Title bar widget for dock widgets in GTK3 Titlebat style               *
+ *  Copyright (C) 2016  Łukasz "Kuszki" Dróżdż  l.drozdz@openmailbox.org   *
  *                                                                         *
  *  This program is free software: you can redistribute it and/or modify   *
  *  it under the terms of the GNU General Public License as published by   *
@@ -18,47 +18,56 @@
  *                                                                         *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#include "eventwidget.hpp"
-#include "ui_eventwidget.h"
+#ifndef TITLEWIDGET_HPP
+#define TITLEWIDGET_HPP
 
-EventWidget::EventWidget(QWidget* Parent)
-: QWidget(Parent), ui(new Ui::EventWidget)
+#include <QVBoxLayout>
+#include <QDockWidget>
+#include <QPixmap>
+#include <QWidget>
+#include <QLabel>
+
+namespace Ui
 {
-	ui->setupUi(this);
-
-	ui->eventsLayout->setAlignment(Qt::AlignTop);
-
-	Dialog = new EventDialog(-1, this);
-
-	for (const auto& Data: AppCore::getInstance()->GetEvents()) AddEvent(Data);
-
-	connect(Dialog, &EventDialog::onDialogAccept, this, &EventWidget::AddEvent);
-	connect(ui->addButton, &QPushButton::clicked, Dialog, &QDialog::open);
+	class TitleWidget;
 }
 
-EventWidget::~EventWidget(void)
+class TitleWidget : public QWidget
 {
-	delete ui;
-}
 
-void EventWidget::SetTitleWidget(TitleWidget* Widget)
-{
-	Widget->addRightWidget(ui->addButton);
-}
+		Q_OBJECT
 
-void EventWidget::RefreshSize(void)
-{
-	const int Items = ui->eventsLayout->minimumSize().width();
-	const int Scroll = ui->scrollArea->verticalScrollBar()->width();
+	private:
 
-	ui->scrollArea->setMinimumWidth(Items + Scroll);
-}
+		Ui::TitleWidget* ui;
 
-void EventWidget::AddEvent(const EventData& Data)
-{
-	EventEntry* Entry = new EventEntry(Data, this);
+	public:
 
-	ui->eventsLayout->addWidget(Entry); RefreshSize();
+		explicit TitleWidget(QDockWidget* Parent = nullptr);
+		virtual ~TitleWidget(void) override;
 
-	connect(Entry, &EventEntry::onEventUpdate, this, &EventWidget::RefreshSize);
-}
+		void addLeftWidget(QWidget* Widget, int Stretch = 0, Qt::Alignment Alignment = Qt::Alignment());
+		void addRightWidget(QWidget* Widget, int Stretch = 0, Qt::Alignment Alignment = Qt::Alignment());
+
+		void addLeftLayout(QLayout* Layout, int Stretch = 0);
+		void addRightLayout(QLayout* Layout, int Stretch = 0);
+
+		void addLeftSpacer(QSpacerItem* Spacer);
+		void addRightSpacer(QSpacerItem* Spacer);
+
+		QHBoxLayout* getLeftLayout(void);
+		QHBoxLayout* getRightLayout(void);
+
+	public slots:
+
+		void setWindowTitle(const QString& Title);
+		void setWindowIcon(const QIcon& Icon);
+
+	private slots:
+
+		void CloseButtonClicked(void);
+		void ViewButtonClicked(void);
+
+};
+
+#endif // TITLEWIDGET_HPP

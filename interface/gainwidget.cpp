@@ -44,6 +44,11 @@ GainWidget::~GainWidget(void)
 	delete ui;
 }
 
+void GainWidget::SetTitleWidget(TitleWidget* Widget)
+{
+
+}
+
 void GainWidget::GainValueChanged(int Index)
 {
 	if (sender() == ui->gainValue_0) emit onGainChange(0, GainValues.value(Index, 1));

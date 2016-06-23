@@ -26,6 +26,7 @@
 #include <QScrollBar>
 #include <QWidget>
 
+#include "titlewidget.hpp"
 #include "eventdialog.hpp"
 #include "evententry.hpp"
 #include "appcore.hpp"
@@ -50,6 +51,8 @@ class EventWidget : public QWidget
 
 		explicit EventWidget(QWidget* Parent = nullptr);
 		virtual ~EventWidget(void) override;
+
+		void SetTitleWidget(TitleWidget* Widget);
 
 	public slots:
 

@@ -58,7 +58,8 @@ SOURCES	+= 	main.cpp \
 			scriptworker.cpp \
 			sliderentry.cpp \
 			sliderdialog.cpp \
-			sliderwidget.cpp
+			sliderwidget.cpp \
+    titlewidget.cpp
 
 HEADERS	+=	common.hpp \
 			appcore.hpp \
@@ -87,7 +88,8 @@ HEADERS	+=	common.hpp \
 			scriptworker.hpp \
 			sliderentry.hpp \
 			sliderdialog.hpp \
-			sliderwidget.hpp
+			sliderwidget.hpp \
+    titlewidget.hpp
 
 FORMS	+=	mainwindow.ui \
 			shiftwidget.ui \
@@ -112,7 +114,8 @@ FORMS	+=	mainwindow.ui \
 			plotwidget.ui \
 			sliderentry.ui \
 			sliderdialog.ui \
-			sliderwidget.ui
+			sliderwidget.ui \
+    titlewidget.ui
 
 RESOURCES	+=	resources.qrc
 

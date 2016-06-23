@@ -24,6 +24,8 @@
 #include <QWidget>
 #include <QMap>
 
+#include "titlewidget.hpp"
+
 namespace Ui
 {
 	class GainWidget;
@@ -42,8 +44,10 @@ class GainWidget : public QWidget
 
 	public:
 
-		explicit GainWidget(QWidget *Parent = nullptr);
+		explicit GainWidget(QWidget* Parent = nullptr);
 		virtual ~GainWidget(void) override;
+
+		void SetTitleWidget(TitleWidget* Widget);
 
 	private slots:
 

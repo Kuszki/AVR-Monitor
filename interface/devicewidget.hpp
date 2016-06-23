@@ -27,6 +27,7 @@
 #include <QWidget>
 
 #include "devicedialog.hpp"
+#include "titlewidget.hpp"
 #include "deviceentry.hpp"
 #include "appcore.hpp"
 #include "common.hpp"
@@ -51,6 +52,8 @@ class DeviceWidget : public QWidget
 
 		explicit DeviceWidget(QWidget* Parent = nullptr);
 		virtual ~DeviceWidget(void) override;
+
+		void SetTitleWidget(TitleWidget* Widget);
 
 	public slots:
 

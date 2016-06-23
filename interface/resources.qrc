@@ -5,6 +5,11 @@
         <file alias="options">icon-options.png</file>
         <file alias="sensor">icon-sensor.png</file>
         <file alias="adc">icon-adc.png</file>
+        <file alias="system">icon-system.png</file>
+        <file alias="plot">icon-plot.png</file>
+        <file alias="gain">icon-gain.png</file>
+        <file alias="output">icon-output.png</file>
+        <file alias="terminal">icon-terminal.png</file>
     </qresource>
     <qresource prefix="/logo">
         <file alias="gnu">logo-gnu.png</file>

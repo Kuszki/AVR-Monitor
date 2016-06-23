@@ -20,7 +20,7 @@
 
 #include "terminalwidget.hpp"
 #include "ui_terminalwidget.h"
-
+#include <QDebug>
 TerminalWidget::TerminalWidget(QWidget* Parent)
 : QWidget(Parent), ui(new Ui::TerminalWidget)
 {
@@ -32,6 +32,34 @@ TerminalWidget::TerminalWidget(QWidget* Parent)
 TerminalWidget::~TerminalWidget(void)
 {
 	delete ui;
+}
+
+void TerminalWidget::changeEvent(QEvent* Event)
+{
+	if (Event->type() == QEvent::EnabledChange)
+	{
+		const bool Enabled = isEnabled();
+
+		ui->loadButton->setEnabled(Enabled);
+		ui->saveButton->setEnabled(Enabled);
+		ui->checkButton->setEnabled(Enabled);
+		ui->sendButton->setEnabled(Enabled);
+	}
+
+	QWidget::changeEvent(Event);
+}
+
+void TerminalWidget::SetTitleWidget(TitleWidget* Widget)
+{
+	while (ui->toolsLayout->count())
+	{
+		QLayoutItem* I = ui->toolsLayout->takeAt(0);
+
+		if (QWidget* W = I->widget())
+			Widget->addRightWidget(W);
+		else if (QSpacerItem* S = I->spacerItem())
+			Widget->addRightSpacer(S);
+	}
 }
 
 void TerminalWidget::SaveButtonClicked(void)

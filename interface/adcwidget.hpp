@@ -22,11 +22,13 @@
 #define ADCWIDGET_HPP
 
 #include <QHBoxLayout>
+#include <QDockWidget>
 #include <QWidget>
 #include <QLabel>
 
 #include <KLLibs.hpp>
 
+#include "titlewidget.hpp"
 #include "adcentry.hpp"
 
 namespace Ui
@@ -49,6 +51,8 @@ class AdcWidget : public QWidget
 
 		explicit AdcWidget(QWidget* Parent = nullptr);
 		virtual ~AdcWidget(void) override;
+
+		void SetTitleWidget(TitleWidget* Widget);
 
 	public slots:
 

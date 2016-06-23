@@ -29,6 +29,7 @@
 #include <qcustomplot.hpp>
 
 #include "plotdialog.hpp"
+#include "titlewidget.hpp"
 
 namespace Ui
 {
@@ -64,6 +65,8 @@ class PlotWidget : public QWidget
 
 		explicit PlotWidget(QWidget* Parent = nullptr);
 		virtual ~PlotWidget(void) override;
+
+		void SetTitleWidget(TitleWidget* Widget);
 
 	private slots:
 
