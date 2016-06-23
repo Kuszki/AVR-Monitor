@@ -30,7 +30,8 @@ bool ScriptWorker::isComplete(void) const
 
 void ScriptWorker::PerformEvaluations(void)
 {
-	Locker->lock();
+	QMutexLocker AutoLocker(Locker);
+
 	Completed = false;
 
 	for (const auto& Task: *Tasks)
@@ -40,7 +41,6 @@ void ScriptWorker::PerformEvaluations(void)
 	}
 
 	Completed = true;
-	Locker->unlock();
 
 	emit onEvaluationComplete();
 }

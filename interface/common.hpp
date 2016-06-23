@@ -23,6 +23,8 @@
 
 #define toKls toStdString().c_str
 
+#include <KLLibs.hpp>
+
 #include <QString>
 #include <QDebug>
 

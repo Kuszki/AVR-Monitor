@@ -25,7 +25,7 @@
 #include <QObject>
 #include <QMutex>
 
-#include "KLLibs.hpp"
+#include "common.hpp"
 
 class ScriptWorker : public QObject
 {

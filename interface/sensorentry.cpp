@@ -32,6 +32,11 @@ SensorEntry::SensorEntry(const SensorData& Data, QWidget* Parent)
 	{
 		if (Index == ID) UpdateSensor(AppCore::getInstance()->GetSensor(ID));
 	});
+
+	AppCore::getInstance()->ConnectVariable(Data.Label, [this] (double Value) -> void
+	{
+		ui->Value->display(Value);
+	});
 }
 
 SensorEntry::~SensorEntry(void)
@@ -63,11 +68,6 @@ void SensorEntry::UpdateSensor(const SensorData& Data)
 
 	ui->Unit->setText(Data.Unit);
 	ui->Unit->setEnabled(Data.Active);
-
-	AppCore::getInstance()->ConnectVariable(Data.Label, [this] (double Value) -> void
-	{
-		ui->Value->display(Value);
-	});
 
 	emit onSensorUpdate(Data);
 }

@@ -26,6 +26,10 @@
 
 #define VREADONLY KLVariables::NUMBER, KLVariables::KLSCALLBACK(), false
 
+#define VARDUMP(V) \
+	for (const auto* Space = &V; Space; Space = Space->Parent) \
+	for (const auto& Var : *Space) qDebug() << Var.ID << "=" << Var.Value.ToNumber();
+
 #include <QRegExpValidator>
 #include <QSqlDatabase>
 #include <QStringList>
@@ -75,7 +79,6 @@ class AppCore final : public QObject
 
 		QStringList Tasks;
 
-		unsigned char Values;
 		bool Done = true;
 
 		QMutex Locker;
@@ -164,8 +167,6 @@ class AppCore final : public QObject
 		void UpdateInvalidItems(void);
 
 		void UpdateScriptTasks(void);
-
-		void UpdateDefaultOutputs(void);
 
 		void CompleteEvaluations(void);
 

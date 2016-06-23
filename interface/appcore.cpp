@@ -139,21 +139,8 @@ AppCore::AppCore(void)
 	connect(this, &AppCore::onEventUpdate, this, &AppCore::UpdateScriptTasks);
 	connect(this, &AppCore::onSliderUpdate, this, &AppCore::UpdateScriptTasks);
 
-	connect(this, &AppCore::onDeviceUpdate, this, &AppCore::UpdateDefaultOutputs);
+	GetSensors(); GetEvents(); GetDevices(); GetAxes(); GetPlots(); GetSliders();
 
-	GetSensors();
-	GetEvents();
-	GetDevices();
-	GetAxes();
-	GetPlots();
-	GetSliders();
-
-//	qDebug() << "Var dump after reload:";
-//	for (const KLVariables* Vars = &Device->Variables(); Vars; Vars = Vars->Parent)
-//		for (const auto& Var: *Vars) qDebug() << Var.ID << "=" << Var.Value.ToNumber();
-//	qDebug() << "======================";
-
-	UpdateDefaultOutputs();
 	UpdateScriptTasks();
 }
 
@@ -184,7 +171,7 @@ void AppCore::CompleteEvaluations(void)
 {
 	Done = true; Watchdog.stop();
 
-	emit onValuesUpdate(Script.Variables);
+	emit onValuesUpdate(SensorsVar);
 }
 
 void AppCore::TerminateEvaluations(void)
@@ -238,7 +225,10 @@ void AppCore::SynchronizeDevice(void)
 {
 	QMutexLocker AutoLocker(&Locker);
 
+	unsigned char Values = 0;
 	QString Code;
+
+	for (const auto& Device : Devices) Values |= (1 << Device.Output);
 
 	for (const auto& Sensor : Sensors) if (Sensor.Active)
 	{
@@ -360,11 +350,6 @@ void AppCore::UpdateScriptTasks(void)
 	emit onScriptUpdate();
 }
 
-void AppCore::UpdateDefaultOutputs(void)
-{
-	Values = 0; for (const auto& Device : Devices) Values |= (1 << Device.Output);
-}
-
 bool AppCore::AddSensor(SensorData& Data)
 {
 	if (!SensorScriptOk(Data.Script, Data.Label)) return false;
@@ -391,7 +376,6 @@ bool AppCore::AddSensor(SensorData& Data)
 		Data.ID = Query.lastInsertId().toInt();
 
 		Sensors.insert(Data.ID, Data);
-
 		SensorsVar.Add(Data.Label.toKls());
 
 		emit onSensorUpdate(Data.ID);
@@ -433,9 +417,10 @@ bool AppCore::UpdateSensor(SensorData& Data)
 	{
 		QMutexLocker AutoLocker(&Locker);
 
-		SensorsVar.Delete(Sensors[Data.ID].Label.toKls());
+		SensorsVar.Rename(Sensors[Data.ID].Label.toKls(),
+					   Data.Label.toKls());
 		Sensors[Data.ID] = Data;
-		SensorsVar.Add(Data.Label.toKls());
+		SensorsVar[Data.Label.toKls()] = 0.0;
 
 		for (auto& Plot : Plots) if (Plot.SENSOR_ID == Data.ID)
 		{
@@ -503,7 +488,7 @@ bool AppCore::DisableSensor(int ID)
 	{
 		QMutexLocker AutoLocker(&Locker);
 
-		SensorsVar.Delete(Sensors[ID].Label.toKls());
+		SensorsVar[Sensors[ID].Label.toKls()] = 0;
 		Sensors[ID].Active = false;
 
 		emit onSensorUpdate(ID);
@@ -1243,6 +1228,7 @@ bool AppCore::AddSlider(SliderData& Data)
 
 		SlidersVar.Add(Data.Label.toKls(), VREADONLY);
 		Sliders.insert(Data.ID, Data);
+		SlidersVar[Data.Label.toKls()] = Data.Init;
 
 		emit onSliderUpdate(Data.ID);
 	}
@@ -1285,9 +1271,9 @@ bool AppCore::UpdateSlider(SliderData& Data)
 	{
 		QMutexLocker AutoLocker(&Locker);
 
-		SlidersVar.Delete(Sliders[Data.ID].Label.toKls());
+		SlidersVar.Rename(Sliders[Data.ID].Label.toKls(),
+					   Data.Label.toKls());
 		Sliders[Data.ID] = Data;
-		SlidersVar.Add(Data.Label.toKls(), VREADONLY);
 		SlidersVar[Data.Label.toKls()] = Data.Init;
 
 		emit onSliderUpdate(Data.ID);
@@ -1383,8 +1369,9 @@ QMap<int, SliderData> AppCore::GetSliders(void)
 		Data.Steps = Query.value(6).toInt();
 		Data.Active = Query.value(7).toBool();
 
-		SlidersVar.Add(Data.Label.toKls());
+		SlidersVar.Add(Data.Label.toKls(), VREADONLY);
 		Sliders.insert(Data.ID, Data);
+		SlidersVar[Data.Label.toKls()] = Data.Init;
 	}
 	else
 	{
@@ -1398,14 +1385,14 @@ void AppCore::ConnectVariable(const QString& Var, const boost::function<void (do
 {
 	const KLString ID = Var.toKls();
 
-	if (Script.Variables.Exists(ID)) Script.Variables[ID].SetCallback(Callback);
+	if (SensorsVar.Exists(ID, true)) SensorsVar[ID].SetCallback(Callback);
 }
 
 void AppCore::DisconnectVariable(const QString& Var)
 {
 	const KLString ID = Var.toKls();
 
-	if (Script.Variables.Exists(ID)) Script.Variables[ID].SetCallback(boost::function<void (double)>());
+	if (SensorsVar.Exists(ID, true)) SensorsVar[ID].SetCallback(KLVariables::KLSCALLBACK());
 }
 
 QString AppCore::getValidation(const QString& Code)
