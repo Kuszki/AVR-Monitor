@@ -98,15 +98,15 @@ HelperWidget::HelperWidget(QWidget* Parent)
 	mainLayout->setMargin(0);
 
 	toolBox->setTabPosition(QTabWidget::East);
+	toolBox->setDocumentMode(true);
 
 	setLayout(mainLayout);
 
 	for (int i = 0; i < catList.size(); i++)
 	{
-		QWidget* Tools = new QWidget(this);
-		QVBoxLayout* Layout = new QVBoxLayout(Tools);
-
-		toolBox->addTab(Tools, catList.at(i));
+		QWidget* Contents = new QWidget();
+		QScrollArea* Tools = new QScrollArea(this);
+		QVBoxLayout* Layout = new QVBoxLayout(Contents);
 
 		for (int j = 0; j < valMap.at(i).size(); j++)
 		{
@@ -117,7 +117,13 @@ HelperWidget::HelperWidget(QWidget* Parent)
 			connect(Entry, &HelperEntry::onScriptPaste, [this] (const QString& Code) -> void { emit onCodePasteRequest(Code); });
 		}
 
-		Layout->addSpacerItem(new QSpacerItem(40, 20, QSizePolicy::Minimum, QSizePolicy::Expanding));
+		Tools->setWidget(Contents);
+		Tools->setFrameShape(QFrame::NoFrame);
+		Tools->setWidgetResizable(true);
+
+		Layout->setAlignment(Qt::AlignTop);
+
+		toolBox->addTab(Tools, catList.at(i));
 	}
 }
 

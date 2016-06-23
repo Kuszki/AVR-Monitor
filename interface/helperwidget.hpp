@@ -21,9 +21,11 @@
 #ifndef HELPERWIDGET_HPP
 #define HELPERWIDGET_HPP
 
+#include <QScrollArea>
 #include <QSpacerItem>
 #include <QStringList>
 #include <QVBoxLayout>
+#include <QScrollBar>
 #include <QTabWidget>
 #include <QSettings>
 #include <QWidget>

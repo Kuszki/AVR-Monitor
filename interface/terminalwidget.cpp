@@ -26,7 +26,7 @@ TerminalWidget::TerminalWidget(QWidget* Parent)
 {
 	ui->setupUi(this);
 
-	ui->Helper->hide();
+	//ui->Helper->hide();
 }
 
 TerminalWidget::~TerminalWidget(void)
