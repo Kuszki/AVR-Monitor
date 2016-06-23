@@ -39,6 +39,8 @@ MainWindow::MainWindow(QWidget* Parent)
 	ui->terminalWidget->setEnabled(false);
 	ui->toolActions->addWidget(Interval);
 
+	ui->centralWidget->deleteLater();
+
 	ui->adcWidget->SetTitleWidget(new TitleWidget(ui->adcDock));
 	ui->systemWidget->SetTitleWidget(new TitleWidget(ui->systemDock));
 	ui->pgaWidget->SetTitleWidget(new TitleWidget(ui->pgaDock));
