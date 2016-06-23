@@ -20,7 +20,7 @@
 
 #include "terminalwidget.hpp"
 #include "ui_terminalwidget.h"
-#include <QDebug>
+
 TerminalWidget::TerminalWidget(QWidget* Parent)
 : QWidget(Parent), ui(new Ui::TerminalWidget)
 {
@@ -44,6 +44,7 @@ void TerminalWidget::changeEvent(QEvent* Event)
 		ui->saveButton->setEnabled(Enabled);
 		ui->checkButton->setEnabled(Enabled);
 		ui->sendButton->setEnabled(Enabled);
+		ui->cleanButton->setEnabled(Enabled);
 	}
 
 	QWidget::changeEvent(Event);

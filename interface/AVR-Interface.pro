@@ -59,7 +59,7 @@ SOURCES	+= 	main.cpp \
 			sliderentry.cpp \
 			sliderdialog.cpp \
 			sliderwidget.cpp \
-    titlewidget.cpp
+			titlewidget.cpp
 
 HEADERS	+=	common.hpp \
 			appcore.hpp \
@@ -89,7 +89,7 @@ HEADERS	+=	common.hpp \
 			sliderentry.hpp \
 			sliderdialog.hpp \
 			sliderwidget.hpp \
-    titlewidget.hpp
+			titlewidget.hpp
 
 FORMS	+=	mainwindow.ui \
 			shiftwidget.ui \
@@ -115,7 +115,7 @@ FORMS	+=	mainwindow.ui \
 			sliderentry.ui \
 			sliderdialog.ui \
 			sliderwidget.ui \
-    titlewidget.ui
+			titlewidget.ui
 
 RESOURCES	+=	resources.qrc
 

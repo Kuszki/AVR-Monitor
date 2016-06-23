@@ -26,7 +26,7 @@
 #include <KLLibs.hpp>
 
 #include <QString>
-#include <QDebug>
+
 
 struct SensorData
 {
