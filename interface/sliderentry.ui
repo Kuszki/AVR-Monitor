@@ -52,7 +52,7 @@
    <item>
     <widget class="QDoubleSpinBox" name="Spin">
      <property name="decimals">
-      <number>5</number>
+      <number>3</number>
      </property>
     </widget>
    </item>
@@ -145,6 +145,22 @@
     <hint type="destinationlabel">
      <x>532</x>
      <y>191</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>Name</sender>
+   <signal>windowTitleChanged(QString)</signal>
+   <receiver>SliderEntry</receiver>
+   <slot>setWindowTitle(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>47</x>
+     <y>26</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>299</x>
+     <y>26</y>
     </hint>
    </hints>
   </connection>

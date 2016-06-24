@@ -6,24 +6,25 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>350</width>
+    <height>275</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Slider settings</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="5" column="1">
-    <widget class="QSpinBox" name="Steps">
-     <property name="minimum">
-      <number>2</number>
+   <item row="4" column="0">
+    <widget class="QLabel" name="labelInit">
+     <property name="text">
+      <string>Initial value</string>
      </property>
-     <property name="maximum">
-      <number>100</number>
-     </property>
-     <property name="value">
-      <number>5</number>
+    </widget>
+   </item>
+   <item row="5" column="0">
+    <widget class="QLabel" name="labelStep">
+     <property name="text">
+      <string>Steps</string>
      </property>
     </widget>
    </item>
@@ -34,16 +35,10 @@
      </property>
     </widget>
    </item>
-   <item row="2" column="1">
-    <widget class="QDoubleSpinBox" name="Min">
-     <property name="decimals">
-      <number>5</number>
-     </property>
-     <property name="minimum">
-      <double>-99999.000000000000000</double>
-     </property>
-     <property name="maximum">
-      <double>99999.000000000000000</double>
+   <item row="2" column="0">
+    <widget class="QLabel" name="labelMin">
+     <property name="text">
+      <string>Minimum value</string>
      </property>
     </widget>
    </item>
@@ -54,7 +49,75 @@
      </property>
     </widget>
    </item>
-   <item row="7" column="0" colspan="2">
+   <item row="0" column="0">
+    <widget class="QLabel" name="labelName">
+     <property name="text">
+      <string>Name</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="0" colspan="3">
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>0</width>
+       <height>0</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="4" column="1" colspan="2">
+    <widget class="QDoubleSpinBox" name="Init">
+     <property name="decimals">
+      <number>3</number>
+     </property>
+     <property name="minimum">
+      <double>-99999.000000000000000</double>
+     </property>
+     <property name="maximum">
+      <double>99999.000000000000000</double>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1" colspan="2">
+    <widget class="QDoubleSpinBox" name="Max">
+     <property name="decimals">
+      <number>3</number>
+     </property>
+     <property name="minimum">
+      <double>-99999.000000000000000</double>
+     </property>
+     <property name="maximum">
+      <double>99999.000000000000000</double>
+     </property>
+     <property name="value">
+      <double>5.000000000000000</double>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1" colspan="2">
+    <widget class="QDoubleSpinBox" name="Min">
+     <property name="decimals">
+      <number>3</number>
+     </property>
+     <property name="minimum">
+      <double>-99999.000000000000000</double>
+     </property>
+     <property name="maximum">
+      <double>99999.000000000000000</double>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1" colspan="2">
+    <widget class="QLineEdit" name="Label"/>
+   </item>
+   <item row="0" column="1" colspan="2">
+    <widget class="QLineEdit" name="Name"/>
+   </item>
+   <item row="7" column="0" colspan="3">
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QCheckBox" name="Active">
@@ -95,81 +158,24 @@
      </item>
     </layout>
    </item>
-   <item row="2" column="0">
-    <widget class="QLabel" name="labelMin">
-     <property name="text">
-      <string>Minimum value</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="0">
-    <widget class="QLabel" name="labelName">
-     <property name="text">
-      <string>Name</string>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="0">
-    <widget class="QLabel" name="labelStep">
-     <property name="text">
-      <string>Steps</string>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="0">
-    <widget class="QLabel" name="labelInit">
-     <property name="text">
-      <string>Initial value</string>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="1">
-    <widget class="QDoubleSpinBox" name="Init">
-     <property name="decimals">
-      <number>5</number>
+   <item row="5" column="1" colspan="2">
+    <widget class="QSpinBox" name="Steps">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
      </property>
      <property name="minimum">
-      <double>-99999.000000000000000</double>
+      <number>2</number>
      </property>
      <property name="maximum">
-      <double>99999.000000000000000</double>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="1">
-    <widget class="QLineEdit" name="Name"/>
-   </item>
-   <item row="3" column="1">
-    <widget class="QDoubleSpinBox" name="Max">
-     <property name="decimals">
-      <number>5</number>
-     </property>
-     <property name="minimum">
-      <double>-99999.000000000000000</double>
-     </property>
-     <property name="maximum">
-      <double>99999.000000000000000</double>
+      <number>100</number>
      </property>
      <property name="value">
-      <double>5.000000000000000</double>
+      <number>6</number>
      </property>
     </widget>
-   </item>
-   <item row="1" column="1">
-    <widget class="QLineEdit" name="Label"/>
-   </item>
-   <item row="6" column="0" colspan="2">
-    <spacer name="verticalSpacer">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>0</width>
-       <height>0</height>
-      </size>
-     </property>
-    </spacer>
    </item>
   </layout>
  </widget>
@@ -249,9 +255,58 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>Min</sender>
+   <signal>valueChanged(double)</signal>
+   <receiver>SliderDialog</receiver>
+   <slot>StepValueChange()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>274</x>
+     <y>93</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>689</x>
+     <y>153</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>Max</sender>
+   <signal>valueChanged(double)</signal>
+   <receiver>SliderDialog</receiver>
+   <slot>StepValueChange()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>198</x>
+     <y>131</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>712</x>
+     <y>228</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>Steps</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>SliderDialog</receiver>
+   <slot>StepValueChange()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>159</x>
+     <y>197</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>416</x>
+     <y>391</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>MaxSpinChange(double)</slot>
   <slot>MinSpinChange(double)</slot>
+  <slot>StepValueChange()</slot>
  </slots>
 </ui>

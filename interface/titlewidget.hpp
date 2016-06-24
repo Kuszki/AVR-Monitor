@@ -21,6 +21,8 @@
 #ifndef TITLEWIDGET_HPP
 #define TITLEWIDGET_HPP
 
+#include <QDesktopWidget>
+#include <QApplication>
 #include <QVBoxLayout>
 #include <QDockWidget>
 #include <QPixmap>
@@ -54,6 +56,9 @@ class TitleWidget : public QWidget
 
 		void addLeftSpacer(QSpacerItem* Spacer);
 		void addRightSpacer(QSpacerItem* Spacer);
+
+		void addLeftItem(QLayoutItem* Item);
+		void addRightItem(QLayoutItem* Item);
 
 		QHBoxLayout* getLeftLayout(void);
 		QHBoxLayout* getRightLayout(void);

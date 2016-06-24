@@ -61,6 +61,18 @@ void SliderDialog::MinSpinChange(double Value)
 	ui->Init->setMinimum(Value);
 }
 
+void SliderDialog::StepValueChange(void)
+{
+	const int Steps = ui->Steps->value();
+
+	const double Max = ui->Max->value();
+	const double Min = ui->Min->value();
+	const double Step = (Max - Min) / (Steps - 1);
+
+	ui->Steps->setSuffix(QString(tr(" step(s) by %1", 0, Steps)
+					 .arg(QString::number(Step, 'f', 3))));
+}
+
 void SliderDialog::accept(void)
 {
 	SliderData Data; bool OK = false;

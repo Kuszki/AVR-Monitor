@@ -844,39 +844,39 @@ done;</translation>
         <translation> s</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="77"/>
+        <location filename="mainwindow.cpp" line="79"/>
         <source>Script evaluation timeout</source>
         <translation>Przekroczenie czasu przeznaczonego na wykonanie skryptu</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="94"/>
+        <location filename="mainwindow.cpp" line="96"/>
         <source>Script check</source>
         <translation>Test poprawności skryptu</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="181"/>
+        <location filename="mainwindow.cpp" line="183"/>
         <source>Select script to upload</source>
         <translation>Wybierz skrypt do wysłania</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="188"/>
+        <location filename="mainwindow.cpp" line="190"/>
         <source>Can&apos;t open provided script file</source>
         <oldsource>Can&apos;t open provided script file.</oldsource>
         <translation>Nie można otworzyć wybranego skryptu</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="77"/>
-        <location filename="mainwindow.cpp" line="194"/>
+        <location filename="mainwindow.cpp" line="79"/>
+        <location filename="mainwindow.cpp" line="196"/>
         <source>Error</source>
         <translation>Błąd</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="220"/>
+        <location filename="mainwindow.cpp" line="222"/>
         <source>Select file to save script</source>
         <translation>Wybierz plik by zapisać pobrany skrypt</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="226"/>
+        <location filename="mainwindow.cpp" line="228"/>
         <source>Can&apos;t open provided file</source>
         <oldsource>Can&apos;t open provided file.</oldsource>
         <translation>Nie można otworzyć podanego pliku</translation>
@@ -1204,57 +1204,66 @@ done;</translation>
         <translation>Ustawienia parametru</translation>
     </message>
     <message>
-        <location filename="sliderdialog.ui" line="33"/>
+        <location filename="sliderdialog.ui" line="34"/>
         <source>Maximum value</source>
         <translation>Wartość maksymalna</translation>
     </message>
     <message>
-        <location filename="sliderdialog.ui" line="53"/>
+        <location filename="sliderdialog.ui" line="48"/>
         <source>Variable</source>
         <translation>Zmienna</translation>
     </message>
     <message>
-        <location filename="sliderdialog.ui" line="62"/>
+        <location filename="sliderdialog.ui" line="125"/>
         <source>Enabled</source>
         <translation>Włączony</translation>
     </message>
     <message>
-        <location filename="sliderdialog.ui" line="82"/>
+        <location filename="sliderdialog.ui" line="145"/>
         <source>Cancel</source>
         <translation>Anuluj</translation>
     </message>
     <message>
-        <location filename="sliderdialog.ui" line="89"/>
+        <location filename="sliderdialog.ui" line="152"/>
         <source>Save</source>
         <translation>Zapisz</translation>
     </message>
     <message>
-        <location filename="sliderdialog.ui" line="101"/>
+        <location filename="sliderdialog.ui" line="41"/>
         <source>Minimum value</source>
         <translation>Wartość minimalna</translation>
     </message>
     <message>
-        <location filename="sliderdialog.ui" line="108"/>
+        <location filename="sliderdialog.ui" line="55"/>
         <source>Name</source>
         <translation>Nazwa</translation>
     </message>
     <message>
-        <location filename="sliderdialog.ui" line="115"/>
+        <location filename="sliderdialog.ui" line="27"/>
         <source>Steps</source>
         <translation>Liczba kroków</translation>
     </message>
     <message>
-        <location filename="sliderdialog.ui" line="122"/>
+        <location filename="sliderdialog.ui" line="20"/>
         <source>Initial value</source>
         <translation>Wartość początkowa</translation>
     </message>
+    <message numerus="yes">
+        <location filename="sliderdialog.cpp" line="72"/>
+        <source> step(s) by %1</source>
+        <translation>
+            <numerusform> krok co %1</numerusform>
+            <numerusform> kroki co %1</numerusform>
+            <numerusform> kroków co %1</numerusform>
+        </translation>
+    </message>
     <message>
-        <location filename="sliderdialog.cpp" line="92"/>
+        <location filename="sliderdialog.cpp" line="104"/>
         <source>Error</source>
         <translation>Błąd</translation>
     </message>
     <message>
-        <location filename="sliderdialog.cpp" line="92"/>
+        <location filename="sliderdialog.cpp" line="104"/>
         <source>Can&apos;t insert data into database - %1</source>
         <translation>Nie udało się umieścić danych w bazie - %1</translation>
     </message>
@@ -1402,42 +1411,42 @@ done;</translation>
         <translation>Terminal</translation>
     </message>
     <message>
-        <location filename="terminalwidget.ui" line="45"/>
+        <location filename="terminalwidget.ui" line="57"/>
         <source>Export</source>
         <translation>Eksportuj</translation>
     </message>
     <message>
-        <location filename="terminalwidget.ui" line="56"/>
+        <location filename="terminalwidget.ui" line="68"/>
         <source>Inport</source>
         <translation>Importuj</translation>
     </message>
     <message>
-        <location filename="terminalwidget.ui" line="67"/>
+        <location filename="terminalwidget.ui" line="79"/>
         <source>Clean</source>
         <translation>Wyczyść</translation>
     </message>
     <message>
-        <location filename="terminalwidget.ui" line="78"/>
+        <location filename="terminalwidget.ui" line="90"/>
         <source>Clean on exec</source>
         <translation>Wyczyść przy wykonywaniu</translation>
     </message>
     <message>
-        <location filename="terminalwidget.ui" line="98"/>
+        <location filename="terminalwidget.ui" line="110"/>
         <source>Show log</source>
         <translation>Pokaż log</translation>
     </message>
     <message>
-        <location filename="terminalwidget.ui" line="108"/>
+        <location filename="terminalwidget.ui" line="120"/>
         <source>Show helper</source>
         <translation>Pokaż pomocnika</translation>
     </message>
     <message>
-        <location filename="terminalwidget.ui" line="115"/>
+        <location filename="terminalwidget.ui" line="127"/>
         <source>Check</source>
         <translation>Sprawdź</translation>
     </message>
     <message>
-        <location filename="terminalwidget.ui" line="126"/>
+        <location filename="terminalwidget.ui" line="138"/>
         <source>Execute</source>
         <translation>Wykonaj</translation>
     </message>

@@ -55,6 +55,7 @@ class SliderDialog : public QDialog
 
 		void MaxSpinChange(double Value);
 		void MinSpinChange(double Value);
+		void StepValueChange(void);
 
 	public slots:
 

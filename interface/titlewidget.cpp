@@ -73,6 +73,16 @@ void TitleWidget::addRightSpacer(QSpacerItem* Spacer)
 	ui->rightLayout->addSpacerItem(Spacer);
 }
 
+void TitleWidget::addLeftItem(QLayoutItem* Item)
+{
+	ui->leftLayout->addItem(Item);
+}
+
+void TitleWidget::addRightItem(QLayoutItem* Item)
+{
+	ui->rightLayout->addItem(Item);
+}
+
 QHBoxLayout* TitleWidget::getLeftLayout(void)
 {
 	return ui->leftLayout;
@@ -104,5 +114,17 @@ void TitleWidget::ViewButtonClicked(void)
 {
 	QDockWidget* Dock = qobject_cast<QDockWidget*>(parent());
 
-	Dock->setFloating(!Dock->isFloating());
+	if (Dock->isFloating())
+	{
+		if (Dock->geometry() == QApplication::desktop()->availableGeometry(Dock))
+		{
+			Dock->setGeometry(Dock->property("last-geometry").toRect());
+		}
+		else
+		{
+			Dock->setProperty("last-geometry", Dock->geometry());
+			Dock->setGeometry(QApplication::desktop()->availableGeometry(Dock));
+		}
+	}
+	else Dock->setFloating(true);
 }
