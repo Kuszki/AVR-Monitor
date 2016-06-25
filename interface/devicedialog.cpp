@@ -36,9 +36,12 @@ void DeviceDialog::open(void)
 {
 	DeviceData Data = AppCore::getInstance()->GetDevice(ID);
 
-	ui->Name->setText(Data.Name);
-	ui->Output->setValue(Data.Output);
-	ui->Active->setCurrentIndex(Data.Active);
+	if (Data.ID != -1)
+	{
+		ui->Name->setText(Data.Name);
+		ui->Output->setValue(Data.Output);
+		ui->Active->setCurrentIndex(Data.Active);
+	}
 
 	QDialog::open();
 }

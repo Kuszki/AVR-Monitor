@@ -36,9 +36,12 @@ void EventDialog::open(void)
 {
 	EventData Data = AppCore::getInstance()->GetEvent(ID);
 
-	ui->Name->setText(Data.Name);
-	ui->Script->document()->setPlainText(Data.Script);
-	ui->Active->setChecked(Data.Active);
+	if (Data.ID != -1)
+	{
+		ui->Name->setText(Data.Name);
+		ui->Script->document()->setPlainText(Data.Script);
+		ui->Active->setChecked(Data.Active);
+	}
 
 	QDialog::open();
 }

@@ -38,11 +38,14 @@ void SensorDialog::open(void)
 {
 	SensorData Data = AppCore::getInstance()->GetSensor(ID);
 
-	ui->Name->setText(Data.Name);
-	ui->Label->setText(Data.Label);
-	ui->Unit->setText(Data.Unit);
-	ui->Script->document()->setPlainText(Data.Script);
-	ui->Active->setChecked(Data.Active);
+	if (Data.ID != -1)
+	{
+		ui->Name->setText(Data.Name);
+		ui->Label->setText(Data.Label);
+		ui->Unit->setText(Data.Unit);
+		ui->Script->document()->setPlainText(Data.Script);
+		ui->Active->setChecked(Data.Active);
+	}
 
 	QDialog::open();
 }

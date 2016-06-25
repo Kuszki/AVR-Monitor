@@ -24,7 +24,7 @@
 SliderDialog::SliderDialog(int Slider, QWidget* Parent)
 : QDialog(Parent), ui(new Ui::SliderDialog), ID(Slider)
 {
-	ui->setupUi(this);
+	ui->setupUi(this); StepValueChange();
 
 	ui->Label->setValidator(AppCore::getValidator());
 }
@@ -38,13 +38,16 @@ void SliderDialog::open(void)
 {
 	SliderData Data = AppCore::getInstance()->GetSlider(ID);
 
-	ui->Name->setText(Data.Name);
-	ui->Label->setText(Data.Label);
-	ui->Min->setValue(Data.Min);
-	ui->Max->setValue(Data.Max);
-	ui->Init->setValue(Data.Init);
-	ui->Steps->setValue(Data.Steps);
-	ui->Active->setChecked(Data.Active);
+	if (Data.ID != -1)
+	{
+		ui->Name->setText(Data.Name);
+		ui->Label->setText(Data.Label);
+		ui->Min->setValue(Data.Min);
+		ui->Max->setValue(Data.Max);
+		ui->Init->setValue(Data.Init);
+		ui->Steps->setValue(Data.Steps);
+		ui->Active->setChecked(Data.Active);
+	}
 
 	QDialog::open();
 }

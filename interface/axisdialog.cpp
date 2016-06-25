@@ -36,12 +36,15 @@ void AxisDialog::open(void)
 {
 	AxisData Data = AppCore::getInstance()->GetAxis(ID);
 
-	ui->Name->setText(Data.Name);
-	ui->Style->setCurrentIndex(Data.Style);
-	ui->Min->setValue(Data.Min);
-	ui->Max->setValue(Data.Max);
-	ui->Label->setChecked(Data.Label);
-	ui->Active->setChecked(Data.Active);
+	if (Data.ID != -1)
+	{
+		ui->Name->setText(Data.Name);
+		ui->Style->setCurrentIndex(Data.Style);
+		ui->Min->setValue(Data.Min);
+		ui->Max->setValue(Data.Max);
+		ui->Label->setChecked(Data.Label);
+		ui->Active->setChecked(Data.Active);
+	}
 
 	QDialog::open();
 }
