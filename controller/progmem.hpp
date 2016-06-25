@@ -1,7 +1,7 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *                                                                         *
  *  Program memory constants of AVR-Monitor UC program                     *
- *  Copyright (C) 2015  Łukasz "Kuszki" Dróżdż            l.drozdz@o2.pl   *
+ *  Copyright (C) 2016  Łukasz "Kuszki" Dróżdż  l.drozdz@openmailbox.org   *
  *                                                                         *
  *  This program is free software: you can redistribute it and/or modify   *
  *  it under the terms of the GNU General Public License as published by   *
@@ -33,7 +33,7 @@ const char get_INFOSTR[] PROGMEM =
 "#\n"
 "# Release date:            " __DATE__ " " __TIME__ "\n"
 "# Used tools:         GNU AVR-GCC version " __VERSION__ "\n"
-"# Built on:    Debian 9 GNU/Linux 4.2.1-2-amd64\n"
+"# Built on:    Debian 9 GNU/Linux 4.6.0-1-amd64\n"
 "# GCC flags:    -Os -mmcu=atmega328p -std=c++11\n"
 "# Watchdog set:   on every evaluation for 8 sec\n"
 "#\n"
