@@ -41,7 +41,7 @@ AppCore::AppCore(void)
 
 	Database = QSqlDatabase::addDatabase("QSQLITE");
 	Device = new AVRBridge(&Script.Variables, this);
-	Validator = new QRegExpValidator(QRegExp("\\b[a-zA-Z_]+[a-zA-Z0-9_]*\\b"), this);
+	Validator = new QRegExpValidator(QRegExp("\\b[A-z]+[A-z0-9]*\\b"), this);
 
 	Database.setDatabaseName(DB);
 	Database.open();
