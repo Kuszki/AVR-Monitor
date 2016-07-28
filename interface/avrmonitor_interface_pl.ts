@@ -96,82 +96,82 @@ Niniejszy program rozpowszechniany jest z nadzieją, iż będzie on użyteczny �
         <translation>Ustawienia osi</translation>
     </message>
     <message>
-        <location filename="axisdialog.ui" line="173"/>
+        <location filename="axisdialog.ui" line="177"/>
         <source>Name</source>
         <translation>Nazwa</translation>
     </message>
     <message>
-        <location filename="axisdialog.ui" line="124"/>
+        <location filename="axisdialog.ui" line="128"/>
         <source>Line style</source>
         <translation>Styl linii</translation>
     </message>
     <message>
-        <location filename="axisdialog.ui" line="135"/>
+        <location filename="axisdialog.ui" line="139"/>
         <source>Solid line</source>
         <translation>Ciągła linia</translation>
     </message>
     <message>
-        <location filename="axisdialog.ui" line="140"/>
+        <location filename="axisdialog.ui" line="144"/>
         <source>Dash line</source>
         <translation>Przerywana linia</translation>
     </message>
     <message>
-        <location filename="axisdialog.ui" line="145"/>
+        <location filename="axisdialog.ui" line="149"/>
         <source>Dot line</source>
         <translation>Wykropkowana linia</translation>
     </message>
     <message>
-        <location filename="axisdialog.ui" line="150"/>
+        <location filename="axisdialog.ui" line="154"/>
         <source>Dash + dot line</source>
         <translation>Połączenie kreska-kropka</translation>
     </message>
     <message>
-        <location filename="axisdialog.ui" line="155"/>
+        <location filename="axisdialog.ui" line="159"/>
         <source>Dash + dot + dot line</source>
         <translation>Połączenie kreska-kropka-kropka</translation>
     </message>
     <message>
-        <location filename="axisdialog.ui" line="114"/>
+        <location filename="axisdialog.ui" line="118"/>
         <source>Label is visible</source>
         <translation>Etykieta osi widoczna</translation>
     </message>
     <message>
-        <location filename="axisdialog.ui" line="101"/>
+        <location filename="axisdialog.ui" line="105"/>
         <source>View style</source>
         <translation>Wygląd</translation>
     </message>
     <message>
-        <location filename="axisdialog.ui" line="26"/>
+        <location filename="axisdialog.ui" line="27"/>
         <source>Active</source>
         <translation>Aktywna</translation>
     </message>
     <message>
-        <location filename="axisdialog.ui" line="46"/>
+        <location filename="axisdialog.ui" line="47"/>
         <source>Cancel</source>
         <translation>Anuluj</translation>
     </message>
     <message>
-        <location filename="axisdialog.ui" line="53"/>
+        <location filename="axisdialog.ui" line="54"/>
         <source>Save</source>
         <translation>Zapisz</translation>
     </message>
     <message>
-        <location filename="axisdialog.ui" line="78"/>
+        <location filename="axisdialog.ui" line="79"/>
         <source>End value</source>
         <translation>Wartość końcowa</translation>
     </message>
     <message>
-        <location filename="axisdialog.ui" line="163"/>
+        <location filename="axisdialog.ui" line="167"/>
         <source>Start value</source>
         <translation>Wartość początkowa</translation>
     </message>
     <message>
-        <location filename="axisdialog.cpp" line="86"/>
+        <location filename="axisdialog.cpp" line="89"/>
         <source>Error</source>
         <translation>Błąd</translation>
     </message>
     <message>
-        <location filename="axisdialog.cpp" line="86"/>
+        <location filename="axisdialog.cpp" line="89"/>
         <source>Can&apos;t insert data into database - %1</source>
         <translation>Nie udało się umieścić danych w bazie - %1</translation>
     </message>
@@ -224,12 +224,12 @@ Niniejszy program rozpowszechniany jest z nadzieją, iż będzie on użyteczny �
         <translation>Zapisz</translation>
     </message>
     <message>
-        <location filename="devicedialog.cpp" line="70"/>
+        <location filename="devicedialog.cpp" line="73"/>
         <source>Error</source>
         <translation>Błąd</translation>
     </message>
     <message>
-        <location filename="devicedialog.cpp" line="70"/>
+        <location filename="devicedialog.cpp" line="73"/>
         <source>Can&apos;t insert data into database - %1</source>
         <translation>Nie udało się umieścić danych w bazie - %1</translation>
     </message>
@@ -313,12 +313,12 @@ Niniejszy program rozpowszechniany jest z nadzieją, iż będzie on użyteczny �
         <translation>Zapisz</translation>
     </message>
     <message>
-        <location filename="eventdialog.cpp" line="70"/>
+        <location filename="eventdialog.cpp" line="73"/>
         <source>Error</source>
         <translation>Błąd</translation>
     </message>
     <message>
-        <location filename="eventdialog.cpp" line="70"/>
+        <location filename="eventdialog.cpp" line="73"/>
         <source>Can&apos;t insert data into database - %1</source>
         <translation>Nie udało się umieścić danych w bazie - %1</translation>
     </message>
@@ -1112,12 +1112,12 @@ done;</translation>
         <translation>Zapisz</translation>
     </message>
     <message>
-        <location filename="sensordialog.cpp" line="76"/>
+        <location filename="sensordialog.cpp" line="79"/>
         <source>Error</source>
         <translation>Błąd</translation>
     </message>
     <message>
-        <location filename="sensordialog.cpp" line="76"/>
+        <location filename="sensordialog.cpp" line="79"/>
         <source>Can&apos;t insert data into database - %1</source>
         <translation>Nie udało się umieścić danych w bazie - %1</translation>
     </message>
@@ -1249,7 +1249,7 @@ done;</translation>
         <translation>Wartość początkowa</translation>
     </message>
     <message numerus="yes">
-        <location filename="sliderdialog.cpp" line="72"/>
+        <location filename="sliderdialog.cpp" line="75"/>
         <source> step(s) by %1</source>
         <translation>
             <numerusform> krok co %1</numerusform>
@@ -1258,12 +1258,12 @@ done;</translation>
         </translation>
     </message>
     <message>
-        <location filename="sliderdialog.cpp" line="104"/>
+        <location filename="sliderdialog.cpp" line="107"/>
         <source>Error</source>
         <translation>Błąd</translation>
     </message>
     <message>
-        <location filename="sliderdialog.cpp" line="104"/>
+        <location filename="sliderdialog.cpp" line="107"/>
         <source>Can&apos;t insert data into database - %1</source>
         <translation>Nie udało się umieścić danych w bazie - %1</translation>
     </message>
@@ -1271,12 +1271,12 @@ done;</translation>
 <context>
     <name>SliderEntry</name>
     <message>
-        <location filename="sliderentry.ui" line="62"/>
+        <location filename="sliderentry.ui" line="65"/>
         <source>Delete</source>
         <translation>Usuń</translation>
     </message>
     <message>
-        <location filename="sliderentry.ui" line="73"/>
+        <location filename="sliderentry.ui" line="76"/>
         <source>Edit</source>
         <translation>Edycja</translation>
     </message>
