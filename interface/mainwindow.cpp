@@ -30,8 +30,8 @@ MainWindow::MainWindow(QWidget* Parent)
 	Interval = new QDoubleSpinBox(this);
 
 	Interval->setValue(QSettings("AVR-Monitor").value("interval", 1.0).toDouble());
-	Interval->setRange(0.05, 6.0);
-	Interval->setSingleStep(0.05);
+	Interval->setRange(0.01, 6.0);
+	Interval->setSingleStep(0.01);
 	Interval->setPrefix(tr("Delay "));
 	Interval->setSuffix(tr(" s"));
 	Interval->setEnabled(false);
