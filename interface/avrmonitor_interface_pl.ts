@@ -719,9 +719,13 @@ done;</translation>
         <translation>Połącz</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="300"/>
         <source>Attempts to connect with AVR-Monitor device. You dont need to specify device adress, it will be done automatically.</source>
-        <translation>Próbuje nawiązać połączenie z urządzeniem AVR-Monitor. Nie musisz podawać adresu urządzenia - zostanie ono zlokalizowane automatycznie.</translation>
+        <translation type="vanished">Próbuje nawiązać połączenie z urządzeniem AVR-Monitor. Nie musisz podawać adresu urządzenia - zostanie ono zlokalizowane automatycznie.</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="300"/>
+        <source>Attempts to connect with AVR-Monitor device.</source>
+        <translation>Próbuje nawiązać połączenie z urządzeniem AVR-Monitor.</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="312"/>
@@ -799,37 +803,47 @@ done;</translation>
         <translation>Uruchamia pomiary.</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="411"/>
+        <location filename="mainwindow.ui" line="402"/>
+        <source>F5</source>
+        <translation>F5</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="414"/>
         <source>Stop</source>
         <translation>Zatrzymaj</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="414"/>
+        <location filename="mainwindow.ui" line="417"/>
         <source>Stop measurements.</source>
         <translation>Zatrzymuje pomiary.</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="429"/>
+        <location filename="mainwindow.ui" line="420"/>
+        <source>F6</source>
+        <translation>F6</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="435"/>
         <source>Fulscreen</source>
         <translation>Pełyny ekran</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="432"/>
+        <location filename="mainwindow.ui" line="438"/>
         <source>Enable fullscreen view.</source>
         <translation>Aktywuje widok na pełnym ekranie.</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="435"/>
+        <location filename="mainwindow.ui" line="441"/>
         <source>F11</source>
         <translation>F11</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="447"/>
+        <location filename="mainwindow.ui" line="453"/>
         <source>Synchronize</source>
         <translation>Synchronizuj</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="450"/>
+        <location filename="mainwindow.ui" line="456"/>
         <source>Upload current env settings into device.</source>
         <translation>Wysyła aktualne ustawienia środowiska do urządzenia.</translation>
     </message>
@@ -1135,22 +1149,22 @@ done;</translation>
         <translation>Edycja</translation>
     </message>
     <message>
-        <location filename="sensorentry.cpp" line="54"/>
+        <location filename="sensorentry.cpp" line="56"/>
         <source>Delete sensor</source>
         <translation>Usuń sensor</translation>
     </message>
     <message>
-        <location filename="sensorentry.cpp" line="54"/>
+        <location filename="sensorentry.cpp" line="56"/>
         <source>Are you sure you wany to delete selected sensor (%1)?</source>
         <translation>Czy jesteś pewien że chcesz usunąć wybrany sensor (%1)?</translation>
     </message>
     <message>
-        <location filename="sensorentry.cpp" line="57"/>
+        <location filename="sensorentry.cpp" line="59"/>
         <source>Error</source>
         <translation>Błąd</translation>
     </message>
     <message>
-        <location filename="sensorentry.cpp" line="57"/>
+        <location filename="sensorentry.cpp" line="59"/>
         <source>Can&apos;t delete sensor - %1</source>
         <translation>Nie udało się usunąć sensora - %1</translation>
     </message>
