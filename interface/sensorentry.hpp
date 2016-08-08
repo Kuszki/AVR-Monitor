@@ -57,9 +57,13 @@ class SensorEntry : public QWidget
 
 		void UpdateSensor(const SensorData& Data);
 
+		void UpdateValue(double Value);
+
 	signals:
 
 		void onSensorUpdate(const SensorData&);
+
+		void onValueUpdate(double);
 
 
 };
