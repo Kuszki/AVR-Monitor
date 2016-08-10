@@ -30,7 +30,7 @@ TEMPLATE	=	app
 LIBS		+=	-L$$PWD/../../build-KLLibs -lkllibs
 LIBS		+=	-L$$PWD/../../build-AVR-Bridge -lavrbridge
 
-DEFINES	+=	AVRBRIDGE_LIBRARY USING_BOOST USING_QT
+DEFINES	+=	USING_BOOST USING_QT
 
 SOURCES	+=	main.cpp \
 			avrterminal.cpp \

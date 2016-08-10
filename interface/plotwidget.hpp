@@ -26,7 +26,7 @@
 #include <QMap>
 
 #include <KLLibs.hpp>
-#include <qcustomplot.hpp>
+#include <qcustomplot.h>
 
 #include "plotdialog.hpp"
 #include "titlewidget.hpp"

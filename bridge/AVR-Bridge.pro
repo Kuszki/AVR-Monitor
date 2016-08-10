@@ -24,7 +24,7 @@ QT		-=	gui
 TARGET	=	avrbridge
 TEMPLATE	=	lib
 
-CONFIG	+=	c++14 shared
+CONFIG	+=	c++14
 
 LIBS		+=	-L$$PWD/../../build-KLLibs -lkllibs
 
