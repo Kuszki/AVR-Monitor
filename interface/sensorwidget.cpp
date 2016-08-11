@@ -27,6 +27,8 @@ SensorWidget::SensorWidget(QWidget *Parent)
 	ui->setupUi(this);
 
 	ui->sensorsLayout->setAlignment(Qt::AlignTop);
+	ui->rightSpacer->changeSize(ui->addButton->sizeHint().width(), 0);
+	ui->Average->setValue(QSettings("AVR-Monitor").value("sensoravg", 1).toInt());
 
 	Dialog = new SensorDialog(-1, this);
 
@@ -38,12 +40,40 @@ SensorWidget::SensorWidget(QWidget *Parent)
 
 SensorWidget::~SensorWidget(void)
 {
+	QSettings("AVR-Monitor").setValue("sensoravg", ui->Average->value());
+
 	delete ui;
 }
 
 void SensorWidget::SetTitleWidget(TitleWidget* Widget)
 {
+	ui->gridLayout->removeItem(ui->leftSpacer);
+	ui->gridLayout->removeItem(ui->rightSpacer);
+
+	Widget->addRightWidget(ui->Average);
+	Widget->addRightSpacer(ui->rightSpacer);
 	Widget->addRightWidget(ui->addButton);
+
+	delete ui->leftSpacer;
+}
+
+void SensorWidget::AddSensor(const SensorData& Data)
+{
+	SensorEntry* Entry = new SensorEntry(Data, this);
+
+	ui->sensorsLayout->addWidget(Entry); RefreshSize();
+
+	connect(Entry, &SensorEntry::onSensorUpdate, this, &SensorWidget::RefreshSize);
+	connect(this, &SensorWidget::onSamplesCountUpdate, Entry, &SensorEntry::UpdateSamples);
+
+	Entry->UpdateSamples(ui->Average->value());
+}
+
+void SensorWidget::AverageSpinChanged(int Value)
+{
+	ui->Average->setSuffix(tr(" sample(s)", 0, Value));
+
+	emit onSamplesCountUpdate(Value);
 }
 
 void SensorWidget::RefreshSize(void)
@@ -54,11 +84,4 @@ void SensorWidget::RefreshSize(void)
 	ui->scrollArea->setMinimumWidth(Items + Scroll);
 }
 
-void SensorWidget::AddSensor(const SensorData& Data)
-{
-	SensorEntry* Entry = new SensorEntry(Data, this);
 
-	ui->sensorsLayout->addWidget(Entry); RefreshSize();
-
-	connect(Entry, &SensorEntry::onSensorUpdate, this, &SensorWidget::RefreshSize);
-}

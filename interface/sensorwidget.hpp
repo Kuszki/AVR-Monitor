@@ -55,13 +55,21 @@ class SensorWidget : public QWidget
 
 		void SetTitleWidget(TitleWidget* Widget);
 
+	private slots:
+
+		void AddSensor(const SensorData& Data);
+
+		void AverageSpinChanged(int Value);
+
 	public slots:
 
 		void RefreshSize(void);
 
-	private slots:
+	signals:
 
-		void AddSensor(const SensorData& Data);
+		void onSamplesCountUpdate(int);
+
+
 
 };
 

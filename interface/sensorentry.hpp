@@ -44,6 +44,11 @@ class SensorEntry : public QWidget
 
 		const int ID;
 
+		unsigned Samples = 1;
+		unsigned Step = 1;
+
+		double Value = 0;
+
 	public:
 
 		explicit SensorEntry(const SensorData& Data, QWidget* Parent = nullptr);
@@ -57,7 +62,11 @@ class SensorEntry : public QWidget
 
 		void UpdateSensor(const SensorData& Data);
 
-		void UpdateValue(double Value);
+		void UpdateValue(double Data);
+
+	public slots:
+
+		void UpdateSamples(int Count);
 
 	signals:
 

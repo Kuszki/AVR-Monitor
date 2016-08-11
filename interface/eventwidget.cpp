@@ -43,7 +43,11 @@ EventWidget::~EventWidget(void)
 
 void EventWidget::SetTitleWidget(TitleWidget* Widget)
 {
+	ui->gridLayout->removeItem(ui->horizontalSpacer);
+
 	Widget->addRightWidget(ui->addButton);
+
+	delete ui->horizontalSpacer;
 }
 
 void EventWidget::RefreshSize(void)

@@ -74,7 +74,22 @@ void SensorEntry::UpdateSensor(const SensorData& Data)
 	emit onSensorUpdate(Data);
 }
 
-void SensorEntry::UpdateValue(double Value)
+void SensorEntry::UpdateValue(double Data)
 {
-	ui->Value->display(Value);
+	Value += Data;
+
+	if (Step++ == Samples)
+	{
+		ui->Value->display(Value / Samples);
+
+		Value = 0;
+		Step = 1;
+	}
+}
+
+void SensorEntry::UpdateSamples(int Count)
+{
+	Samples = Count;
+	Value = 0;
+	Step = 1;
 }

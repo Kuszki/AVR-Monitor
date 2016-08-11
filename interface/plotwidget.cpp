@@ -41,11 +41,17 @@ PlotWidget::PlotWidget(QWidget* Parent)
 	for (const auto& Data: AppCore::getInstance()->GetAxes()) AddAxis(Data);
 	for (const auto& Data: AppCore::getInstance()->GetPlots()) AddPlot(Data);
 
+	ui->leftSpacer->changeSize(ui->saveButton->sizeHint().width(), 0);
+	ui->rightSpacer->changeSize(ui->settingsButton->sizeHint().width(), 0);
+	ui->checkSpacer->changeSize(ui->cleanButton->sizeHint().width(), 0);
+	ui->Average->setValue(QSettings("AVR-Monitor").value("plotavg", 1).toInt());
 	ui->Plot->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom);
 	ui->Plot->legend->setVisible(true);
 	ui->Plot->xAxis->setRange(0, 60);
 
-	connect(ui->Plot->xAxis, SIGNAL(rangeChanged(const QCPRange&, const QCPRange)), SLOT(PlotRangeChanged(const QCPRange&, const QCPRange&)));
+	Samples = ui->Average->value();
+
+	connect(ui->Plot->xAxis, SIGNAL(rangeChanged(const QCPRange&, const QCPRange&)), SLOT(PlotRangeChanged(const QCPRange&, const QCPRange&)));
 
 	connect(AppCore::getInstance(), &AppCore::onAxisUpdate, [this] (int Index) -> void
 	{
@@ -70,6 +76,8 @@ PlotWidget::PlotWidget(QWidget* Parent)
 
 PlotWidget::~PlotWidget(void)
 {
+	QSettings("AVR-Monitor").setValue("plotavg", ui->Average->value());
+
 	delete ui;
 }
 
@@ -277,7 +285,7 @@ void PlotWidget::LegendCheckClicked(bool Active)
 
 void PlotWidget::AverageSpinChanged(int Value)
 {
-	for (auto& Value: Values) Value = 0.0; Step = 1; Samples = Value;
+	for (auto& Value: Values) Value = 0; Step = 1; Samples = Value;
 
 	ui->Average->setSuffix(tr(" sample(s)", 0, Value));
 }

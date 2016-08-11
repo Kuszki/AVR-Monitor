@@ -43,7 +43,11 @@ DeviceWidget::~DeviceWidget(void)
 
 void DeviceWidget::SetTitleWidget(TitleWidget* Widget)
 {
+	ui->gridLayout->removeItem(ui->horizontalSpacer);
+
 	Widget->addRightWidget(ui->addButton);
+
+	delete ui->horizontalSpacer;
 }
 
 void DeviceWidget::RefreshSize(void)

@@ -1016,14 +1016,10 @@ done;</translation>
         <source>Show legend</source>
         <translation>Pokaż legende</translation>
     </message>
-    <message>
-        <location filename="plotwidget.ui" line="116"/>
-        <source> sample</source>
-        <translation> próbkę</translation>
-    </message>
     <message numerus="yes">
-        <location filename="plotwidget.cpp" line="282"/>
+        <location filename="plotwidget.cpp" line="287"/>
         <source> sample(s)</source>
+        <oldsource> sample</oldsource>
         <translation>
             <numerusform> próbkę</numerusform>
             <numerusform> próbki</numerusform>
@@ -1031,7 +1027,7 @@ done;</translation>
         </translation>
     </message>
     <message>
-        <location filename="plotwidget.ui" line="119"/>
+        <location filename="plotwidget.ui" line="116"/>
         <source>Average </source>
         <translation>Uśrednij </translation>
     </message>
@@ -1047,7 +1043,7 @@ done;</translation>
     </message>
     <message>
         <location filename="plotwidget.ui" line="31"/>
-        <location filename="plotwidget.ui" line="151"/>
+        <location filename="plotwidget.ui" line="148"/>
         <source> s</source>
         <translation> s</translation>
     </message>
@@ -1057,33 +1053,33 @@ done;</translation>
         <translation>Podążaj za nowymi wartościami</translation>
     </message>
     <message>
-        <location filename="plotwidget.cpp" line="241"/>
+        <location filename="plotwidget.cpp" line="246"/>
         <source>Select file to save data</source>
         <translation>Wybierz plik do zapisu danych</translation>
     </message>
     <message>
-        <location filename="plotwidget.cpp" line="241"/>
+        <location filename="plotwidget.cpp" line="246"/>
         <source>CSV files (*.csv)</source>
         <translation>Pliki CSV (*.csv)</translation>
     </message>
     <message>
-        <location filename="plotwidget.cpp" line="231"/>
+        <location filename="plotwidget.cpp" line="236"/>
         <source>Time</source>
         <translation>Czas</translation>
     </message>
     <message>
-        <location filename="plotwidget.cpp" line="238"/>
-        <location filename="plotwidget.cpp" line="267"/>
+        <location filename="plotwidget.cpp" line="243"/>
+        <location filename="plotwidget.cpp" line="272"/>
         <source>Error</source>
         <translation>Błąd</translation>
     </message>
     <message>
-        <location filename="plotwidget.cpp" line="238"/>
+        <location filename="plotwidget.cpp" line="243"/>
         <source>Can&apos;t export current data - plot is empty</source>
         <translation>Nie można wyeksportować danych - wykres jest pusty</translation>
     </message>
     <message>
-        <location filename="plotwidget.cpp" line="267"/>
+        <location filename="plotwidget.cpp" line="272"/>
         <source>Can&apos;t open selected file</source>
         <translation>Nie można otworzyć podanego pliku</translation>
     </message>
@@ -1177,9 +1173,23 @@ done;</translation>
         <translation>Sensory</translation>
     </message>
     <message>
-        <location filename="sensorwidget.ui" line="20"/>
+        <location filename="sensorwidget.ui" line="33"/>
         <source>Add</source>
         <translation>Dodaj</translation>
+    </message>
+    <message numerus="yes">
+        <location filename="sensorwidget.cpp" line="74"/>
+        <source> sample(s)</source>
+        <translation>
+            <numerusform> próbkę</numerusform>
+            <numerusform> próbki</numerusform>
+            <numerusform> próbek</numerusform>
+        </translation>
+    </message>
+    <message>
+        <location filename="sensorwidget.ui" line="50"/>
+        <source>Average </source>
+        <translation>Uśrednij </translation>
     </message>
 </context>
 <context>
