@@ -236,7 +236,7 @@ void PlotWidget::CleanButtonClicked(void)
 
 void PlotWidget::SaveButtonClicked(void)
 {
-	QList<double> Keys; QString Buff(tr("Time"));
+	QList<double> Keys;
 
 	for (const auto& Plot: Plots) if (Plot->visible()) Keys.append(Plot->data()->keys());
 	auto Set = Keys.toSet().values();
@@ -245,6 +245,11 @@ void PlotWidget::SaveButtonClicked(void)
 	{
 		QMessageBox::warning(this, tr("Error"), tr("Can't export current data - plot is empty")); return;
 	}
+	else
+	{
+		Keys.clear();
+		qSort(Set);
+	}
 
 	const QString Path = QFileDialog::getSaveFileName(this, tr("Select file to save data"), QString(), tr("CSV files (*.csv)"));
 
@@ -252,22 +257,24 @@ void PlotWidget::SaveButtonClicked(void)
 	{
 		QFile File(Path); if (File.open(QFile::WriteOnly))
 		{
-			const QChar Separator = ','; qSort(Set);
+			QTextStream Stream(&File);
+
+			const QChar Separator = ',';
 			const double First = Set.first();
 
-			for (const auto& Var: Vars.keys()) if (Vars[Var]->visible()) Buff.append(Separator).append(Var);
+			Stream << tr("Time");
 
-			Buff.append('\n'); File.write(Buff.toUtf8());
+			for (const auto& Var: Vars.keys()) if (Vars[Var]->visible()) Stream << Separator << Var;
+
+			Stream << '\n';
 
 			for (const auto& Key: Set)
 			{
-				Buff.clear();
+				Stream << (Key - First);
 
-				Buff.append(QString::number(Key - First));
-				for (const auto& Plot: Vars) if (Plot->visible()) Buff.append(Separator).append(QString::number(Plot->data()->value(Key).value));
-				Buff.append('\n');
+				for (const auto& Plot: Vars) if (Plot->visible()) Stream << Separator << Plot->data()->value(Key).value;
 
-				File.write(Buff.toUtf8());
+				Stream << '\n';
 			}
 		}
 		else
@@ -318,7 +325,7 @@ void PlotWidget::PlotVariables(const KLVariables& Variables)
 
 		if (Vars.contains(ID))
 		{
-			Values[ID] = Values[ID] + Var.Value.ToNumber();
+			Values[ID] += Var.Value.ToNumber();
 
 			if (Step == Samples)
 			{
