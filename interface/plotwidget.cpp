@@ -36,18 +36,25 @@ PlotWidget::PlotWidget(QWidget* Parent)
 
 	Dialog = new PlotDialog(this);
 
+	QSettings Settings("AVR-Monitor");
+
 	for (auto Axis: ui->Plot->axisRect()->axes(QCPAxis::atLeft)) ui->Plot->axisRect()->removeAxis(Axis);
 
 	for (const auto& Data: AppCore::getInstance()->GetAxes()) AddAxis(Data);
 	for (const auto& Data: AppCore::getInstance()->GetPlots()) AddPlot(Data);
 
+	Settings.beginGroup("Plot");
+
 	ui->leftSpacer->changeSize(ui->saveButton->sizeHint().width(), 0);
 	ui->rightSpacer->changeSize(ui->settingsButton->sizeHint().width(), 0);
 	ui->checkSpacer->changeSize(ui->cleanButton->sizeHint().width(), 0);
-	ui->Average->setValue(QSettings("AVR-Monitor").value("plotavg", 1).toInt());
+	ui->Average->setValue(Settings.value("interval", 1).toInt());
+	ui->Legend->setChecked(Settings.value("legend", true).toBool());
 	ui->Plot->setInteractions(QCP::iRangeDrag | QCP::iRangeZoom);
-	ui->Plot->legend->setVisible(true);
+	ui->Plot->legend->setVisible(ui->Legend->isChecked());
 	ui->Plot->xAxis->setRange(0, 60);
+
+	Settings.endGroup();
 
 	Samples = ui->Average->value();
 
@@ -76,7 +83,12 @@ PlotWidget::PlotWidget(QWidget* Parent)
 
 PlotWidget::~PlotWidget(void)
 {
-	QSettings("AVR-Monitor").setValue("plotavg", ui->Average->value());
+	QSettings Settings("AVR-Monitor");
+
+	Settings.beginGroup("Plot");
+	Settings.setValue("interval", ui->Average->value());
+	Settings.setValue("legend", ui->Legend->isChecked());
+	Settings.endGroup();
 
 	delete ui;
 }

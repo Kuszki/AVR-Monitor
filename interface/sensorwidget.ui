@@ -46,6 +46,9 @@
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
+     <property name="suffix">
+      <string> sample</string>
+     </property>
      <property name="prefix">
       <string>Average </string>
      </property>

@@ -26,11 +26,29 @@ TerminalWidget::TerminalWidget(QWidget* Parent)
 {
 	ui->setupUi(this);
 
-	ui->Helper->hide();
+	QSettings Settings("AVR-Monitor");
+
+	Settings.beginGroup("Terminal");
+
+	ui->Clean->setChecked(Settings.value("clean", false).toBool());
+	ui->logCheck->setChecked(Settings.value("log", true).toBool());
+	ui->helperCheck->setChecked(Settings.value("helper", false).toBool());
+	ui->Log->setVisible(ui->logCheck->isChecked());
+	ui->Helper->setVisible(ui->helperCheck->isChecked());
+
+	Settings.endGroup();
 }
 
 TerminalWidget::~TerminalWidget(void)
 {
+	QSettings Settings("AVR-Monitor");
+
+	Settings.beginGroup("Terminal");
+	Settings.setValue("clean", ui->Clean->isChecked());
+	Settings.setValue("log", ui->logCheck->isChecked());
+	Settings.setValue("helper", ui->helperCheck->isChecked());
+	Settings.endGroup();
+
 	delete ui;
 }
 

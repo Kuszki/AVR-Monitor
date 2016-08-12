@@ -848,49 +848,49 @@ done;</translation>
         <translation>Wysyła aktualne ustawienia środowiska do urządzenia.</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="35"/>
+        <location filename="mainwindow.cpp" line="39"/>
         <source>Delay </source>
         <translation>Przetwarzanie co </translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="36"/>
+        <location filename="mainwindow.cpp" line="40"/>
         <source> s</source>
         <translation> s</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="79"/>
+        <location filename="mainwindow.cpp" line="89"/>
         <source>Script evaluation timeout</source>
         <translation>Przekroczenie czasu przeznaczonego na wykonanie skryptu</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="96"/>
+        <location filename="mainwindow.cpp" line="106"/>
         <source>Script check</source>
         <translation>Test poprawności skryptu</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="183"/>
+        <location filename="mainwindow.cpp" line="204"/>
         <source>Select script to upload</source>
         <translation>Wybierz skrypt do wysłania</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="190"/>
+        <location filename="mainwindow.cpp" line="211"/>
         <source>Can&apos;t open provided script file</source>
         <oldsource>Can&apos;t open provided script file.</oldsource>
         <translation>Nie można otworzyć wybranego skryptu</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="79"/>
-        <location filename="mainwindow.cpp" line="196"/>
+        <location filename="mainwindow.cpp" line="89"/>
+        <location filename="mainwindow.cpp" line="217"/>
         <source>Error</source>
         <translation>Błąd</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="222"/>
+        <location filename="mainwindow.cpp" line="243"/>
         <source>Select file to save script</source>
         <translation>Wybierz plik by zapisać pobrany skrypt</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="228"/>
+        <location filename="mainwindow.cpp" line="249"/>
         <source>Can&apos;t open provided file</source>
         <oldsource>Can&apos;t open provided file.</oldsource>
         <translation>Nie można otworzyć podanego pliku</translation>
@@ -1007,17 +1007,22 @@ done;</translation>
         <translation>Wykres</translation>
     </message>
     <message>
-        <location filename="plotwidget.ui" line="66"/>
+        <location filename="plotwidget.ui" line="79"/>
         <source>Settings</source>
         <translation>Ustawienia</translation>
     </message>
     <message>
-        <location filename="plotwidget.ui" line="90"/>
+        <location filename="plotwidget.ui" line="103"/>
         <source>Show legend</source>
         <translation>Pokaż legende</translation>
     </message>
+    <message>
+        <location filename="plotwidget.ui" line="142"/>
+        <source> sample</source>
+        <translation> próbkę</translation>
+    </message>
     <message numerus="yes">
-        <location filename="plotwidget.cpp" line="287"/>
+        <location filename="plotwidget.cpp" line="309"/>
         <source> sample(s)</source>
         <oldsource> sample</oldsource>
         <translation>
@@ -1027,59 +1032,59 @@ done;</translation>
         </translation>
     </message>
     <message>
-        <location filename="plotwidget.ui" line="116"/>
+        <location filename="plotwidget.ui" line="145"/>
         <source>Average </source>
         <translation>Uśrednij </translation>
     </message>
     <message>
-        <location filename="plotwidget.ui" line="55"/>
+        <location filename="plotwidget.ui" line="68"/>
         <source>Clean</source>
         <translation>Wyczyść</translation>
     </message>
     <message>
-        <location filename="plotwidget.ui" line="44"/>
+        <location filename="plotwidget.ui" line="57"/>
         <source>Save</source>
         <translation>Zapisz</translation>
     </message>
     <message>
         <location filename="plotwidget.ui" line="31"/>
-        <location filename="plotwidget.ui" line="148"/>
+        <location filename="plotwidget.ui" line="177"/>
         <source> s</source>
         <translation> s</translation>
     </message>
     <message>
-        <location filename="plotwidget.ui" line="100"/>
+        <location filename="plotwidget.ui" line="113"/>
         <source>Follow new data</source>
         <translation>Podążaj za nowymi wartościami</translation>
     </message>
     <message>
-        <location filename="plotwidget.cpp" line="246"/>
+        <location filename="plotwidget.cpp" line="266"/>
         <source>Select file to save data</source>
         <translation>Wybierz plik do zapisu danych</translation>
     </message>
     <message>
-        <location filename="plotwidget.cpp" line="246"/>
+        <location filename="plotwidget.cpp" line="266"/>
         <source>CSV files (*.csv)</source>
         <translation>Pliki CSV (*.csv)</translation>
     </message>
     <message>
-        <location filename="plotwidget.cpp" line="236"/>
+        <location filename="plotwidget.cpp" line="277"/>
         <source>Time</source>
         <translation>Czas</translation>
     </message>
     <message>
-        <location filename="plotwidget.cpp" line="243"/>
-        <location filename="plotwidget.cpp" line="272"/>
+        <location filename="plotwidget.cpp" line="258"/>
+        <location filename="plotwidget.cpp" line="294"/>
         <source>Error</source>
         <translation>Błąd</translation>
     </message>
     <message>
-        <location filename="plotwidget.cpp" line="243"/>
+        <location filename="plotwidget.cpp" line="258"/>
         <source>Can&apos;t export current data - plot is empty</source>
         <translation>Nie można wyeksportować danych - wykres jest pusty</translation>
     </message>
     <message>
-        <location filename="plotwidget.cpp" line="272"/>
+        <location filename="plotwidget.cpp" line="294"/>
         <source>Can&apos;t open selected file</source>
         <translation>Nie można otworzyć podanego pliku</translation>
     </message>
@@ -1177,8 +1182,13 @@ done;</translation>
         <source>Add</source>
         <translation>Dodaj</translation>
     </message>
+    <message>
+        <location filename="sensorwidget.ui" line="50"/>
+        <source> sample</source>
+        <translation> próbkę</translation>
+    </message>
     <message numerus="yes">
-        <location filename="sensorwidget.cpp" line="74"/>
+        <location filename="sensorwidget.cpp" line="84"/>
         <source> sample(s)</source>
         <translation>
             <numerusform> próbkę</numerusform>
@@ -1187,7 +1197,7 @@ done;</translation>
         </translation>
     </message>
     <message>
-        <location filename="sensorwidget.ui" line="50"/>
+        <location filename="sensorwidget.ui" line="53"/>
         <source>Average </source>
         <translation>Uśrednij </translation>
     </message>
@@ -1475,28 +1485,28 @@ done;</translation>
         <translation>Wykonaj</translation>
     </message>
     <message>
-        <location filename="terminalwidget.cpp" line="68"/>
+        <location filename="terminalwidget.cpp" line="86"/>
         <source>Select file to save script</source>
         <translation>Wybierz plik by zapisać skrypt</translation>
     </message>
     <message>
-        <location filename="terminalwidget.cpp" line="74"/>
-        <location filename="terminalwidget.cpp" line="90"/>
+        <location filename="terminalwidget.cpp" line="92"/>
+        <location filename="terminalwidget.cpp" line="108"/>
         <source>Error</source>
         <translation>Błąd</translation>
     </message>
     <message>
-        <location filename="terminalwidget.cpp" line="74"/>
+        <location filename="terminalwidget.cpp" line="92"/>
         <source>Can&apos;t open selected file in write mode</source>
         <translation>Nie udało się otworzyć wybranego pliku w trybie do zapisu</translation>
     </message>
     <message>
-        <location filename="terminalwidget.cpp" line="84"/>
+        <location filename="terminalwidget.cpp" line="102"/>
         <source>Select file to load script</source>
         <translation>Wybierz plik by wczytać skrypt</translation>
     </message>
     <message>
-        <location filename="terminalwidget.cpp" line="90"/>
+        <location filename="terminalwidget.cpp" line="108"/>
         <source>Can&apos;t open selected file in read mode</source>
         <translation>Nie udało się otworzyć wybranego pliku w trybie do odczytu</translation>
     </message>

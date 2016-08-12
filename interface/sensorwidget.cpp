@@ -26,11 +26,17 @@ SensorWidget::SensorWidget(QWidget *Parent)
 {
 	ui->setupUi(this);
 
+	Dialog = new SensorDialog(-1, this);
+
+	QSettings Settings("AVR-Monitor");
+
+	Settings.beginGroup("Sensors");
+
 	ui->sensorsLayout->setAlignment(Qt::AlignTop);
 	ui->rightSpacer->changeSize(ui->addButton->sizeHint().width(), 0);
-	ui->Average->setValue(QSettings("AVR-Monitor").value("sensoravg", 1).toInt());
+	ui->Average->setValue(Settings.value("interval", 1).toInt());
 
-	Dialog = new SensorDialog(-1, this);
+	Settings.endGroup();
 
 	for (const auto& Data: AppCore::getInstance()->GetSensors()) AddSensor(Data);
 
@@ -40,7 +46,11 @@ SensorWidget::SensorWidget(QWidget *Parent)
 
 SensorWidget::~SensorWidget(void)
 {
-	QSettings("AVR-Monitor").setValue("sensoravg", ui->Average->value());
+	QSettings Settings("AVR-Monitor");
+
+	Settings.beginGroup("Sensors");
+	Settings.setValue("interval", ui->Average->value());
+	Settings.endGroup();
 
 	delete ui;
 }

@@ -29,12 +29,18 @@ MainWindow::MainWindow(QWidget* Parent)
 	aboutDialog = new AboutDialog(this);
 	Interval = new QDoubleSpinBox(this);
 
-	Interval->setValue(QSettings("AVR-Monitor").value("interval", 1.0).toDouble());
+	QSettings Settings("AVR-Monitor");
+
+	Settings.beginGroup("Device");
+
+	Interval->setValue(Settings.value("interval", 1.0).toDouble());
 	Interval->setRange(0.01, 6.0);
 	Interval->setSingleStep(0.01);
 	Interval->setPrefix(tr("Delay "));
 	Interval->setSuffix(tr(" s"));
 	Interval->setEnabled(false);
+
+	Settings.endGroup();
 
 	ui->terminalWidget->setEnabled(false);
 	ui->toolActions->addWidget(Interval);
@@ -55,12 +61,14 @@ MainWindow::MainWindow(QWidget* Parent)
 
 	AppCore::getInstance()->UpdateInterval(Interval->value());
 
+	Settings.beginGroup("Window");
+
 	setTabPosition(Qt::AllDockWidgetAreas, QTabWidget::TabPosition::North);
-	restoreGeometry(QSettings("AVR-Monitor").value("size").toByteArray());
+	restoreGeometry(Settings.value("size").toByteArray());
 
 	if (isMaximized()) setGeometry(QApplication::desktop()->availableGeometry(this));
 
-	if (!restoreState(QSettings("AVR-Monitor").value("layout").toByteArray()))
+	if (!restoreState(Settings.value("layout").toByteArray()))
 	{
 		tabifyDockWidget(ui->plotDock, ui->sensorsDock);
 		tabifyDockWidget(ui->plotDock, ui->eventsDock);
@@ -72,6 +80,8 @@ MainWindow::MainWindow(QWidget* Parent)
 
 		tabifyDockWidget(ui->shiftDock, ui->pgaDock);
 	}
+
+	Settings.endGroup();
 
 	// appcore to main window connections
 	connect(AppCore::getInstance(), &AppCore::onScriptTermination, [this] (void) -> void
@@ -156,16 +166,27 @@ MainWindow::MainWindow(QWidget* Parent)
 
 MainWindow::~MainWindow(void)
 {
-	QSettings("AVR-Monitor").setValue("size", saveGeometry());
-	QSettings("AVR-Monitor").setValue("layout", saveState());
-	QSettings("AVR-Monitor").setValue("interval", Interval->value());
+	QSettings Settings("AVR-Monitor");
+
+	Settings.beginGroup("Window");
+	Settings.setValue("size", saveGeometry());
+	Settings.setValue("layout", saveState());
+	Settings.endGroup();
+
+	Settings.beginGroup("Device");
+	Settings.setValue("interval", Interval->value());
+	Settings.endGroup();
 
 	delete ui;
 }
 
 void MainWindow::ConnectDevice(void)
 {
-	AppCore::getDevice()->Connect(QSettings("AVR-Monitor").value("port", "/dev/serial/by-id/usb-Łukasz__Kuszki__Dróżdż_AVR-Monitor_DAYYSEBT-if00-port0").toString());
+	QSettings Settings("AVR-Monitor");
+
+	Settings.beginGroup("Device");
+	AppCore::getDevice()->Connect(Settings.value("port", "/dev/serial/by-id/usb-Łukasz__Kuszki__Dróżdż_AVR-Monitor_DAYYSEBT-if00-port0").toString());
+	Settings.endGroup();
 }
 
 void MainWindow::DisconnectDevice(void)
