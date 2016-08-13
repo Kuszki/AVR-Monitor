@@ -55,6 +55,11 @@ void GainWidget::GainValueChanged(int Index)
 	else if (sender() == ui->gainValue_1) emit onGainChange(1, GainValues.value(Index, 1));
 }
 
+void GainWidget::DutyValueChanged(int Value)
+{
+	emit onDutyChange(Value);
+}
+
 void GainWidget::GainChanged(unsigned char ID, unsigned char Gain)
 {
 	blockSignals(true);
@@ -68,6 +73,15 @@ void GainWidget::GainChanged(unsigned char ID, unsigned char Gain)
 			ui->gainValue_1->setCurrentIndex(GainValues.key(Gain, 0));
 		break;
 	}
+
+	blockSignals(false);
+}
+
+void GainWidget::DutyChanged(unsigned char Value)
+{
+	blockSignals(true);
+
+	ui->Duty->setValue(Value);
 
 	blockSignals(false);
 }

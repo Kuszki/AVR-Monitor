@@ -267,18 +267,18 @@ void PlotWidget::SaveButtonClicked(void)
 
 	if (!Path.isEmpty())
 	{
-		QFile File(Path); if (File.open(QFile::WriteOnly))
+		QFile File(Path); if (File.open(QFile::WriteOnly | QFile::Text))
 		{
 			QTextStream Stream(&File);
 
-			const QChar Separator = ',';
 			const double First = Set.first();
+			const char Separator = ',';
 
 			Stream << tr("Time");
 
 			for (const auto& Var: Vars.keys()) if (Vars[Var]->visible()) Stream << Separator << Var;
 
-			Stream << '\n';
+			Stream << endl;
 
 			for (const auto& Key: Set)
 			{
@@ -286,7 +286,7 @@ void PlotWidget::SaveButtonClicked(void)
 
 				for (const auto& Plot: Vars) if (Plot->visible()) Stream << Separator << Plot->data()->value(Key).value;
 
-				Stream << '\n';
+				Stream << endl;
 			}
 		}
 		else

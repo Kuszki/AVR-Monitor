@@ -82,8 +82,8 @@ Niniejszy program rozpowszechniany jest z nadzieją, iż będzie on użyteczny �
         <translation type="vanished">Niepoprawny skrypt w linii %1 (%2)</translation>
     </message>
     <message>
-        <location filename="appcore.cpp" line="270"/>
-        <location filename="appcore.cpp" line="292"/>
+        <location filename="appcore.cpp" line="275"/>
+        <location filename="appcore.cpp" line="298"/>
         <source>Invalid script at line %1: %2</source>
         <translation>Niepoprawny skrypt w linii %1: %2</translation>
     </message>
@@ -386,6 +386,11 @@ Niniejszy program rozpowszechniany jest z nadzieją, iż będzie on użyteczny �
         <source>PGA 1 gain</source>
         <translation>Wzmacniacz 1</translation>
     </message>
+    <message>
+        <location filename="gainwidget.ui" line="128"/>
+        <source>PWM duty</source>
+        <translation>Wypełnienie PWM</translation>
+    </message>
 </context>
 <context>
     <name>HelperEntry</name>
@@ -499,117 +504,127 @@ done;</translation>
         <translation>Ustal stan wyjść</translation>
     </message>
     <message>
-        <location filename="helperwidget.cpp" line="56"/>
+        <location filename="helperwidget.cpp" line="52"/>
+        <source>Set PWM duty</source>
+        <translation>Ustal wypełnienie PWM</translation>
+    </message>
+    <message>
+        <location filename="helperwidget.cpp" line="57"/>
         <source>call put data;</source>
         <translation>call put dane;</translation>
     </message>
     <message>
-        <location filename="helperwidget.cpp" line="57"/>
+        <location filename="helperwidget.cpp" line="58"/>
         <source>call put pin, 1;</source>
         <translation>call put port, 1;</translation>
     </message>
     <message>
-        <location filename="helperwidget.cpp" line="58"/>
+        <location filename="helperwidget.cpp" line="59"/>
         <source>call put pin, 0;</source>
         <translation>call put port, 0;</translation>
     </message>
     <message>
-        <location filename="helperwidget.cpp" line="59"/>
+        <location filename="helperwidget.cpp" line="60"/>
         <source>call out status;</source>
         <translation>call out stan;</translation>
     </message>
     <message>
-        <location filename="helperwidget.cpp" line="64"/>
+        <location filename="helperwidget.cpp" line="61"/>
+        <source>call pwm duty;</source>
+        <translation>call pwm wypełnienie;</translation>
+    </message>
+    <message>
+        <location filename="helperwidget.cpp" line="66"/>
         <source>Pull sensors data</source>
         <translation>Pobierz dane o sensorach</translation>
     </message>
     <message>
-        <location filename="helperwidget.cpp" line="65"/>
+        <location filename="helperwidget.cpp" line="67"/>
         <source>Pull device status</source>
         <translation>Pobierz stan urządzenia</translation>
     </message>
     <message>
-        <location filename="helperwidget.cpp" line="66"/>
+        <location filename="helperwidget.cpp" line="68"/>
         <source>Set PGA gain</source>
         <translation>Ustal wzmocnienie</translation>
     </message>
     <message>
-        <location filename="helperwidget.cpp" line="67"/>
+        <location filename="helperwidget.cpp" line="69"/>
         <source>Set sleep time</source>
         <translation>Ustal czas oczekiwania</translation>
     </message>
     <message>
-        <location filename="helperwidget.cpp" line="68"/>
+        <location filename="helperwidget.cpp" line="70"/>
         <source>Set default output</source>
         <translation>Ustal domyślny stan wyjść</translation>
     </message>
     <message>
-        <location filename="helperwidget.cpp" line="69"/>
+        <location filename="helperwidget.cpp" line="71"/>
         <source>Clear RAM</source>
         <translation>Oczyść pamięć RAM</translation>
     </message>
     <message>
-        <location filename="helperwidget.cpp" line="70"/>
+        <location filename="helperwidget.cpp" line="72"/>
         <source>Set master status</source>
         <translation>Ustal stan pracy</translation>
     </message>
     <message>
-        <location filename="helperwidget.cpp" line="71"/>
+        <location filename="helperwidget.cpp" line="73"/>
         <source>Download script</source>
         <translation>Pobierz skrypt</translation>
     </message>
     <message>
-        <location filename="helperwidget.cpp" line="76"/>
+        <location filename="helperwidget.cpp" line="78"/>
         <source>call get;</source>
         <translation>call get;</translation>
     </message>
     <message>
-        <location filename="helperwidget.cpp" line="77"/>
+        <location filename="helperwidget.cpp" line="79"/>
         <source>call sys;</source>
         <translation>call sys;</translation>
     </message>
     <message>
-        <location filename="helperwidget.cpp" line="78"/>
+        <location filename="helperwidget.cpp" line="80"/>
         <source>call pga id, gain;</source>
         <translation>call pga wzmacniacz, wzmocnienie;</translation>
     </message>
     <message>
-        <location filename="helperwidget.cpp" line="79"/>
+        <location filename="helperwidget.cpp" line="81"/>
         <source>call dev %1, time; # sleep = time * 100 ms</source>
         <translation>call dev %1, czas; # oczekiwanie = czas * 100 ms</translation>
     </message>
     <message>
-        <location filename="helperwidget.cpp" line="80"/>
+        <location filename="helperwidget.cpp" line="82"/>
         <source>call dev %1, value;</source>
         <translation>call dev %1, wartość;</translation>
     </message>
     <message>
-        <location filename="helperwidget.cpp" line="81"/>
+        <location filename="helperwidget.cpp" line="83"/>
         <source>call dev %1, %2;</source>
         <translation>call dev %1, %2;</translation>
     </message>
     <message>
-        <location filename="helperwidget.cpp" line="82"/>
+        <location filename="helperwidget.cpp" line="84"/>
         <source>call dev %1, status;</source>
         <translation>call dev %1, stan;</translation>
     </message>
     <message>
-        <location filename="helperwidget.cpp" line="83"/>
+        <location filename="helperwidget.cpp" line="85"/>
         <source>call dev %1, 1;</source>
         <translation>call dev %1, 1;</translation>
     </message>
     <message>
-        <location filename="helperwidget.cpp" line="88"/>
+        <location filename="helperwidget.cpp" line="90"/>
         <source>Common actions</source>
         <translation>Powszechne akcje</translation>
     </message>
     <message>
-        <location filename="helperwidget.cpp" line="88"/>
+        <location filename="helperwidget.cpp" line="90"/>
         <source>System actions</source>
         <translation>Akcje systemowe</translation>
     </message>
     <message>
-        <location filename="helperwidget.cpp" line="88"/>
+        <location filename="helperwidget.cpp" line="90"/>
         <source>Device actions</source>
         <translation>Akcje sprzętowe</translation>
     </message>
@@ -868,29 +883,29 @@ done;</translation>
         <translation>Test poprawności skryptu</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="204"/>
+        <location filename="mainwindow.cpp" line="207"/>
         <source>Select script to upload</source>
         <translation>Wybierz skrypt do wysłania</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="211"/>
+        <location filename="mainwindow.cpp" line="214"/>
         <source>Can&apos;t open provided script file</source>
         <oldsource>Can&apos;t open provided script file.</oldsource>
         <translation>Nie można otworzyć wybranego skryptu</translation>
     </message>
     <message>
         <location filename="mainwindow.cpp" line="89"/>
-        <location filename="mainwindow.cpp" line="217"/>
+        <location filename="mainwindow.cpp" line="220"/>
         <source>Error</source>
         <translation>Błąd</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="243"/>
+        <location filename="mainwindow.cpp" line="246"/>
         <source>Select file to save script</source>
         <translation>Wybierz plik by zapisać pobrany skrypt</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="249"/>
+        <location filename="mainwindow.cpp" line="252"/>
         <source>Can&apos;t open provided file</source>
         <oldsource>Can&apos;t open provided file.</oldsource>
         <translation>Nie można otworzyć podanego pliku</translation>
@@ -1351,62 +1366,68 @@ done;</translation>
         <translation>Urządzenie</translation>
     </message>
     <message>
-        <location filename="systemwidget.ui" line="23"/>
+        <location filename="systemwidget.ui" line="20"/>
         <source>Online:</source>
         <translation>Połączono:</translation>
     </message>
     <message>
-        <location filename="systemwidget.ui" line="30"/>
+        <location filename="systemwidget.ui" line="37"/>
         <source>Mode:</source>
         <translation>Tryb pracy:</translation>
     </message>
     <message>
-        <location filename="systemwidget.ui" line="37"/>
+        <location filename="systemwidget.ui" line="54"/>
         <source>Shift data:</source>
         <translation>Dane wyjściowe:</translation>
     </message>
     <message>
         <location filename="systemwidget.ui" line="44"/>
-        <location filename="systemwidget.ui" line="68"/>
-        <location filename="systemwidget.ui" line="85"/>
-        <location filename="systemwidget.ui" line="102"/>
-        <location filename="systemwidget.ui" line="154"/>
-        <location filename="systemwidget.ui" line="164"/>
+        <location filename="systemwidget.ui" line="61"/>
+        <location filename="systemwidget.ui" line="78"/>
+        <location filename="systemwidget.ui" line="95"/>
+        <location filename="systemwidget.ui" line="112"/>
+        <location filename="systemwidget.ui" line="129"/>
+        <location filename="systemwidget.ui" line="146"/>
         <source>Unknown</source>
         <translation>Nieznane</translation>
     </message>
     <message>
-        <location filename="systemwidget.ui" line="54"/>
+        <location filename="systemwidget.ui" line="71"/>
         <source>Shift enabled:</source>
         <translation>Stan wyjścia:</translation>
     </message>
     <message>
-        <location filename="systemwidget.ui" line="61"/>
+        <location filename="systemwidget.ui" line="88"/>
         <source>PGA 0 gain:</source>
         <translation>Wzmocnienie 0:</translation>
     </message>
     <message>
-        <location filename="systemwidget.ui" line="78"/>
+        <location filename="systemwidget.ui" line="105"/>
         <source>PGA 1 gain:</source>
         <translation>Wzmocnienie 1:</translation>
     </message>
     <message>
-        <location filename="systemwidget.ui" line="95"/>
+        <location filename="systemwidget.ui" line="122"/>
+        <source>PWM duty:</source>
+        <translation>Wypełnienie PWM:</translation>
+    </message>
+    <message>
+        <location filename="systemwidget.ui" line="139"/>
         <source>Script interval:</source>
         <translation>Czas oczekiwania:</translation>
     </message>
     <message>
-        <location filename="systemwidget.ui" line="123"/>
+        <location filename="systemwidget.ui" line="167"/>
         <source>%v B free RAM</source>
         <translation>%v B RAM wolne</translation>
     </message>
     <message>
-        <location filename="systemwidget.ui" line="130"/>
+        <location filename="systemwidget.ui" line="174"/>
         <source>Clean</source>
         <translation>Wyczyść</translation>
     </message>
     <message>
-        <location filename="systemwidget.ui" line="144"/>
+        <location filename="systemwidget.ui" line="27"/>
         <location filename="systemwidget.cpp" line="47"/>
         <source>No</source>
         <translation>Nie</translation>

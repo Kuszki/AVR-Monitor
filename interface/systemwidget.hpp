@@ -64,6 +64,8 @@ class SystemWidget : public QWidget
 
 		void UpdateFreeRam(unsigned Value);
 
+		void UpdateDutyValue(unsigned char Value);
+
 		void UpdateInterval(double Value);
 
 	signals:

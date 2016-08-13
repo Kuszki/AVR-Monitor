@@ -1,7 +1,7 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *                                                                         *
  *  Control functions for AVR-Monitor UC program                           *
- *  Copyright (C) 2015  Łukasz "Kuszki" Dróżdż            l.drozdz@o2.pl   *
+ *  Copyright (C) 2015  Łukasz "Kuszki" Dróżdż  l.drozdz@openmailbox.org   *
  *                                                                         *
  *  This program is free software: you can redistribute it and/or modify   *
  *  it under the terms of the GNU General Public License as published by   *
@@ -115,6 +115,13 @@ int PGA_SetGain(char ID, char Gain)
 	return 0;
 }
 
+void PWM_SetPulse(unsigned char Pulse)
+{
+	OCR1B = Monitor.Pulse = Pulse;
+
+	if (Monitor.Online) SYS_SendFeedback(GET_PWMV);
+}
+
 bool ADC_GetFeedback(char ID)
 {
 	if (ID > 5) return false;
@@ -150,7 +157,7 @@ void SYS_SendFeedback(char Mask)
 	if (Mask & GET_PGA0) UART << PGM_V get_PGA0 << int(Gains.Gain_0)			<< PGM_V get_EOC;
 	if (Mask & GET_PGA1) UART << PGM_V get_PGA1 << int(Gains.Gain_1)			<< PGM_V get_EOC;
 	if (Mask & GET_SLPT) UART << PGM_V get_SLPT << int(Monitor.Sleep)		<< PGM_V get_EOC;
-	if (Mask & GET_FRAM) UART << PGM_V get_FRAM << FREE_RAM 				<< PGM_V get_EOC;
+	if (Mask & GET_PWMV) UART << PGM_V get_PWMV << int(Monitor.Pulse)		<< PGM_V get_EOC;
 }
 
 void SYS_SendVariables(void)
@@ -207,14 +214,19 @@ int SYS_SetStatus(char Mask, char Value)
 
 		case DEV_SPEC:
 
-			if (Value == CLEAN_RAM)
+			switch (Value)
 			{
-				Script.Functions.Clean();
-				Script.Variables.Clean();
+				case CLEAN_RAM:
+					Script.Functions.Clean();
+					Script.Variables.Clean();
 
-				if (Monitor.Online) SYS_SendFeedback(GET_FRAM);
+				case POST_FRAM:
+					if (Monitor.Online) UART << PGM_V get_FRAM << FREE_RAM << PGM_V get_EOC;
+				break;
+
+				default:
+					UART << PGM_V get_INFOSTR;
 			}
-			else UART << PGM_V get_INFOSTR;
 
 		break;
 
@@ -263,12 +275,13 @@ void SYS_InitDevice(char Boot)
 
 	// det pin mode
 	KAOutput::SetOutputMode(KAPin::PORT_D, 0b11110000);
-	KAOutput::SetOutputMode(KAPin::PORT_B, 0b00000011);
+	KAOutput::SetOutputMode(KAPin::PORT_B, 0b00000111);
 
 	// setup outputs
 	KAOutput::SetState(KAPin::PORT_D, 0b00110000, true);
 	KAOutput::SetState(KAPin::PORT_D, 0b11000000, false);
 	KAOutput::SetState(KAPin::PORT_B, 0b00000011, true);
+	KAOutput::SetState(KAPin::PORT_B, 0b00000100, false);
 
 	//set saved pga gains
 	PGA_SetGain(0, KAFlash::Read(PGA0_MEM));
@@ -280,6 +293,13 @@ void SYS_InitDevice(char Boot)
 	// read sleep time
 	Monitor.Sleep = KAFlash::Read(TIME_MEM) & SLEEP_MSK;
 
+	// setup pwm
+	TCCR1A |= (1<<WGM10);
+	TCCR1B |= (1<<WGM12);
+	TCCR1A |= (1<<COM1B1);
+	TCCR1B |= (1<<CS10);
+	OCR1B = 0;
+
 	// setup bindings
 	Script.Bindings.Add(BIND(get));
 	Script.Bindings.Add(BIND(put));
@@ -288,6 +308,7 @@ void SYS_InitDevice(char Boot)
 	Script.Bindings.Add(BIND(sys));
 	Script.Bindings.Add(BIND(dev));
 	Script.Bindings.Add(BIND(spi));
+	Script.Bindings.Add(BIND(pwm));
 	Script.Bindings.Add(BIND(slp));
 
 	// setup adc variables
@@ -310,3 +331,4 @@ int SYS_PostError(int Code)
 {
 	if (Monitor.Online && !Monitor.Master) UART << PGM_V get_CALL << PGM_V get_FAIL << Code << PGM_V get_EOC; return Code;
 }
+

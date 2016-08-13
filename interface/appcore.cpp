@@ -103,6 +103,11 @@ AppCore::AppCore(void)
 		Device->WriteSpiValues(Data); return 0;
 	});
 
+	Script.Bindings.Add("pwm", [this] (KLList<double>& Vars) -> double
+	{
+		if (Vars.Size() == 1) Device->WriteDutyValue(int(Vars[0])); return 0;
+	});
+
 	Script.Bindings.Add("dev", [this] (KLList<double>& Vars) -> double
 	{
 		return 0;
@@ -283,6 +288,7 @@ bool AppCore::EventScriptOk(const QString& Code)
 	Tester.Bindings.Add("put", [] (KLList<double>&) -> double { return 0; } );
 	Tester.Bindings.Add("out", [] (KLList<double>&) -> double { return 0; } );
 	Tester.Bindings.Add("pga", [] (KLList<double>&) -> double { return 0; } );
+	Tester.Bindings.Add("pwm", [] (KLList<double>&) -> double { return 0; } );
 	Tester.Bindings.Add("slp", [] (KLList<double>&) -> double { return 0; } );
 	Tester.Bindings.Add("spi", [] (KLList<double>&) -> double { return 0; } );
 

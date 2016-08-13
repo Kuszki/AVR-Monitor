@@ -48,7 +48,8 @@ HelperWidget::HelperWidget(QWidget* Parent)
 		tr("Put shift data"),
 		tr("Enable pin"),
 		tr("Disable pin"),
-		tr("Set output state")
+		tr("Set output state"),
+		tr("Set PWM duty")
 	};
 
 	static const QStringList dscSystem =
@@ -56,7 +57,8 @@ HelperWidget::HelperWidget(QWidget* Parent)
 		tr("call put data;"),
 		tr("call put pin, 1;"),
 		tr("call put pin, 0;"),
-		tr("call out status;")
+		tr("call out status;"),
+		tr("call pwm duty;")
 	};
 
 	static const QStringList valDevice =

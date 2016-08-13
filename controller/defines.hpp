@@ -1,7 +1,7 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *                                                                         *
  *  Macros and definitions for AVR-Monitor UC program                      *
- *  Copyright (C) 2015  Łukasz "Kuszki" Dróżdż            l.drozdz@o2.pl   *
+ *  Copyright (C) 2015  Łukasz "Kuszki" Dróżdż  l.drozdz@openmailbox.org   *
  *                                                                         *
  *  This program is free software: you can redistribute it and/or modify   *
  *  it under the terms of the GNU General Public License as published by   *
@@ -50,23 +50,24 @@
 // struct declarations
 struct DEVICE
 {
-	char Sleep;		//!< Czas oczekiwania pomiędzy kolejnymi iteracjami skryptu (x100 ms).
+	unsigned char Pulse;	//!< Zmienna przechowująca wypełnienie wyjścia PWM.
+	unsigned char Sleep;	//!< Czas oczekiwania pomiędzy kolejnymi iteracjami skryptu (x100 ms).
 
-	bool Online;		//!< Urządzenie online.
-	bool Master;		//!< Praca w trybie `master`.
-	bool Worker;		//!< Urządzenie wykonujące skrypt (true - użądzenie, false - użytkownik).
-};					//!< Struktura opisująca stan urządzenia.
+	bool Online;			//!< Urządzenie online.
+	bool Master;			//!< Praca w trybie `master`.
+	bool Worker;			//!< Urządzenie wykonujące skrypt (true - użądzenie, false - użytkownik).
+};						//!< Struktura opisująca stan urządzenia.
 
 struct SHIFT
 {
-	bool Enable;		//!< Wyprowadzenia aktywne.
-	char Values;		//!< Wyprowadzone dane.
-};					//!< Struktura opisująca stan rejestru szeregowego.
+	bool Enable;			//!< Wyprowadzenia aktywne.
+	char Values;			//!< Wyprowadzone dane.
+};						//!< Struktura opisująca stan rejestru szeregowego.
 
 struct PGA
 {
-	char Gain_0;		//!< Wzmocnienie pierwszego wzmacniacza.
-	char Gain_1;		//!< Wzmocnienie drugiego wzmacniacza.
-};					//!< Struktura opisująca stan wzmacniaczy operacyjnych.
+	char Gain_0;			//!< Wzmocnienie pierwszego wzmacniacza.
+	char Gain_1;			//!< Wzmocnienie drugiego wzmacniacza.
+};						//!< Struktura opisująca stan wzmacniaczy operacyjnych.
 
 #endif

@@ -53,13 +53,19 @@ class GainWidget : public QWidget
 
 		void GainValueChanged(int Index);
 
+		void DutyValueChanged(int Value);
+
 	public slots:
 
 		void GainChanged(unsigned char ID, unsigned char Gain);
 
+		void DutyChanged(unsigned char Value);
+
 	signals:
 
 		void onGainChange(unsigned char, unsigned char);
+
+		void onDutyChange(unsigned char);
 
 };
 

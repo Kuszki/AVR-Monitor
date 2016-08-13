@@ -1,7 +1,7 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *                                                                         *
  *  Main.cpp file from AVR-Monitor UC program                              *
- *  Copyright (C) 2015  Łukasz "Kuszki" Dróżdż            l.drozdz@o2.pl   *
+ *  Copyright (C) 2015  Łukasz "Kuszki" Dróżdż  l.drozdz@openmailbox.org   *
  *                                                                         *
  *  This program is free software: you can redistribute it and/or modify   *
  *  it under the terms of the GNU General Public License as published by   *
@@ -26,23 +26,23 @@
 #include "bindings.hpp"
 #include "procedures.hpp"
 
-char 		Reboot_Code REBOOT_CODE;				//!< Informacja o źródle sygnału RESET.
+char 		Reboot_Code REBOOT_CODE;					//!< Informacja o źródle sygnału RESET.
 
 // main control objects
-KAUart		UART(KAUart::B_115200);				//!< Odbiornik i nadajnik szeregowy. Praca z prędkością 57600 bps.
-KASpi		SPI(KASpi::MASTER);					//!< Nadajnik SPI w trybie `MASTER`. Prescaler F_CPU/2.
-KAFlash		Flash;							//!< Mechanizm nadorujący pamięć EEPROM.
+KAUart		UART(KAUart::B_115200);					//!< Odbiornik i nadajnik szeregowy. Praca z prędkością 57600 bps.
+KASpi		SPI(KASpi::MASTER);						//!< Nadajnik SPI w trybie `MASTER`. Prescaler F_CPU/2.
+KAFlash		Flash;								//!< Mechanizm nadorujący pamięć EEPROM.
 
 // main script interpreter
-KLVariables	Inputs;							//!< Kontener przechowujący globalne zmienne.
-KLScript		Script(&Inputs);					//!< Interpreter języka skryptowego.
+KLVariables	Inputs;								//!< Kontener przechowujący globalne zmienne.
+KLScript		Script(&Inputs);						//!< Interpreter języka skryptowego.
 
 // global program structs
-DEVICE		Monitor	= {false, false, false};		//!< Stan użądzenia.
-SHIFT		Shift	= {false, 0b00000000};		//!< Stan rejestru szeregowego.
-PGA			Gains	= {1, 1};					//!< Stan wzmacniaczy operacyjnych.
+DEVICE		Monitor	= {0, 0, false, false, false};	//!< Stan użądzenia.
+SHIFT		Shift	= {false, 0b00000000};			//!< Stan rejestru szeregowego.
+PGA			Gains	= {1, 1};						//!< Stan wzmacniaczy operacyjnych.
 
-double		Analog[]	= {0, 0, 0, 0, 0, 0};		//!< Zmienna przechowująca wyniki operacji konwersji ADC.
+double		Analog[]	= {0, 0, 0, 0, 0, 0};			//!< Zmienna przechowująca wyniki operacji konwersji ADC.
 
 int main(void)
 {

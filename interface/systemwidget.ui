@@ -7,16 +7,13 @@
     <x>0</x>
     <y>0</y>
     <width>300</width>
-    <height>250</height>
+    <height>260</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>System</string>
   </property>
-  <layout class="QFormLayout" name="mainLayout">
-   <property name="fieldGrowthPolicy">
-    <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
-   </property>
+  <layout class="QFormLayout" name="formLayout">
    <item row="0" column="0">
     <widget class="QLabel" name="labelOnline">
      <property name="text">
@@ -24,10 +21,30 @@
      </property>
     </widget>
    </item>
+   <item row="0" column="1">
+    <widget class="QLabel" name="Online">
+     <property name="text">
+      <string>No</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+   </item>
    <item row="1" column="0">
     <widget class="QLabel" name="labelMaster">
      <property name="text">
       <string>Mode:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <widget class="QLabel" name="Master">
+     <property name="text">
+      <string>Unknown</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
     </widget>
    </item>
@@ -52,6 +69,16 @@
     <widget class="QLabel" name="labelShiftActive">
      <property name="text">
       <string>Shift enabled:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1">
+    <widget class="QLabel" name="ShiftActive">
+     <property name="text">
+      <string>Unknown</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
     </widget>
    </item>
@@ -90,13 +117,30 @@
     </widget>
    </item>
    <item row="6" column="0">
+    <widget class="QLabel" name="labelDuty">
+     <property name="text">
+      <string>PWM duty:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="1">
+    <widget class="QLabel" name="Duty">
+     <property name="text">
+      <string>Unknown</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="0">
     <widget class="QLabel" name="labelInterval">
      <property name="text">
       <string>Script interval:</string>
      </property>
     </widget>
    </item>
-   <item row="6" column="1">
+   <item row="7" column="1">
     <widget class="QLabel" name="Interval">
      <property name="text">
       <string>Unknown</string>
@@ -106,7 +150,7 @@
      </property>
     </widget>
    </item>
-   <item row="7" column="0" colspan="2">
+   <item row="8" column="0" colspan="2">
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
       <widget class="QProgressBar" name="FreeRam">
@@ -131,42 +175,11 @@
        </property>
        <property name="icon">
         <iconset theme="edit-clear">
-         <normaloff/>
-        </iconset>
+         <normaloff>.</normaloff>.</iconset>
        </property>
       </widget>
      </item>
     </layout>
-   </item>
-   <item row="0" column="1">
-    <widget class="QLabel" name="Online">
-     <property name="text">
-      <string>No</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="1">
-    <widget class="QLabel" name="Master">
-     <property name="text">
-      <string>Unknown</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="1">
-    <widget class="QLabel" name="ShiftActive">
-     <property name="text">
-      <string>Unknown</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-     </property>
-    </widget>
    </item>
   </layout>
  </widget>

@@ -1,7 +1,7 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *                                                                         *
  *  Bindable functions for AVR-Monitor UC program                          *
- *  Copyright (C) 2015  Łukasz "Kuszki" Dróżdż            l.drozdz@o2.pl   *
+ *  Copyright (C) 2015  Łukasz "Kuszki" Dróżdż  l.drozdz@openmailbox.org   *
  *                                                                         *
  *  This program is free software: you can redistribute it and/or modify   *
  *  it under the terms of the GNU General Public License as published by   *
@@ -108,6 +108,15 @@ double spi(KLList<double>& Vars)
 	return 0;
 }
 
+double pwm(KLList<double>& Vars)
+{
+	if (Vars.Size() != 1) return SYS_PostError(WRONG_PARAMS);
+
+	PWM_SetPulse(int(Vars[0]));
+
+	return 0;
+}
+
 double slp(KLList<double>& Vars)
 {
 	if (Vars.Size() != 1) return SYS_PostError(WRONG_PARAMS);
@@ -116,3 +125,4 @@ double slp(KLList<double>& Vars)
 
 	return 0;
 }
+

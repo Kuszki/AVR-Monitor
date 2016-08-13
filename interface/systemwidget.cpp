@@ -80,6 +80,11 @@ void SystemWidget::UpdateFreeRam(unsigned Value)
 	ui->FreeRam->setValue(Value);
 }
 
+void SystemWidget::UpdateDutyValue(unsigned char Value)
+{
+	ui->Duty->setText(QString("%1%").arg(int((Value / 255.0) * 100.0)));
+}
+
 void SystemWidget::UpdateInterval(double Value)
 {
 	ui->Interval->setText(QString("%1 s").arg(Value, 0, '.', 1));

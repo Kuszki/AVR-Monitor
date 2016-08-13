@@ -90,6 +90,8 @@ class AVRBRIDGE_EXPORT AVRBridge : public QObject
 
 		void WriteMasterStatus(bool Master);
 
+		void WriteDutyValue(unsigned char Value);
+
 		void WriteSleepValue(double Time);
 
 		void WriteDefaultShift(unsigned char Values);
@@ -120,6 +122,8 @@ class AVRBRIDGE_EXPORT AVRBridge : public QObject
 		void onMasterStatusUpdate(bool);
 
 		void onSleepValueUpdate(double);
+
+		void onDutyValueUpdate(unsigned char);
 
 		void onFreeRamUpdate(unsigned);
 

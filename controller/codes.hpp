@@ -1,7 +1,7 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *                                                                         *
  *  Codes definitions for AVR-Monitor UC program                           *
- *  Copyright (C) 2015  Łukasz "Kuszki" Dróżdż            l.drozdz@o2.pl   *
+ *  Copyright (C) 2015  Łukasz "Kuszki" Dróżdż  l.drozdz@openmailbox.org   *
  *                                                                         *
  *  This program is free software: you can redistribute it and/or modify   *
  *  it under the terms of the GNU General Public License as published by   *
@@ -31,6 +31,7 @@
 
 // dev special tasks
 #define CLEAN_RAM		1					//!< Wyczyść dodatkowe zmienne.
+#define POST_FRAM		2					//!< Pobierz ilość wolnej pamięci.
 
 // script error code macro
 #define WRONG_SCRIPT	-255					//!< Skrypt nieprawidłowy.
@@ -66,7 +67,7 @@
 #define GET_SHRE		8					//!< Pobierz stan wyprowadzeń rejesru.
 #define GET_PGA0		16					//!< Pobierz wzmocnienie wzmacniacza 0.
 #define GET_PGA1		32					//!< Pobierz wzmocnienie wzmacniacza 1.
-#define GET_FRAM		64					//!< Pobierz ilość owlnej pamięci RAM.
+#define GET_PWMV		64					//!< Pobierz wypełnienie wyjścia PWM.
 #define GET_SLPT		128					//!< Pobierz czas pomiędzy iteracjami.
 #define GET_ALL		255					//!< Pobierz wszystkie dane użądzenia.
 

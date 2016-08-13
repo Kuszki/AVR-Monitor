@@ -37,8 +37,8 @@ const char get_INFOSTR[] PROGMEM =
 "# GCC flags:    -Os -mmcu=atmega328p -std=c++11\n"
 "# Watchdog set:   on every evaluation for 8 sec\n"
 "#\n"
-"# Program size:        24552 bytes (74.9% Full)\n"
-"# Data size:             589 bytes (28.8% Full)\n"
+"# Program size:        24826 bytes (75.8% Full)\n"
+"# Data size:             594 bytes (29.0% Full)\n"
 "\n";
 
 const char get_GAINS[]	PROGMEM 	= { 0b000, 0b001, 0b010, 0b011, 0b100, 0b101, 0b110, 0b111, 0b11110000 };
@@ -52,6 +52,7 @@ const char get_SHRD[]	PROGMEM	= "set SHRD ";
 const char get_SHRE[]	PROGMEM	= "set SHRE ";
 const char get_PGA0[]	PROGMEM	= "set PGA0 ";
 const char get_PGA1[]	PROGMEM	= "set PGA1 ";
+const char get_PWMV[]	PROGMEM	= "set PWMV ";
 const char get_SLPT[]	PROGMEM	= "set SLPT ";
 const char get_FRAM[]	PROGMEM	= "set FRAM ";
 
@@ -65,3 +66,4 @@ const char get_EOS[]	PROGMEM	= EOS;
 const char get_EOC[]	PROGMEM	= EOC;
 
 #endif
+

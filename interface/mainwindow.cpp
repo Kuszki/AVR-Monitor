@@ -125,6 +125,7 @@ MainWindow::MainWindow(QWidget* Parent)
 	connect(AppCore::getDevice(), &AVRBridge::onShiftValuesUpdate,  ui->systemWidget, &SystemWidget::UpdateShiftValues);
 	connect(AppCore::getDevice(), &AVRBridge::onShiftStatusUpdate, ui->systemWidget, &SystemWidget::UpdateShiftStatus);
 	connect(AppCore::getDevice(), &AVRBridge::onGainSettingsUpdate, ui->systemWidget, &SystemWidget::UpdateGainValue);
+	connect(AppCore::getDevice(), &AVRBridge::onDutyValueUpdate, ui->systemWidget, &SystemWidget::UpdateDutyValue);
 	connect(AppCore::getDevice(), &AVRBridge::onFreeRamUpdate, ui->systemWidget, &SystemWidget::UpdateFreeRam);
 	connect(AppCore::getDevice(), &AVRBridge::onSleepValueUpdate, ui->systemWidget, &SystemWidget::UpdateInterval);
 
@@ -136,9 +137,11 @@ MainWindow::MainWindow(QWidget* Parent)
 
 	// device to pga widget connections
 	connect(AppCore::getDevice(), &AVRBridge::onGainSettingsUpdate, ui->pgaWidget, &GainWidget::GainChanged);
+	connect(AppCore::getDevice(), &AVRBridge::onDutyValueUpdate, ui->pgaWidget, &GainWidget::DutyChanged);
 
 	// pga to device connections
 	connect(ui->pgaWidget, &GainWidget::onGainChange, AppCore::getDevice(), &AVRBridge::WriteGainSettings);
+	connect(ui->pgaWidget, &GainWidget::onDutyChange, AppCore::getDevice(), &AVRBridge::WriteDutyValue);
 
 	// device to shift widget connections
 	connect(AppCore::getDevice(), &AVRBridge::onShiftValuesUpdate, ui->shiftWidget, &ShiftWidget::UpdateShiftValues);

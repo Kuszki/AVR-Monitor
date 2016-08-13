@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>300</width>
-    <height>100</height>
+    <height>150</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -122,6 +122,29 @@
      </item>
     </widget>
    </item>
+   <item row="2" column="0">
+    <widget class="QLabel" name="labelDuty">
+     <property name="text">
+      <string>PWM duty</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1">
+    <widget class="QSpinBox" name="Duty">
+     <property name="minimum">
+      <number>0</number>
+     </property>
+     <property name="maximum">
+      <number>255</number>
+     </property>
+     <property name="singleStep">
+      <number>5</number>
+     </property>
+     <property name="value">
+      <number>0</number>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
  <resources/>
@@ -158,8 +181,25 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>Duty</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>GainWidget</receiver>
+   <slot>DutyValueChanged(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>158</x>
+     <y>94</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>626</x>
+     <y>96</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>GainValueChanged(int)</slot>
+  <slot>DutyValueChanged(int)</slot>
  </slots>
 </ui>

@@ -62,6 +62,11 @@ AVRBridge::AVRBridge(KLVariables* Returns, QObject* Parent)
 		emit onGainSettingsUpdate(1, unsigned(Value));
 	});
 
+	Script->Variables.Add("PWMV", KLVariables::INTEGER, [this] (double Value) -> void
+	{
+		emit onDutyValueUpdate(unsigned(Value));
+	});
+
 	Script->Variables.Add("SLPT", KLVariables::INTEGER, [this] (double Value) -> void
 	{
 		emit onSleepValueUpdate(Value / 10);
@@ -266,6 +271,11 @@ void AVRBridge::WriteShiftStatus(bool Enabled)
 void AVRBridge::WriteMasterStatus(bool Master)
 {
 	Command(QString("call dev %1,%2;").arg(DEV_MASTER).arg(Master));
+}
+
+void AVRBridge::WriteDutyValue(unsigned char Value)
+{
+	Command(QString("call pwm %1;").arg(Value));
 }
 
 void AVRBridge::WriteSleepValue(double Time)

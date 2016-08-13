@@ -1,7 +1,7 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *                                                                         *
  *  Interrupts definitions for AVR-Monitor UC program                      *
- *  Copyright (C) 2015  Łukasz "Kuszki" Dróżdż            l.drozdz@o2.pl   *
+ *  Copyright (C) 2015  Łukasz "Kuszki" Dróżdż  l.drozdz@openmailbox.org   *
  *                                                                         *
  *  This program is free software: you can redistribute it and/or modify   *
  *  it under the terms of the GNU General Public License as published by   *
@@ -25,16 +25,14 @@
 #include "defines.hpp"
 #include "procedures.hpp"
 
-extern DEVICE	Monitor;
-extern SHIFT	Shift;
+extern DEVICE		Monitor;
+extern SHIFT		Shift;
 
-extern char	Reboot_Code;
+extern char		Reboot_Code;
 
 void REBOOT_PROC wdt_reboot(void)
 {
-	Reboot_Code = MCUSR; MCUSR = 0;
-
-	wdt_disable();
+	Reboot_Code = MCUSR; MCUSR = 0; wdt_disable();
 }
 
 ISR(INT0_vect)
@@ -55,3 +53,4 @@ ISR(WDT_vect)
 {
 	KAFlash::Write(TIME_MEM, (KAFlash::Read(TIME_MEM) & SLEEP_MSK) | (Monitor.Worker << 7) | (Monitor.Online << 6));
 }
+

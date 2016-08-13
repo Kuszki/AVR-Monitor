@@ -1,7 +1,7 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *                                                                         *
  *  Control functions for AVR-Monitor UC program                           *
- *  Copyright (C) 2015  Łukasz "Kuszki" Dróżdż            l.drozdz@o2.pl   *
+ *  Copyright (C) 2015  Łukasz "Kuszki" Dróżdż  l.drozdz@openmailbox.org   *
  *                                                                         *
  *  This program is free software: you can redistribute it and/or modify   *
  *  it under the terms of the GNU General Public License as published by   *
@@ -65,6 +65,14 @@ int SHR_SetPin(char Pin, bool Enable);
  *
  */
 int PGA_SetGain(char ID, char Gain);
+
+/*! \brief		Ustala wypełnienie wyjścia PWM.
+ *  \param [in]	Pulse Wypełnienie.
+ *
+ * Ustala wypełnienie wyjścia PWM w zakresie 0 - 255.
+ *
+ */
+void PWM_SetPulse(unsigned char Pulse);
 
 /*! \brief		Wyznacza maskę bitową na podstawie wzmocnienia.
  *  \param [in]	Gain	Wzmocnienie.
