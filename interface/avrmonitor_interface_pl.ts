@@ -1070,7 +1070,7 @@ done;</translation>
     <message>
         <location filename="plotwidget.ui" line="113"/>
         <source>Follow new data</source>
-        <translation>Podążaj za nowymi wartościami</translation>
+        <translation>Przesuwaj automatycznie</translation>
     </message>
     <message>
         <location filename="plotwidget.cpp" line="266"/>
