@@ -26,7 +26,7 @@
 
 const char get_INFOSTR[] PROGMEM =
 "\n"
-"# AVR-Monitor device;   Controller program v1.6\n"
+"# AVR-Monitor device;   Controller program v1.7\n"
 "# Copyright (C) 2015     Łukasz \"Kuszki\" Dróżdż\n"
 "#\n"
 "# Info at https://github.com/Kuszki/AVR-Monitor\n"
