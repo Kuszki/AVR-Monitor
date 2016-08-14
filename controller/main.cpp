@@ -29,7 +29,7 @@
 char 		Reboot_Code REBOOT_CODE;					//!< Informacja o źródle sygnału RESET.
 
 // main control objects
-KAUart		UART(KAUart::B_115200);					//!< Odbiornik i nadajnik szeregowy. Praca z prędkością 57600 bps.
+KAUart		UART(KAUart::B_115200);					//!< Odbiornik i nadajnik szeregowy. Praca z prędkością 115200 bps.
 KASpi		SPI(KASpi::MASTER);						//!< Nadajnik SPI w trybie `MASTER`. Prescaler F_CPU/2.
 KAFlash		Flash;								//!< Mechanizm nadorujący pamięć EEPROM.
 
