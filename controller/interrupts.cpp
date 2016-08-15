@@ -30,7 +30,11 @@ extern SHIFT		Shift;
 
 extern char		Reboot_Code;
 
-void REBOOT_PROC	wdt_reboot(void)
+void	__attribute__((section(".init3")))
+	__attribute__((naked))
+	__attribute__((used))
+
+wdt_reboot(void)
 {
 	Reboot_Code = MCUSR; MCUSR = 0; wdt_disable();
 }
