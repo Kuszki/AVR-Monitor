@@ -34,31 +34,31 @@
 #define POST_FRAM		2					//!< Pobierz ilość wolnej pamięci.
 
 // script error code macro
-#define WRONG_SCRIPT	-255					//!< Skrypt nieprawidłowy.
-#define MASTER_TIMEOUT	-254					//!< Przekroczono limit czasu przez użądzenie.
-#define REMOTE_TIMEOUT	-253					//!< Przekroczono limit czasu przez użytkownika.
+#define WRONG_SCRIPT	255					//!< Skrypt nieprawidłowy.
+#define MASTER_TIMEOUT	254					//!< Przekroczono limit czasu przez użądzenie.
+#define REMOTE_TIMEOUT	253					//!< Przekroczono limit czasu przez użytkownika.
 
 // frozen conditions
 #define MASTER_FROZEN	0b11000000			//!< Użądzenie dokonało zamrożenia kodu.
 #define REMOTE_FROZEN	0b01000000			//!< Użytkownik dokonał zamrożenia kodu.
 
 // common error codes macros
-#define WRONG_PARAMS	-1					//!< Błędnie parametry funkcji.
+#define WRONG_PARAMS	1					//!< Błędnie parametry funkcji.
 
 // shr error codes macros
-#define WRONG_SHR_PIN	-2					//!< Błędne wyprowadzenie rejestru.
+#define WRONG_SHR_PIN	2					//!< Błędne wyprowadzenie rejestru.
 
 // pga error codes macros
-#define WRONG_PGA_ID	-3					//!< Błędne ID wzmacniacza.
-#define WRONG_PGA_GAIN	-4					//!< Błędnie wzmocnienie PGA.
+#define WRONG_PGA_ID	3					//!< Błędne ID wzmacniacza.
+#define WRONG_PGA_GAIN	4					//!< Błędnie wzmocnienie PGA.
 
 // adc error codes macros
-#define WRONG_ADC_ID	-5					//!< Błędne ID przetwornika ADC.
+#define WRONG_ADC_ID	5					//!< Błędne ID przetwornika ADC.
 
 // system error codes
-#define WRONG_SYS_CODE	-6					//!< Błędny kod systemowy.
-#define WRONG_SYS_STATE	-7					//!< Błędny kod stanu.
-#define WRONG_SYS_UPLOAD	-8					//!< Załadowano błędny skrypt.
+#define WRONG_SYS_CODE	6					//!< Błędny kod systemowy.
+#define WRONG_SYS_STATE	7					//!< Błędny kod stanu.
+#define WRONG_SYS_UPLOAD	8					//!< Załadowano błędny skrypt.
 
 // sys var pulling codes
 #define GET_LINE		1					//!< Pobierz stan połączenia.

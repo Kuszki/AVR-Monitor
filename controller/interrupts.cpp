@@ -30,7 +30,7 @@ extern SHIFT		Shift;
 
 extern char		Reboot_Code;
 
-void REBOOT_PROC wdt_reboot(void)
+void REBOOT_PROC	wdt_reboot(void)
 {
 	Reboot_Code = MCUSR; MCUSR = 0; wdt_disable();
 }
