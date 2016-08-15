@@ -59,6 +59,8 @@ class AVRBRIDGE_EXPORT AVRBridge : public QObject
 
 	private slots:
 
+		void HandleError(QSerialPort::SerialPortError Error);
+
 		void ReadData(void);
 
 	public:

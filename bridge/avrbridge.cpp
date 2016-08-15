@@ -19,7 +19,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #include "avrbridge.hpp"
-
+#include <QDebug>
 AVRBridge::AVRBridge(KLVariables* Returns, QObject* Parent)
 : QObject(Parent), Sensors(Returns)
 {
@@ -131,11 +131,28 @@ AVRBridge::AVRBridge(KLVariables* Returns, QObject* Parent)
 	Serial->setDataBits(QSerialPort::Data8);
 
 	connect(Serial, &QSerialPort::readyRead, this, &AVRBridge::ReadData);
+
+	connect(Serial, SIGNAL(error(QSerialPort::SerialPortError)), SLOT(HandleError(QSerialPort::SerialPortError)));
 }
 
 AVRBridge::~AVRBridge(void)
 {
 	if (IsConnected()) Disconnect();
+}
+
+void AVRBridge::HandleError(QSerialPort::SerialPortError Error)
+{
+	if (Error == QSerialPort::ResourceError)
+	{
+		if (Script->Variables["LINE"].ToBool())
+		{
+			emit onError(tr("Device connection error - %1").arg(Serial->errorString()));
+
+			Script->Variables["LINE"] = false;
+		}
+
+		Serial->close();
+	}
 }
 
 void AVRBridge::ReadData(void)
