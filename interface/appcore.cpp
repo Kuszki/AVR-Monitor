@@ -55,23 +55,23 @@ AppCore::AppCore(void)
 
 	Script.Bindings.Add("put", [this] (KLList<double>& Vars) -> double
 	{
-		unsigned char Values = Device->Variables()["SHRD"].ToInt();
-
 		if (Vars.Size() == 1)
 		{
-			Values = int(Vars[0]);
+			Device->WriteShiftValues(int(Vars[0]));
 		}
 		else if (Vars.Size() == 2)
 		{
-			if (bool(Vars[1])) Values |= (1 << int(Vars[0]));
-			else Values &= ~(1 << int(Vars[0]));
+			Device->WriteShiftValue(int(Vars[0]), bool(Vars[1]));
 		}
 		else if (Vars.Size() == 8)
 		{
+			unsigned char Values = Device->Variables()["SHRD"].ToInt();
 			for (int i = Values = 0; i < 8; i++) Values = Values | (int(Vars[i]) << i);
+
+			Device->WriteShiftValues(Values);
 		}
 
-		Device->WriteShiftValues(Values); return 0;
+		 return 0;
 	});
 
 	Script.Bindings.Add("pga", [this] (KLList<double>& Vars) -> double

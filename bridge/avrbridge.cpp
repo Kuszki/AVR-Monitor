@@ -263,6 +263,11 @@ void AVRBridge::WriteShiftValues(unsigned char Values)
 	Command(QString("call put %1;").arg(Values));
 }
 
+void AVRBridge::WriteShiftValue(unsigned char Index, bool Value)
+{
+	Command(QString("call put %1,%2;").arg(Index).arg(Value));
+}
+
 void AVRBridge::WriteShiftStatus(bool Enabled)
 {
 	Command(QString("call out %1;").arg(Enabled));

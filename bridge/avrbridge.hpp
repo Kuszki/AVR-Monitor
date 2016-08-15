@@ -86,6 +86,9 @@ class AVRBRIDGE_EXPORT AVRBridge : public QObject
 
 		void WriteShiftValues(unsigned char Values);
 
+		void WriteShiftValue(unsigned char Index,
+						 bool Value);
+
 		void WriteShiftStatus(bool Enabled);
 
 		void WriteMasterStatus(bool Master);
