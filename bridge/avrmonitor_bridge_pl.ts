@@ -55,8 +55,8 @@
     </message>
     <message>
         <location filename="avrbridge.cpp" line="188"/>
-        <location filename="avrbridge.cpp" line="308"/>
-        <location filename="avrbridge.cpp" line="333"/>
+        <location filename="avrbridge.cpp" line="313"/>
+        <location filename="avrbridge.cpp" line="338"/>
         <source>Serial or device not connected</source>
         <translation>Urządzenie lub kabel nie podłączone</translation>
     </message>
@@ -82,13 +82,13 @@
         <translation>Urządzenie rozłączyło się bez negocjacji</translation>
     </message>
     <message>
-        <location filename="avrbridge.cpp" line="307"/>
+        <location filename="avrbridge.cpp" line="312"/>
         <source>Script is too large</source>
         <translation>Skrypt jest zbyt duży</translation>
     </message>
     <message>
-        <location filename="avrbridge.cpp" line="309"/>
-        <location filename="avrbridge.cpp" line="334"/>
+        <location filename="avrbridge.cpp" line="314"/>
+        <location filename="avrbridge.cpp" line="339"/>
         <source>Device is working as master</source>
         <translation>Urządzenie pracuje w trybie master</translation>
     </message>
