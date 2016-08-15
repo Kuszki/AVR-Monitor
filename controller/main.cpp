@@ -38,11 +38,11 @@ KLVariables	Inputs;								//!< Kontener przechowujący globalne zmienne.
 KLScript		Script(&Inputs);						//!< Interpreter języka skryptowego.
 
 // global program structs
-DEVICE		Monitor	= {0, 0, false, false, false};	//!< Stan użądzenia.
-SHIFT		Shift	= {false, 0b00000000};			//!< Stan rejestru szeregowego.
-PGA			Gains	= {1, 1};						//!< Stan wzmacniaczy operacyjnych.
+DEVICE		Monitor	= { 0, 0, false, false, false };	//!< Stan użądzenia.
+SHIFT		Shift	= { false, 0b00000000 };			//!< Stan rejestru szeregowego.
+PGA			Gains	= { 1, 1 };					//!< Stan wzmacniaczy operacyjnych.
 
-double		Analog[]	= {0, 0, 0, 0, 0, 0};			//!< Zmienna przechowująca wyniki operacji konwersji ADC.
+double		Analog[]	= { 0, 0, 0, 0, 0, 0 };			//!< Zmienna przechowująca wyniki operacji konwersji ADC.
 
 int main(void)
 {
