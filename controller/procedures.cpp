@@ -293,11 +293,13 @@ void SYS_InitDevice(char Boot)
 	// read sleep time
 	Monitor.Sleep = KAFlash::Read(TIME_MEM) & SLEEP_MSK;
 
-	// setup pwm
-	TCCR1A |= (1<<WGM10);
-	TCCR1B |= (1<<WGM12);
-	TCCR1A |= (1<<COM1B1);
-	TCCR1B |= (1<<CS10);
+	// setup timer
+	TCCR1A |= (1 << WGM10);
+	TCCR1B |= (1 << WGM12);
+	TCCR1A |= (1 << COM1B1);
+	TCCR1B |= (1 << CS10);
+
+	// setup PWM
 	OCR1B = 0;
 
 	// setup bindings
