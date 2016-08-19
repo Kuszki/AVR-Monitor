@@ -43,6 +43,13 @@ AppCore::AppCore(void)
 	Device = new AVRBridge(&Script.Variables, this);
 	Validator = new QRegExpValidator(QRegExp("\\b[A-z]+[A-z0-9]*\\b"), this);
 
+	AdcVar.Add("V0", KLVariables::NUMBER, KLVariables::KLSCALLBACK(), false);
+	AdcVar.Add("V1", KLVariables::NUMBER, KLVariables::KLSCALLBACK(), false);
+	AdcVar.Add("V2", KLVariables::NUMBER, KLVariables::KLSCALLBACK(), false);
+	AdcVar.Add("V3", KLVariables::NUMBER, KLVariables::KLSCALLBACK(), false);
+	AdcVar.Add("V4", KLVariables::NUMBER, KLVariables::KLSCALLBACK(), false);
+	AdcVar.Add("V5", KLVariables::NUMBER, KLVariables::KLSCALLBACK(), false);
+
 	Database.setDatabaseName(DB);
 	Database.open();
 
@@ -265,7 +272,7 @@ bool AppCore::SensorScriptOk(const QString& Code, const QString& Label)
 {
 	QMutexLocker AutoLocker(&Locker);
 
-	KLScriptbinding Tester(&Device->Variables());
+	KLScriptbinding Tester(&Script.Variables);
 
 	if (!Label.isEmpty()) Tester.Variables.Add(Label.toKls());
 
@@ -282,7 +289,7 @@ bool AppCore::EventScriptOk(const QString& Code)
 {
 	QMutexLocker AutoLocker(&Locker);
 
-	KLScriptbinding Tester(&Device->Variables());
+	KLScriptbinding Tester(&Script.Variables);
 
 	Tester.Bindings.Add("get", [] (KLList<double>&) -> double { return 0; } );
 	Tester.Bindings.Add("put", [] (KLList<double>&) -> double { return 0; } );
