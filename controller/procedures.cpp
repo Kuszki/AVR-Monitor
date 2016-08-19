@@ -25,12 +25,15 @@ extern KAUart		UART;
 extern KASpi		SPI;
 extern KAFlash		Flash;
 
+extern KLVariables	Globals;
 extern KLVariables	Inputs;
 extern KLScript	Script;
 
 extern DEVICE		Monitor;
 extern SHIFT		Shift;
 extern PGA		Gains;
+
+extern unsigned	Miliseconds;
 
 extern double		Analog[];
 
@@ -182,7 +185,9 @@ int SYS_SetStatus(char Mask, char Value)
 			Monitor.Master = Value;
 
 			if (Monitor.Online) SYS_SendFeedback(GET_WORK);
+
 			if (!Value) SYS_SetStatus(DEV_SPEC, CLEAN_RAM);
+			else Miliseconds = 0;
 
 		break;
 		case DEV_SLEEP:
@@ -240,8 +245,11 @@ void SYS_Evaluate(KLString& Buffer)
 {
 	for (int i = 0; i < 6; ++i) Analog[i] = KAConverter::GetVoltage(KAConverter::PORT(i));
 
+	if (Monitor.Master) Analog[6] = Miliseconds / 980.0;
+
 	KAOutput::SetState(ACT_LED, true);
 	wdt_intenable(WDTO_4S);
+	Miliseconds = 0;
 
 	const bool OK = Script.Evaluate(Buffer);
 	const double Val = Script.GetReturn();
@@ -249,13 +257,15 @@ void SYS_Evaluate(KLString& Buffer)
 	wdt_disable();
 	KAOutput::SetState(ACT_LED, false);
 
-	Buffer.Clean();
+	if (!Monitor.Master) Analog[6] = Miliseconds / 980.0;
 
 	if (Monitor.Online && !Monitor.Master)
 	{
 		if (!OK) UART << PGM_V get_CALL << PGM_V get_FAIL << WRONG_SCRIPT << PGM_V get_EOC;
 		if (Val) UART << PGM_V get_RETURN << Val << PGM_V get_EOC;
 	}
+
+	Buffer.Clean();
 }
 
 void SYS_InitDevice(char Boot)
@@ -297,10 +307,13 @@ void SYS_InitDevice(char Boot)
 	TCCR1A |= (1 << WGM10);
 	TCCR1B |= (1 << WGM12);
 	TCCR1A |= (1 << COM1B1);
-	TCCR1B |= (1 << CS10);
+	TCCR1B |= (1 << CS11) | (1 << CS10);
 
 	// setup PWM
 	OCR1B = 0;
+
+	// setup timer
+	TIMSK1 |= (1 << OCIE1A);
 
 	// setup bindings
 	Script.Bindings.Add(BIND(get));
@@ -312,6 +325,9 @@ void SYS_InitDevice(char Boot)
 	Script.Bindings.Add(BIND(spi));
 	Script.Bindings.Add(BIND(pwm));
 	Script.Bindings.Add(BIND(slp));
+
+	// add DT variable
+	Globals.Add("DT", Analog[6], nullptr, false);
 
 	// setup adc variables
 	for (char i = 0; i < ADC_COUNT; i++) { Buff[1] = '0' + i; Inputs.Add(Buff, Analog[i], nullptr, false); }

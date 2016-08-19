@@ -26,23 +26,26 @@
 #include "bindings.hpp"
 #include "procedures.hpp"
 
-char 		Reboot_Code __attribute__ ((section (".noinit")));	//!< Informacja o źródle sygnału RESET.
+char 			Reboot_Code __attribute__ ((section (".noinit")));	//!< Informacja o źródle sygnału RESET.
 
 // main control objects
-KAUart		UART(KAUart::B_115200);							//!< Odbiornik i nadajnik szeregowy. Praca z prędkością 115200 bps.
-KASpi		SPI(KASpi::MASTER);								//!< Nadajnik SPI w trybie `MASTER`. Prescaler F_CPU/2.
-KAFlash		Flash;										//!< Mechanizm nadorujący pamięć EEPROM.
+KAUart			UART(KAUart::B_115200);							//!< Odbiornik i nadajnik szeregowy. Praca z prędkością 115200 bps.
+KASpi			SPI(KASpi::MASTER);								//!< Nadajnik SPI w trybie `MASTER`. Prescaler F_CPU/2.
+KAFlash			Flash;										//!< Mechanizm nadorujący pamięć EEPROM.
 
 // main script interpreter
-KLVariables	Inputs;										//!< Kontener przechowujący globalne zmienne.
-KLScript		Script(&Inputs);								//!< Interpreter języka skryptowego.
+KLVariables		Globals;										//!< Kontener przechowujący globalne zmienne.
+KLVariables		Inputs(&Globals);								//!< Kontener przechowujący zmienne przetworników.
+KLScript			Script(&Inputs);								//!< Interpreter języka skryptowego.
 
 // global program structs
-DEVICE		Monitor	= { 0, 0, false, false, false };			//!< Stan użądzenia.
-SHIFT		Shift	= { false, 0b00000000 };					//!< Stan rejestru szeregowego.
-PGA			Gains	= { 1, 1 };							//!< Stan wzmacniaczy operacyjnych.
+DEVICE			Monitor	= { 0, 0, false, false, false };			//!< Stan użądzenia.
+SHIFT			Shift	= { false, 0b00000000 };					//!< Stan rejestru szeregowego.
+PGA				Gains	= { 1, 1 };							//!< Stan wzmacniaczy operacyjnych.
 
-double		Analog[]	= { 0, 0, 0, 0, 0, 0 };					//!< Zmienna przechowująca wyniki operacji konwersji ADC.
+volatile unsigned	Miliseconds = 0;								//!< Liczba milisekund od ostatniej iteracji;
+
+double			Analog[]	= { 0, 0, 0, 0, 0, 0, 0 };				//!< Zmienna przechowująca wyniki operacji konwersji ADC.
 
 int main(void)
 {
