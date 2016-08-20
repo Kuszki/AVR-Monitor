@@ -30,8 +30,6 @@ extern SHIFT		Shift;
 
 extern char		Reboot_Code;
 
-extern unsigned	Miliseconds;
-
 void	__attribute__((section(".init3")))
 	__attribute__((naked))
 	__attribute__((used))
@@ -58,10 +56,5 @@ ISR(INT1_vect)
 ISR(WDT_vect)
 {
 	KAFlash::Write(TIME_MEM, (KAFlash::Read(TIME_MEM) & SLEEP_MSK) | (Monitor.Worker << 7) | (Monitor.Online << 6));
-}
-
-ISR(TIMER1_COMPA_vect)
-{
-	++Miliseconds;
 }
 

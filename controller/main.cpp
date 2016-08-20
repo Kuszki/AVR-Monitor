@@ -34,18 +34,15 @@ KASpi			SPI(KASpi::MASTER);								//!< Nadajnik SPI w trybie `MASTER`. Prescale
 KAFlash			Flash;										//!< Mechanizm nadorujący pamięć EEPROM.
 
 // main script interpreter
-KLVariables		Globals;										//!< Kontener przechowujący globalne zmienne.
-KLVariables		Inputs(&Globals);								//!< Kontener przechowujący zmienne przetworników.
+KLVariables		Inputs(nullptr);								//!< Kontener przechowujący zmienne przetworników.
 KLScript			Script(&Inputs);								//!< Interpreter języka skryptowego.
 
 // global program structs
-DEVICE			Monitor	= { 0, 0, false, false, false };			//!< Stan użądzenia.
+DEVICE			Monitor	= { 0, 1, false, false, false };			//!< Stan użądzenia.
 SHIFT			Shift	= { false, 0b00000000 };					//!< Stan rejestru szeregowego.
 PGA				Gains	= { 1, 1 };							//!< Stan wzmacniaczy operacyjnych.
 
-volatile unsigned	Miliseconds = 0;								//!< Liczba milisekund od ostatniej iteracji;
-
-double			Analog[]	= { 0, 0, 0, 0, 0, 0, 0 };				//!< Zmienna przechowująca wyniki operacji konwersji ADC.
+double			Analog[]	= { 0, 0, 0, 0, 0, 0 };					//!< Zmienna przechowująca wyniki operacji konwersji ADC.
 
 int main(void)
 {
