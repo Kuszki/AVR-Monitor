@@ -240,11 +240,6 @@ void AppCore::SynchronizeDevice(void)
 		Code.append(Sensor.Label).append(',');
 	}
 
-	for (const auto& Event : Events) if (Event.Active)
-	{
-		Tasks.append(KLScriptbinding::Optimize(Event.Script));
-	}
-
 	if (Code.size())
 	{
 		Code[Code.size() - 1] = ';';
