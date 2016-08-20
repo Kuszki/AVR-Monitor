@@ -43,13 +43,6 @@ AppCore::AppCore(void)
 	Device = new AVRBridge(&Script.Variables, this);
 	Validator = new QRegExpValidator(QRegExp("\\b[A-z]+[A-z0-9]*\\b"), this);
 
-	AdcVar.Add("V0", KLVariables::NUMBER, KLVariables::KLSCALLBACK(), false);
-	AdcVar.Add("V1", KLVariables::NUMBER, KLVariables::KLSCALLBACK(), false);
-	AdcVar.Add("V2", KLVariables::NUMBER, KLVariables::KLSCALLBACK(), false);
-	AdcVar.Add("V3", KLVariables::NUMBER, KLVariables::KLSCALLBACK(), false);
-	AdcVar.Add("V4", KLVariables::NUMBER, KLVariables::KLSCALLBACK(), false);
-	AdcVar.Add("V5", KLVariables::NUMBER, KLVariables::KLSCALLBACK(), false);
-
 	Database.setDatabaseName(DB);
 	Database.open();
 
@@ -270,9 +263,15 @@ void AppCore::SynchronizeDevice(void)
 
 bool AppCore::SensorScriptOk(const QString& Code, const QString& Label)
 {
-	QMutexLocker AutoLocker(&Locker);
+	static const char* AdcLabels[] = { "V0", "V1", "V2", "V3", "V4", "V5" };
 
-	KLScriptbinding Tester(&Script.Variables);
+	QMutexLocker AutoLocker(&Locker);
+	KLScriptbinding Tester;
+
+	for (const auto Label : AdcLabels) Tester.Variables.Add(Label, KLVariables::NUMBER, KLVariables::KLSCALLBACK(), false);
+
+	for (const auto Sensor : Sensors) if (Sensor.Active) Tester.Variables.Add(Sensor.Label.toKls());
+	for (const auto Slider : Sliders) if (Slider.Active) Tester.Variables.Add(Slider.Label.toKls());
 
 	if (!Label.isEmpty()) Tester.Variables.Add(Label.toKls());
 
@@ -287,17 +286,19 @@ bool AppCore::SensorScriptOk(const QString& Code, const QString& Label)
 
 bool AppCore::EventScriptOk(const QString& Code)
 {
+	static const char* AdcLabels[] = { "V0", "V1", "V2", "V3", "V4", "V5" };
+	static const char* BindNames[] = { "get", "put", "out", "pga", "pwm", "slp", "spi" };
+
+	static const auto NullBind = [] (KLList<double>&) -> double { return 0; };
+
 	QMutexLocker AutoLocker(&Locker);
+	KLScriptbinding Tester;
 
-	KLScriptbinding Tester(&Script.Variables);
+	for (const auto Bind : BindNames) Tester.Bindings.Add(Bind, NullBind);
+	for (const auto Label : AdcLabels) Tester.Variables.Add(Label, KLVariables::NUMBER, KLVariables::KLSCALLBACK(), false);
 
-	Tester.Bindings.Add("get", [] (KLList<double>&) -> double { return 0; } );
-	Tester.Bindings.Add("put", [] (KLList<double>&) -> double { return 0; } );
-	Tester.Bindings.Add("out", [] (KLList<double>&) -> double { return 0; } );
-	Tester.Bindings.Add("pga", [] (KLList<double>&) -> double { return 0; } );
-	Tester.Bindings.Add("pwm", [] (KLList<double>&) -> double { return 0; } );
-	Tester.Bindings.Add("slp", [] (KLList<double>&) -> double { return 0; } );
-	Tester.Bindings.Add("spi", [] (KLList<double>&) -> double { return 0; } );
+	for (const auto Sensor : Sensors) if (Sensor.Active) Tester.Variables.Add(Sensor.Label.toKls());
+	for (const auto Slider : Sliders) if (Slider.Active) Tester.Variables.Add(Slider.Label.toKls());
 
 	if (Tester.Validate(Code)) return true;
 	else

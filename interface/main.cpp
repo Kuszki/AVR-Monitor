@@ -24,7 +24,7 @@
 
 #include "mainwindow.hpp"
 #include "appcore.hpp"
-
+#include <QDebug>
 int main(int argc, char *argv[])
 {
 	QApplication a(argc, argv);
@@ -53,6 +53,19 @@ int main(int argc, char *argv[])
 	QTranslator kllibsTranslator;
 	kllibsTranslator.load("kllibs_" + QLocale::system().name());
 	a.installTranslator(&kllibsTranslator);
+
+	KLVariables asd;
+
+	asd.Add("1", KLVariables::NUMBER, KLVariables::KLSCALLBACK(), false);
+	asd.Add("2", KLVariables::NUMBER, KLVariables::KLSCALLBACK(), true);
+	asd.Add("3", KLVariables::NUMBER, KLVariables::KLSCALLBACK(), true);
+	asd.Add("4", KLVariables::NUMBER, KLVariables::KLSCALLBACK(), false);
+
+	VARDUMP(asd);
+
+	asd.Clean(false);
+
+	VARDUMP(asd);
 
 	AppCore app;
 	MainWindow w;
