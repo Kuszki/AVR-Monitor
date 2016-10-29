@@ -162,7 +162,7 @@ void SYS_SendFeedback(char Mask)
 
 void SYS_SendVariables(void)
 {
-	for (const auto& Var: Script.Variables) UART << PGM_V get_EXPORT << Var.ID << ';' << PGM_V get_SET << Var.ID << ' ' << Var.Value.ToNumber() << EOC;
+	for (const auto& Var: Script.Variables) UART << PGM_V get_EXPORT << Var.Index << ';' << PGM_V get_SET << Var.Index << ' ' << Var.Value.ToNumber() << EOC;
 }
 
 int SYS_SetStatus(char Mask, char Value)

@@ -333,7 +333,7 @@ void PlotWidget::PlotVariables(const KLVariables& Variables)
 
 	for (const auto& Var: Variables)
 	{
-		const QString ID = (const char*) Var.ID;
+		const QString ID = (const char*) Var.Index;
 
 		if (Vars.contains(ID))
 		{
