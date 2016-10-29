@@ -162,16 +162,23 @@ void AppCore::UpdateVariables(const KLVariables& Vars)
 	for (const auto& Var: Vars) if (AdcVar.Exists(Var.Index))
 	{
 		const double Current = Var.Value.ToNumber();
-
 		auto& Variable = AdcVar[Var.Index];
-		auto& Last = LastAdc[Var.Index];
 
-		Variable = (Samples * Variable.ToNumber() + Current - Last.ToNumber()) / Samples;
-		Last = Current;
+		if (Samples > 1)
+		{
+			auto& Vector = History[Var.Index];
+			double Sum = 0; Vector.append(Current);
+
+			while (Vector.size() > Samples) Vector.removeFirst();
+			for (const auto& V : Vector) Sum += V;
+
+			Variable = Sum / Vector.size();
+		}
+		else Variable = Current;
 	}
 	else
 	{
-		LastAdc.Add(Var.Index, Var.Value);
+		History.insert(Var.Index, QList<double>());
 		AdcVar.Add(Var.Index, Var.Value);
 	}
 }
@@ -238,7 +245,7 @@ void AppCore::UpdateStatus(bool Active)
 		{
 			for (auto& Var: Script.Variables) Var.Value = 0;
 
-			LastAdc.Clean();
+			History.clear();
 			AdcVar.Clean();
 
 			Interval.start();

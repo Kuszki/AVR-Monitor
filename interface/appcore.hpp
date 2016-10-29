@@ -64,6 +64,8 @@ class AppCore final : public QObject
 
 		QSqlDatabase Database;
 
+		QMap<KLString, QList<double>> History;
+
 		QMap<int, SensorData> Sensors;
 		QMap<int, EventData> Events;
 		QMap<int, DeviceData> Devices;
@@ -73,7 +75,6 @@ class AppCore final : public QObject
 
 		KLVariables SlidersVar;
 		KLVariables SensorsVar;
-		KLVariables LastAdc;
 		KLVariables AdcVar;
 
 		KLScriptbinding Script;
