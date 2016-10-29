@@ -48,6 +48,7 @@ class MainWindow : public QMainWindow
 
 		AboutDialog* aboutDialog;
 		QDoubleSpinBox* Interval;
+		QSpinBox* Average;
 
 	public:
 
@@ -71,6 +72,8 @@ class MainWindow : public QMainWindow
 		void SaveMasterScript(const QString& Script);
 
 		void IntervalValueChanged(double Value);
+
+		void AverageValueChanged(int Value);
 
 		void ServiceStatusChanged(bool Active, bool User);
 

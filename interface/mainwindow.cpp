@@ -27,7 +27,9 @@ MainWindow::MainWindow(QWidget* Parent)
 	ui->setupUi(this);
 
 	aboutDialog = new AboutDialog(this);
+
 	Interval = new QDoubleSpinBox(this);
+	Average = new QSpinBox(this);
 
 	QSettings Settings("AVR-Monitor");
 
@@ -40,10 +42,20 @@ MainWindow::MainWindow(QWidget* Parent)
 	Interval->setSuffix(tr(" s"));
 	Interval->setEnabled(false);
 
+	Average->setValue(Settings.value("average", 1.0).toInt());
+	Average->setRange(1, 25);
+	Average->setSingleStep(1);
+	Average->setPrefix(tr("Moving average from "));
+	Average->setSuffix(tr(" sample(s)", 0, Interval->value()));
+	Average->setEnabled(false);
+
 	Settings.endGroup();
 
 	ui->terminalWidget->setEnabled(false);
+
 	ui->toolActions->addWidget(Interval);
+	ui->toolActions->addSeparator();
+	ui->toolActions->addWidget(Average);
 
 	ui->centralWidget->deleteLater();
 
@@ -60,6 +72,7 @@ MainWindow::MainWindow(QWidget* Parent)
 	ui->devicesWidget->SetTitleWidget(new TitleWidget(ui->devicesDock));
 
 	AppCore::getInstance()->UpdateInterval(Interval->value());
+	AppCore::getInstance()->UpdateAverage(Average->value());
 
 	Settings.beginGroup("Window");
 
@@ -165,6 +178,7 @@ MainWindow::MainWindow(QWidget* Parent)
 
 	// connect interval by old way because of overloaded methods
 	connect(Interval, SIGNAL(valueChanged(double)), SLOT(IntervalValueChanged(double)));
+	connect(Average, SIGNAL(valueChanged(int)), SLOT(AverageValueChanged(int)));
 }
 
 MainWindow::~MainWindow(void)
@@ -178,6 +192,7 @@ MainWindow::~MainWindow(void)
 
 	Settings.beginGroup("Device");
 	Settings.setValue("interval", Interval->value());
+	Settings.setValue("average", Average->value());
 	Settings.endGroup();
 
 	delete ui;
@@ -239,6 +254,7 @@ void MainWindow::ConnectionChanged(bool Connected)
 	ui->terminalWidget->setEnabled(Connected);
 
 	Interval->setEnabled(Connected);
+	Average->setEnabled(Connected);
 }
 
 void MainWindow::SaveMasterScript(const QString& Script)
@@ -260,6 +276,13 @@ void MainWindow::SaveMasterScript(const QString& Script)
 void MainWindow::IntervalValueChanged(double Value)
 {
 	AppCore::getInstance()->UpdateInterval(Value);
+}
+
+void MainWindow::AverageValueChanged(int Value)
+{
+	Average->setSuffix(tr(" sample(s)", 0, Value));
+
+	AppCore::getInstance()->UpdateAverage(Value);
 }
 
 void MainWindow::ServiceStatusChanged(bool Active, bool User)
