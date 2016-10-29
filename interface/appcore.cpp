@@ -157,16 +157,31 @@ AppCore::~AppCore(void)
 	THIS = nullptr;
 }
 
-void AppCore::UpdateVariables(const KLVariables &Vars)
+void AppCore::UpdateVariables(const KLVariables& Vars)
 {
-	for (const auto& Var: Vars) if (Script.Variables.Exists(Var.ID)) Script.Variables[Var.ID] = Var.Value.ToNumber();
+	for (const auto& Var: Vars) if (AdcVar.Exists(Var.Index))
+	{
+		const double Current = Var.Value.ToNumber();
+
+		auto& Variable = AdcVar[Var.Index];
+		auto& Last = LastAdc[Var.Index];
+
+		Variable = (Samples * Variable.ToNumber() + Current - Last.ToNumber()) / Samples;
+		Last = Current;
+	}
+	else
+	{
+		LastAdc.Add(Var.Index, Var.Value);
+		AdcVar.Add(Var.Index, Var.Value);
+	}
 }
 
 void AppCore::PerformTasks(const KLVariables& Vars)
 {
 	if (Interval.isActive() && !Device->Variables()["WORK"].ToBool())
 	{
-		AdcVar = Vars; Watchdog.start();
+		UpdateVariables(Vars);
+		Watchdog.start();
 
 		emit onEvaluationRequest();
 	}
@@ -207,6 +222,11 @@ void AppCore::UpdateVariable(int ID, double Value)
 	}
 }
 
+void AppCore::UpdateAverage(int Count)
+{
+	Samples = Count > 0 ? Count : 1;
+}
+
 void AppCore::UpdateStatus(bool Active)
 {
 	QMutexLocker AutoLocker(&Locker);
@@ -217,6 +237,9 @@ void AppCore::UpdateStatus(bool Active)
 		if (Active)
 		{
 			for (auto& Var: Script.Variables) Var.Value = 0;
+
+			LastAdc.Clean();
+			AdcVar.Clean();
 
 			Interval.start();
 		}
@@ -248,7 +271,7 @@ void AppCore::SynchronizeDevice(void)
 
 	for (const auto& Task: Tasks) Code.append('\n').append(Task);
 
-	for (const auto& Var: SlidersVar) Code.replace(QRegExp(QString("\\b%1\\b").arg((const char*) Var.ID)),
+	for (const auto& Var: SlidersVar) Code.replace(QRegExp(QString("\\b%1\\b").arg((const char*) Var.Index)),
 										  QString::number(Var.Value.ToNumber()));
 
 	Device->WriteSleepValue(Interval.interval() / 1000.0);

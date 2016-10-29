@@ -28,7 +28,7 @@
 
 #define VARDUMP(V) \
 	for (const auto* Space = &V; Space; Space = Space->Parent) \
-	for (const auto& Var : *Space) qDebug() << Var.ID << "=" << Var.Value.ToNumber();
+	for (const auto& Var : *Space) qDebug() << Var.Index << "=" << Var.Value.ToNumber();
 
 #include <QRegExpValidator>
 #include <QSqlDatabase>
@@ -73,12 +73,14 @@ class AppCore final : public QObject
 
 		KLVariables SlidersVar;
 		KLVariables SensorsVar;
+		KLVariables LastAdc;
 		KLVariables AdcVar;
 
 		KLScriptbinding Script;
 
 		QStringList Tasks;
 
+		unsigned Samples = 1;
 		bool Done = true;
 
 		QMutex Locker;
@@ -173,6 +175,8 @@ class AppCore final : public QObject
 		void TerminateEvaluations(void);
 
 	public slots:
+
+		void UpdateAverage(int Count);
 
 		void UpdateStatus(bool Active);
 
