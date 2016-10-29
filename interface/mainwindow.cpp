@@ -43,7 +43,7 @@ MainWindow::MainWindow(QWidget* Parent)
 	Interval->setEnabled(false);
 
 	Average->setValue(Settings.value("average", 1.0).toInt());
-	Average->setRange(1, 25);
+	Average->setRange(1, 100);
 	Average->setSingleStep(1);
 	Average->setPrefix(tr("Moving average from "));
 	Average->setSuffix(tr(" sample(s)", 0, Interval->value()));
