@@ -82,8 +82,8 @@ Niniejszy program rozpowszechniany jest z nadzieją, iż będzie on użyteczny �
         <translation type="vanished">Niepoprawny skrypt w linii %1 (%2)</translation>
     </message>
     <message>
-        <location filename="appcore.cpp" line="306"/>
-        <location filename="appcore.cpp" line="331"/>
+        <location filename="appcore.cpp" line="364"/>
+        <location filename="appcore.cpp" line="389"/>
         <source>Invalid script at line %1: %2</source>
         <translation>Niepoprawny skrypt w linii %1: %2</translation>
     </message>
@@ -863,23 +863,23 @@ done;</translation>
         <translation>Wysyła aktualne ustawienia środowiska do urządzenia.</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="41"/>
+        <location filename="mainwindow.cpp" line="48"/>
         <source>Delay </source>
         <translation>Przetwarzanie co </translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="42"/>
+        <location filename="mainwindow.cpp" line="49"/>
         <source> s</source>
         <translation> s</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="48"/>
+        <location filename="mainwindow.cpp" line="55"/>
         <source>Moving average from </source>
         <translation>Średnia ruchoma z </translation>
     </message>
     <message numerus="yes">
-        <location filename="mainwindow.cpp" line="49"/>
-        <location filename="mainwindow.cpp" line="283"/>
+        <location filename="mainwindow.cpp" line="56"/>
+        <location filename="mainwindow.cpp" line="296"/>
         <source> sample(s)</source>
         <translation>
             <numerusform> próbki</numerusform>
@@ -888,39 +888,54 @@ done;</translation>
         </translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="102"/>
+        <location filename="mainwindow.cpp" line="112"/>
         <source>Script evaluation timeout</source>
         <translation>Przekroczenie czasu przeznaczonego na wykonanie skryptu</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="119"/>
+        <location filename="mainwindow.cpp" line="129"/>
         <source>Script check</source>
         <translation>Test poprawności skryptu</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="222"/>
+        <location filename="mainwindow.cpp" line="234"/>
         <source>Select script to upload</source>
         <translation>Wybierz skrypt do wysłania</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="229"/>
+        <location filename="mainwindow.cpp" line="241"/>
         <source>Can&apos;t open provided script file</source>
         <oldsource>Can&apos;t open provided script file.</oldsource>
         <translation>Nie można otworzyć wybranego skryptu</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="102"/>
-        <location filename="mainwindow.cpp" line="235"/>
+        <location filename="mainwindow.cpp" line="112"/>
+        <location filename="mainwindow.cpp" line="247"/>
         <source>Error</source>
         <translation>Błąd</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="262"/>
+        <location filename="mainwindow.cpp" line="39"/>
+        <source>Linear weights</source>
+        <translation>Wagi jednostajne</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="39"/>
+        <source>Triangle weights</source>
+        <translation>Wagi trójkątne</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="39"/>
+        <source>Exponential weights</source>
+        <translation>Wagi wykładnicze</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="275"/>
         <source>Select file to save script</source>
         <translation>Wybierz plik by zapisać pobrany skrypt</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="268"/>
+        <location filename="mainwindow.cpp" line="281"/>
         <source>Can&apos;t open provided file</source>
         <oldsource>Can&apos;t open provided file.</oldsource>
         <translation>Nie można otworzyć podanego pliku</translation>

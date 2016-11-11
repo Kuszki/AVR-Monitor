@@ -28,12 +28,19 @@ MainWindow::MainWindow(QWidget* Parent)
 
 	aboutDialog = new AboutDialog(this);
 
+	Weight = new QComboBox(this);
 	Interval = new QDoubleSpinBox(this);
 	Average = new QSpinBox(this);
 
 	QSettings Settings("AVR-Monitor");
 
 	Settings.beginGroup("Device");
+
+	Weight->addItems(QStringList() << tr("Linear weights") << tr("Triangle weights") << tr("Exponential weights"));
+	Weight->setCurrentIndex(Settings.value("weights", 0).toInt());
+	Weight->setMinimumWidth(Weight->sizeHint().width() + 25);
+	Weight->setMinimumHeight(Average->sizeHint().height());
+	Weight->setEnabled(false);
 
 	Interval->setValue(Settings.value("interval", 1.0).toDouble());
 	Interval->setRange(0.01, 6.0);
@@ -43,7 +50,7 @@ MainWindow::MainWindow(QWidget* Parent)
 	Interval->setEnabled(false);
 
 	Average->setValue(Settings.value("average", 1).toInt());
-	Average->setRange(1, 100);
+	Average->setRange(1, 25);
 	Average->setSingleStep(1);
 	Average->setPrefix(tr("Moving average from "));
 	Average->setSuffix(tr(" sample(s)", 0, Average->value()));
@@ -56,6 +63,8 @@ MainWindow::MainWindow(QWidget* Parent)
 	ui->toolActions->addWidget(Interval);
 	ui->toolActions->addSeparator();
 	ui->toolActions->addWidget(Average);
+	ui->toolActions->addSeparator();
+	ui->toolActions->addWidget(Weight);
 
 	ui->centralWidget->deleteLater();
 
@@ -72,6 +81,7 @@ MainWindow::MainWindow(QWidget* Parent)
 	ui->devicesWidget->SetTitleWidget(new TitleWidget(ui->devicesDock));
 
 	AppCore::getInstance()->UpdateInterval(Interval->value());
+	AppCore::getInstance()->UpdateWeight(Weight->currentIndex());
 	AppCore::getInstance()->UpdateAverage(Average->value());
 
 	Settings.beginGroup("Window");
@@ -176,7 +186,8 @@ MainWindow::MainWindow(QWidget* Parent)
 	connect(AppCore::getDevice(), &AVRBridge::onConnectionUpdate, this, &MainWindow::ConnectionChanged);
 	connect(AppCore::getDevice(), &AVRBridge::onMasterScriptReceive, this, &MainWindow::SaveMasterScript);
 
-	// connect interval by old way because of overloaded methods
+	// connect signals by old way because of overloaded methods
+	connect(Weight, SIGNAL(currentIndexChanged(int)), AppCore::getInstance(), SLOT(UpdateWeight(int)));
 	connect(Interval, SIGNAL(valueChanged(double)), SLOT(IntervalValueChanged(double)));
 	connect(Average, SIGNAL(valueChanged(int)), SLOT(AverageValueChanged(int)));
 }
@@ -191,6 +202,7 @@ MainWindow::~MainWindow(void)
 	Settings.endGroup();
 
 	Settings.beginGroup("Device");
+	Settings.setValue("weights", Weight->currentIndex());
 	Settings.setValue("interval", Interval->value());
 	Settings.setValue("average", Average->value());
 	Settings.endGroup();
@@ -253,6 +265,7 @@ void MainWindow::ConnectionChanged(bool Connected)
 
 	ui->terminalWidget->setEnabled(Connected);
 
+	Weight->setEnabled(Connected);
 	Interval->setEnabled(Connected);
 	Average->setEnabled(Connected);
 }

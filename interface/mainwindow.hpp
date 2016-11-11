@@ -27,6 +27,7 @@
 #include <QMainWindow>
 #include <QFileDialog>
 #include <QSettings>
+#include <QComboBox>
 
 #include <avrbridge.hpp>
 
@@ -47,6 +48,8 @@ class MainWindow : public QMainWindow
 		Ui::MainWindow *ui;
 
 		AboutDialog* aboutDialog;
+
+		QComboBox* Weight;
 		QDoubleSpinBox* Interval;
 		QSpinBox* Average;
 

@@ -133,9 +133,9 @@ AppCore::AppCore(void)
 		if (Done) Device->UpdateSensorVariables(); Done = false;
 	});
 
-	connect(&Watchdog, &QTimer::timeout, this, &AppCore::TerminateEvaluations);
-
 	connect(Device, &AVRBridge::onSensorValuesUpdate, this, &AppCore::PerformTasks);
+
+	connect(&Watchdog, &QTimer::timeout, this, &AppCore::TerminateEvaluations);
 
 	connect(&Worker, &ScriptWorker::onEvaluationComplete, this, &AppCore::CompleteEvaluations);
 	connect(this, &AppCore::onEvaluationRequest, &Worker, &ScriptWorker::PerformEvaluations);
@@ -167,12 +167,18 @@ void AppCore::UpdateVariables(const KLVariables& Vars)
 		if (Samples > 1)
 		{
 			auto& Vector = History[Var.Index];
-			double Sum = 0; Vector.append(Current);
+			double Sum(0.0), Divider(0.0);
 
+			while (Vector.size() <= Samples) Vector.append(Current);
 			while (Vector.size() > Samples) Vector.removeFirst();
-			for (const auto& V : Vector) Sum += V;
 
-			Variable = Sum / Vector.size();
+			for (int i = 0; i < Vector.size(); ++i)
+			{
+				Sum += Vector[i] * Weights[i];
+				Divider += Weights[i];
+			}
+
+			Variable = Sum / Divider;
 		}
 		else Variable = Current;
 	}
@@ -232,6 +238,58 @@ void AppCore::UpdateVariable(int ID, double Value)
 void AppCore::UpdateAverage(int Count)
 {
 	Samples = Count > 0 ? Count : 1;
+
+	if (Samples > 0) UpdateWeight(Weight);
+}
+
+void AppCore::UpdateWeight(int Type)
+{
+	Type = (Type > -1 && Type < 3) ? Type : 0;
+
+	if (Type != Weight || Samples != Weights.size())
+	{
+		QList<double> Half;
+
+		Weights.clear();
+		Weights.reserve(Samples);
+
+		switch (Weight = Type)
+		{
+			case 1:
+			{
+				for (int i = 0; i < Samples / 2 ; ++i)
+				{
+					Half.append(1.0 / (1 << ((Samples / 2) - i)));
+				}
+			}
+			break;
+
+			case 2:
+			{
+				double W = 1 - (2.0 / (Samples + 1));
+
+				for (int i = 0; i < Samples / 2 ; ++i)
+				{
+					Half.append(1.0 - W); W *= W;
+				}
+			}
+			break;
+
+			default:
+			{
+				for (int i = 0; i < Samples / 2; ++i)
+				{
+					Half.append(1.0);
+				}
+			}
+		}
+
+		Weights.append(Half);
+		std::reverse(Half.begin(), Half.end());
+		Weights.append(Half);
+
+		if (Samples % 2) Weights.insert(Samples / 2, 1.0);
+	}
 }
 
 void AppCore::UpdateStatus(bool Active)

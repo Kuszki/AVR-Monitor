@@ -65,6 +65,7 @@ class AppCore final : public QObject
 		QSqlDatabase Database;
 
 		QMap<KLString, QList<double>> History;
+		QList<double> Weights;
 
 		QMap<int, SensorData> Sensors;
 		QMap<int, EventData> Events;
@@ -81,6 +82,7 @@ class AppCore final : public QObject
 
 		QStringList Tasks;
 
+		unsigned Weight = 0;
 		unsigned Samples = 1;
 		bool Done = true;
 
@@ -178,6 +180,8 @@ class AppCore final : public QObject
 	public slots:
 
 		void UpdateAverage(int Count);
+
+		void UpdateWeight(int Type);
 
 		void UpdateStatus(bool Active);
 
