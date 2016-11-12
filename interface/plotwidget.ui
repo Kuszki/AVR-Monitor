@@ -203,6 +203,8 @@
   <tabstop>Start</tabstop>
   <tabstop>saveButton</tabstop>
   <tabstop>cleanButton</tabstop>
+  <tabstop>settingsButton</tabstop>
+  <tabstop>Legend</tabstop>
   <tabstop>Follow</tabstop>
   <tabstop>Average</tabstop>
   <tabstop>Stop</tabstop>

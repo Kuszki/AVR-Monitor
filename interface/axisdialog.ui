@@ -15,8 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset theme="preferences-system">
-    <normaloff/>
-   </iconset>
+    <normaloff>.</normaloff>.</iconset>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="6" column="0" colspan="2">
@@ -200,6 +199,7 @@
   <tabstop>Name</tabstop>
   <tabstop>Style</tabstop>
   <tabstop>Min</tabstop>
+  <tabstop>Max</tabstop>
   <tabstop>Label</tabstop>
   <tabstop>Active</tabstop>
   <tabstop>cancelButton</tabstop>

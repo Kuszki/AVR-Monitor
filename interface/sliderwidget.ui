@@ -64,6 +64,10 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>scrollArea</tabstop>
+  <tabstop>addButton</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

@@ -30,6 +30,12 @@
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>0</width>
+       <height>0</height>
+      </size>
+     </property>
     </spacer>
    </item>
    <item row="0" column="0" colspan="2">
@@ -55,6 +61,10 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>scrollArea</tabstop>
+  <tabstop>addButton</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
