@@ -316,10 +316,11 @@ void AppCore::UpdateWeight(int Type)
 
 	if (Type != Weight || Samples != Weights.size())
 	{
-		QVector<double> Half(Samples / 2 + 1);
+		QVector<double> Half;
 
 		Weights.clear();
 		Weights.reserve(Samples);
+		Half.reserve(Samples / 2);
 
 		switch (Weight = Type)
 		{
