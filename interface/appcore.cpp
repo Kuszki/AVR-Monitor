@@ -249,7 +249,7 @@ void AppCore::UpdateVariables(const KLVariables& Vars)
 	}
 	else
 	{
-		History.insert(Var.Index, QVector<double>(Samples));
+		History.insert(Var.Index, QVector<double>());
 		AdcVar.Add(Var.Index, Var.Value);
 	}
 
@@ -628,6 +628,7 @@ bool AppCore::DeleteSensor(int ID)
 	QMutexLocker AutoLocker(&Locker);
 
 	SensorsVar.Delete(Sensors[ID].Label.toKls());
+	History.remove(Sensors[ID].Label);
 	Sensors.remove(ID);
 
 	for (const auto& Index : Plots.keys()) if (Plots[Index].SENSOR_ID == ID)
