@@ -33,7 +33,7 @@ EventWidget::EventWidget(QWidget* Parent)
 	for (const auto& Data: AppCore::getInstance()->GetEvents()) AddEvent(Data);
 
 	connect(Dialog, &EventDialog::onDialogAccept, this, &EventWidget::AddEvent);
-	connect(ui->addButton, &QPushButton::clicked, Dialog, &QDialog::open);
+	connect(ui->addButton, &QPushButton::clicked, Dialog, &EventDialog::open);
 }
 
 EventWidget::~EventWidget(void)

@@ -42,6 +42,12 @@ void DeviceDialog::open(void)
 		ui->Output->setValue(Data.Output);
 		ui->Active->setCurrentIndex(Data.Active);
 	}
+	else
+	{
+		ui->Name->clear();
+		ui->Output->setValue(0);
+		ui->Active->setCurrentIndex(0);
+	}
 
 	QDialog::open();
 }

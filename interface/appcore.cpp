@@ -628,7 +628,7 @@ bool AppCore::DeleteSensor(int ID)
 	QMutexLocker AutoLocker(&Locker);
 
 	SensorsVar.Delete(Sensors[ID].Label.toKls());
-	History.remove(Sensors[ID].Label);
+	History.remove(Sensors[ID].Label.toKls());
 	Sensors.remove(ID);
 
 	for (const auto& Index : Plots.keys()) if (Plots[Index].SENSOR_ID == ID)
@@ -1237,7 +1237,7 @@ bool AppCore::AddPlot(PlotData& Data)
 		emit onPlotUpdate(Data.ID);
 	}
 
-		return true;
+	return true;
 }
 
 bool AppCore::UpdatePlot(PlotData& Data)

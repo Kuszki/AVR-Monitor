@@ -33,7 +33,7 @@ SliderWidget::SliderWidget(QWidget* Parent)
 	for (const auto& Data: AppCore::getInstance()->GetSliders()) AddSlider(Data);
 
 	connect(Dialog, &SliderDialog::onDialogAccept, this, &SliderWidget::AddSlider);
-	connect(ui->addButton, &QPushButton::clicked, Dialog, &QDialog::open);
+	connect(ui->addButton, &QPushButton::clicked, Dialog, &SliderDialog::open);
 }
 
 SliderWidget::~SliderWidget(void)

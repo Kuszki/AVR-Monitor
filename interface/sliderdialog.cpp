@@ -48,6 +48,16 @@ void SliderDialog::open(void)
 		ui->Steps->setValue(Data.Steps);
 		ui->Active->setChecked(Data.Active);
 	}
+	else
+	{
+		ui->Name->clear();
+		ui->Label->clear();
+		ui->Min->setValue(0);
+		ui->Max->setValue(5);
+		ui->Init->setValue(0);
+		ui->Steps->setValue(6);
+		ui->Active->setChecked(false);
+	}
 
 	QDialog::open();
 }

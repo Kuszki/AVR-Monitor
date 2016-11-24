@@ -45,6 +45,15 @@ void AxisDialog::open(void)
 		ui->Label->setChecked(Data.Label);
 		ui->Active->setChecked(Data.Active);
 	}
+	else
+	{
+		ui->Name->clear();
+		ui->Style->setCurrentIndex(0);
+		ui->Min->setValue(0);
+		ui->Max->setValue(5);
+		ui->Label->setChecked(false);
+		ui->Active->setChecked(false);
+	}
 
 	QDialog::open();
 }

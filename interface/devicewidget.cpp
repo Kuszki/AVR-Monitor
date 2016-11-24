@@ -33,7 +33,7 @@ DeviceWidget::DeviceWidget(QWidget* Parent)
 	for (const auto& Data: AppCore::getInstance()->GetDevices()) AddDevice(Data);
 
 	connect(Dialog, &DeviceDialog::onDialogAccept, this, &DeviceWidget::AddDevice);
-	connect(ui->addButton, &QPushButton::clicked, Dialog, &QDialog::open);
+	connect(ui->addButton, &QPushButton::clicked, Dialog, &DeviceDialog::open);
 }
 
 DeviceWidget::~DeviceWidget(void)

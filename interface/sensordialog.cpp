@@ -46,6 +46,14 @@ void SensorDialog::open(void)
 		ui->Script->document()->setPlainText(Data.Script);
 		ui->Active->setChecked(Data.Active);
 	}
+	else
+	{
+		ui->Name->clear();
+		ui->Label->clear();
+		ui->Unit->clear();
+		ui->Script->document()->clear();
+		ui->Active->setChecked(false);
+	}
 
 	QDialog::open();
 }

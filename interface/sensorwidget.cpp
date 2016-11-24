@@ -41,7 +41,7 @@ SensorWidget::SensorWidget(QWidget *Parent)
 	for (const auto& Data: AppCore::getInstance()->GetSensors()) AddSensor(Data);
 
 	connect(Dialog, &SensorDialog::onDialogAccept, this, &SensorWidget::AddSensor);
-	connect(ui->addButton, &QPushButton::clicked, Dialog, &QDialog::open);
+	connect(ui->addButton, &QPushButton::clicked, Dialog, &SensorDialog::open);
 }
 
 SensorWidget::~SensorWidget(void)
