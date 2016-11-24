@@ -28,10 +28,23 @@ QString AppCore::LastError = QString();
 AppCore::AppCore(void)
 : QObject(nullptr), SensorsVar(&SlidersVar), AdcVar(&SensorsVar), Script(&AdcVar), Locker(QMutex::Recursive), Worker(&Script, &Tasks, &Locker)
 {
-	const QString DB = QSettings("AVR-Monitor").value("database", "database.sqlite").toString();
-
 	if (THIS) qFatal("Core object duplicated"); else THIS = this;
-	if (!QFile::exists(DB)) QFile::copy(":/data/database", DB);
+
+	Database = QSqlDatabase::addDatabase("QSQLITE");
+	Device = new AVRBridge(&Script.Variables, this);
+	Validator = new QRegExpValidator(QRegExp("^[A-z]+[A-z0-9]*$"), this);
+
+	const QString DB = QSettings("AVR-Monitor").value("database", DBNAME).toString();
+
+	if (!QFile::exists(DB))
+	{
+		QSettings("AVR-Monitor").setValue("database", DBNAME);
+		QFile::copy(":/data/database", DBNAME);
+		QFile::setPermissions(DBNAME, QFileDevice::ReadOwner | QFileDevice::WriteOwner);
+
+		Database.setDatabaseName(DBNAME);
+	}
+	else Database.setDatabaseName(DB);
 
 	Worker.moveToThread(&Thread);
 	Script.moveToThread(&Thread);
@@ -39,13 +52,7 @@ AppCore::AppCore(void)
 	Watchdog.setInterval(1000);
 	Interval.setInterval(1000);
 
-	Database = QSqlDatabase::addDatabase("QSQLITE");
-	Device = new AVRBridge(&Script.Variables, this);
-	Validator = new QRegExpValidator(QRegExp("^[A-z]+[A-z0-9]*$"), this);
-
-	Database.setDatabaseName(DB);
 	Database.open();
-
 	Thread.start();
 
 	Script.Bindings.Add("get", [this] (KLList<double>& Vars) -> double
@@ -157,6 +164,64 @@ AppCore::~AppCore(void)
 	THIS = nullptr;
 }
 
+bool AppCore::SaveDatabase(const QString& Path)
+{
+	const QString oldPath = Database.databaseName();
+
+	if (Path.isEmpty()) return false;
+	else if (Path == oldPath) return true;
+	else
+	{
+		if (!QFile::copy(oldPath, Path)) return false;
+		else
+		{
+			QSettings("AVR-Monitor").setValue("database", Path);
+
+			Database.close();
+			Database.setDatabaseName(Path);
+			Database.open();
+		}
+	}
+
+	return true;
+}
+
+bool AppCore::LoadDatabase(const QString& Path)
+{
+	const QString oldPath = Database.databaseName();
+
+	if (Path.isEmpty()) return false;
+	else if (Path == oldPath) return true;
+	else
+	{
+		Database.close();
+		Database.setDatabaseName(Path);
+
+		if (Database.open())
+		{
+			QSettings("AVR-Monitor").setValue("database", Path);
+
+			Sensors.clear(); GetSensors();
+			Events.clear(); GetEvents();
+			Devices.clear(); GetDevices();
+			Axes.clear(); GetAxes();
+			Plots.clear(); GetPlots();
+			Sliders.clear(); GetSliders();
+
+			UpdateScriptTasks();
+
+			return true;
+		}
+		else
+		{
+			Database.setDatabaseName(oldPath);
+			Database.open();
+
+			return false;
+		}
+	}
+}
+
 void AppCore::UpdateVariables(const KLVariables& Vars)
 {
 	for (const auto& Var: Vars) if (AdcVar.Exists(Var.Index))
@@ -184,7 +249,7 @@ void AppCore::UpdateVariables(const KLVariables& Vars)
 	}
 	else
 	{
-		History.insert(Var.Index, QList<double>());
+		History.insert(Var.Index, QVector<double>(Samples));
 		AdcVar.Add(Var.Index, Var.Value);
 	}
 }
@@ -248,7 +313,7 @@ void AppCore::UpdateWeight(int Type)
 
 	if (Type != Weight || Samples != Weights.size())
 	{
-		QList<double> Half;
+		QVector<double> Half(Samples / 2 + 1);
 
 		Weights.clear();
 		Weights.reserve(Samples);
@@ -1396,9 +1461,9 @@ bool AppCore::DeleteSlider(int ID)
 
 		SlidersVar.Delete(Sliders[ID].Label.toKls());
 		Sliders.remove(ID);
-
-		emit onSliderUpdate(ID);
 	}
+
+	emit onSliderUpdate(ID);
 
 	return true;
 }

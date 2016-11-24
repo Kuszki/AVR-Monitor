@@ -80,6 +80,8 @@
     <addaction name="actionRun"/>
     <addaction name="actionStop"/>
     <addaction name="separator"/>
+    <addaction name="actionImport"/>
+    <addaction name="actionExport"/>
    </widget>
    <addaction name="menuDevice"/>
    <addaction name="menuMeasurements"/>
@@ -114,6 +116,9 @@
    <addaction name="actionUpload"/>
    <addaction name="actionDownload"/>
    <addaction name="actionSynchronize"/>
+   <addaction name="separator"/>
+   <addaction name="actionImport"/>
+   <addaction name="actionExport"/>
    <addaction name="separator"/>
   </widget>
   <widget class="QToolBar" name="toolInfo">
@@ -456,6 +461,36 @@
     <string>Upload current env settings into device.</string>
    </property>
   </action>
+  <action name="actionExport">
+   <property name="icon">
+    <iconset theme="filesave">
+     <normaloff>.</normaloff>.</iconset>
+   </property>
+   <property name="text">
+    <string>Export</string>
+   </property>
+   <property name="toolTip">
+    <string>Export current environment into file.</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="actionImport">
+   <property name="icon">
+    <iconset theme="fileopen">
+     <normaloff>.</normaloff>.</iconset>
+   </property>
+   <property name="text">
+    <string>Import</string>
+   </property>
+   <property name="toolTip">
+    <string>Load existing environment from file.</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
+  </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
@@ -652,6 +687,38 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionExport</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>SaveEnvironment()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>299</x>
+     <y>199</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>actionImport</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>LoadEnvironment()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>299</x>
+     <y>199</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>ShowAboutDialog()</slot>
@@ -662,5 +729,7 @@
   <slot>ConnectDevice()</slot>
   <slot>DownloadScript()</slot>
   <slot>UploadScript()</slot>
+  <slot>SaveEnvironment()</slot>
+  <slot>LoadEnvironment()</slot>
  </slots>
 </ui>

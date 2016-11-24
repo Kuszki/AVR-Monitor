@@ -26,6 +26,8 @@
 
 #define VREADONLY KLVariables::NUMBER, KLVariables::KLSCALLBACK(), false
 
+#define DBNAME "database.sqlite"
+
 #define VARDUMP(V) \
 	for (const auto* Space = &V; Space; Space = Space->Parent) \
 	for (const auto& Var : *Space) qDebug() << Var.Index << "=" << Var.Value.ToNumber();
@@ -64,8 +66,8 @@ class AppCore final : public QObject
 
 		QSqlDatabase Database;
 
-		QMap<KLString, QList<double>> History;
-		QList<double> Weights;
+		QMap<KLString, QVector<double>> History;
+		QVector<double> Weights;
 
 		QMap<int, SensorData> Sensors;
 		QMap<int, EventData> Events;
@@ -104,6 +106,9 @@ class AppCore final : public QObject
 		~AppCore(void);
 
 		QString GetScript(void);
+
+		bool SaveDatabase(const QString& Path);
+		bool LoadDatabase(const QString& Path);
 
 		bool AddSensor(SensorData& Data);
 		bool UpdateSensor(SensorData& Data);

@@ -68,6 +68,10 @@ class MainWindow : public QMainWindow
 
 		void UploadScript(void);
 
+		void SaveEnvironment(void);
+
+		void LoadEnvironment(void);
+
 		void ShowErrorMessage(const QString& Message);
 
 		void ConnectionChanged(bool Connected);
@@ -87,6 +91,10 @@ class MainWindow : public QMainWindow
 		void ShowProjectWeb(void);
 
 		void ToggleFulscreenMode(bool Fulscreen);
+
+	signals:
+
+		void onReloadDatabase(void);
 
 };
 
