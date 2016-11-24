@@ -44,6 +44,7 @@
 #include <QThread>
 #include <QMutex>
 #include <QTimer>
+#include <QTime>
 #include <QList>
 
 #include <avrbridge.hpp>
@@ -94,6 +95,8 @@ class AppCore final : public QObject
 
 		QTimer Watchdog;
 		QTimer Interval;
+
+		QTime Starttime;
 
 	private:
 

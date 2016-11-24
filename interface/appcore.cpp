@@ -78,7 +78,7 @@ AppCore::AppCore(void)
 			Device->WriteShiftValues(Values);
 		}
 
-		 return 0;
+		return 0;
 	});
 
 	Script.Bindings.Add("pga", [this] (KLList<double>& Vars) -> double
@@ -252,6 +252,9 @@ void AppCore::UpdateVariables(const KLVariables& Vars)
 		History.insert(Var.Index, QVector<double>(Samples));
 		AdcVar.Add(Var.Index, Var.Value);
 	}
+
+	AdcVar["DT"] = Starttime.msecsTo(QTime::currentTime()) / 1000.0;
+	Starttime = QTime::currentTime();
 }
 
 void AppCore::PerformTasks(const KLVariables& Vars)
@@ -371,6 +374,9 @@ void AppCore::UpdateStatus(bool Active)
 			History.clear();
 			AdcVar.Clean();
 
+			AdcVar.Add("DT", VREADONLY);
+			AdcVar["DT"] = qQNaN();
+
 			Interval.start();
 		}
 		else Interval.stop();
@@ -404,6 +410,8 @@ void AppCore::SynchronizeDevice(void)
 	for (const auto& Var: SlidersVar) Code.replace(QRegExp(QString("\\b%1\\b").arg((const char*) Var.Index)),
 										  QString::number(Var.Value.ToNumber()));
 
+	Code.replace(QRegExp("\\bDT\\b"), QString::number(Interval.interval() / 1000.0));
+
 	Device->WriteSleepValue(Interval.interval() / 1000.0);
 	Device->WriteDefaultShift(Values);
 	Device->WriteMasterScript(Code);
@@ -411,7 +419,7 @@ void AppCore::SynchronizeDevice(void)
 
 bool AppCore::SensorScriptOk(const QString& Code, const QString& Label)
 {
-	static const char* AdcLabels[] = { "V0", "V1", "V2", "V3", "V4", "V5" };
+	static const char* AdcLabels[] = { "V0", "V1", "V2", "V3", "V4", "V5", "DT" };
 
 	QMutexLocker AutoLocker(&Locker);
 	KLScriptbinding Tester;
