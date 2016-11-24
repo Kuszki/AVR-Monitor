@@ -55,6 +55,8 @@ void DeviceEntry::DeleteButtonClicked(void)
 
 void DeviceEntry::UpdateDevice(const DeviceData& Data)
 {
+	if (Data.ID == -1) return;
+
 	ui->Name->setText(tr("%1 on pin %2").arg(Data.Name).arg(Data.Output));
 
 	emit onDeviceUpdate(Data);

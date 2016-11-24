@@ -59,6 +59,8 @@ class DeviceWidget : public QWidget
 
 		void RefreshSize(void);
 
+		void ReloadDevices(void);
+
 	private slots:
 
 		void AddDevice(const DeviceData& Data);

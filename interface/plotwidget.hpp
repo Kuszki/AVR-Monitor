@@ -95,6 +95,8 @@ class PlotWidget : public QWidget
 
 		void RestartPlot(void);
 
+		void ReloadPlots(void);
+
 };
 
 #endif // PLOTWIDGET_HPP

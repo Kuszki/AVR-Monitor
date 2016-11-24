@@ -364,3 +364,12 @@ void PlotWidget::RestartPlot(void)
 
 	Starttime = QTime();
 }
+
+void PlotWidget::ReloadPlots()
+{
+	for (int ID : Plots.keys()) DeletePlot(ID);
+	for (int ID : Axes.keys()) DeleteAxis(ID);
+
+	for (const auto& Data: AppCore::getInstance()->GetAxes()) AddAxis(Data);
+	for (const auto& Data: AppCore::getInstance()->GetPlots()) AddPlot(Data);
+}

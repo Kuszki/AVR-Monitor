@@ -58,6 +58,8 @@ class EventWidget : public QWidget
 
 		void RefreshSize(void);
 
+		void ReloadEvents(void);
+
 	private slots:
 
 		void AddEvent(const EventData& Data);

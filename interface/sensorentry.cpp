@@ -62,6 +62,8 @@ void SensorEntry::DeleteButtonClicked(void)
 
 void SensorEntry::UpdateSensor(const SensorData& Data)
 {
+	if (Data.ID == -1) return;
+
 	ui->Name->setText(Data.Name);
 	ui->Name->setEnabled(Data.Active);
 

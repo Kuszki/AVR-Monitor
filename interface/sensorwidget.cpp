@@ -94,4 +94,8 @@ void SensorWidget::RefreshSize(void)
 	ui->scrollArea->setMinimumWidth(Items + Scroll);
 }
 
-
+void SensorWidget::ReloadSensors(void)
+{
+	while (ui->sensorsLayout->count()) ui->sensorsLayout->takeAt(0)->widget()->deleteLater();
+	for (const auto& Data: AppCore::getInstance()->GetSensors()) AddSensor(Data);
+}

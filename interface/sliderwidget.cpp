@@ -58,6 +58,12 @@ void SliderWidget::RefreshSize(void)
 	ui->scrollArea->setMinimumWidth(Items + Scroll);
 }
 
+void SliderWidget::ReloadSliders(void)
+{
+	while (ui->slidersLayout->count()) ui->slidersLayout->takeAt(0)->widget()->deleteLater();
+	for (const auto& Data: AppCore::getInstance()->GetSliders()) AddSlider(Data);
+}
+
 void SliderWidget::AddSlider(const SliderData& Data)
 {
 	SliderEntry* Entry = new SliderEntry(Data, this);

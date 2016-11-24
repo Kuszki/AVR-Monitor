@@ -65,6 +65,8 @@ class SensorWidget : public QWidget
 
 		void RefreshSize(void);
 
+		void ReloadSensors(void);
+
 	signals:
 
 		void onSamplesCountUpdate(int);

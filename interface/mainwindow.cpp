@@ -186,6 +186,13 @@ MainWindow::MainWindow(QWidget* Parent)
 	connect(AppCore::getDevice(), &AVRBridge::onConnectionUpdate, this, &MainWindow::ConnectionChanged);
 	connect(AppCore::getDevice(), &AVRBridge::onMasterScriptReceive, this, &MainWindow::SaveMasterScript);
 
+	// database reload connections
+	connect(this, &MainWindow::onReloadDatabase, ui->sensorsWidget, &SensorWidget::ReloadSensors);
+	connect(this, &MainWindow::onReloadDatabase, ui->eventsWidget, &EventWidget::ReloadEvents);
+	connect(this, &MainWindow::onReloadDatabase, ui->devicesWidget, &DeviceWidget::ReloadDevices);
+	connect(this, &MainWindow::onReloadDatabase, ui->slidersWidget, &SliderWidget::ReloadSliders);
+	connect(this, &MainWindow::onReloadDatabase, ui->plotWidget, &PlotWidget::ReloadPlots);
+
 	// connect signals by old way because of overloaded methods
 	connect(Weight, SIGNAL(currentIndexChanged(int)), AppCore::getInstance(), SLOT(UpdateWeight(int)));
 	connect(Interval, SIGNAL(valueChanged(double)), SLOT(IntervalValueChanged(double)));
@@ -239,6 +246,27 @@ void MainWindow::UploadScript(void)
 
 		if (File.open(QFile::ReadOnly)) AppCore::getDevice()->WriteMasterScript(File.readAll());
 		else ShowErrorMessage(tr("Can't open provided script file"));
+	}
+}
+
+void MainWindow::SaveEnvironment(void)
+{
+	QString Name = QFileDialog::getSaveFileName(this, tr("Select file to save environment"), QString(), "SQLite (*.sqlite)");
+
+	if (!Name.isEmpty())
+	{
+		if (!AppCore::getInstance()->SaveDatabase(Name)) ShowErrorMessage(tr("Can't open provided database file"));
+	}
+}
+
+void MainWindow::LoadEnvironment(void)
+{
+	QString Name = QFileDialog::getOpenFileName(this, tr("Select file to load environment"), QString(), "SQLite (*.sqlite)");
+
+	if (!Name.isEmpty())
+	{
+		if (!AppCore::getInstance()->LoadDatabase(Name)) ShowErrorMessage(tr("Can't open provided database file"));
+		else emit onReloadDatabase();
 	}
 }
 
@@ -305,6 +333,8 @@ void MainWindow::ServiceStatusChanged(bool Active, bool User)
 	ui->actionSynchronize->setEnabled(!Active);
 	ui->actionUpload->setEnabled(!Active);
 	ui->actionDownload->setEnabled(!Active);
+	ui->actionExport->setEnabled(!Active);
+	ui->actionImport->setEnabled(!Active);
 
 	if (User) AppCore::getInstance()->UpdateStatus(Active);
 }

@@ -59,6 +59,8 @@ class SliderWidget : public QWidget
 
 		void RefreshSize(void);
 
+		void ReloadSliders(void);
+
 	private slots:
 
 		void AddSlider(const SliderData& Data);

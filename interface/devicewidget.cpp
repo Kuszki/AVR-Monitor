@@ -58,6 +58,12 @@ void DeviceWidget::RefreshSize(void)
 	ui->scrollArea->setMinimumWidth(Items + Scroll);
 }
 
+void DeviceWidget::ReloadDevices(void)
+{
+	while (ui->devicesLayout->count()) ui->devicesLayout->takeAt(0)->widget()->deleteLater();
+	for (const auto& Data: AppCore::getInstance()->GetDevices()) AddDevice(Data);
+}
+
 void DeviceWidget::AddDevice(const DeviceData& Data)
 {
 	DeviceEntry* Entry = new DeviceEntry(Data, this);

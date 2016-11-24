@@ -57,6 +57,8 @@ void EventEntry::DeleteButtonClicked(void)
 
 void EventEntry::UpdateEvent(const EventData& Data)
 {
+	if (Data.ID == -1) return;
+
 	ui->Name->setText(Data.Name);
 	ui->Name->setEnabled(Data.Active);
 

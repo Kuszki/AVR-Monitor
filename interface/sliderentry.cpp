@@ -88,6 +88,8 @@ void SliderEntry::DeleteButtonClicked(void)
 
 void SliderEntry::UpdateSlider(const SliderData& Data)
 {
+	if (Data.ID == -1) return;
+
 	const int Start = ((Data.Init - Data.Min)* Data.Steps) / (Data.Max - Data.Min);
 	const double Step = (Data.Max - Data.Min) / (Data.Steps - 1);
 

@@ -58,6 +58,12 @@ void EventWidget::RefreshSize(void)
 	ui->scrollArea->setMinimumWidth(Items + Scroll);
 }
 
+void EventWidget::ReloadEvents(void)
+{
+	while (ui->eventsLayout->count()) ui->eventsLayout->takeAt(0)->widget()->deleteLater();
+	for (const auto& Data: AppCore::getInstance()->GetEvents()) AddEvent(Data);
+}
+
 void EventWidget::AddEvent(const EventData& Data)
 {
 	EventEntry* Entry = new EventEntry(Data, this);
