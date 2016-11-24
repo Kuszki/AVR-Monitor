@@ -21,8 +21,8 @@
 #include "titlewidget.hpp"
 #include "ui_titlewidget.h"
 
-TitleWidget::TitleWidget(QDockWidget* Parent) :
-QWidget(Parent), ui(new Ui::TitleWidget)
+TitleWidget::TitleWidget(QDockWidget* Parent)
+: QWidget(Parent), ui(new Ui::TitleWidget)
 {
 	ui->setupUi(this);
 
