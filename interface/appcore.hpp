@@ -113,6 +113,8 @@ class AppCore final : public QObject
 		bool SaveDatabase(const QString& Path);
 		bool LoadDatabase(const QString& Path);
 
+		bool IsRefreshOk(void) const;
+
 		bool AddSensor(SensorData& Data);
 		bool UpdateSensor(SensorData& Data);
 		bool DeleteSensor(int ID);

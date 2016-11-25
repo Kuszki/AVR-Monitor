@@ -35,9 +35,15 @@ SensorEntry::SensorEntry(const SensorData& Data, QWidget* Parent)
 		if (Index == ID) UpdateSensor(AppCore::getInstance()->GetSensor(ID));
 	});
 
+	connect(AppCore::getInstance(), &AppCore::onValuesUpdate, [this] (const KLVariables& Vars) -> void
+	{
+		const KLString Name = AppCore::getInstance()->GetSensor(ID).Label.toKls();
+		if (Vars.Exists(Name)) emit onValueUpdate(Vars[Name].ToNumber());
+	});
+
 	AppCore::getInstance()->ConnectVariable(Data.Label, [this] (double Value) -> void
 	{
-		emit onValueUpdate(Value);
+		if (AppCore::getInstance()->IsRefreshOk()) emit onValueUpdate(Value);
 	});
 }
 

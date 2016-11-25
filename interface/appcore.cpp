@@ -222,6 +222,11 @@ bool AppCore::LoadDatabase(const QString& Path)
 	}
 }
 
+bool AppCore::IsRefreshOk(void) const
+{
+	return Done;
+}
+
 void AppCore::UpdateVariables(const KLVariables& Vars)
 {
 	for (const auto& Var: Vars) if (AdcVar.Exists(Var.Index))
