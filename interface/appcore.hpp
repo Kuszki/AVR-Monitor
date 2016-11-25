@@ -68,7 +68,7 @@ class AppCore final : public QObject
 		QSqlDatabase Database;
 
 		QMap<KLString, QVector<double>> History;
-		QVector<double> Weights;
+		QList<double> Weights;
 
 		QMap<int, SensorData> Sensors;
 		QMap<int, EventData> Events;

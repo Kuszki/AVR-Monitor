@@ -321,7 +321,7 @@ void AppCore::UpdateWeight(int Type)
 
 	if (Type != Weight || Samples != Weights.size())
 	{
-		QVector<double> Half;
+		QList<double> Half;
 
 		Weights.clear();
 		Weights.reserve(Samples);
