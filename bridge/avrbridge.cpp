@@ -121,6 +121,10 @@ AVRBridge::AVRBridge(KLVariables* Returns, QObject* Parent)
 				emit onError(tr("Device frozen on remote script evaluation"));
 			break;
 		}
+		else if (Vars.Size() == 2 && int(Vars[0]) == WRONG_SCRIPT)
+		{
+			emit onError(tr("Wrong scriptcode: %1").arg(KLScriptbinding::Errorcode(KLScript::ERROR(int(Vars[1])))));
+		}
 
 		return 0;
 	});

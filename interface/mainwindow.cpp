@@ -272,7 +272,7 @@ void MainWindow::LoadEnvironment(void)
 
 void MainWindow::ShowErrorMessage(const QString& Message)
 {
-	QMessageBox::warning(this, tr("Error"), Message);
+	ui->terminalWidget->AppendInput(tr("%1 ERROR: %2").arg(QTime::currentTime().toString()).arg(Message));
 }
 
 void MainWindow::ConnectionChanged(bool Connected)
