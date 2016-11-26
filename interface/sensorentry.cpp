@@ -51,7 +51,7 @@ void SensorEntry::SettingsButtonClicked(void)
 
 void SensorEntry::DeleteButtonClicked(void)
 {
-	if (QMessageBox::question(this, tr("Delete sensor"), tr("Are you sure you wany to delete selected sensor (%1)?").arg(ui->Name->text())) == QMessageBox::Yes)
+	if (QMessageBox::question(this, tr("Delete sensor"), tr("Are you sure you want to delete selected sensor (%1)?").arg(ui->Name->text())) == QMessageBox::Yes)
 	{
 		if (AppCore::getInstance()->DeleteSensor(ID)) deleteLater();
 		else QMessageBox::warning(this, tr("Error"), tr("Can't delete sensor - %1").arg(AppCore::getError()));

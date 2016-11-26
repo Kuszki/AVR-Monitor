@@ -54,46 +54,51 @@
         <translation>Urządzenie zgłosiło zamrożenie podczas wykonywania zewnętrznego skryptu</translation>
     </message>
     <message>
-        <location filename="avrbridge.cpp" line="149"/>
+        <location filename="avrbridge.cpp" line="126"/>
+        <source>Wrong scriptcode: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="avrbridge.cpp" line="153"/>
         <source>Device connection error - %1</source>
         <translation>Błąd połączenia z urządzeniem - %1</translation>
     </message>
     <message>
-        <location filename="avrbridge.cpp" line="205"/>
-        <location filename="avrbridge.cpp" line="330"/>
-        <location filename="avrbridge.cpp" line="355"/>
+        <location filename="avrbridge.cpp" line="209"/>
+        <location filename="avrbridge.cpp" line="334"/>
+        <location filename="avrbridge.cpp" line="359"/>
         <source>Serial or device not connected</source>
         <translation>Urządzenie lub kabel nie podłączone</translation>
     </message>
     <message>
-        <location filename="avrbridge.cpp" line="218"/>
+        <location filename="avrbridge.cpp" line="222"/>
         <source>Serial allready opened</source>
         <translation>Port jest już otwarty</translation>
     </message>
     <message>
-        <location filename="avrbridge.cpp" line="223"/>
+        <location filename="avrbridge.cpp" line="227"/>
         <source>Can not open serial - %1</source>
         <oldsource>Can not open serial - </oldsource>
         <translation>Nie udało się otworzyć portu - %1</translation>
     </message>
     <message>
-        <location filename="avrbridge.cpp" line="234"/>
+        <location filename="avrbridge.cpp" line="238"/>
         <source>Serial not connected</source>
         <translation>Port nie jest otwarty</translation>
     </message>
     <message>
-        <location filename="avrbridge.cpp" line="254"/>
+        <location filename="avrbridge.cpp" line="258"/>
         <source>Device disconnected without information</source>
         <translation>Urządzenie rozłączyło się bez negocjacji</translation>
     </message>
     <message>
-        <location filename="avrbridge.cpp" line="329"/>
+        <location filename="avrbridge.cpp" line="333"/>
         <source>Script is too large</source>
         <translation>Skrypt jest zbyt duży</translation>
     </message>
     <message>
-        <location filename="avrbridge.cpp" line="331"/>
-        <location filename="avrbridge.cpp" line="356"/>
+        <location filename="avrbridge.cpp" line="335"/>
+        <location filename="avrbridge.cpp" line="360"/>
         <source>Device is working as master</source>
         <translation>Urządzenie pracuje w trybie master</translation>
     </message>

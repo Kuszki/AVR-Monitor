@@ -82,8 +82,8 @@ Niniejszy program rozpowszechniany jest z nadzieją, iż będzie on użyteczny �
         <translation type="vanished">Niepoprawny skrypt w linii %1 (%2)</translation>
     </message>
     <message>
-        <location filename="appcore.cpp" line="443"/>
-        <location filename="appcore.cpp" line="468"/>
+        <location filename="appcore.cpp" line="437"/>
+        <location filename="appcore.cpp" line="462"/>
         <source>Invalid script at line %1: %2</source>
         <translation>Niepoprawny skrypt w linii %1: %2</translation>
     </message>
@@ -247,27 +247,27 @@ Niniejszy program rozpowszechniany jest z nadzieją, iż będzie on użyteczny �
         <translation>Edycja</translation>
     </message>
     <message>
-        <location filename="deviceentry.cpp" line="49"/>
+        <location filename="deviceentry.cpp" line="46"/>
         <source>Delete device</source>
         <translation>Usuń urządzenie</translation>
     </message>
     <message>
-        <location filename="deviceentry.cpp" line="49"/>
+        <location filename="deviceentry.cpp" line="46"/>
         <source>Are you sure you wany to delete selected device (%1)?</source>
         <translation>Czy jesteś pewien że chcesz usunąć wybrane urządzenie (%1)?</translation>
     </message>
     <message>
-        <location filename="deviceentry.cpp" line="52"/>
+        <location filename="deviceentry.cpp" line="49"/>
         <source>Error</source>
         <translation>Błąd</translation>
     </message>
     <message>
-        <location filename="deviceentry.cpp" line="52"/>
+        <location filename="deviceentry.cpp" line="49"/>
         <source>Can&apos;t delete device - %1</source>
         <translation>Nie udało się usunąć urządzenia - %1</translation>
     </message>
     <message>
-        <location filename="deviceentry.cpp" line="60"/>
+        <location filename="deviceentry.cpp" line="57"/>
         <source>%1 on pin %2</source>
         <translation>%1 na porcie %2</translation>
     </message>
@@ -336,22 +336,22 @@ Niniejszy program rozpowszechniany jest z nadzieją, iż będzie on użyteczny �
         <translation>Edycja</translation>
     </message>
     <message>
-        <location filename="evententry.cpp" line="51"/>
+        <location filename="evententry.cpp" line="48"/>
         <source>Delete event</source>
         <translation>Usuń zdarzenie</translation>
     </message>
     <message>
-        <location filename="evententry.cpp" line="51"/>
+        <location filename="evententry.cpp" line="48"/>
         <source>Are you sure you wany to delete selected event (%1)?</source>
         <translation>Czy jesteś pewien że chcesz usunąć wybrane zdarzenie (%1)?</translation>
     </message>
     <message>
-        <location filename="evententry.cpp" line="54"/>
+        <location filename="evententry.cpp" line="51"/>
         <source>Error</source>
         <translation>Błąd</translation>
     </message>
     <message>
-        <location filename="evententry.cpp" line="54"/>
+        <location filename="evententry.cpp" line="51"/>
         <source>Can&apos;t delete event - %1</source>
         <translation>Nie udało się usunąć zdarzenia - %1</translation>
     </message>
@@ -940,7 +940,6 @@ done;</translation>
     </message>
     <message>
         <location filename="mainwindow.cpp" line="112"/>
-        <location filename="mainwindow.cpp" line="275"/>
         <source>Error</source>
         <translation>Błąd</translation>
     </message>
@@ -1241,22 +1240,26 @@ done;</translation>
         <translation>Edycja</translation>
     </message>
     <message>
-        <location filename="sensorentry.cpp" line="62"/>
+        <location filename="sensorentry.cpp" line="54"/>
         <source>Delete sensor</source>
         <translation>Usuń sensor</translation>
     </message>
     <message>
-        <location filename="sensorentry.cpp" line="62"/>
         <source>Are you sure you wany to delete selected sensor (%1)?</source>
-        <translation>Czy jesteś pewien że chcesz usunąć wybrany sensor (%1)?</translation>
+        <translation type="vanished">Czy jesteś pewien że chcesz usunąć wybrany sensor (%1)?</translation>
     </message>
     <message>
-        <location filename="sensorentry.cpp" line="65"/>
+        <location filename="sensorentry.cpp" line="54"/>
+        <source>Are you sure you want to delete selected sensor (%1)?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="sensorentry.cpp" line="57"/>
         <source>Error</source>
         <translation>Błąd</translation>
     </message>
     <message>
-        <location filename="sensorentry.cpp" line="65"/>
+        <location filename="sensorentry.cpp" line="57"/>
         <source>Can&apos;t delete sensor - %1</source>
         <translation>Nie udało się usunąć sensora - %1</translation>
     </message>
@@ -1406,22 +1409,22 @@ done;</translation>
         <translation>Edycja</translation>
     </message>
     <message>
-        <location filename="sliderentry.cpp" line="82"/>
+        <location filename="sliderentry.cpp" line="79"/>
         <source>Delete slider</source>
         <translation>Usuń parametr</translation>
     </message>
     <message>
-        <location filename="sliderentry.cpp" line="82"/>
+        <location filename="sliderentry.cpp" line="79"/>
         <source>Are you sure you wany to delete selected slider (%1)?</source>
         <translation>Czy jesteś pewien że chcesz usunąć wybrany parametr (%1)?</translation>
     </message>
     <message>
-        <location filename="sliderentry.cpp" line="85"/>
+        <location filename="sliderentry.cpp" line="82"/>
         <source>Error</source>
         <translation>Błąd</translation>
     </message>
     <message>
-        <location filename="sliderentry.cpp" line="85"/>
+        <location filename="sliderentry.cpp" line="82"/>
         <source>Can&apos;t delete slider - %1</source>
         <translation>Nie można usunąć parametru - %1</translation>
     </message>
