@@ -875,7 +875,7 @@ done;</translation>
     <message>
         <location filename="mainwindow.ui" line="476"/>
         <source>Ctrl+S</source>
-        <translation>Crtl+S</translation>
+        <translation>Ctrl+S</translation>
     </message>
     <message>
         <location filename="mainwindow.ui" line="485"/>
