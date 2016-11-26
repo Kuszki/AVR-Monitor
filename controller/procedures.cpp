@@ -251,7 +251,7 @@ void SYS_Evaluate(KLString& Buffer)
 
 	if (Monitor.Online && !Monitor.Master)
 	{
-		if (!OK) UART << PGM_V get_CALL << PGM_V get_FAIL << WRONG_SCRIPT << ',' << Script.GetError() << PGM_V get_EOC << '#' << Buffer;
+		if (!OK) UART << PGM_V get_CALL << PGM_V get_FAIL << WRONG_SCRIPT << ',' << Script.GetError() << PGM_V get_EOC;
 		if (Val) UART << PGM_V get_RETURN << Val << PGM_V get_EOC;
 	}
 
