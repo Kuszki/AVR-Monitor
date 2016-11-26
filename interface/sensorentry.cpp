@@ -30,10 +30,7 @@ SensorEntry::SensorEntry(const SensorData& Data, QWidget* Parent)
 
 	connect(this, &SensorEntry::onValueUpdate, this, &SensorEntry::UpdateValue, Qt::QueuedConnection);
 
-	connect(AppCore::getInstance(), &AppCore::onSensorUpdate, [this] (int Index) -> void
-	{
-		if (Index == ID) UpdateSensor(AppCore::getInstance()->GetSensor(ID));
-	});
+	connect(AppCore::getInstance(), &AppCore::onSensorUpdate, this, &SensorEntry::UpdateRequest);
 
 	connect(AppCore::getInstance(), &AppCore::onValuesUpdate, [this] (const KLVariables& Vars) -> void
 	{
@@ -68,7 +65,7 @@ void SensorEntry::DeleteButtonClicked(void)
 
 void SensorEntry::UpdateSensor(const SensorData& Data)
 {
-	if (Data.ID == -1) return;
+	if (Data.ID != ID) return;
 
 	ui->Name->setText(Data.Name);
 	ui->Name->setEnabled(Data.Active);
@@ -93,6 +90,11 @@ void SensorEntry::UpdateValue(double Data)
 		Value = 0;
 		Step = 1;
 	}
+}
+
+void SensorEntry::UpdateRequest(int Index)
+{
+	if (Index == ID) UpdateSensor(AppCore::getInstance()->GetSensor(ID));
 }
 
 void SensorEntry::UpdateSamples(int Count)

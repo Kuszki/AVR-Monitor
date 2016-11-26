@@ -64,6 +64,8 @@ class SensorEntry : public QWidget
 
 		void UpdateValue(double Data);
 
+		void UpdateRequest(int Index);
+
 	public slots:
 
 		void UpdateSamples(int Count);

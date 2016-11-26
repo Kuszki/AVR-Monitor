@@ -59,6 +59,8 @@ class DeviceEntry : public QWidget
 
 		void UpdateDevice(const DeviceData& Data);
 
+		void UpdateRequest(int Index);
+
 	signals:
 
 		void onDeviceUpdate(const DeviceData&);

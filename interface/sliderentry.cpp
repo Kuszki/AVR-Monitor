@@ -28,10 +28,7 @@ SliderEntry::SliderEntry(const SliderData& Data, QWidget* Parent)
 
 	Dialog = new SliderDialog(ID, this);
 
-	connect(AppCore::getInstance(), &AppCore::onSliderUpdate, [this] (int Index) -> void
-	{
-		if (Index == ID) UpdateSlider(AppCore::getInstance()->GetSlider(ID));
-	});
+	connect(AppCore::getInstance(), &AppCore::onSliderUpdate, this, &SliderEntry::UpdateRequest);
 
 	connect(this, &SliderEntry::onValueUpdate, [this] (double Value) -> void
 	{
@@ -88,7 +85,7 @@ void SliderEntry::DeleteButtonClicked(void)
 
 void SliderEntry::UpdateSlider(const SliderData& Data)
 {
-	if (Data.ID == -1) return;
+	if (Data.ID != ID) return;
 
 	const int Start = ((Data.Init - Data.Min)* Data.Steps) / (Data.Max - Data.Min);
 	const double Step = (Data.Max - Data.Min) / (Data.Steps - 1);
@@ -113,4 +110,9 @@ void SliderEntry::UpdateSlider(const SliderData& Data)
 	ui->Spin->blockSignals(false);
 
 	emit onSliderUpdate(Data);
+}
+
+void SliderEntry::UpdateRequest(int Index)
+{
+	if (Index == ID) UpdateSlider(AppCore::getInstance()->GetSlider(ID));
 }

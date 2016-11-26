@@ -38,7 +38,7 @@ class SliderEntry : public QWidget
 
 	private:
 
-		Ui::SliderEntry* ui;
+		Ui::SliderEntry* ui = nullptr;
 
 		SliderDialog* Dialog;
 
@@ -60,6 +60,8 @@ class SliderEntry : public QWidget
 		void DeleteButtonClicked(void);
 
 		void UpdateSlider(const SliderData& Data);
+
+		void UpdateRequest(int Index);
 
 	signals:
 

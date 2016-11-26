@@ -28,10 +28,7 @@ DeviceEntry::DeviceEntry(const DeviceData& Data, QWidget* Parent)
 
 	Dialog = new DeviceDialog(ID, this);
 
-	connect(AppCore::getInstance(), &AppCore::onDeviceUpdate, [this] (int Index) -> void
-	{
-		if (Index == ID) UpdateDevice(AppCore::getInstance()->GetDevice(ID));
-	});
+	connect(AppCore::getInstance(), &AppCore::onDeviceUpdate, this, &DeviceEntry::UpdateRequest);
 }
 
 DeviceEntry::~DeviceEntry(void)
@@ -55,9 +52,14 @@ void DeviceEntry::DeleteButtonClicked(void)
 
 void DeviceEntry::UpdateDevice(const DeviceData& Data)
 {
-	if (Data.ID == -1) return;
+	if (Data.ID != ID) return;
 
 	ui->Name->setText(tr("%1 on pin %2").arg(Data.Name).arg(Data.Output));
 
 	emit onDeviceUpdate(Data);
+}
+
+void DeviceEntry::UpdateRequest(int Index)
+{
+	if (Index == ID) UpdateDevice(AppCore::getInstance()->GetDevice(ID));
 }

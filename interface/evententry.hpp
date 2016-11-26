@@ -57,6 +57,8 @@ class EventEntry : public QWidget
 
 		void UpdateEvent(const EventData& Data);
 
+		void UpdateRequest(int Index);
+
 	signals:
 
 		void onEventUpdate(const EventData&);

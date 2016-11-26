@@ -30,10 +30,7 @@ EventEntry::EventEntry(const EventData& Data, QWidget* Parent)
 
 	connect(Dialog, &EventDialog::onDialogAccept, this, &EventEntry::UpdateEvent);
 
-	connect(AppCore::getInstance(), &AppCore::onEventUpdate, [this] (int Index) -> void
-	{
-		if (Index == ID) UpdateEvent(AppCore::getInstance()->GetEvent(ID));
-	});
+	connect(AppCore::getInstance(), &AppCore::onEventUpdate, this, &EventEntry::UpdateRequest);
 }
 
 EventEntry::~EventEntry(void)
@@ -57,10 +54,15 @@ void EventEntry::DeleteButtonClicked(void)
 
 void EventEntry::UpdateEvent(const EventData& Data)
 {
-	if (Data.ID == -1) return;
+	if (Data.ID != ID) return;
 
 	ui->Name->setText(Data.Name);
 	ui->Name->setEnabled(Data.Active);
 
 	emit onEventUpdate(Data);
+}
+
+void EventEntry::UpdateRequest(int Index)
+{
+	if (Index == ID) UpdateEvent(AppCore::getInstance()->GetEvent(ID));
 }

@@ -201,14 +201,8 @@ bool AppCore::LoadDatabase(const QString& Path)
 		{
 			QSettings("AVR-Monitor").setValue("database", Path);
 
-			Sensors.clear(); GetSensors();
-			Events.clear(); GetEvents();
-			Devices.clear(); GetDevices();
-			Axes.clear(); GetAxes();
-			Plots.clear(); GetPlots();
-			Sliders.clear(); GetSliders();
-
-			UpdateScriptTasks();
+			Sensors.clear(); Events.clear(); Devices.clear(); Axes.clear(); Plots.clear(); Sliders.clear();
+			GetSensors(); GetEvents(); GetDevices(); GetAxes(); GetPlots(); GetSliders(); UpdateScriptTasks();
 
 			return true;
 		}
