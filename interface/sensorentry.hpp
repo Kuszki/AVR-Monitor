@@ -60,6 +60,8 @@ class SensorEntry : public QWidget
 
 		void DeleteButtonClicked(void);
 
+		void UpdateVariables(const KLVariables& Vars);
+
 		void UpdateSensor(const SensorData& Data);
 
 		void UpdateValue(double Data);

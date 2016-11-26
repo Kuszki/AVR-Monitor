@@ -31,12 +31,7 @@ SensorEntry::SensorEntry(const SensorData& Data, QWidget* Parent)
 	connect(this, &SensorEntry::onValueUpdate, this, &SensorEntry::UpdateValue, Qt::QueuedConnection);
 
 	connect(AppCore::getInstance(), &AppCore::onSensorUpdate, this, &SensorEntry::UpdateRequest);
-
-	connect(AppCore::getInstance(), &AppCore::onValuesUpdate, [this] (const KLVariables& Vars) -> void
-	{
-		const KLString Name = AppCore::getInstance()->GetSensor(ID).Label.toKls();
-		if (Vars.Exists(Name)) emit onValueUpdate(Vars[Name].ToNumber());
-	});
+	connect(AppCore::getInstance(), &AppCore::onValuesUpdate, this, &SensorEntry::UpdateVariables);
 
 	AppCore::getInstance()->ConnectVariable(Data.Label, [this] (double Value) -> void
 	{
@@ -61,6 +56,12 @@ void SensorEntry::DeleteButtonClicked(void)
 		if (AppCore::getInstance()->DeleteSensor(ID)) deleteLater();
 		else QMessageBox::warning(this, tr("Error"), tr("Can't delete sensor - %1").arg(AppCore::getError()));
 	}
+}
+
+void SensorEntry::UpdateVariables(const KLVariables& Vars)
+{
+	const KLString Name = AppCore::getInstance()->GetSensor(ID).Label.toKls();
+	if (Vars.Exists(Name)) emit onValueUpdate(Vars[Name].ToNumber());
 }
 
 void SensorEntry::UpdateSensor(const SensorData& Data)
