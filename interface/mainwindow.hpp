@@ -53,6 +53,8 @@ class MainWindow : public QMainWindow
 		QDoubleSpinBox* Interval;
 		QSpinBox* Average;
 
+		bool Spam = false;
+
 	public:
 
 		explicit MainWindow(QWidget* Parent = nullptr);

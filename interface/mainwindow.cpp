@@ -272,7 +272,13 @@ void MainWindow::LoadEnvironment(void)
 
 void MainWindow::ShowErrorMessage(const QString& Message)
 {
-	ui->terminalWidget->AppendInput(tr("%1 ERROR: %2").arg(QTime::currentTime().toString()).arg(Message));
+	if (Spam) return;
+
+	Spam = true;
+	QMessageBox::critical(this, tr("Error"), Message);
+	Spam = false;
+
+	ui->terminalWidget->AppendInput(Message);
 }
 
 void MainWindow::ConnectionChanged(bool Connected)
