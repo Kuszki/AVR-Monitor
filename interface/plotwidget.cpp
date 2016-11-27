@@ -359,7 +359,9 @@ void PlotWidget::PlotVariables(const KLVariables& Variables)
 
 void PlotWidget::RestartPlot(void)
 {
-	for (auto Plot: Plots) Plot->clearData(); ui->Plot->replot();
+	for (auto Plot: Plots) Plot->clearData();
+
+	ui->Plot->replot();
 
 	Userrange = false;
 	ui->Plot->xAxis->setRange(0, ui->Plot->xAxis->range().size(), Qt::AlignLeft);
