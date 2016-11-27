@@ -55,8 +55,9 @@
     </message>
     <message>
         <location filename="avrbridge.cpp" line="126"/>
-        <source>Wrong scriptcode: %1</source>
-        <translation type="unfinished"></translation>
+        <source>Wrong scriptcode - %1</source>
+        <oldsource>Wrong scriptcode: %1</oldsource>
+        <translation>Błędny kod skryptu - %1</translation>
     </message>
     <message>
         <location filename="avrbridge.cpp" line="153"/>

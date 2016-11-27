@@ -909,7 +909,7 @@ done;</translation>
     </message>
     <message numerus="yes">
         <location filename="mainwindow.cpp" line="56"/>
-        <location filename="mainwindow.cpp" line="324"/>
+        <location filename="mainwindow.cpp" line="330"/>
         <source> sample(s)</source>
         <translation>
             <numerusform> próbki</numerusform>
@@ -940,6 +940,7 @@ done;</translation>
     </message>
     <message>
         <location filename="mainwindow.cpp" line="112"/>
+        <location filename="mainwindow.cpp" line="278"/>
         <source>Error</source>
         <translation>Błąd</translation>
     </message>
@@ -975,12 +976,12 @@ done;</translation>
         <translation>Wybierz plik do wczytania</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="303"/>
+        <location filename="mainwindow.cpp" line="309"/>
         <source>Select file to save script</source>
         <translation>Wybierz plik by zapisać pobrany skrypt</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="309"/>
+        <location filename="mainwindow.cpp" line="315"/>
         <source>Can&apos;t open provided file</source>
         <oldsource>Can&apos;t open provided file.</oldsource>
         <translation>Nie można otworzyć podanego pliku</translation>
@@ -1148,33 +1149,33 @@ done;</translation>
         <translation>Przesuwaj automatycznie</translation>
     </message>
     <message>
-        <location filename="plotwidget.cpp" line="266"/>
+        <location filename="plotwidget.cpp" line="265"/>
         <source>Select file to save data</source>
         <translation>Wybierz plik do zapisu danych</translation>
     </message>
     <message>
-        <location filename="plotwidget.cpp" line="266"/>
+        <location filename="plotwidget.cpp" line="265"/>
         <source>CSV files (*.csv)</source>
         <translation>Pliki CSV (*.csv)</translation>
     </message>
     <message>
-        <location filename="plotwidget.cpp" line="277"/>
+        <location filename="plotwidget.cpp" line="276"/>
         <source>Time</source>
         <translation>Czas</translation>
     </message>
     <message>
-        <location filename="plotwidget.cpp" line="258"/>
-        <location filename="plotwidget.cpp" line="294"/>
+        <location filename="plotwidget.cpp" line="257"/>
+        <location filename="plotwidget.cpp" line="293"/>
         <source>Error</source>
         <translation>Błąd</translation>
     </message>
     <message>
-        <location filename="plotwidget.cpp" line="258"/>
+        <location filename="plotwidget.cpp" line="257"/>
         <source>Can&apos;t export current data - plot is empty</source>
         <translation>Nie można wyeksportować danych - wykres jest pusty</translation>
     </message>
     <message>
-        <location filename="plotwidget.cpp" line="294"/>
+        <location filename="plotwidget.cpp" line="293"/>
         <source>Can&apos;t open selected file</source>
         <translation>Nie można otworzyć podanego pliku</translation>
     </message>
@@ -1251,7 +1252,7 @@ done;</translation>
     <message>
         <location filename="sensorentry.cpp" line="54"/>
         <source>Are you sure you want to delete selected sensor (%1)?</source>
-        <translation type="unfinished"></translation>
+        <translation>Czy jesteś pewien że chcesz usunąć wybrany sensor (%1)?</translation>
     </message>
     <message>
         <location filename="sensorentry.cpp" line="57"/>
