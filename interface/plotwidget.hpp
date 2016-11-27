@@ -31,6 +31,8 @@
 #include "plotdialog.hpp"
 #include "titlewidget.hpp"
 
+#define MAX_COUNT 0xFFFFF
+
 namespace Ui
 {
 	class PlotWidget;

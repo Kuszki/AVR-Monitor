@@ -232,7 +232,6 @@ void PlotWidget::DeleteAxis(int ID)
 	}
 
 	ui->Plot->axisRect()->removeAxis(Axes.take(ID));
-
 	ui->Plot->replot();
 }
 
@@ -304,7 +303,8 @@ void PlotWidget::LegendCheckClicked(bool Active)
 
 void PlotWidget::AverageSpinChanged(int Value)
 {
-	for (auto& Value: Values) Value = 0; Step = 1; Samples = Value;
+	for (auto& Value: Values) Value = 0;
+	Step = 1; Samples = Value;
 
 	ui->Average->setSuffix(tr(" sample(s)", 0, Value));
 }
@@ -341,6 +341,7 @@ void PlotWidget::PlotVariables(const KLVariables& Variables)
 
 			if (Step == Samples)
 			{
+				while (Vars[ID]->data()->size() >= MAX_COUNT) Vars[ID]->data()->remove(Vars[ID]->data()->firstKey());
 				Vars[ID]->addData(Time, Values[ID] / Samples); Values[ID] = 0.0;
 			}
 		}
@@ -358,10 +359,10 @@ void PlotWidget::PlotVariables(const KLVariables& Variables)
 
 void PlotWidget::RestartPlot(void)
 {
-	for (auto Plot: Plots) Plot->clearData(); ui->Plot->replot(); Userrange = false;
+	for (auto Plot: Plots) Plot->clearData(); ui->Plot->replot();
 
+	Userrange = false;
 	ui->Plot->xAxis->setRange(0, ui->Plot->xAxis->range().size(), Qt::AlignLeft);
-
 	Starttime = QTime();
 }
 
