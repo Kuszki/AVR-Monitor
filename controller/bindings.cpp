@@ -33,7 +33,7 @@ double get(KLList<double>& Vars)
 		ADC_GetFeedback(int(Var));
 	}
 
-	return 0;
+	return NAN;
 }
 
 double put(KLList<double>& Vars)
@@ -44,7 +44,8 @@ double put(KLList<double>& Vars)
 	}
 	else if (Vars.Size() == 2)
 	{
-		return SHR_SetPin(int(Vars[0]), bool(Vars[1]));
+		int Code = SHR_SetPin(int(Vars[0]), bool(Vars[1]));
+		return Code ? Code : NAN;
 	}
 	else if (Vars.Size() == 8)
 	{
@@ -56,14 +57,16 @@ double put(KLList<double>& Vars)
 	}
 	else return SYS_PostError(WRONG_PARAMS);
 
-	return 0;
+	return NAN;
 }
 
 double pga(KLList<double>& Vars)
 {
 	if (Vars.Size() != 2) return SYS_PostError(WRONG_PARAMS);
 
-	return PGA_SetGain(int(Vars[0]), int(Vars[1]));
+	int Code = PGA_SetGain(int(Vars[0]), int(Vars[1]));
+
+	return Code ? Code : NAN;
 }
 
 double out(KLList<double>& Vars)
@@ -72,7 +75,7 @@ double out(KLList<double>& Vars)
 
 	SHR_SetState(bool(Vars[0]));
 
-	return 0;
+	return NAN;
 }
 
 double sys(KLList<double>& Vars)
@@ -87,14 +90,16 @@ double sys(KLList<double>& Vars)
 	}
 	else return SYS_PostError(WRONG_PARAMS);
 
-	return 0;
+	return NAN;
 }
 
 double dev(KLList<double>& Vars)
 {
 	if (Vars.Size() != 2) return SYS_PostError(WRONG_PARAMS);
 
-	return SYS_SetStatus(int(Vars[0]), int(Vars[1]));
+	int Code = SYS_SetStatus(int(Vars[0]), int(Vars[1]));
+
+	return Code ? Code : NAN;
 }
 
 double spi(KLList<double>& Vars)
@@ -105,7 +110,7 @@ double spi(KLList<double>& Vars)
 	for (const auto& Var: Vars) SPI << int(Var);
 	SPI.Unselect(SPI_CS);
 
-	return 0;
+	return NAN;
 }
 
 double pwm(KLList<double>& Vars)
@@ -114,7 +119,7 @@ double pwm(KLList<double>& Vars)
 
 	PWM_SetPulse(int(Vars[0]));
 
-	return 0;
+	return NAN;
 }
 
 double slp(KLList<double>& Vars)
@@ -123,6 +128,6 @@ double slp(KLList<double>& Vars)
 
 	DELAY(int(Vars[0]));
 
-	return 0;
+	return NAN;
 }
 
