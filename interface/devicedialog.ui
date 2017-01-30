@@ -78,6 +78,12 @@
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
       </spacer>
      </item>
      <item>
@@ -89,6 +95,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="saveButton">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
        <property name="text">
         <string>Save</string>
        </property>
@@ -103,6 +112,12 @@
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>0</width>
+       <height>0</height>
+      </size>
      </property>
     </spacer>
    </item>
@@ -149,5 +164,24 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>Name</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>DeviceDialog</receiver>
+   <slot>TextBoxEdited()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>209</x>
+     <y>10</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>627</x>
+     <y>49</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
+ <slots>
+  <slot>TextBoxEdited()</slot>
+ </slots>
 </ui>

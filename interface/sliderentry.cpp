@@ -116,3 +116,16 @@ void SliderEntry::UpdateRequest(int Index)
 {
 	if (Index == ID) UpdateSlider(AppCore::getInstance()->GetSlider(ID));
 }
+
+void SliderEntry::EnableSlider(bool Enabled)
+{
+	ui->Slider->setVisible(Enabled);
+}
+
+void SliderEntry::SetValue(double Value)
+{
+	SliderData Data = AppCore::getInstance()->GetSlider(ID);
+
+	if (Value > Data.Max || Value < Data.Min) return;
+	else SpinValueChange(Value);
+}

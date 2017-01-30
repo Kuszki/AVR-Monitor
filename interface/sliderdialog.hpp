@@ -57,6 +57,8 @@ class SliderDialog : public QDialog
 		void MinSpinChange(double Value);
 		void StepValueChange(void);
 
+		void TextBoxEdited(void);
+
 	public slots:
 
 		virtual void accept(void) override;

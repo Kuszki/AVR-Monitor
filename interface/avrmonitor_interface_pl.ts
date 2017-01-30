@@ -214,22 +214,22 @@ Niniejszy program rozpowszechniany jest z nadzieją, iż będzie on użyteczny �
         <translation>Włączone</translation>
     </message>
     <message>
-        <location filename="devicedialog.ui" line="86"/>
+        <location filename="devicedialog.ui" line="92"/>
         <source>Cancel</source>
         <translation>Anuluj</translation>
     </message>
     <message>
-        <location filename="devicedialog.ui" line="93"/>
+        <location filename="devicedialog.ui" line="102"/>
         <source>Save</source>
         <translation>Zapisz</translation>
     </message>
     <message>
-        <location filename="devicedialog.cpp" line="79"/>
+        <location filename="devicedialog.cpp" line="84"/>
         <source>Error</source>
         <translation>Błąd</translation>
     </message>
     <message>
-        <location filename="devicedialog.cpp" line="79"/>
+        <location filename="devicedialog.cpp" line="84"/>
         <source>Can&apos;t insert data into database - %1</source>
         <translation>Nie udało się umieścić danych w bazie - %1</translation>
     </message>
@@ -308,17 +308,17 @@ Niniejszy program rozpowszechniany jest z nadzieją, iż będzie on użyteczny �
         <translation>Anuluj</translation>
     </message>
     <message>
-        <location filename="eventdialog.ui" line="69"/>
+        <location filename="eventdialog.ui" line="72"/>
         <source>Save</source>
         <translation>Zapisz</translation>
     </message>
     <message>
-        <location filename="eventdialog.cpp" line="79"/>
+        <location filename="eventdialog.cpp" line="84"/>
         <source>Error</source>
         <translation>Błąd</translation>
     </message>
     <message>
-        <location filename="eventdialog.cpp" line="79"/>
+        <location filename="eventdialog.cpp" line="84"/>
         <source>Can&apos;t insert data into database - %1</source>
         <translation>Nie udało się umieścić danych w bazie - %1</translation>
     </message>
@@ -1213,17 +1213,17 @@ done;</translation>
         <translation>Anuluj</translation>
     </message>
     <message>
-        <location filename="sensordialog.ui" line="107"/>
+        <location filename="sensordialog.ui" line="110"/>
         <source>Save</source>
         <translation>Zapisz</translation>
     </message>
     <message>
-        <location filename="sensordialog.cpp" line="87"/>
+        <location filename="sensordialog.cpp" line="94"/>
         <source>Error</source>
         <translation>Błąd</translation>
     </message>
     <message>
-        <location filename="sensordialog.cpp" line="87"/>
+        <location filename="sensordialog.cpp" line="94"/>
         <source>Can&apos;t insert data into database - %1</source>
         <translation>Nie udało się umieścić danych w bazie - %1</translation>
     </message>
@@ -1343,17 +1343,17 @@ done;</translation>
         <translation>Zmienna</translation>
     </message>
     <message>
-        <location filename="sliderdialog.ui" line="125"/>
+        <location filename="sliderdialog.ui" line="119"/>
         <source>Enabled</source>
         <translation>Włączony</translation>
     </message>
     <message>
-        <location filename="sliderdialog.ui" line="145"/>
+        <location filename="sliderdialog.ui" line="139"/>
         <source>Cancel</source>
         <translation>Anuluj</translation>
     </message>
     <message>
-        <location filename="sliderdialog.ui" line="152"/>
+        <location filename="sliderdialog.ui" line="149"/>
         <source>Save</source>
         <translation>Zapisz</translation>
     </message>
@@ -1378,7 +1378,7 @@ done;</translation>
         <translation>Wartość początkowa</translation>
     </message>
     <message numerus="yes">
-        <location filename="sliderdialog.cpp" line="85"/>
+        <location filename="sliderdialog.cpp" line="89"/>
         <source> step(s) by %1</source>
         <translation>
             <numerusform> krok co %1</numerusform>
@@ -1387,12 +1387,12 @@ done;</translation>
         </translation>
     </message>
     <message>
-        <location filename="sliderdialog.cpp" line="117"/>
+        <location filename="sliderdialog.cpp" line="128"/>
         <source>Error</source>
         <translation>Błąd</translation>
     </message>
     <message>
-        <location filename="sliderdialog.cpp" line="117"/>
+        <location filename="sliderdialog.cpp" line="128"/>
         <source>Can&apos;t insert data into database - %1</source>
         <translation>Nie udało się umieścić danych w bazie - %1</translation>
     </message>
@@ -1436,6 +1436,11 @@ done;</translation>
         <location filename="sliderwidget.ui" line="17"/>
         <source>Add</source>
         <translation>Dodaj</translation>
+    </message>
+    <message>
+        <location filename="sliderwidget.ui" line="41"/>
+        <source>Show slider</source>
+        <translation>Pokaż suwak</translation>
     </message>
 </context>
 <context>

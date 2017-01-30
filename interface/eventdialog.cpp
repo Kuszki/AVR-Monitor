@@ -52,6 +52,11 @@ void EventDialog::open(void)
 	QDialog::open();
 }
 
+void EventDialog::TextBoxEdited(void)
+{
+	ui->saveButton->setEnabled(!ui->Name->text().isEmpty());
+}
+
 void EventDialog::accept(void)
 {
 	EventData Data; bool OK = false;

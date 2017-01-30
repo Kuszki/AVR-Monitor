@@ -59,6 +59,10 @@ void SliderDialog::open(void)
 		ui->Active->setChecked(false);
 	}
 
+	MaxSpinChange(ui->Max->value());
+	MinSpinChange(ui->Min->value());
+	StepValueChange();
+
 	QDialog::open();
 }
 
@@ -83,7 +87,14 @@ void SliderDialog::StepValueChange(void)
 	const double Step = (Max - Min) / (Steps - 1);
 
 	ui->Steps->setSuffix(QString(tr(" step(s) by %1", 0, Steps)
-					 .arg(QString::number(Step, 'f', 3))));
+						    .arg(QString::number(Step, 'f', 3))));
+}
+
+void SliderDialog::TextBoxEdited(void)
+{
+	ui->saveButton->setEnabled(
+				!ui->Name->text().isEmpty() &&
+				!ui->Label->text().isEmpty());
 }
 
 void SliderDialog::accept(void)

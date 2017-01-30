@@ -63,6 +63,12 @@ class SliderEntry : public QWidget
 
 		void UpdateRequest(int Index);
 
+	public slots:
+
+		void EnableSlider(bool Enabled);
+
+		void SetValue(double Value);
+
 	signals:
 
 		void onSliderUpdate(const SliderData&);

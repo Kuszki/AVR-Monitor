@@ -52,6 +52,11 @@ void DeviceDialog::open(void)
 	QDialog::open();
 }
 
+void DeviceDialog::TextBoxEdited(void)
+{
+	ui->saveButton->setEnabled(!ui->Name->text().isEmpty());
+}
+
 void DeviceDialog::accept(void)
 {
 	DeviceData Data; bool OK = false;

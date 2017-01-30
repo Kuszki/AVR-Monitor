@@ -50,6 +50,10 @@ class DeviceDialog : public QDialog
 
 		virtual void open(void) override;
 
+	private slots:
+
+		void TextBoxEdited(void);
+
 	public slots:
 
 		virtual void accept(void) override;

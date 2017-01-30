@@ -58,6 +58,13 @@ void SensorDialog::open(void)
 	QDialog::open();
 }
 
+void SensorDialog::TextBoxEdited(void)
+{
+	ui->saveButton->setEnabled(
+				!ui->Name->text().isEmpty() &&
+				!ui->Label->text().isEmpty());
+}
+
 void SensorDialog::accept(void)
 {
 	SensorData Data; bool OK = false;

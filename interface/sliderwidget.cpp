@@ -26,9 +26,16 @@ SliderWidget::SliderWidget(QWidget* Parent)
 {
 	ui->setupUi(this);
 
-	ui->slidersLayout->setAlignment(Qt::AlignTop);
-
 	Dialog = new SliderDialog(-1, this);
+
+	QSettings Settings("AVR-Monitor");
+
+	Settings.beginGroup("Sliders");
+
+	ui->slidersLayout->setAlignment(Qt::AlignTop);
+	ui->sliderCheck->setChecked(Settings.value("slider", true).toBool());
+
+	Settings.endGroup();
 
 	for (const auto& Data: AppCore::getInstance()->GetSliders()) AddSlider(Data);
 
@@ -38,6 +45,12 @@ SliderWidget::SliderWidget(QWidget* Parent)
 
 SliderWidget::~SliderWidget(void)
 {
+	QSettings Settings("AVR-Monitor");
+
+	Settings.beginGroup("Sliders");
+	Settings.setValue("slider", ui->sliderCheck->isChecked());
+	Settings.endGroup();
+
 	delete ui;
 }
 
@@ -45,6 +58,7 @@ void SliderWidget::SetTitleWidget(TitleWidget* Widget)
 {
 	ui->gridLayout->removeItem(ui->horizontalSpacer);
 
+	Widget->addRightWidget(ui->sliderCheck);
 	Widget->addRightWidget(ui->addButton);
 
 	delete ui->horizontalSpacer;
@@ -71,4 +85,7 @@ void SliderWidget::AddSlider(const SliderData& Data)
 	ui->slidersLayout->addWidget(Entry); RefreshSize();
 
 	connect(Entry, &SliderEntry::onSliderUpdate, this, &SliderWidget::RefreshSize);
+	connect(ui->sliderCheck, &QCheckBox::toggled, Entry, &SliderEntry::EnableSlider);
+
+	Entry->EnableSlider(ui->sliderCheck->isChecked());
 }
