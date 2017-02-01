@@ -237,12 +237,12 @@ Niniejszy program rozpowszechniany jest z nadzieją, iż będzie on użyteczny �
 <context>
     <name>DeviceEntry</name>
     <message>
-        <location filename="deviceentry.ui" line="48"/>
+        <location filename="deviceentry.ui" line="60"/>
         <source>Delete</source>
         <translation>Usuń</translation>
     </message>
     <message>
-        <location filename="deviceentry.ui" line="60"/>
+        <location filename="deviceentry.ui" line="71"/>
         <source>Edit</source>
         <translation>Edycja</translation>
     </message>
@@ -326,12 +326,12 @@ Niniejszy program rozpowszechniany jest z nadzieją, iż będzie on użyteczny �
 <context>
     <name>EventEntry</name>
     <message>
-        <location filename="evententry.ui" line="48"/>
+        <location filename="evententry.ui" line="60"/>
         <source>Delete</source>
         <translation>Usuń</translation>
     </message>
     <message>
-        <location filename="evententry.ui" line="60"/>
+        <location filename="evententry.ui" line="71"/>
         <source>Edit</source>
         <translation>Edycja</translation>
     </message>
@@ -395,12 +395,12 @@ Niniejszy program rozpowszechniany jest z nadzieją, iż będzie on użyteczny �
 <context>
     <name>HelperEntry</name>
     <message>
-        <location filename="helperentry.ui" line="17"/>
+        <location filename="helperentry.ui" line="29"/>
         <source>Copy</source>
         <translation>Kopiuj</translation>
     </message>
     <message>
-        <location filename="helperentry.ui" line="29"/>
+        <location filename="helperentry.ui" line="40"/>
         <source>Paste</source>
         <translation>Wklej</translation>
     </message>
@@ -1231,12 +1231,12 @@ done;</translation>
 <context>
     <name>SensorEntry</name>
     <message>
-        <location filename="sensorentry.ui" line="86"/>
+        <location filename="sensorentry.ui" line="98"/>
         <source>Delete</source>
         <translation>Usuń</translation>
     </message>
     <message>
-        <location filename="sensorentry.ui" line="98"/>
+        <location filename="sensorentry.ui" line="109"/>
         <source>Edit</source>
         <translation>Edycja</translation>
     </message>
@@ -1400,12 +1400,12 @@ done;</translation>
 <context>
     <name>SliderEntry</name>
     <message>
-        <location filename="sliderentry.ui" line="65"/>
+        <location filename="sliderentry.ui" line="77"/>
         <source>Delete</source>
         <translation>Usuń</translation>
     </message>
     <message>
-        <location filename="sliderentry.ui" line="76"/>
+        <location filename="sliderentry.ui" line="88"/>
         <source>Edit</source>
         <translation>Edycja</translation>
     </message>

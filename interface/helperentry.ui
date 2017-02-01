@@ -7,10 +7,22 @@
     <x>0</x>
     <y>0</y>
     <width>250</width>
-    <height>50</height>
+    <height>35</height>
    </rect>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
+   <property name="leftMargin">
+    <number>3</number>
+   </property>
+   <property name="topMargin">
+    <number>3</number>
+   </property>
+   <property name="rightMargin">
+    <number>3</number>
+   </property>
+   <property name="bottomMargin">
+    <number>3</number>
+   </property>
    <item>
     <widget class="QToolButton" name="Copy">
      <property name="text">
@@ -18,8 +30,7 @@
      </property>
      <property name="icon">
       <iconset theme="edit-copy">
-       <normaloff/>
-      </iconset>
+       <normaloff>.</normaloff>.</iconset>
      </property>
     </widget>
    </item>
@@ -30,8 +41,7 @@
      </property>
      <property name="icon">
       <iconset theme="edit-paste">
-       <normaloff/>
-      </iconset>
+       <normaloff>.</normaloff>.</iconset>
      </property>
     </widget>
    </item>
