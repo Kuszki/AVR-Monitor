@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>Sensors</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="resources.qrc">
+    <normaloff>:/icon/sensor</normaloff>:/icon/sensor</iconset>
+  </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="1" column="3">
     <widget class="QToolButton" name="addButton">
@@ -88,7 +92,9 @@
   <tabstop>Average</tabstop>
   <tabstop>addButton</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>Average</sender>

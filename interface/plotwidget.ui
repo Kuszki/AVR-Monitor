@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>Plot</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="resources.qrc">
+    <normaloff>:/icon/plot</normaloff>:/icon/plot</iconset>
+  </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QCustomPlot" name="Plot" native="true"/>
@@ -103,7 +107,8 @@
         <string>Show legend</string>
        </property>
        <property name="icon">
-        <iconset theme="format-justify-fill"/>
+        <iconset theme="format-justify-fill">
+         <normaloff>.</normaloff>.</iconset>
        </property>
        <property name="checkable">
         <bool>true</bool>
@@ -222,7 +227,9 @@
   <tabstop>Average</tabstop>
   <tabstop>Stop</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>settingsButton</sender>

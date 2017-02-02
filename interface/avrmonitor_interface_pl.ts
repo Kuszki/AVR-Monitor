@@ -280,7 +280,7 @@ Niniejszy program rozpowszechniany jest z nadzieją, iż będzie on użyteczny �
         <translation>Urządzenia</translation>
     </message>
     <message>
-        <location filename="devicewidget.ui" line="27"/>
+        <location filename="devicewidget.ui" line="37"/>
         <source>Add</source>
         <translation>Dodaj</translation>
     </message>
@@ -364,7 +364,7 @@ Niniejszy program rozpowszechniany jest z nadzieją, iż będzie on użyteczny �
         <translation>Zdarzenia</translation>
     </message>
     <message>
-        <location filename="eventwidget.ui" line="20"/>
+        <location filename="eventwidget.ui" line="24"/>
         <source>Add</source>
         <translation>Dodaj</translation>
     </message>
@@ -377,17 +377,17 @@ Niniejszy program rozpowszechniany jest z nadzieją, iż będzie on użyteczny �
         <translation>Wzmacniacze</translation>
     </message>
     <message>
-        <location filename="gainwidget.ui" line="20"/>
+        <location filename="gainwidget.ui" line="24"/>
         <source>PGA 0 gain</source>
         <translation>Wzmacniacz 0</translation>
     </message>
     <message>
-        <location filename="gainwidget.ui" line="74"/>
+        <location filename="gainwidget.ui" line="78"/>
         <source>PGA 1 gain</source>
         <translation>Wzmacniacz 1</translation>
     </message>
     <message>
-        <location filename="gainwidget.ui" line="128"/>
+        <location filename="gainwidget.ui" line="132"/>
         <source>PWM duty</source>
         <translation>Wypełnienie PWM</translation>
     </message>
@@ -1098,22 +1098,22 @@ done;</translation>
         <translation>Wykres</translation>
     </message>
     <message>
-        <location filename="plotwidget.ui" line="79"/>
+        <location filename="plotwidget.ui" line="83"/>
         <source>Settings</source>
         <translation>Ustawienia</translation>
     </message>
     <message>
-        <location filename="plotwidget.ui" line="103"/>
+        <location filename="plotwidget.ui" line="107"/>
         <source>Show legend</source>
         <translation>Pokaż legende</translation>
     </message>
     <message>
-        <location filename="plotwidget.ui" line="142"/>
+        <location filename="plotwidget.ui" line="160"/>
         <source> sample</source>
         <translation> próbkę</translation>
     </message>
     <message numerus="yes">
-        <location filename="plotwidget.cpp" line="309"/>
+        <location filename="plotwidget.cpp" line="317"/>
         <source> sample(s)</source>
         <oldsource> sample</oldsource>
         <translation>
@@ -1123,59 +1123,59 @@ done;</translation>
         </translation>
     </message>
     <message>
-        <location filename="plotwidget.ui" line="145"/>
+        <location filename="plotwidget.ui" line="163"/>
         <source>Average </source>
         <translation>Uśrednij </translation>
     </message>
     <message>
-        <location filename="plotwidget.ui" line="68"/>
+        <location filename="plotwidget.ui" line="72"/>
         <source>Clean</source>
         <translation>Wyczyść</translation>
     </message>
     <message>
-        <location filename="plotwidget.ui" line="57"/>
+        <location filename="plotwidget.ui" line="61"/>
         <source>Save</source>
         <translation>Zapisz</translation>
     </message>
     <message>
-        <location filename="plotwidget.ui" line="31"/>
-        <location filename="plotwidget.ui" line="177"/>
+        <location filename="plotwidget.ui" line="35"/>
+        <location filename="plotwidget.ui" line="195"/>
         <source> s</source>
         <translation> s</translation>
     </message>
     <message>
-        <location filename="plotwidget.ui" line="113"/>
+        <location filename="plotwidget.ui" line="124"/>
         <source>Follow new data</source>
         <translation>Przesuwaj automatycznie</translation>
     </message>
     <message>
-        <location filename="plotwidget.cpp" line="265"/>
+        <location filename="plotwidget.cpp" line="273"/>
         <source>Select file to save data</source>
         <translation>Wybierz plik do zapisu danych</translation>
     </message>
     <message>
-        <location filename="plotwidget.cpp" line="265"/>
+        <location filename="plotwidget.cpp" line="273"/>
         <source>CSV files (*.csv)</source>
         <translation>Pliki CSV (*.csv)</translation>
     </message>
     <message>
-        <location filename="plotwidget.cpp" line="276"/>
+        <location filename="plotwidget.cpp" line="284"/>
         <source>Time</source>
         <translation>Czas</translation>
     </message>
     <message>
-        <location filename="plotwidget.cpp" line="257"/>
-        <location filename="plotwidget.cpp" line="293"/>
+        <location filename="plotwidget.cpp" line="265"/>
+        <location filename="plotwidget.cpp" line="301"/>
         <source>Error</source>
         <translation>Błąd</translation>
     </message>
     <message>
-        <location filename="plotwidget.cpp" line="257"/>
+        <location filename="plotwidget.cpp" line="265"/>
         <source>Can&apos;t export current data - plot is empty</source>
         <translation>Nie można wyeksportować danych - wykres jest pusty</translation>
     </message>
     <message>
-        <location filename="plotwidget.cpp" line="293"/>
+        <location filename="plotwidget.cpp" line="301"/>
         <source>Can&apos;t open selected file</source>
         <translation>Nie można otworzyć podanego pliku</translation>
     </message>
@@ -1273,17 +1273,17 @@ done;</translation>
         <translation>Sensory</translation>
     </message>
     <message>
-        <location filename="sensorwidget.ui" line="33"/>
+        <location filename="sensorwidget.ui" line="24"/>
         <source>Add</source>
         <translation>Dodaj</translation>
     </message>
     <message>
-        <location filename="sensorwidget.ui" line="50"/>
+        <location filename="sensorwidget.ui" line="41"/>
         <source> sample</source>
         <translation> próbkę</translation>
     </message>
     <message numerus="yes">
-        <location filename="sensorwidget.cpp" line="84"/>
+        <location filename="sensorwidget.cpp" line="81"/>
         <source> sample(s)</source>
         <translation>
             <numerusform> próbkę</numerusform>
@@ -1292,7 +1292,7 @@ done;</translation>
         </translation>
     </message>
     <message>
-        <location filename="sensorwidget.ui" line="53"/>
+        <location filename="sensorwidget.ui" line="44"/>
         <source>Average </source>
         <translation>Uśrednij </translation>
     </message>
@@ -1433,12 +1433,17 @@ done;</translation>
 <context>
     <name>SliderWidget</name>
     <message>
-        <location filename="sliderwidget.ui" line="17"/>
+        <location filename="sliderwidget.ui" line="14"/>
+        <source>Sliders</source>
+        <translation>Parametry</translation>
+    </message>
+    <message>
+        <location filename="sliderwidget.ui" line="24"/>
         <source>Add</source>
         <translation>Dodaj</translation>
     </message>
     <message>
-        <location filename="sliderwidget.ui" line="41"/>
+        <location filename="sliderwidget.ui" line="69"/>
         <source>Show slider</source>
         <translation>Pokaż suwak</translation>
     </message>
@@ -1451,68 +1456,68 @@ done;</translation>
         <translation>Urządzenie</translation>
     </message>
     <message>
-        <location filename="systemwidget.ui" line="20"/>
+        <location filename="systemwidget.ui" line="24"/>
         <source>Online:</source>
         <translation>Połączono:</translation>
     </message>
     <message>
-        <location filename="systemwidget.ui" line="37"/>
+        <location filename="systemwidget.ui" line="41"/>
         <source>Mode:</source>
         <translation>Tryb pracy:</translation>
     </message>
     <message>
-        <location filename="systemwidget.ui" line="54"/>
+        <location filename="systemwidget.ui" line="58"/>
         <source>Shift data:</source>
         <translation>Dane wyjściowe:</translation>
     </message>
     <message>
-        <location filename="systemwidget.ui" line="44"/>
-        <location filename="systemwidget.ui" line="61"/>
-        <location filename="systemwidget.ui" line="78"/>
-        <location filename="systemwidget.ui" line="95"/>
-        <location filename="systemwidget.ui" line="112"/>
-        <location filename="systemwidget.ui" line="129"/>
-        <location filename="systemwidget.ui" line="146"/>
+        <location filename="systemwidget.ui" line="48"/>
+        <location filename="systemwidget.ui" line="65"/>
+        <location filename="systemwidget.ui" line="82"/>
+        <location filename="systemwidget.ui" line="99"/>
+        <location filename="systemwidget.ui" line="116"/>
+        <location filename="systemwidget.ui" line="133"/>
+        <location filename="systemwidget.ui" line="150"/>
         <source>Unknown</source>
         <translation>Nieznane</translation>
     </message>
     <message>
-        <location filename="systemwidget.ui" line="71"/>
+        <location filename="systemwidget.ui" line="75"/>
         <source>Shift enabled:</source>
         <translation>Stan wyjścia:</translation>
     </message>
     <message>
-        <location filename="systemwidget.ui" line="88"/>
+        <location filename="systemwidget.ui" line="92"/>
         <source>PGA 0 gain:</source>
         <translation>Wzmocnienie 0:</translation>
     </message>
     <message>
-        <location filename="systemwidget.ui" line="105"/>
+        <location filename="systemwidget.ui" line="109"/>
         <source>PGA 1 gain:</source>
         <translation>Wzmocnienie 1:</translation>
     </message>
     <message>
-        <location filename="systemwidget.ui" line="122"/>
+        <location filename="systemwidget.ui" line="126"/>
         <source>PWM duty:</source>
         <translation>Wypełnienie PWM:</translation>
     </message>
     <message>
-        <location filename="systemwidget.ui" line="139"/>
+        <location filename="systemwidget.ui" line="143"/>
         <source>Script interval:</source>
         <translation>Czas oczekiwania:</translation>
     </message>
     <message>
-        <location filename="systemwidget.ui" line="167"/>
+        <location filename="systemwidget.ui" line="171"/>
         <source>%v B free RAM</source>
         <translation>%v B RAM wolne</translation>
     </message>
     <message>
-        <location filename="systemwidget.ui" line="174"/>
+        <location filename="systemwidget.ui" line="178"/>
         <source>Clean</source>
         <translation>Wyczyść</translation>
     </message>
     <message>
-        <location filename="systemwidget.ui" line="27"/>
+        <location filename="systemwidget.ui" line="31"/>
         <location filename="systemwidget.cpp" line="47"/>
         <source>No</source>
         <translation>Nie</translation>
@@ -1551,68 +1556,68 @@ done;</translation>
         <translation>Terminal</translation>
     </message>
     <message>
-        <location filename="terminalwidget.ui" line="57"/>
+        <location filename="terminalwidget.ui" line="65"/>
         <source>Export</source>
         <translation>Eksportuj</translation>
     </message>
     <message>
-        <location filename="terminalwidget.ui" line="68"/>
+        <location filename="terminalwidget.ui" line="76"/>
         <source>Inport</source>
         <translation>Importuj</translation>
     </message>
     <message>
-        <location filename="terminalwidget.ui" line="79"/>
+        <location filename="terminalwidget.ui" line="87"/>
         <source>Clean</source>
         <translation>Wyczyść</translation>
     </message>
     <message>
-        <location filename="terminalwidget.ui" line="90"/>
+        <location filename="terminalwidget.ui" line="98"/>
         <source>Clean on exec</source>
         <translation>Wyczyść przy wykonywaniu</translation>
     </message>
     <message>
-        <location filename="terminalwidget.ui" line="110"/>
+        <location filename="terminalwidget.ui" line="125"/>
         <source>Show log</source>
         <translation>Pokaż log</translation>
     </message>
     <message>
-        <location filename="terminalwidget.ui" line="120"/>
+        <location filename="terminalwidget.ui" line="142"/>
         <source>Show helper</source>
         <translation>Pokaż pomocnika</translation>
     </message>
     <message>
-        <location filename="terminalwidget.ui" line="127"/>
+        <location filename="terminalwidget.ui" line="169"/>
         <source>Check</source>
         <translation>Sprawdź</translation>
     </message>
     <message>
-        <location filename="terminalwidget.ui" line="138"/>
+        <location filename="terminalwidget.ui" line="180"/>
         <source>Execute</source>
         <translation>Wykonaj</translation>
     </message>
     <message>
-        <location filename="terminalwidget.cpp" line="86"/>
+        <location filename="terminalwidget.cpp" line="90"/>
         <source>Select file to save script</source>
         <translation>Wybierz plik by zapisać skrypt</translation>
     </message>
     <message>
-        <location filename="terminalwidget.cpp" line="92"/>
-        <location filename="terminalwidget.cpp" line="108"/>
+        <location filename="terminalwidget.cpp" line="96"/>
+        <location filename="terminalwidget.cpp" line="112"/>
         <source>Error</source>
         <translation>Błąd</translation>
     </message>
     <message>
-        <location filename="terminalwidget.cpp" line="92"/>
+        <location filename="terminalwidget.cpp" line="96"/>
         <source>Can&apos;t open selected file in write mode</source>
         <translation>Nie udało się otworzyć wybranego pliku w trybie do zapisu</translation>
     </message>
     <message>
-        <location filename="terminalwidget.cpp" line="102"/>
+        <location filename="terminalwidget.cpp" line="106"/>
         <source>Select file to load script</source>
         <translation>Wybierz plik by wczytać skrypt</translation>
     </message>
     <message>
-        <location filename="terminalwidget.cpp" line="108"/>
+        <location filename="terminalwidget.cpp" line="112"/>
         <source>Can&apos;t open selected file in read mode</source>
         <translation>Nie udało się otworzyć wybranego pliku w trybie do odczytu</translation>
     </message>
@@ -1620,12 +1625,12 @@ done;</translation>
 <context>
     <name>TitleWidget</name>
     <message>
-        <location filename="titlewidget.ui" line="84"/>
+        <location filename="titlewidget.ui" line="75"/>
         <source>Dock</source>
         <translation>Dokuj</translation>
     </message>
     <message>
-        <location filename="titlewidget.ui" line="94"/>
+        <location filename="titlewidget.ui" line="86"/>
         <source>Close</source>
         <translation>Zamknij</translation>
     </message>

@@ -10,6 +10,13 @@
     <height>300</height>
    </rect>
   </property>
+  <property name="windowTitle">
+   <string>Sliders</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="resources.qrc">
+    <normaloff>:/icon/options</normaloff>:/icon/options</iconset>
+  </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="1" column="2">
     <widget class="QToolButton" name="addButton">
@@ -76,6 +83,8 @@
   <tabstop>scrollArea</tabstop>
   <tabstop>addButton</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
  <connections/>
 </ui>

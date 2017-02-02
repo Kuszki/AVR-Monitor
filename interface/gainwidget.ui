@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>Gains</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="resources.qrc">
+    <normaloff>:/icon/gain</normaloff>:/icon/gain</iconset>
+  </property>
   <layout class="QFormLayout" name="formLayout">
    <item row="0" column="0">
     <widget class="QLabel" name="labelGain_0">
@@ -147,7 +151,9 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>gainValue_0</sender>
