@@ -33,7 +33,6 @@ SensorWidget::SensorWidget(QWidget *Parent)
 	Settings.beginGroup("Sensors");
 
 	ui->sensorsLayout->setAlignment(Qt::AlignTop);
-	ui->rightSpacer->changeSize(ui->addButton->sizeHint().width(), 0);
 	ui->Average->setValue(Settings.value("interval", 1).toInt());
 
 	Settings.endGroup();
@@ -57,14 +56,12 @@ SensorWidget::~SensorWidget(void)
 
 void SensorWidget::SetTitleWidget(TitleWidget* Widget)
 {
-	ui->gridLayout->removeItem(ui->leftSpacer);
-	ui->gridLayout->removeItem(ui->rightSpacer);
+	ui->horizontalSpacer->changeSize(ui->addButton->sizeHint().width(), 0);
+	ui->gridLayout->removeItem(ui->horizontalSpacer);
 
 	Widget->addRightWidget(ui->Average);
-	Widget->addRightSpacer(ui->rightSpacer);
+	Widget->addRightSpacer(ui->horizontalSpacer);
 	Widget->addRightWidget(ui->addButton);
-
-	delete ui->leftSpacer;
 }
 
 void SensorWidget::AddSensor(const SensorData& Data)

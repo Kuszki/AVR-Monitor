@@ -30,6 +30,7 @@ TerminalWidget::TerminalWidget(QWidget* Parent)
 
 	Settings.beginGroup("Terminal");
 
+	ui->rightSpacer->changeSize(ui->logCheck->sizeHint().width(), 0);
 	ui->Clean->setChecked(Settings.value("clean", false).toBool());
 	ui->logCheck->setChecked(Settings.value("log", true).toBool());
 	ui->helperCheck->setChecked(Settings.value("helper", false).toBool());
@@ -70,6 +71,8 @@ void TerminalWidget::changeEvent(QEvent* Event)
 
 void TerminalWidget::SetTitleWidget(TitleWidget* Widget)
 {
+	ui->leftSpacer->changeSize(ui->logCheck->sizeHint().width(), 0);
+
 	while (ui->toolsLayout->count())
 	{
 		QLayoutItem* I = ui->toolsLayout->takeAt(0);
@@ -78,6 +81,7 @@ void TerminalWidget::SetTitleWidget(TitleWidget* Widget)
 			Widget->addRightWidget(W);
 		else if (QSpacerItem* S = I->spacerItem())
 			Widget->addRightSpacer(S);
+		else delete I;
 	}
 }
 

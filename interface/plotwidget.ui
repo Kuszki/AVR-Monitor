@@ -98,9 +98,15 @@
       </spacer>
      </item>
      <item>
-      <widget class="QCheckBox" name="Legend">
+      <widget class="QToolButton" name="Legend">
        <property name="text">
         <string>Show legend</string>
+       </property>
+       <property name="icon">
+        <iconset theme="format-justify-fill"/>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
        </property>
        <property name="checked">
         <bool>true</bool>
@@ -108,9 +114,16 @@
       </widget>
      </item>
      <item>
-      <widget class="QCheckBox" name="Follow">
+      <widget class="QToolButton" name="Follow">
        <property name="text">
         <string>Follow new data</string>
+       </property>
+       <property name="icon">
+        <iconset theme="media-seek-forward">
+         <normaloff>.</normaloff>.</iconset>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
        </property>
        <property name="checked">
         <bool>true</bool>
@@ -292,22 +305,6 @@
    </hints>
   </connection>
   <connection>
-   <sender>Legend</sender>
-   <signal>clicked(bool)</signal>
-   <receiver>PlotWidget</receiver>
-   <slot>LegendCheckClicked(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>601</x>
-     <y>580</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>600</x>
-     <y>613</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>Average</sender>
    <signal>valueChanged(int)</signal>
    <receiver>PlotWidget</receiver>
@@ -320,6 +317,22 @@
     <hint type="destinationlabel">
      <x>447</x>
      <y>628</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>Legend</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>PlotWidget</receiver>
+   <slot>LegendCheckClicked(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>344</x>
+     <y>40</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>399</x>
+     <y>32</y>
     </hint>
    </hints>
   </connection>

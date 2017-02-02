@@ -15,41 +15,45 @@
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
-    <widget class="QSplitter" name="editSplitter">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="childrenCollapsible">
-      <bool>false</bool>
-     </property>
-     <widget class="KLScripteditor" name="Log">
-      <property name="readOnly">
-       <bool>true</bool>
-      </property>
-      <property name="maximumBlockCount">
-       <number>1000</number>
-      </property>
-     </widget>
-     <widget class="KLScripteditor" name="Script"/>
-    </widget>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QSplitter" name="editSplitter">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="childrenCollapsible">
+        <bool>false</bool>
+       </property>
+       <widget class="KLScripteditor" name="Log">
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+        <property name="maximumBlockCount">
+         <number>1000</number>
+        </property>
+       </widget>
+       <widget class="KLScripteditor" name="Script"/>
+      </widget>
+     </item>
+     <item>
+      <widget class="HelperWidget" name="Helper" native="true">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
-   <item row="0" column="1">
-    <widget class="HelperWidget" name="Helper" native="true">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="0" colspan="2">
+   <item row="1" column="0">
     <layout class="QHBoxLayout" name="toolsLayout">
      <item>
       <widget class="QToolButton" name="saveButton">
@@ -85,14 +89,21 @@
       </widget>
      </item>
      <item>
-      <widget class="QCheckBox" name="Clean">
+      <widget class="QToolButton" name="Clean">
        <property name="text">
         <string>Clean on exec</string>
+       </property>
+       <property name="icon">
+        <iconset theme="edit-delete">
+         <normaloff>.</normaloff>.</iconset>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
        </property>
       </widget>
      </item>
      <item>
-      <spacer name="horizontalSpacer">
+      <spacer name="leftSpacer">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
@@ -105,9 +116,16 @@
       </spacer>
      </item>
      <item>
-      <widget class="QCheckBox" name="logCheck">
+      <widget class="QToolButton" name="logCheck">
        <property name="text">
         <string>Show log</string>
+       </property>
+       <property name="icon">
+        <iconset theme="view-sort-ascending">
+         <normaloff>.</normaloff>.</iconset>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
        </property>
        <property name="checked">
         <bool>true</bool>
@@ -115,11 +133,31 @@
       </widget>
      </item>
      <item>
-      <widget class="QCheckBox" name="helperCheck">
+      <widget class="QToolButton" name="helperCheck">
        <property name="text">
         <string>Show helper</string>
        </property>
+       <property name="icon">
+        <iconset theme="help-faq">
+         <normaloff>.</normaloff>.</iconset>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
       </widget>
+     </item>
+     <item>
+      <spacer name="rightSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
+      </spacer>
      </item>
      <item>
       <widget class="QPushButton" name="checkButton">
@@ -190,22 +228,6 @@
     <hint type="destinationlabel">
      <x>258</x>
      <y>519</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>helperCheck</sender>
-   <signal>clicked(bool)</signal>
-   <receiver>Helper</receiver>
-   <slot>setVisible(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>596</x>
-     <y>586</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>781</x>
-     <y>370</y>
     </hint>
    </hints>
   </connection>
@@ -306,18 +328,34 @@
    </hints>
   </connection>
   <connection>
+   <sender>helperCheck</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>Helper</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>567</x>
+     <y>325</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>780</x>
+     <y>156</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
    <sender>logCheck</sender>
-   <signal>clicked(bool)</signal>
+   <signal>toggled(bool)</signal>
    <receiver>Log</receiver>
    <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>431</x>
-     <y>573</y>
+     <x>548</x>
+     <y>325</y>
     </hint>
     <hint type="destinationlabel">
-     <x>392</x>
-     <y>180</y>
+     <x>391</x>
+     <y>81</y>
     </hint>
    </hints>
   </connection>

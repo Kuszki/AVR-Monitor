@@ -35,13 +35,6 @@
      </property>
     </spacer>
    </item>
-   <item row="1" column="0">
-    <widget class="QCheckBox" name="sliderCheck">
-     <property name="text">
-      <string>Show slider</string>
-     </property>
-    </widget>
-   </item>
    <item row="0" column="0" colspan="3">
     <widget class="QScrollArea" name="scrollArea">
      <property name="frameShape">
@@ -56,11 +49,25 @@
         <x>0</x>
         <y>0</y>
         <width>382</width>
-        <height>250</height>
+        <height>253</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="slidersLayout"/>
      </widget>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QToolButton" name="sliderCheck">
+     <property name="text">
+      <string>Show slider</string>
+     </property>
+     <property name="icon">
+      <iconset theme="object-flip-horizontal">
+       <normaloff>.</normaloff>.</iconset>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
     </widget>
    </item>
   </layout>

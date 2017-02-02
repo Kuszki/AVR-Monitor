@@ -56,12 +56,12 @@ SliderWidget::~SliderWidget(void)
 
 void SliderWidget::SetTitleWidget(TitleWidget* Widget)
 {
+	ui->horizontalSpacer->changeSize(ui->addButton->sizeHint().width(), 0);
 	ui->gridLayout->removeItem(ui->horizontalSpacer);
 
 	Widget->addRightWidget(ui->sliderCheck);
+	Widget->addRightSpacer(ui->horizontalSpacer);
 	Widget->addRightWidget(ui->addButton);
-
-	delete ui->horizontalSpacer;
 }
 
 void SliderWidget::RefreshSize(void)
@@ -82,10 +82,10 @@ void SliderWidget::AddSlider(const SliderData& Data)
 {
 	SliderEntry* Entry = new SliderEntry(Data, this);
 
+	Entry->EnableSlider(ui->sliderCheck->isChecked());
+
 	ui->slidersLayout->addWidget(Entry); RefreshSize();
 
 	connect(Entry, &SliderEntry::onSliderUpdate, this, &SliderWidget::RefreshSize);
-	connect(ui->sliderCheck, &QCheckBox::toggled, Entry, &SliderEntry::EnableSlider);
-
-	Entry->EnableSlider(ui->sliderCheck->isChecked());
+	connect(ui->sliderCheck, &QToolButton::toggled, Entry, &SliderEntry::EnableSlider);
 }

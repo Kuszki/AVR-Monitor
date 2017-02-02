@@ -45,7 +45,7 @@ PlotWidget::PlotWidget(QWidget* Parent)
 
 	Settings.beginGroup("Plot");
 
-	ui->leftSpacer->changeSize(ui->saveButton->sizeHint().width(), 0);
+	ui->middleSpacer->changeSize(ui->cleanButton->sizeHint().width(), 0);
 	ui->rightSpacer->changeSize(ui->settingsButton->sizeHint().width(), 0);
 	ui->checkSpacer->changeSize(ui->cleanButton->sizeHint().width(), 0);
 	ui->Average->setValue(Settings.value("interval", 1).toInt());
@@ -95,6 +95,11 @@ PlotWidget::~PlotWidget(void)
 
 void PlotWidget::SetTitleWidget(TitleWidget* Widget)
 {
+	ui->toolsLayout->removeItem(ui->leftSpacer);
+	ui->toolsLayout->removeWidget(ui->Start);
+
+	Widget->addLeftWidget(ui->Start);
+
 	while (ui->toolsLayout->count())
 	{
 		QLayoutItem* I = ui->toolsLayout->takeAt(0);
@@ -103,7 +108,10 @@ void PlotWidget::SetTitleWidget(TitleWidget* Widget)
 			Widget->addRightWidget(W);
 		else if (QSpacerItem* S = I->spacerItem())
 			Widget->addRightSpacer(S);
+		else delete I;
 	}
+
+	delete ui->leftSpacer;
 }
 
 void PlotWidget::PlotRangeChanged(const QCPRange& New, const QCPRange& Old)
