@@ -33,12 +33,12 @@ const char get_INFOSTR[] PROGMEM =
 "#\n"
 "# Release date:            " __DATE__ " " __TIME__ "\n"
 "# Used tools:         GNU AVR-GCC version " __VERSION__ "\n"
-"# Built on:    Debian 9 GNU/Linux 4.8.0-1-amd64\n"
+"# Built on:    Debian 9 GNU/Linux 4.9.0-1-amd64\n"
 "# GCC flags:    -Os -mmcu=atmega328p -std=c++11\n"
 "# Watchdog set:   on every evaluation for 8 sec\n"
 "#\n"
-"# Program size:        24120 bytes (73.6% Full)\n"
-"# Data size:             512 bytes (25.0% Full)\n"
+"# Program size:        24278 bytes (74.1% Full)\n"
+"# Data size:             522 bytes (25.5% Full)\n"
 "\n";
 
 const char get_GAINS[]	PROGMEM 	= { 0b000, 0b001, 0b010, 0b011, 0b100, 0b101, 0b110, 0b111, 0b11110000 };
