@@ -24,7 +24,7 @@
 
 #include "mainwindow.hpp"
 #include "appcore.hpp"
-#include <QDebug>
+
 int main(int argc, char *argv[])
 {
 	QApplication a(argc, argv);
