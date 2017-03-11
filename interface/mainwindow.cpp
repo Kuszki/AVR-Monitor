@@ -251,7 +251,8 @@ void MainWindow::UploadScript(void)
 
 void MainWindow::SaveEnvironment(void)
 {
-	QString Name = QFileDialog::getSaveFileName(this, tr("Select file to save environment"), QString(), "SQLite (*.sqlite)");
+	const QString Folder = QSettings("AVR-Monitor").value("database").toString();
+	QString Name = QFileDialog::getSaveFileName(this, tr("Select file to save environment"), Folder, "SQLite (*.sqlite)");
 
 	if (!Name.isEmpty())
 	{
@@ -261,7 +262,8 @@ void MainWindow::SaveEnvironment(void)
 
 void MainWindow::LoadEnvironment(void)
 {
-	QString Name = QFileDialog::getOpenFileName(this, tr("Select file to load environment"), QString(), "SQLite (*.sqlite)");
+	const QString Folder = QSettings("AVR-Monitor").value("database").toString();
+	QString Name = QFileDialog::getOpenFileName(this, tr("Select file to load environment"), Folder, "SQLite (*.sqlite)");
 
 	if (!Name.isEmpty())
 	{
