@@ -33,11 +33,11 @@ const char get_INFOSTR[] PROGMEM =
 "#\n"
 "# Release date:            " __DATE__ " " __TIME__ "\n"
 "# Used tools:         GNU AVR-GCC version " __VERSION__ "\n"
-"# Built on:    Debian 9 GNU/Linux 4.9.0-1-amd64\n"
+"# Built on:    Debian 9 GNU/Linux 4.9.0-2-amd64\n"
 "# GCC flags:    -Os -mmcu=atmega328p -std=c++11\n"
 "# Watchdog set:   on every evaluation for 8 sec\n"
 "#\n"
-"# Program size:        24278 bytes (74.1% Full)\n"
+"# Program size:        24382 bytes (74.4% Full)\n"
 "# Data size:             522 bytes (25.5% Full)\n"
 "\n";
 
