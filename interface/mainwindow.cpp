@@ -54,6 +54,7 @@ MainWindow::MainWindow(QWidget* Parent)
 	Average->setSingleStep(1);
 	Average->setPrefix(tr("Moving average from "));
 	Average->setSuffix(tr(" sample(s)", 0, Average->value()));
+	Average->setSpecialValueText(tr("Disable moving average"));
 	Average->setEnabled(false);
 
 	Settings.endGroup();

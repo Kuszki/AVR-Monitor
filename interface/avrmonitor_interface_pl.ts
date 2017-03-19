@@ -82,8 +82,8 @@ Niniejszy program rozpowszechniany jest z nadzieją, iż będzie on użyteczny �
         <translation type="vanished">Niepoprawny skrypt w linii %1 (%2)</translation>
     </message>
     <message>
-        <location filename="appcore.cpp" line="437"/>
-        <location filename="appcore.cpp" line="462"/>
+        <location filename="appcore.cpp" line="439"/>
+        <location filename="appcore.cpp" line="464"/>
         <source>Invalid script at line %1: %2</source>
         <translation>Niepoprawny skrypt w linii %1: %2</translation>
     </message>
@@ -909,7 +909,7 @@ done;</translation>
     </message>
     <message numerus="yes">
         <location filename="mainwindow.cpp" line="56"/>
-        <location filename="mainwindow.cpp" line="330"/>
+        <location filename="mainwindow.cpp" line="333"/>
         <source> sample(s)</source>
         <translation>
             <numerusform> próbki</numerusform>
@@ -918,29 +918,29 @@ done;</translation>
         </translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="112"/>
+        <location filename="mainwindow.cpp" line="113"/>
         <source>Script evaluation timeout</source>
         <translation>Przekroczenie czasu przeznaczonego na wykonanie skryptu</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="129"/>
+        <location filename="mainwindow.cpp" line="130"/>
         <source>Script check</source>
         <translation>Test poprawności skryptu</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="241"/>
+        <location filename="mainwindow.cpp" line="242"/>
         <source>Select script to upload</source>
         <translation>Wybierz skrypt do wysłania</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="248"/>
+        <location filename="mainwindow.cpp" line="249"/>
         <source>Can&apos;t open provided script file</source>
         <oldsource>Can&apos;t open provided script file.</oldsource>
         <translation>Nie można otworzyć wybranego skryptu</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="112"/>
-        <location filename="mainwindow.cpp" line="278"/>
+        <location filename="mainwindow.cpp" line="113"/>
+        <location filename="mainwindow.cpp" line="281"/>
         <source>Error</source>
         <translation>Błąd</translation>
     </message>
@@ -960,28 +960,33 @@ done;</translation>
         <translation>Wagi wykładnicze</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="254"/>
+        <location filename="mainwindow.cpp" line="57"/>
+        <source>Disable moving average</source>
+        <translation>Średnia ruchoma wyłączona</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="256"/>
         <source>Select file to save environment</source>
         <translation>Wybierz plik docelowy</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="258"/>
-        <location filename="mainwindow.cpp" line="268"/>
+        <location filename="mainwindow.cpp" line="260"/>
+        <location filename="mainwindow.cpp" line="271"/>
         <source>Can&apos;t open provided database file</source>
         <translation>Nie można otworzyć wybranego pliku</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="264"/>
+        <location filename="mainwindow.cpp" line="267"/>
         <source>Select file to load environment</source>
         <translation>Wybierz plik do wczytania</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="309"/>
+        <location filename="mainwindow.cpp" line="312"/>
         <source>Select file to save script</source>
         <translation>Wybierz plik by zapisać pobrany skrypt</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="315"/>
+        <location filename="mainwindow.cpp" line="318"/>
         <source>Can&apos;t open provided file</source>
         <oldsource>Can&apos;t open provided file.</oldsource>
         <translation>Nie można otworzyć podanego pliku</translation>
@@ -1109,6 +1114,15 @@ done;</translation>
     </message>
     <message>
         <location filename="plotwidget.ui" line="160"/>
+        <source>Average disabled</source>
+        <translation>Uśrednianie wyłączone</translation>
+    </message>
+    <message>
+        <source>Show values</source>
+        <translation type="vanished">Pokaż wartości</translation>
+    </message>
+    <message>
+        <location filename="plotwidget.ui" line="163"/>
         <source> sample</source>
         <translation> próbkę</translation>
     </message>
@@ -1123,7 +1137,7 @@ done;</translation>
         </translation>
     </message>
     <message>
-        <location filename="plotwidget.ui" line="163"/>
+        <location filename="plotwidget.ui" line="166"/>
         <source>Average </source>
         <translation>Uśrednij </translation>
     </message>
@@ -1139,7 +1153,7 @@ done;</translation>
     </message>
     <message>
         <location filename="plotwidget.ui" line="35"/>
-        <location filename="plotwidget.ui" line="195"/>
+        <location filename="plotwidget.ui" line="198"/>
         <source> s</source>
         <translation> s</translation>
     </message>
@@ -1279,6 +1293,15 @@ done;</translation>
     </message>
     <message>
         <location filename="sensorwidget.ui" line="41"/>
+        <source>Average disabled</source>
+        <translation>Uśrednianie wyłączone</translation>
+    </message>
+    <message>
+        <source>Show values</source>
+        <translation type="vanished">Pokaż wartości</translation>
+    </message>
+    <message>
+        <location filename="sensorwidget.ui" line="44"/>
         <source> sample</source>
         <translation> próbkę</translation>
     </message>
@@ -1292,7 +1315,7 @@ done;</translation>
         </translation>
     </message>
     <message>
-        <location filename="sensorwidget.ui" line="44"/>
+        <location filename="sensorwidget.ui" line="47"/>
         <source>Average </source>
         <translation>Uśrednij </translation>
     </message>

@@ -371,11 +371,13 @@ void AppCore::UpdateStatus(bool Active)
 		{
 			for (auto& Var: Script.Variables) Var.Value = 0;
 
+			Starttime = QTime::currentTime();
+
 			History.clear();
 			AdcVar.Clean();
 
 			AdcVar.Add("DT", VREADONLY);
-			AdcVar["DT"] = qQNaN();
+			AdcVar["DT"] = double(NAN);
 
 			Interval.start();
 		}

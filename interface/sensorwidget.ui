@@ -37,6 +37,9 @@
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
+     <property name="specialValueText">
+      <string>Average disabled</string>
+     </property>
      <property name="suffix">
       <string> sample</string>
      </property>

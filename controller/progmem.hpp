@@ -37,7 +37,7 @@ const char get_INFOSTR[] PROGMEM =
 "# GCC flags:    -Os -mmcu=atmega328p -std=c++11\n"
 "# Watchdog set:   on every evaluation for 8 sec\n"
 "#\n"
-"# Program size:        24142 bytes (73.7% Full)\n"
+"# Program size:        24204 bytes (73.9% Full)\n"
 "# Data size:             512 bytes (25.0% Full)\n"
 "\n";
 
