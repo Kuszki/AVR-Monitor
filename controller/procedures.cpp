@@ -34,7 +34,7 @@ extern PGA		Gains;
 
 extern double		Analog[];
 
-void SHR_SetOutputs(char Mask)
+void SHR_SetOutputs(unsigned char Mask)
 {
 	if (Shift.Values != Mask)
 	{
@@ -64,7 +64,7 @@ void SHR_SetState(bool Enable)
 	if (Monitor.Online) SYS_SendFeedback(GET_SHRE);
 }
 
-int SHR_SetPin(char Pin, bool Enable)
+int SHR_SetPin(unsigned char Pin, bool Enable)
 {
 	if (Pin > 7) return SYS_PostError(WRONG_SHR_PIN);
 	else
@@ -75,7 +75,7 @@ int SHR_SetPin(char Pin, bool Enable)
 	return 0;
 }
 
-char PGA_GetMask(char Gain)
+char PGA_GetMask(unsigned char Gain)
 {
 	switch (Gain)
 	{
@@ -92,7 +92,7 @@ char PGA_GetMask(char Gain)
 	}
 }
 
-int PGA_SetGain(char ID, char Gain)
+int PGA_SetGain(unsigned char ID, unsigned char Gain)
 {
 	if (ID > 1) return SYS_PostError(WRONG_PGA_ID);
 	else
@@ -122,7 +122,7 @@ void PWM_SetPulse(unsigned char Pulse)
 	if (Monitor.Online) SYS_SendFeedback(GET_PWMV);
 }
 
-bool ADC_GetFeedback(char ID)
+bool ADC_GetFeedback(unsigned char ID)
 {
 	if (ID > 5) return false;
 	else
@@ -148,7 +148,7 @@ void ADC_SendSensors(void)
 	}
 }
 
-void SYS_SendFeedback(char Mask)
+void SYS_SendFeedback(unsigned char Mask)
 {
 	if (Mask & GET_LINE) UART << PGM_V get_LINE << int(Monitor.Online)		<< PGM_V get_EOC;
 	if (Mask & GET_WORK) UART << PGM_V get_WORK << int(Monitor.Master)		<< PGM_V get_EOC;
@@ -165,7 +165,7 @@ void SYS_SendVariables(void)
 	for (const auto& Var: Script.Variables) UART << PGM_V get_EXPORT << Var.Index << ';' << PGM_V get_SET << Var.Index << ' ' << Var.Value.ToNumber() << EOC;
 }
 
-int SYS_SetStatus(char Mask, char Value)
+int SYS_SetStatus(unsigned char Mask, unsigned char Value)
 {
 	switch (Mask)
 	{

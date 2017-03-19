@@ -34,7 +34,7 @@
  * Wyprowadza na wyjście rejestru wybrane stany logiczne. Nie zmienia jednak stanu na wyjściach gdy rejestr był w stanie wysokiej impedancji.
  *
  */
-void SHR_SetOutputs(char Mask);
+void SHR_SetOutputs(unsigned char Mask);
 
 
 /*! \brief		Ustala stan wyjścia na podstawie parametry.
@@ -53,7 +53,7 @@ void SHR_SetState(bool Enable);
  * Wyprowadza na wyjście rejestru zadany stan logiczny zmieniając tylko wybraną wartość. Nie zmienia stanu na wyjściach gdy rejestr był w stanie wysokiej impedancji.
  *
  */
-int SHR_SetPin(char Pin, bool Enable);
+int SHR_SetPin(unsigned char Pin, bool Enable);
 
 
 /*! \brief		Ustala wzmocnienie wybranego układu.
@@ -64,7 +64,7 @@ int SHR_SetPin(char Pin, bool Enable);
  * Wprowadza do wybranego wzmacniacza podane wzmocnienie.
  *
  */
-int PGA_SetGain(char ID, char Gain);
+int PGA_SetGain(unsigned char ID, unsigned char Gain);
 
 /*! \brief		Ustala wypełnienie wyjścia PWM.
  *  \param [in]	Pulse Wypełnienie.
@@ -81,7 +81,7 @@ void PWM_SetPulse(unsigned char Pulse);
  * Oblicza maskę potrzebną do osiągnięcia wybranego wzmocnienia.
  *
  */
-char PGA_GetMask(char Gain);
+char PGA_GetMask(unsigned char Gain);
 
 /*! \brief		Odświerza stan wybranego przetwornika.
  *  \param [in]	ID ID przetwornika.
@@ -90,7 +90,7 @@ char PGA_GetMask(char Gain);
  * Odświerza dane przetwornika w trakcie wykonywania skryptu.
  *
  */
-bool ADC_GetFeedback(char ID);
+bool ADC_GetFeedback(unsigned char ID);
 
 /*! \brief		Wysyła do użytkownika stan wszystkich przetworników.
  *
@@ -105,7 +105,7 @@ void ADC_SendSensors(void);
  * Wysyła do użytkownika informację o stanach wybranych zmiennych.
  *
  */
-void SYS_SendFeedback(char Mask);
+void SYS_SendFeedback(unsigned char Mask);
 
 /*! \brief		Wysyła do użytkownika wartości wszystkich zmiennych.
  *
@@ -122,7 +122,7 @@ void SYS_SendVariables(void);
  * Wysyła do użytkownika informację o napięciu na wybranym czujniku.
  *
  */
-int SYS_SetStatus(char Mask, char Value);
+int SYS_SetStatus(unsigned char Mask, unsigned char Value);
 
 /*! \brief		Wykonuje skrypt.
  *  \param [in]	Buffer	Skrypt do wykonania.
