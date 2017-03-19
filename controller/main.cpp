@@ -63,7 +63,7 @@ int main(void)
 		// handle serial event
 		while (UART.Ready())
 		{
-			Serial << UART.Recv(); if (Serial.Last() == RUN && Serial.Size()) SYS_Evaluate(Serial);
+			Serial << UART.Recv(); if (Serial.Last() == RUN) SYS_Evaluate(Serial);
 		}
 
 		// enter master device loop
