@@ -53,6 +53,7 @@ class AVRBRIDGE_EXPORT AVRBridge : public QObject
 
 		bool Downloading = false;
 		bool Connection = false;
+		bool Override = false;
 
 		int Buffindex = 0;
 		char Buffer[256];
@@ -108,6 +109,10 @@ class AVRBRIDGE_EXPORT AVRBridge : public QObject
 		void ReadMasterScript(void);
 
 		void CleanMasterRam(void);
+
+		void SetWriteMode(bool Force);
+
+		bool GetWriteMode(void) const;
 
 		bool ConnectSensorEvent(const QString& Name,
 						    const boost::function<void (double)>& Callback);

@@ -72,7 +72,7 @@ AVRBridge::AVRBridge(KLVariables* Returns, QObject* Parent)
 		emit onSleepValueUpdate(Value / 10);
 	});
 
-	Script->Variables.Add("FRAM", KLVariables::BOOLEAN, [this] (double Value) -> void
+	Script->Variables.Add("FRAM", KLVariables::INTEGER, [this] (double Value) -> void
 	{
 		emit onFreeRamUpdate(unsigned(Value));
 	});
@@ -276,37 +276,48 @@ void AVRBridge::UpdateSystemVariables(unsigned char Mask)
 
 void AVRBridge::WriteGainSettings(unsigned char ID, unsigned char Gain)
 {
-	Command(QString("call pga %1, %2;").arg(ID).arg(Gain));
+	if (ID > 1) { emit onError(tr("Wrong PGA ID")); return; }
+
+	const KLString Label = KLString(ID ? "PGA1" : "PGA0");
+
+	if (!Override && Script->Variables[Label].ToInt() == Gain) return;
+	else Command(QString("call pga %1, %2;").arg(ID).arg(Gain));
 }
 
 void AVRBridge::WriteShiftValues(unsigned char Values)
 {
-	Command(QString("call put %1;").arg(Values));
+	if (!Override && Script->Variables["SHRD"].ToInt() == Values) return;
+	else Command(QString("call put %1;").arg(Values));
 }
 
 void AVRBridge::WriteShiftValue(unsigned char Index, bool Value)
 {
-	Command(QString("call put %1,%2;").arg(Index).arg(Value));
+	if (!Override && (Script->Variables["SHRD"].ToInt() & (1 << Index)) == Value) return;
+	else Command(QString("call put %1,%2;").arg(Index).arg(Value));
 }
 
 void AVRBridge::WriteShiftStatus(bool Enabled)
 {
-	Command(QString("call out %1;").arg(Enabled));
+	if (!Override && Script->Variables["SHRE"].ToBool() == Enabled) return;
+	else Command(QString("call out %1;").arg(Enabled));
 }
 
 void AVRBridge::WriteMasterStatus(bool Master)
 {
-	Command(QString("call dev %1,%2;").arg(DEV_MASTER).arg(Master));
+	if (!Override && Script->Variables["WORK"].ToBool() == Master) return;
+	else Command(QString("call dev %1,%2;").arg(DEV_MASTER).arg(Master));
 }
 
 void AVRBridge::WriteDutyValue(unsigned char Value)
 {
-	Command(QString("call pwm %1;").arg(Value));
+	if (!Override && Script->Variables["PWMV"].ToInt() == Value) return;
+	else Command(QString("call pwm %1;").arg(Value));
 }
 
 void AVRBridge::WriteSleepValue(double Time)
 {
-	Command(QString("call dev %1,%2;").arg(DEV_SLEEP).arg((unsigned char)(Time * 10)));
+	if (!Override && Script->Variables["SLPT"].ToInt() == Time * 10) return;
+	else Command(QString("call dev %1,%2;").arg(DEV_SLEEP).arg((unsigned char)(Time * 10)));
 }
 
 void AVRBridge::WriteDefaultShift(unsigned char Values)
@@ -368,6 +379,16 @@ void AVRBridge::ReadMasterScript(void)
 void AVRBridge::CleanMasterRam(void)
 {
 	Command(QString("call dev %1,%2;").arg(DEV_SPEC).arg(CLEAN_RAM));
+}
+
+void AVRBridge::SetWriteMode(bool Force)
+{
+	Override = Force;
+}
+
+bool AVRBridge::GetWriteMode(void) const
+{
+	return Override;
 }
 
 bool AVRBridge::ConnectSensorEvent(const QString& Name, const boost::function<void (double)>& Callback)
