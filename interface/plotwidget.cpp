@@ -368,15 +368,18 @@ void PlotWidget::PlotVariables(const KLVariables& Variables)
 void PlotWidget::RestartPlot(void)
 {
 	for (auto Plot: Plots) Plot->clearData();
-
-	ui->Plot->replot();
+	for (auto& Value : Values) Value = 0.0;
 
 	Userrange = false;
-	ui->Plot->xAxis->setRange(0, ui->Plot->xAxis->range().size(), Qt::AlignLeft);
 	Starttime = QTime();
+	Step = 1;
+
+	ui->Plot->xAxis->setRange(0, ui->Plot->xAxis->range().size(), Qt::AlignLeft);
+
+	ui->Plot->replot();
 }
 
-void PlotWidget::ReloadPlots()
+void PlotWidget::ReloadPlots(void)
 {
 	for (int ID : Plots.keys()) DeletePlot(ID);
 	for (int ID : Axes.keys()) DeleteAxis(ID);
