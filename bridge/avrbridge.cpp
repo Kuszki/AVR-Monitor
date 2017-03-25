@@ -19,7 +19,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
 #include "avrbridge.hpp"
-#include <QDebug>
+
 AVRBridge::AVRBridge(KLVariables* Returns, QObject* Parent)
 : QObject(Parent), Sensors(Returns)
 {
