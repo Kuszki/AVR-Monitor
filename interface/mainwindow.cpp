@@ -48,6 +48,7 @@ MainWindow::MainWindow(QWidget* Parent)
 	Interval->setPrefix(tr("Delay "));
 	Interval->setSuffix(tr(" s"));
 	Interval->setEnabled(false);
+	Interval->setDecimals(3);
 
 	Average->setValue(Settings.value("average", 1).toInt());
 	Average->setRange(1, 25);
