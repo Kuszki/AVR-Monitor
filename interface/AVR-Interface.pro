@@ -124,5 +124,3 @@ TRANSLATIONS	+=	avrmonitor_interface_pl.ts
 INCLUDEPATH	+=	$$PWD/../bridge
 INCLUDEPATH	+=	$$PWD/../../KLLibs
 INCLUDEPATH	+=	$$PWD/../../QCustomPlot
-
-QMAKE_CXXFLAGS	+=	-s -march=native -std=c++14
