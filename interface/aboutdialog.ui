@@ -30,8 +30,7 @@
       <string>Close</string>
      </property>
      <property name="icon">
-      <iconset theme="exit">
-       <normaloff>.</normaloff>.</iconset>
+      <iconset theme="application-exit"/>
      </property>
     </widget>
    </item>
